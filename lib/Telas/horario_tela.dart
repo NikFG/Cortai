@@ -1,33 +1,148 @@
 import 'dart:async';
+
+import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
-class HorarioTela extends StatelessWidget {
+class HorarioTela extends StatefulWidget {
+  @override
+  _HorarioTelaState createState() => _HorarioTelaState();
+}
+
+class _HorarioTelaState extends State<HorarioTela> {
+  int _radioValue = -1;
+
+  void _handleRadioValueChange(int value) {
+    setState(() {
+      _radioValue = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text("Horários"),
-          centerTitle: true,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          FlushbarHelper.createSuccess(
+                  message: "Aguarde confirmação do cabelereiro!!",
+                  title: "Agendamento feito")
+              .show(context);
+        },
+        child: Icon(Icons.schedule),
+        backgroundColor: Colors.blueAccent[500],
+      ),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        body: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: GridView.count(
-            crossAxisCount: 3,
-            children: <Widget>[
-              Text("teste"),
-              Text("teste"),
-              Text("teste"),
-
-            ],
+        title: Text("Horários"),
+        centerTitle: true,
+      ),
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: <Widget>[
+          Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Radio(
+                    value: 0,
+                    groupValue: _radioValue,
+                    onChanged: _handleRadioValueChange,
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Celminho",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Divider(
+                        height: 10.0,
+                        indent: 5.0,
+                        thickness: 3,
+                        color: Colors.black87,
+                      ),
+                      Text(
+                        "01/05/2020 15:30",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Text(
+                        "Disponível",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ));
+          Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Radio(
+                    value: 1,
+                    groupValue: _radioValue,
+                    onChanged: _handleRadioValueChange,
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Celminho",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Divider(
+                        height: 10.0,
+                        indent: 5.0,
+                        thickness: 3,
+                        color: Colors.black87,
+                      ),
+                      Text(
+                        "01/05/2020 14:30",
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      Text(
+                        "Ocupado",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text("teste"),
+          Radio(
+            value: 2,
+            groupValue: _radioValue,
+            onChanged: _handleRadioValueChange,
+          ),
+          Text("teste"),
+        ],
+      ),
+    );
   }
 
   String TimestampToString(Timestamp timestamp) {
