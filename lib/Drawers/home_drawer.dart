@@ -19,8 +19,8 @@ class HomeDrawer extends StatelessWidget {
               leading: Icon(Icons.timer),
               title: Text('Agendar'),
               onTap: () {
-                Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (BuildContext context) => new CabelereirosTela()));
+                Navigator.of(context).push( MaterialPageRoute(
+                    builder: (BuildContext context) =>  CabelereirosTela()));
               },
             ),
           ),

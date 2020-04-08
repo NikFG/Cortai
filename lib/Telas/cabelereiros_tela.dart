@@ -16,55 +16,52 @@ class CabelereirosTela extends StatelessWidget {
           title: Text("Agendar"),
           centerTitle: true,
         ),
-        body: FutureBuilder<QuerySnapshot>(
-          future: Firestore.instance.collection("cabelereiros").getDocuments(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return StreamBuilder<QuerySnapshot>(
-                stream:
-                    Firestore.instance.collection('cabelereiros').snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(new MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              new HorarioTela(snapshot.data.documents[1])));
-                    },
-                    child: Card(
-                      elevation: 2,
-                      child: Container(
-                        padding: EdgeInsets.all(2),
-                        child: Column(
-                          children: createChildren(snapshot),
-                        ),
-                      ),
+        body: GestureDetector(
+          onTap: () => Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => HorarioTela())),
+          child: ListView(
+            children: <Widget>[
+              Card(
+                margin: EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Celminho ",
+                      style: TextStyle(fontSize: 20),
                     ),
-                  );
-                },
-              );
-            }
-          },
+                    Text(
+                      "30",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    )
+                  ],
+                ),
+              ),
+              Card(
+                elevation: 2,
+                margin: EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Celminho",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Text(
+                      "30",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ));
-  }
-
-  createChildren(AsyncSnapshot<QuerySnapshot> snapshot) {
-    return snapshot.data.documents
-        .map((doc) => Row(children: [
-              Text(
-                doc['apelido'],
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                doc['idade'].toString(),
-              )
-            ]))
-        .toList();
   }
 }
