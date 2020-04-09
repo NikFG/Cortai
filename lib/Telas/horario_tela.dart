@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flushbar/flushbar.dart';
 import 'package:flushbar/flushbar_helper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,18 +49,18 @@ class _HorarioTelaState extends State<HorarioTela> {
           Card(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 50),
-                  child: Radio(
-                    value: 0,
-                    groupValue: _radioValue,
-                    onChanged: _handleRadioValueChange,
-                  ),
+                Radio(
+                  value: 0,
+                  groupValue: _radioValue,
+                  onChanged: _handleRadioValueChange,
                 ),
                 Expanded(
+                    child: Padding(
+                  padding: EdgeInsets.only(right: 20),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         "Celminho",
@@ -83,9 +84,26 @@ class _HorarioTelaState extends State<HorarioTela> {
                             color: Colors.green,
                             fontWeight: FontWeight.bold),
                       ),
+                      Divider(
+                        height: 10.0,
+                        indent: 5.0,
+                        thickness: 3,
+                        color: Colors.black87,
+                      ),
+                      Text(
+                        "Contato: 37 99999-9999",
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        "Preço: R\$15,00",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent),
+                      ),
                     ],
                   ),
-                ),
+                )),
               ],
             ),
           ),
@@ -103,6 +121,8 @@ class _HorarioTelaState extends State<HorarioTela> {
                   ),
                 ),
                 Expanded(
+                    child: Padding(
+                  padding: EdgeInsets.only(right: 20),
                   child: Column(
                     children: <Widget>[
                       Text(
@@ -123,13 +143,14 @@ class _HorarioTelaState extends State<HorarioTela> {
                       Text(
                         "Ocupado",
                         style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 15,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
-                ),
+                )),
               ],
             ),
           ),
