@@ -80,3 +80,9 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+.dart_tool/
+
+.packages
+
+*.lock
