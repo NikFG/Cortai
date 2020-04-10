@@ -1,67 +1,33 @@
-import 'dart:async';
 import 'package:agendacabelo/Telas/horario_tela.dart';
+import 'package:agendacabelo/cabelereiro_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CabelereirosTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          title: Text("Agendar"),
-          centerTitle: true,
-        ),
-        body: GestureDetector(
-          onTap: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => HorarioTela())),
-          child: ListView(
-            children: <Widget>[
-              Card(
-                margin: EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Celminho ",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      "30",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    )
-                  ],
-                ),
-              ),
-              Card(
-                elevation: 2,
-                margin: EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Celminho",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      "30",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ));
+    return Material(
+        child: FutureBuilder<QuerySnapshot>(
+      future: Firestore.instance.collection("cabelereiros").getDocuments(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          var dividedTiles = ListTile.divideTiles(
+                  tiles: snapshot.data.documents.map((doc) {
+                    return CabelereiroTile(doc);
+                  }).toList(),
+                  color: Colors.grey[500],
+                  context: context)
+              .toList();
+
+          return ListView(
+            children: dividedTiles,
+          );
+        }
+      },
+    ));
   }
 }
