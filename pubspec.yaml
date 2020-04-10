@@ -31,6 +31,11 @@ dependencies:
   scoped_model: ^1.0.1
   flushbar: 1.6.0
   flutter_icons: ^1.0.0+1
+  google_sign_in: ^4.4.1
+  firebase_auth: ^0.15.5+3
+  firebase_core: ^0.4.4+3
+  firebase_analytics: ^5.0.11
+
 
 dev_dependencies:
   flutter_test:

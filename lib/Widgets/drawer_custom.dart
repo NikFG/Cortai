@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Telas/cabelereiros_tela.dart';
+import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -55,7 +56,10 @@ class CustomDrawer extends StatelessWidget {
                                 color: Theme.of(context).primaryColor,
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => LoginTela()));
+                            },
                           ),
                         ],
                       ),

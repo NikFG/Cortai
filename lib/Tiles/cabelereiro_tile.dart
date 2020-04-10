@@ -16,7 +16,7 @@ class CabelereiroTile extends StatelessWidget {
       trailing: Icon(FontAwesome.chevron_right),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => PrecoTela(snapshot))); //(snapshot)));
+            builder: (context) => PrecoTela(snapshot))); 
       },
     );
   }

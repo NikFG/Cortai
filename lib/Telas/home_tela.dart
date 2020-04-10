@@ -27,24 +27,8 @@ class HomeTela extends StatelessWidget {
             title: Text("Cabelereiros"),
             centerTitle: true,
           ),
-
         )
       ],
     );
-
-    /*Scaffold(
-      drawer: HomeDrawer(),
-      appBar: AppBar(
-        title: const Text('Agendamento de corte'),
-      ),
-      body: Center(
-          child: Text('Você tem agendamento na segunda com Celminho')
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment Counter',
-        child: const Icon(Icons.add),
-      ),
-    );*/
   }
 }
