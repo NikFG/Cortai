@@ -2,7 +2,7 @@ import 'package:agendacabelo/Telas/cabelereiros_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import '../drawer_tile.dart';
+import '../Tiles/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
   final PageController pageController;

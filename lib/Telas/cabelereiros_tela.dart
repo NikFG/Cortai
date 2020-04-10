@@ -1,5 +1,5 @@
-import 'package:agendacabelo/Telas/horario_tela.dart';
-import 'package:agendacabelo/cabelereiro_tile.dart';
+import 'package:agendacabelo/Telas/preco_tela.dart';
+import 'package:agendacabelo/Tiles/cabelereiro_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
