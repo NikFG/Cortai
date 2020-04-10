@@ -1,12 +1,8 @@
-import 'dart:async';
 
-import 'package:flushbar/flushbar.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
+
 
 class HorarioTela extends StatefulWidget {
   @override
@@ -40,7 +36,7 @@ class _HorarioTelaState extends State<HorarioTela> {
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Horários"),
+        title: Text("Horários de Celminho"),
         centerTitle: true,
       ),
       body: GridView.count(
@@ -62,27 +58,17 @@ class _HorarioTelaState extends State<HorarioTela> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        "Celminho",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Divider(
-                        height: 10.0,
-                        indent: 5.0,
-                        thickness: 3,
-                        color: Colors.black87,
-                      ),
-                      Text(
-                        "01/05/2020 15:30",
-                        style: TextStyle(fontSize: 15),
-                      ),
+                      Text("01/05/2020 15:30",
+                          style: TextStyle(fontSize: 15),
+                          textAlign: TextAlign.center),
                       Text(
                         "Disponível",
                         style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 15,
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                       Divider(
                         height: 10.0,
@@ -91,7 +77,7 @@ class _HorarioTelaState extends State<HorarioTela> {
                         color: Colors.black87,
                       ),
                       Text(
-                        "Contato: 37 99999-9999",
+                        "Contato:\n(37) 99999-9999",
                         textAlign: TextAlign.center,
                       ),
                       Text(
@@ -164,12 +150,5 @@ class _HorarioTelaState extends State<HorarioTela> {
         ],
       ),
     );
-  }
-
-  String TimestampToString(Timestamp timestamp) {
-    var formatter = new DateFormat('dd/MM/yyyy, H:mm');
-    String formatted = formatter
-        .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
-    return formatted;
   }
 }
