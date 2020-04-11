@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 class LoginService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _db = Firestore.instance;
+  static FirebaseUser user;
+  static String nome;
 
   Future<FirebaseUser> googleSignIn() async {
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
@@ -19,7 +20,7 @@ class LoginService {
     FirebaseUser user = authResult.user;
     print("signed in " + user.displayName);
     updateUserData(user);
-
+    nome = user.displayName;
     return user;
   }
 

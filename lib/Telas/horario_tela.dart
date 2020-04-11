@@ -1,14 +1,14 @@
-import 'package:agendacabelo/Dados/preco_dados.dart';
-import 'package:agendacabelo/Tiles/preco_tile.dart';
+import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Telas/home_tela.dart';
+import 'package:agendacabelo/Tiles/horario_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PrecoTela extends StatelessWidget {
-  final DocumentSnapshot snapshot;
+class HorarioTela extends StatelessWidget {
+  final String cabelereiroId;
 
-  const PrecoTela(this.snapshot);
+  const HorarioTela(this.cabelereiroId);
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +18,15 @@ class PrecoTela extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Preços de " + this.snapshot.data['apelido']),
+        title: Text("Horários"),
         centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FlushbarHelper.createSuccess(
-                  message: "Aguarde confirmação do cabelereiro!!",
-                  title: "Agendamento feito")
-              .show(context);
-        },
-        child: Icon(Icons.schedule),
-        backgroundColor: Colors.blueAccent[500],
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
             .collection("cabelereiros")
-            .document(this.snapshot.documentID)
-            .collection("precos")
+            .document(this.cabelereiroId)
+            .collection('disponibilidade')
+            .where('horario')
             .getDocuments(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -43,18 +34,18 @@ class PrecoTela extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
-            return GridView.builder(
+            return  GridView.builder(
                 padding: EdgeInsets.all(4),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                    crossAxisCount: 1,
                     mainAxisSpacing: 4,
                     crossAxisSpacing: 4,
-                    childAspectRatio: 1.5),
+                    childAspectRatio: 2.1),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
-                  PrecoDados dados =
-                      PrecoDados.fromDocument(snapshot.data.documents[index]);
-                  return PrecoTile(dados, this.snapshot.documentID);
+                  HorarioDados dados =
+                  HorarioDados.fromDocument(snapshot.data.documents[index]);
+                  return HorarioTile(dados);
                 });
           }
         },

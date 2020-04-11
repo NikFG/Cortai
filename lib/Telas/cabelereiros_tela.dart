@@ -7,27 +7,28 @@ class CabelereirosTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-        child: FutureBuilder<QuerySnapshot>(
-      future: Firestore.instance.collection("cabelereiros").getDocuments(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          var dividedTiles = ListTile.divideTiles(
-                  tiles: snapshot.data.documents.map((doc) {
-                    return CabelereiroTile(doc);
-                  }).toList(),
-                  color: Colors.grey[500],
-                  context: context)
-              .toList();
+      child: FutureBuilder<QuerySnapshot>(
+        future: Firestore.instance.collection("cabelereiros").getDocuments(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            var dividedTiles = ListTile.divideTiles(
+                    tiles: snapshot.data.documents.map((doc) {
+                      return CabelereiroTile(doc);
+                    }).toList(),
+                    color: Colors.grey[500],
+                    context: context)
+                .toList();
 
-          return ListView(
-            children: dividedTiles,
-          );
-        }
-      },
-    ));
+            return ListView(
+              children: dividedTiles,
+            );
+          }
+        },
+      ),
+    );
   }
 }

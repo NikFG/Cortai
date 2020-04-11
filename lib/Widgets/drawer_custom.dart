@@ -2,7 +2,7 @@ import 'package:agendacabelo/Telas/cabelereiros_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-
+import 'package:agendacabelo/login_service.dart';
 import '../Tiles/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -12,6 +12,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Drawer(
       child: Stack(
         children: <Widget>[
@@ -43,7 +44,7 @@ class CustomDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Olá, Pessoa",
+                           "Olá Pessoa!",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),

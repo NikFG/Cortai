@@ -1,5 +1,7 @@
-import 'package:agendacabelo/auth.dart';
+import 'package:agendacabelo/login_service.dart';
 import 'package:flutter/material.dart';
+
+import 'home_tela.dart';
 
 class LoginTela extends StatelessWidget {
   @override
@@ -11,6 +13,8 @@ class LoginTela extends StatelessWidget {
           MaterialButton(
             onPressed: () {
               LoginService().googleSignIn();
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomeTela()));
             },
             child: Text("Sign in"),
             color: Colors.green,
