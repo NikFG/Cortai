@@ -6,9 +6,9 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 
 class HorarioTela extends StatelessWidget {
-  final String cabelereiroId;
+  final String cabelereiro_id;
 
-  const HorarioTela(this.cabelereiroId);
+  const HorarioTela(this.cabelereiro_id);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class HorarioTela extends StatelessWidget {
       body: FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
             .collection("cabelereiros")
-            .document(this.cabelereiroId)
+            .document(this.cabelereiro_id)
             .collection('disponibilidade')
             .where('horario')
             .getDocuments(),
@@ -45,7 +45,7 @@ class HorarioTela extends StatelessWidget {
                 itemBuilder: (context, index) {
                   HorarioDados dados =
                   HorarioDados.fromDocument(snapshot.data.documents[index]);
-                  return HorarioTile(dados);
+                  return HorarioTile(dados,this.cabelereiro_id);
                 });
           }
         },

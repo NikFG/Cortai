@@ -16,7 +16,7 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Stack(
         children: <Widget>[
-          _buildDegrade(),
+          _buildDegrade(context),
           ListView(
             padding: EdgeInsets.only(left: 32, top: 16),
             children: <Widget>[
@@ -71,6 +71,7 @@ class CustomDrawer extends StatelessWidget {
               Divider(),
               DrawerTile(Icons.home, "Início", pageController, 0),
               DrawerTile(FontAwesome.cut, "Cabelereiros", pageController, 1),
+              DrawerTile(FontAwesome.calendar_times_o, "Confirmar horários", pageController, 2),
             ],
           )
         ],
@@ -78,12 +79,13 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildDegrade() => Container(
+  Widget _buildDegrade(BuildContext context) => Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
           colors: [
-            Color.fromARGB(255, 203, 236, 241),
-            Colors.white,
+           Theme.of(context).primaryColor,
+
+            Colors.grey[50]
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

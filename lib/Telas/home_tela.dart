@@ -3,6 +3,8 @@ import 'package:agendacabelo/Telas/cabelereiros_tela.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
 import 'package:flutter/material.dart';
 
+import 'confirmar_tela.dart';
+
 class HomeTela extends StatelessWidget {
 
   @override
@@ -16,6 +18,7 @@ class HomeTela extends StatelessWidget {
 
           appBar: AppBar(
             title: Text("Home"),
+            backgroundColor: Theme.of(context).primaryColor,
             centerTitle: true,
           ),
           body: HomeTab(),
@@ -24,12 +27,21 @@ class HomeTela extends StatelessWidget {
         Scaffold(
           drawer: CustomDrawer(_pageController),
           body: CabelereirosTela(),
-          backgroundColor: Colors.blue,
           appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
             title: Text("Cabelereiros"),
             centerTitle: true,
           ),
-        )
+        ),
+        Scaffold(
+          drawer: CustomDrawer(_pageController),
+          body: ConfirmarTela(),
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text("Confirmar horários"),
+            centerTitle: true,
+          ),
+        ),
       ],
     );
   }

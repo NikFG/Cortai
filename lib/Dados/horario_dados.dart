@@ -13,9 +13,12 @@ class HorarioDados {
   }
 
   Map<String, dynamic> toMap() {
+
+
     return {
-      "horario": horario,
+      "horario": _sringToTimestamp(),
       "ocupado": ocupado,
+      "confirmado": false,
     };
   }
 
@@ -24,5 +27,13 @@ class HorarioDados {
     String formatted = formatter
         .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
     return formatted;
+  }
+  Timestamp _sringToTimestamp(){
+    String horario = this.horario.replaceAll("/", "-");
+    horario = horario.replaceAll(",", "");
+    DateFormat format = new DateFormat('dd-MM-yyyy H:m');
+    return Timestamp.fromDate(format.parse(horario));
+
+
   }
 }

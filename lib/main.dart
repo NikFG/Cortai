@@ -10,8 +10,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Agendamento de corte",
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColor: Color.fromARGB(255, 4, 125, 141),
+        primarySwatch: Colors.orange,
+        primaryColor: Color.fromARGB(255, 255, 113, 0),
       ),
       debugShowCheckedModeBanner: false,
       home: HomeTela(),
