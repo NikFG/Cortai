@@ -9,7 +9,6 @@ class LoginService extends Model {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static FirebaseUser firebaseUser;
   Map<String, dynamic> usuarioData = Map();
-  static String nome;
 
   static LoginService of(BuildContext context) =>
       ScopedModel.of<LoginService>(context);
@@ -31,7 +30,7 @@ class LoginService extends Model {
     FirebaseUser user = authResult.user;
     await _currentUserUID();
     await _salvarDadosUsuario();
-//    await _carregarUsuario();
+    await _carregarUsuario();
     return user;
   }
 

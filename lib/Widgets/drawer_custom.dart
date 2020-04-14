@@ -42,11 +42,12 @@ class CustomDrawer extends StatelessWidget {
                         bottom: 0,
                         child: ScopedModelDescendant<LoginService>(
                           builder: (context, child, model) {
+                            print(model.usuarioData);
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "Olá, ${!model.isLogado() ? "" : model.usuarioData["nome"]}",
+                                  "Olá, ${!model.isLogado() ? "" : model.usuarioData['nome']}",
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
