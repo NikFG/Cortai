@@ -1,8 +1,9 @@
 import 'package:agendacabelo/Telas/cabelereiros_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
+import 'package:agendacabelo/login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:agendacabelo/login_service.dart';
+import 'package:scoped_model/scoped_model.dart';
 import '../Tiles/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -12,7 +13,6 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Drawer(
       child: Stack(
         children: <Widget>[
@@ -38,40 +38,51 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 0,
-                      bottom: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                           "Olá Pessoa!",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          GestureDetector(
-                            child: Text(
-                              "Entre ou cadastre",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => LoginTela()));
-                            },
-                          ),
-                        ],
-                      ),
-                    )
+                        left: 0,
+                        bottom: 0,
+                        child: ScopedModelDescendant<LoginService>(
+                          builder: (context, child, model) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "Olá, ${!model.isLogado() ? "" : model.usuarioData["nome"]}",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                GestureDetector(
+                                  child: Text(
+                                    "${!model.isLogado() ? "Entre ou cadastre-se >" : "Sair"}",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    if (model.isLogado()) {
+                                      model.signOut();
+                                    } else {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginTela()));
+                                    }
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ))
                   ],
                 ),
               ),
               Divider(),
               DrawerTile(Icons.home, "Início", pageController, 0),
               DrawerTile(FontAwesome.cut, "Cabelereiros", pageController, 1),
-              DrawerTile(FontAwesome.calendar_times_o, "Confirmar horários", pageController, 2),
+              DrawerTile(FontAwesome.calendar_times_o, "Confirmar horários",
+                  pageController, 2),
             ],
           )
         ],
@@ -83,9 +94,8 @@ class CustomDrawer extends StatelessWidget {
         decoration: BoxDecoration(
             gradient: LinearGradient(
           colors: [
-           Theme.of(context).primaryColor,
-
-            Colors.grey[50]
+            Colors.grey[50],
+            Theme.of(context).primaryColor,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

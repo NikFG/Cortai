@@ -1,4 +1,6 @@
+import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
@@ -31,8 +33,11 @@ class ConfirmarTile extends StatelessWidget {
             .updateData({
           "confirmado": true,
         });
-//        Navigator.of(context).push(MaterialPageRoute(
-//            builder: (context) => PrecoTela(snapshot)));
+        await FlushbarHelper.createSuccess(
+            message: "Horário confirmado com sucesso",
+            duration: Duration(milliseconds: 2));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HomeTela()));
       },
     );
   }

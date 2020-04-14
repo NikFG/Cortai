@@ -35,6 +35,7 @@ dependencies:
   firebase_auth: ^0.15.5+3
   firebase_core: ^0.4.4+3
   firebase_analytics: ^5.0.11
+  flutter_auth_buttons: ^0.8.0
 
 
 dev_dependencies:

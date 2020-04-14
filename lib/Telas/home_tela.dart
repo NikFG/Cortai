@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'confirmar_tela.dart';
 
 class HomeTela extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final _pageController = PageController(initialPage: 0);
@@ -15,7 +14,6 @@ class HomeTela extends StatelessWidget {
       controller: _pageController,
       children: <Widget>[
         Scaffold(
-
           appBar: AppBar(
             title: Text("Home"),
             backgroundColor: Theme.of(context).primaryColor,

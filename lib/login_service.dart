@@ -1,13 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class LoginService {
+class LoginService extends Model {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Firestore _db = Firestore.instance;
-  static FirebaseUser user;
+  static FirebaseUser firebaseUser;
+  Map<String, dynamic> usuarioData = Map();
   static String nome;
+
+  static LoginService of(BuildContext context) =>
+      ScopedModel.of<LoginService>(context);
+
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+    _carregarUsuario();
+  }
 
   Future<FirebaseUser> googleSignIn() async {
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
@@ -18,25 +29,55 @@ class LoginService {
     );
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     FirebaseUser user = authResult.user;
-    print("signed in " + user.displayName);
-    updateUserData(user);
-    nome = user.displayName;
+    await _currentUserUID();
+    await _salvarDadosUsuario();
+//    await _carregarUsuario();
     return user;
   }
 
-  void updateUserData(FirebaseUser user) async {
-    DocumentReference ref = _db.collection('users').document(user.uid);
-
-    return ref.setData({
-      'uid': user.uid,
-      'email': user.email,
-      'photoURL': user.photoUrl,
-      'displayName': user.displayName,
-      'lastSeen': DateTime.now()
-    }, merge: true);
+  Future<Null> _salvarDadosUsuario() async {
+    this.usuarioData = {
+      'uid': firebaseUser.uid,
+      'email': firebaseUser.email,
+      'fotoURL': firebaseUser.photoUrl,
+      'nome': firebaseUser.displayName,
+      'vistoPorUltimo': DateTime.now(),
+      'cabelereiro': false,
+    };
+    await Firestore.instance
+        .collection("usuarios")
+        .document(firebaseUser.uid)
+        .setData(usuarioData, merge: true);
   }
 
-  void signOut() {
-    _auth.signOut();
+  void signOut() async {
+    await _auth.signOut();
+    usuarioData = Map();
+    firebaseUser = null;
+    notifyListeners();
+  }
+
+  Future<Null> _carregarUsuario() async {
+    if (firebaseUser == null) {
+      firebaseUser = await _auth.currentUser();
+    }
+    if (firebaseUser != null) {
+      if (usuarioData["nome"] == null) {
+        DocumentSnapshot doc = await Firestore.instance
+            .collection("usuarios")
+            .document(firebaseUser.uid)
+            .get();
+        usuarioData = doc.data;
+        notifyListeners();
+      }
+    }
+  }
+
+  bool isLogado() {
+    return firebaseUser != null;
+  }
+
+  Future<dynamic> _currentUserUID() async {
+    firebaseUser = await _auth.currentUser();
   }
 }

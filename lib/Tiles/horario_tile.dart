@@ -93,7 +93,7 @@ class HorarioTile extends StatelessWidget {
                   await FlushbarHelper.createSuccess(
                           message: "Aguarde confirmação do cabelereiro!!",
                           title: "Agendamento feito",
-                          duration: Duration(seconds: 3))
+                          duration: Duration(milliseconds: 1500))
                       .show(context);
 
                   Navigator.of(context).push(
@@ -106,5 +106,5 @@ class HorarioTile extends StatelessWidget {
         });
   }
 
-  void _confirmaHorario() {}
+
 }
