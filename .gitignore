@@ -84,5 +84,7 @@ lint/tmp/
 .dart_tool/
 
 .packages
+.flutter-plugins
+.flutter-plugins-dependencies
 
 *.lock
