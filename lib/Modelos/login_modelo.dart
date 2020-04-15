@@ -41,7 +41,7 @@ class LoginModelo extends Model {
       'fotoURL': firebaseUser.photoUrl,
       'nome': firebaseUser.displayName,
       'vistoPorUltimo': DateTime.now(),
-      'cabelereiro': false,
+      'cabelereiro': isCabelereiro(),
     };
     await Firestore.instance
         .collection("usuarios")
@@ -72,11 +72,29 @@ class LoginModelo extends Model {
     }
   }
 
+  bool isCabelereiro() {
+    if (isLogado()) {
+      _carregarUsuario();
+      bool result = usuarioData['cabelereiro'];
+      return result;
+    }
+    return false;
+  }
+
   bool isLogado() {
+
     return firebaseUser != null;
   }
 
   Future<dynamic> _currentUserUID() async {
     firebaseUser = await _auth.currentUser();
   }
+  String getSalao(){
+    _carregarUsuario();
+    String salao = usuarioData['salao'];
+    return salao;
+  }
+
+  //TODO
+  bool isDonoSalao() {}
 }

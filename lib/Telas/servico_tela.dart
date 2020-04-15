@@ -71,15 +71,12 @@ class _ServicoTelaState extends State<ServicoTela> {
                       if (_formKey.currentState.validate()) {
                         PrecoDados dados = PrecoDados();
                         dados.descricao = _nomeControlador.text;
-                        print(_precoControlador.text);
-
                         dados.setValor(_precoControlador.text);
-
-//                        Firestore.instance
-//                            .collection("usuarios")
-//                            .document(model.usuarioData['uid'])
-//                            .collection('precos')
-//                            .add(dados.toMap());
+                        Firestore.instance
+                            .collection("usuarios")
+                            .document(model.usuarioData['uid'])
+                            .collection('precos')
+                            .add(dados.toMap());
                       }
                     },
                   ))

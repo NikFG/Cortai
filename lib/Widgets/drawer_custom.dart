@@ -70,7 +70,6 @@ class CustomDrawer extends StatelessWidget {
                                     }
                                   },
                                 ),
-
                               ],
                             );
                           },
@@ -81,10 +80,16 @@ class CustomDrawer extends StatelessWidget {
               Divider(),
               DrawerTile(Icons.home, "Início", pageController, 0),
               DrawerTile(FontAwesome.cut, "Cabelereiros", pageController, 1),
-              DrawerTile(FontAwesome.calendar_times_o, "Confirmar horários",
-                  pageController, 2),
-              DrawerTile(Icons.work, "Cadastrar serviço",
-                  pageController, 3),
+              ScopedModelDescendant<LoginModelo>(
+                  builder: (context, child, model) {
+                if (model.isCabelereiro())
+                  return _cabelereiroTiles();
+                else
+                  return Container(
+                    width: 0,
+                    height: 0,
+                  );
+              }),
             ],
           )
         ],
@@ -103,4 +108,15 @@ class CustomDrawer extends StatelessWidget {
           end: Alignment.bottomCenter,
         )),
       );
+
+  Widget _cabelereiroTiles() {
+    List<Widget> list = new List<Widget>();
+    list.add(DrawerTile(
+        FontAwesome.calendar_times_o, "Confirmar horários", pageController, 2));
+    list.add(DrawerTile(Icons.work, "Cadastrar serviço", pageController, 3));
+    list.add(DrawerTile(FontAwesome.circle, "Salão", pageController, 4));
+    return Column(
+      children: list,
+    );
+  }
 }
