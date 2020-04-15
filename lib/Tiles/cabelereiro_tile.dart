@@ -12,11 +12,11 @@ class CabelereiroTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(Icons.content_cut),
-      title: Text(snapshot.data['apelido']),
+      title: Text(snapshot.data['nome']),
       trailing: Icon(FontAwesome.chevron_right),
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => PrecoTela(snapshot))); 
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => PrecoTela(snapshot)));
       },
     );
   }

@@ -86,11 +86,17 @@ class HorarioTile extends StatelessWidget {
               FlatButton(
                 onPressed: () async {
                   await Firestore.instance
-                      .collection("cabelereiros")
+                      .collection("usuarios")
                       .document(this._cabelereiro_id)
                       .collection("horarios")
                       .add(_dados.toMap());
-                  await FlushbarHelper.createSuccess(
+                  Firestore.instance
+                      .collection("usuarios")
+                      .document(this._cabelereiro_id)
+                      .collection('disponibilidade')
+                      .document(_dados.id)
+                      .updateData({"ocupado": true});
+                  FlushbarHelper.createSuccess(
                           message: "Aguarde confirmação do cabelereiro!!",
                           title: "Agendamento feito",
                           duration: Duration(milliseconds: 1500))
@@ -105,6 +111,4 @@ class HorarioTile extends StatelessWidget {
           );
         });
   }
-
-
 }

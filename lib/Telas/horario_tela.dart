@@ -1,8 +1,6 @@
 import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Tiles/horario_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 
 class HorarioTela extends StatelessWidget {
@@ -23,10 +21,10 @@ class HorarioTela extends StatelessWidget {
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
-            .collection("cabelereiros")
+            .collection("usuarios")
             .document(this.cabelereiro_id)
             .collection('disponibilidade')
-            .where('horario')
+            .where('ocupado',isEqualTo: false)
             .getDocuments(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

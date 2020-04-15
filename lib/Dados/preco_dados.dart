@@ -5,6 +5,15 @@ class PrecoDados {
   String descricao;
   double valor;
 
+  double setValor(String valor){
+    valor = valor.replaceAll("R\$", "");
+    valor = valor.replaceAll(".", "");
+    valor = valor.replaceAll(",", ".");
+    this.valor = double.parse(valor);
+  }
+
+  PrecoDados();
+
   PrecoDados.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     descricao = snapshot.data["descricao"];
@@ -17,4 +26,5 @@ class PrecoDados {
       "valor": valor,
     };
   }
+
 }

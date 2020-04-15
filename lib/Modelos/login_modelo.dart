@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LoginService extends Model {
+class LoginModelo extends Model {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static FirebaseUser firebaseUser;
   Map<String, dynamic> usuarioData = Map();
 
-  static LoginService of(BuildContext context) =>
-      ScopedModel.of<LoginService>(context);
+  static LoginModelo of(BuildContext context) =>
+      ScopedModel.of<LoginModelo>(context);
 
   @override
   void addListener(VoidCallback listener) {

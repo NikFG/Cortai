@@ -1,8 +1,11 @@
+import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tabs/home_tab.dart';
 import 'package:agendacabelo/Telas/cabelereiros_tela.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
+import 'servico_tela.dart';
 import 'confirmar_tela.dart';
 
 class HomeTela extends StatelessWidget {
@@ -37,6 +40,15 @@ class HomeTela extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Confirmar horários"),
+            centerTitle: true,
+          ),
+        ),
+        Scaffold(
+          drawer: CustomDrawer(_pageController),
+          body: ServicoTela(),
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text("Cadastrar serviços"),
             centerTitle: true,
           ),
         ),

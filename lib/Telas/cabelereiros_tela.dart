@@ -8,7 +8,7 @@ class CabelereirosTela extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: FutureBuilder<QuerySnapshot>(
-        future: Firestore.instance.collection("cabelereiros").getDocuments(),
+        future: Firestore.instance.collection("usuarios").getDocuments(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(

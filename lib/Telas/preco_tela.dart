@@ -18,22 +18,12 @@ class PrecoTela extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Preços de " + this.snapshot.data['apelido']),
+        title: Text("Preços de " + this.snapshot.data['nome']),
         centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          FlushbarHelper.createSuccess(
-                  message: "Aguarde confirmação do cabelereiro!!",
-                  title: "Agendamento feito")
-              .show(context);
-        },
-        child: Icon(Icons.schedule),
-        backgroundColor: Colors.blueAccent[500],
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
-            .collection("cabelereiros")
+            .collection("usuarios")
             .document(this.snapshot.documentID)
             .collection("precos")
             .getDocuments(),
@@ -46,10 +36,10 @@ class PrecoTela extends StatelessWidget {
             return GridView.builder(
                 padding: EdgeInsets.all(4),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                    crossAxisCount: 1,
                     mainAxisSpacing: 4,
                     crossAxisSpacing: 4,
-                    childAspectRatio: 1.5),
+                    childAspectRatio: 3),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
                   PrecoDados dados =

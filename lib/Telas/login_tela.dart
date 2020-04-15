@@ -1,4 +1,4 @@
-import 'package:agendacabelo/login_service.dart';
+import 'package:agendacabelo/modelos/login_modelo.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +10,7 @@ import 'home_tela.dart';
 class LoginTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<LoginService>(
+    return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return Scaffold(
             appBar: AppBar(

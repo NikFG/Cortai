@@ -1,6 +1,5 @@
-import 'package:agendacabelo/Telas/cabelereiros_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
-import 'package:agendacabelo/login_service.dart';
+import 'package:agendacabelo/modelos/login_modelo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -40,9 +39,8 @@ class CustomDrawer extends StatelessWidget {
                     Positioned(
                         left: 0,
                         bottom: 0,
-                        child: ScopedModelDescendant<LoginService>(
+                        child: ScopedModelDescendant<LoginModelo>(
                           builder: (context, child, model) {
-                            print(model.usuarioData);
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -72,6 +70,7 @@ class CustomDrawer extends StatelessWidget {
                                     }
                                   },
                                 ),
+
                               ],
                             );
                           },
@@ -84,6 +83,8 @@ class CustomDrawer extends StatelessWidget {
               DrawerTile(FontAwesome.cut, "Cabelereiros", pageController, 1),
               DrawerTile(FontAwesome.calendar_times_o, "Confirmar horários",
                   pageController, 2),
+              DrawerTile(Icons.work, "Cadastrar serviço",
+                  pageController, 3),
             ],
           )
         ],
