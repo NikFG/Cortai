@@ -1,6 +1,7 @@
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/modelos/login_modelo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'Telas/home_tela.dart';
 
@@ -21,6 +22,17 @@ class MyApp extends StatelessWidget {
             ),
             debugShowCheckedModeBanner: true,
             home: HomeTela(),
+            localizationsDelegates: [
+              // ... app-specific localization delegate[s] here
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('pt'),
+
+
+            ],
           );
         },
     )

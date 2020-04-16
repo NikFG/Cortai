@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/disponibilidade_dados.dart';
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,7 +6,7 @@ class CabelereiroDados {
   String id;
   String nome;
   String apelido;
-  HorarioDados horarioDados;
+  DisponibilidadeDados horarioDados;
   PrecoDados precoDados;
 
   CabelereiroDados.fromDocument(DocumentSnapshot snapshot) {

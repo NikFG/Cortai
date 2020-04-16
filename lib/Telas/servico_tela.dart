@@ -79,7 +79,7 @@ class _ServicoTelaState extends State<ServicoTela> {
                             .add(dados.toMap());
                       }
                     },
-                  ))
+                  ),)
             ],
           ),
         );

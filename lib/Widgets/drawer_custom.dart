@@ -102,7 +102,7 @@ class CustomDrawer extends StatelessWidget {
             gradient: LinearGradient(
           colors: [
             Colors.grey[50],
-            Theme.of(context).primaryColor,
+            Theme.of(context).primaryColorLight,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -115,6 +115,7 @@ class CustomDrawer extends StatelessWidget {
         FontAwesome.calendar_times_o, "Confirmar horários", pageController, 2));
     list.add(DrawerTile(Icons.work, "Cadastrar serviço", pageController, 3));
     list.add(DrawerTile(FontAwesome.circle, "Salão", pageController, 4));
+    list.add(DrawerTile(Icons.add, "Criar horário", pageController, 5));
     return Column(
       children: list,
     );

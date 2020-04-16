@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/disponibilidade_dados.dart';
 import 'package:agendacabelo/Tiles/horario_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -41,8 +41,8 @@ class HorarioTela extends StatelessWidget {
                     childAspectRatio: 2.1),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
-                  HorarioDados dados =
-                  HorarioDados.fromDocument(snapshot.data.documents[index]);
+                  DisponibilidadeDados dados =
+                  DisponibilidadeDados.fromDocument(snapshot.data.documents[index]);
                   return HorarioTile(dados,this.cabelereiro_id);
                 });
           }
