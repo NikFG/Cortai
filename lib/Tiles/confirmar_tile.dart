@@ -31,7 +31,7 @@ class ConfirmarTile extends StatelessWidget {
           onTap: () async {
             await Firestore.instance
                 .collection("usuarios")
-                .document(model.usuarioData['uid'])
+                .document(model.dados['uid'])
                 .collection("horarios")
                 .document(snapshot.documentID)
                 .updateData({

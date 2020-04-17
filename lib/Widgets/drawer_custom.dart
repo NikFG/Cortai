@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Telas/login_tela.dart';
-import 'package:agendacabelo/modelos/login_modelo.dart';
+import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -41,11 +41,14 @@ class CustomDrawer extends StatelessWidget {
                         bottom: 0,
                         child: ScopedModelDescendant<LoginModelo>(
                           builder: (context, child, model) {
+                            if (model.dados == null) {
+                              return CircularProgressIndicator();
+                            }
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "Olá, ${!model.isLogado() ? "" : model.usuarioData['nome']}",
+                                  "Olá, ${!model.isLogado() ? "" : model.dados['nome']}",
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
@@ -61,7 +64,7 @@ class CustomDrawer extends StatelessWidget {
                                   ),
                                   onTap: () {
                                     if (model.isLogado()) {
-                                      model.signOut();
+                                      model.logOut();
                                     } else {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(

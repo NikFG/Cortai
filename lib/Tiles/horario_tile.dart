@@ -85,6 +85,8 @@ class HorarioTile extends StatelessWidget {
               ),
               FlatButton(
                 onPressed: () async {
+                  _dados.horario = "seg, " + _dados.horario;
+                  _dados.confirmado = false;
                   await Firestore.instance
                       .collection("usuarios")
                       .document(this._cabelereiro_id)
@@ -96,12 +98,6 @@ class HorarioTile extends StatelessWidget {
                       .collection('disponibilidade')
                       .document(_dados.id)
                       .updateData({"ocupado": true});
-                  FlushbarHelper.createSuccess(
-                          message: "Aguarde confirmação do cabelereiro!!",
-                          title: "Agendamento feito",
-                          duration: Duration(milliseconds: 1500))
-                      .show(context);
-
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => HomeTela()));
                 },

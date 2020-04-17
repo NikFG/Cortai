@@ -1,6 +1,6 @@
-import 'package:agendacabelo/modelos/login_modelo.dart';
-import 'package:flushbar/flushbar.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:agendacabelo/Modelos/login_modelo.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -39,7 +39,7 @@ class LoginTela extends StatelessWidget {
                   ),
                   FacebookSignInButton(
                     onPressed: () {
-                      model.signOut();
+                     // model.FacebookSignIn();
                     },
                     text: "Entre com o Facebook",
                   ),

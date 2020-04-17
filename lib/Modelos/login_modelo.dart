@@ -8,7 +8,7 @@ class LoginModelo extends Model {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static FirebaseUser firebaseUser;
-  Map<String, dynamic> usuarioData = Map();
+  Map<String, dynamic> dados = Map();
 
   static LoginModelo of(BuildContext context) =>
       ScopedModel.of<LoginModelo>(context);
@@ -30,71 +30,79 @@ class LoginModelo extends Model {
     FirebaseUser user = authResult.user;
     await _currentUserUID();
     await _salvarDadosUsuario();
-    await _carregarUsuario();
+
     return user;
   }
 
   Future<Null> _salvarDadosUsuario() async {
-    this.usuarioData = {
-      'uid': firebaseUser.uid,
-      'email': firebaseUser.email,
-      'fotoURL': firebaseUser.photoUrl,
-      'nome': firebaseUser.displayName,
-      'vistoPorUltimo': DateTime.now(),
-      'cabelereiro': isCabelereiro(),
-    };
+    if (await _carregarUsuario() == false) {
+      this.dados = {
+        'uid': firebaseUser.uid,
+        'email': firebaseUser.email,
+        'fotoURL': firebaseUser.photoUrl,
+        'nome': firebaseUser.displayName,
+        'vistoPorUltimo': DateTime.now(),
+        'cabelereiro': false,
+      };
+    } else {
+      await _carregarUsuario();
+      this.dados['vistoPorUltimo'] = DateTime.now();
+    }
     await Firestore.instance
         .collection("usuarios")
         .document(firebaseUser.uid)
-        .setData(usuarioData, merge: true);
+        .setData(dados, merge: true);
+    notifyListeners();
   }
 
-  void signOut() async {
+  void logOut() async {
     await _auth.signOut();
-    usuarioData = Map();
+    dados = Map();
     firebaseUser = null;
     notifyListeners();
   }
 
-  Future<Null> _carregarUsuario() async {
+  Future<bool> _carregarUsuario() async {
     if (firebaseUser == null) {
       firebaseUser = await _auth.currentUser();
     }
     if (firebaseUser != null) {
-      if (usuarioData["nome"] == null) {
+      bool result;
+      if (this.dados["nome"] == null) {
         DocumentSnapshot doc = await Firestore.instance
             .collection("usuarios")
             .document(firebaseUser.uid)
             .get();
-        usuarioData = doc.data;
+        if (doc.data == null) {
+          result = false;
+        } else {
+          result = true;
+          dados = doc.data;
+        }
         notifyListeners();
+        return result;
       }
     }
   }
 
   bool isCabelereiro() {
     if (isLogado()) {
-      _carregarUsuario();
-      bool result = usuarioData['cabelereiro'];
+      bool result = dados['cabelereiro'];
       return result;
     }
     return false;
   }
 
   bool isLogado() {
-
     return firebaseUser != null;
   }
 
   Future<dynamic> _currentUserUID() async {
     firebaseUser = await _auth.currentUser();
   }
-  String getSalao(){
-    _carregarUsuario();
-    String salao = usuarioData['salao'];
+
+  String getSalao() {
+    String salao = dados['salao'];
     return salao;
   }
-
-  //TODO
-  bool isDonoSalao() {}
 }

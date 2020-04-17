@@ -1,5 +1,6 @@
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -59,27 +60,30 @@ class _ServicoTelaState extends State<ServicoTela> {
               ),
               SizedBox(height: 25),
               SizedBox(
-                  height: 44,
-                  child: RaisedButton(
-                    child: Text(
-                      "Cadastrar",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    textColor: Colors.white,
-                    color: Theme.of(context).primaryColor,
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        PrecoDados dados = PrecoDados();
-                        dados.descricao = _nomeControlador.text;
-                        dados.setValor(_precoControlador.text);
-                        Firestore.instance
-                            .collection("usuarios")
-                            .document(model.usuarioData['uid'])
-                            .collection('precos')
-                            .add(dados.toMap());
-                      }
-                    },
-                  ),)
+                height: 44,
+                child: RaisedButton(
+                  child: Text(
+                    "Cadastrar",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  textColor: Colors.white,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      PrecoDados dados = PrecoDados();
+                      dados.descricao = _nomeControlador.text;
+                      dados.setValor(_precoControlador.text);
+                      await Firestore.instance
+                          .collection("usuarios")
+                          .document(model.dados['uid'])
+                          .collection('precos')
+                          .add(dados.toMap());
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => HomeTela()));
+                    }
+                  },
+                ),
+              )
             ],
           ),
         );

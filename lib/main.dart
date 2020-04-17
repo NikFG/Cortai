@@ -1,5 +1,4 @@
-import 'package:agendacabelo/Telas/login_tela.dart';
-import 'package:agendacabelo/modelos/login_modelo.dart';
+import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -11,32 +10,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScopedModel<LoginModelo>(
-      model: LoginModelo(),
-      child: ScopedModelDescendant<LoginModelo>(
-        builder: (context,child,model){
-          return  MaterialApp(
-            title: "Agendamento de corte",
-            theme: ThemeData(
-              primarySwatch: Colors.orange,
-              primaryColor: Color.fromARGB(255, 255, 113, 0),
-            ),
-            debugShowCheckedModeBanner: true,
-            home: HomeTela(),
-            localizationsDelegates: [
-              // ... app-specific localization delegate[s] here
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: [
-              const Locale('pt'),
+        model: LoginModelo(),
+        child: ScopedModelDescendant<LoginModelo>(
+          builder: (context, child, model) {
 
-
-            ],
-          );
-        },
-    )
-
-    );
+            return MaterialApp(
+              title: "Agendamento de corte",
+              theme: ThemeData(
+                primarySwatch: Colors.orange,
+                primaryColor: Color.fromARGB(255, 255, 113, 0),
+              ),
+              debugShowCheckedModeBanner: false,
+              home: HomeTela(),
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: [
+                const Locale('pt'),
+              ],
+            );
+          },
+        ));
   }
 }

@@ -71,7 +71,7 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
                           dados.confirmado = false;
                           Firestore.instance
                               .collection("usuarios")
-                              .document(model.usuarioData['uid'])
+                              .document(model.dados['uid'])
                               .collection('disponibilidade')
                               .add(dados.toMap());
                           Navigator.of(context).push(MaterialPageRoute(

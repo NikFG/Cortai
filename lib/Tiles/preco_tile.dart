@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 
 class PrecoTile extends StatelessWidget {
   final PrecoDados dados;
-  final String cabelereiroID;
-  PrecoTile(this.dados, this.cabelereiroID);
+  final String cabelereiro_id;
+  PrecoTile(this.dados, this.cabelereiro_id);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => HorarioTela(cabelereiroID)));
+            .push(MaterialPageRoute(builder: (context) => HorarioTela(cabelereiro_id)));
       },
       child: Card(
         child: Column(
