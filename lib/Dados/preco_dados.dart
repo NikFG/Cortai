@@ -26,5 +26,11 @@ class PrecoDados {
       "valor": valor,
     };
   }
-
+  Future precoFuture(String cabelereiro_id) async{
+    return await Firestore.instance
+        .collection("usuarios")
+        .document(cabelereiro_id)
+        .collection("precos")
+        .getDocuments();
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -16,10 +15,12 @@ class LoginTela extends StatelessWidget {
             appBar: AppBar(
               title: Text("Login"),
               centerTitle: true,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
+              leading: model.isLogado()
+                  ? IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.of(context).pop(),
+                    )
+                  : Container(),
             ),
             body: Container(
               //Criar tela de email e senha
@@ -39,7 +40,7 @@ class LoginTela extends StatelessWidget {
                   ),
                   FacebookSignInButton(
                     onPressed: () {
-                     // model.FacebookSignIn();
+                      // model.FacebookSignIn();
                     },
                     text: "Entre com o Facebook",
                   ),

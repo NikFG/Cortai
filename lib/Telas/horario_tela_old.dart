@@ -1,14 +1,12 @@
-import 'package:agendacabelo/Dados/preco_dados.dart';
-import 'package:agendacabelo/Tiles/preco_tile.dart';
+import 'package:agendacabelo/Dados/disponibilidade_dados.dart';
+import 'package:agendacabelo/Tiles/horario_tile_old.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flushbar/flushbar_helper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PrecoTela extends StatelessWidget {
-  final DocumentSnapshot snapshot;
+class HorarioTelaOld extends StatelessWidget {
+  final String cabelereiro_id;
 
-  const PrecoTela(this.snapshot);
+  const HorarioTelaOld(this.cabelereiro_id);
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +16,15 @@ class PrecoTela extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("Preços de " + this.snapshot.data['nome']),
+        title: Text("Horários"),
         centerTitle: true,
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: Firestore.instance
             .collection("usuarios")
-            .document(this.snapshot.documentID)
-            .collection("precos")
+            .document(this.cabelereiro_id)
+            .collection('disponibilidade')
+            .where('ocupado', isEqualTo: false)
             .getDocuments(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -39,12 +38,13 @@ class PrecoTela extends StatelessWidget {
                     crossAxisCount: 1,
                     mainAxisSpacing: 4,
                     crossAxisSpacing: 4,
-                    childAspectRatio: 3),
+                    childAspectRatio: 2.1),
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, index) {
-                  PrecoDados dados =
-                      PrecoDados.fromDocument(snapshot.data.documents[index]);
-                  return PrecoTile(dados, this.snapshot.documentID);
+                  DisponibilidadeDados dados =
+                      DisponibilidadeDados.fromDocument(
+                          snapshot.data.documents[index]);
+                  return HorarioTileOld(dados, this.cabelereiro_id);
                 });
           }
         },

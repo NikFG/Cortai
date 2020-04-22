@@ -39,7 +39,8 @@ dependencies:
   firebase_analytics: ^5.0.11
   flutter_auth_buttons: ^0.8.0
   flutter_masked_text: ^0.7.0
-
+  flutter_launcher_icons: ^0.7.4
+  flutter_multiselect: 0.0.1
 
 
 

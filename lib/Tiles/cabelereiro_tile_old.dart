@@ -1,12 +1,12 @@
-import 'package:agendacabelo/Telas/preco_tela.dart';
+import 'package:agendacabelo/Telas/preco_tela_old.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class CabelereiroTile extends StatelessWidget {
+class CabelereiroTileOld extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
-  const CabelereiroTile(this.snapshot);
+  const CabelereiroTileOld(this.snapshot);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class CabelereiroTile extends StatelessWidget {
       trailing: Icon(FontAwesome.chevron_right),
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => PrecoTela(snapshot)));
+            .push(MaterialPageRoute(builder: (context) => PrecoTelaOld(snapshot)));
       },
     );
   }

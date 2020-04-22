@@ -1,8 +1,9 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tabs/home_tab.dart';
-import 'package:agendacabelo/Telas/cabelereiros_tela.dart';
+import 'package:agendacabelo/Telas/cabelereiros_tela_old.dart';
 import 'package:agendacabelo/Telas/criar_horario_tela.dart';
 import 'package:agendacabelo/Telas/salao_tela.dart';
+import 'package:agendacabelo/Telas/create_salao_tela.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class HomeTela extends StatelessWidget {
         ),
         Scaffold(
           drawer: CustomDrawer(_pageController),
-          body: CabelereirosTela(),
+          body: CabelereirosTelaOld(),
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Cabelereiros"),
@@ -69,6 +70,15 @@ class HomeTela extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Criar horário"),
+            centerTitle: true,
+          ),
+        ),
+        Scaffold(
+          drawer: CustomDrawer(_pageController),
+          body: SalaoTela(),
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text("Escolha seu salão"),
             centerTitle: true,
           ),
         ),

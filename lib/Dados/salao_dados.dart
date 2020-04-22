@@ -21,4 +21,8 @@ class SalaoDados {
       "endereco": endereco,
     };
   }
+
+  Future salaoFuture() {
+    return Firestore.instance.collection("saloes").getDocuments();
+  }
 }

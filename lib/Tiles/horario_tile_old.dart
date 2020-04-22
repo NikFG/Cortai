@@ -6,11 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class HorarioTile extends StatelessWidget {
+class HorarioTileOld extends StatelessWidget {
   final DisponibilidadeDados _dados;
   final String _cabelereiro_id;
 
-  HorarioTile(this._dados, this._cabelereiro_id);
+  HorarioTileOld(this._dados, this._cabelereiro_id);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class HorarioTile extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Confirma o preço x para o horario y?"),
+            title: Text("Confirma o preço  para o horario ${_dados.horario}?"),
             actions: <Widget>[
               FlatButton(
                 onPressed: () => Navigator.of(context).pop(),

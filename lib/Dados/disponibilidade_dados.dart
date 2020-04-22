@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../util.dart';
+import '../util/util.dart';
 
 class DisponibilidadeDados {
   String id;
   String horario;
   bool ocupado;
   bool confirmado;
+
   DisponibilidadeDados();
 
   DisponibilidadeDados.fromDocument(DocumentSnapshot snapshot) {
@@ -21,5 +22,13 @@ class DisponibilidadeDados {
       "ocupado": ocupado,
       "confirmado": confirmado,
     };
+  }
+
+  Future disponibilidadeFuture(String cabelereiro_id) {
+    return Firestore.instance
+        .collection("usuarios")
+        .document(cabelereiro_id)
+        .collection("dispobilidade")
+        .getDocuments();
   }
 }
