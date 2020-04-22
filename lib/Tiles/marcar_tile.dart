@@ -25,15 +25,12 @@ class _MarcarTileState extends State<MarcarTile> {
       child: Card(
         color: Colors.deepOrange[300],
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             Column(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 9, top: 5),
-                  child: Text("Cabelereiro ${widget.dados.nome}"),
-                ),
+                Text("Cabelereiro ${widget.dados.nome}"),
                 FutureBuilder<QuerySnapshot>(
                     future: Firestore.instance
                         .collection("usuarios")
@@ -44,19 +41,16 @@ class _MarcarTileState extends State<MarcarTile> {
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();
                       } else {
-                        return Padding(
-                          padding: EdgeInsets.only(left: 10, top: 10),
-                          child: DropdownButton(
-                            items: itensPreco(snapshot),
-                            onChanged: (value) {
-                              setState(() {
-                                _precoAtual = value;
-                              });
-                            },
-                            isExpanded: false,
-                            value: _precoAtual,
-                            hint: Text("Preço"),
-                          ),
+                        return DropdownButton(
+                          items: itensPreco(snapshot),
+                          onChanged: (value) {
+                            setState(() {
+                              _precoAtual = value;
+                            });
+                          },
+                          isExpanded: false,
+                          value: _precoAtual,
+                          hint: Text("Preço"),
                         );
                       }
                     }),
@@ -70,19 +64,16 @@ class _MarcarTileState extends State<MarcarTile> {
                       if (!snapshot.hasData) {
                         return CircularProgressIndicator();
                       } else {
-                        return Padding(
-                          padding: EdgeInsets.zero,
-                          child: DropdownButton(
-                            items: itensDisp(snapshot),
-                            onChanged: (value) {
-                              setState(() {
-                                _dispAtual = value;
-                              });
-                            },
-                            isExpanded: false,
-                            value: _dispAtual,
-                            hint: Text("Serviço"),
-                          ),
+                        return DropdownButton(
+                          items: itensDisp(snapshot),
+                          onChanged: (value) {
+                            setState(() {
+                              _dispAtual = value;
+                            });
+                          },
+                          isExpanded: false,
+                          value: _dispAtual,
+                          hint: Text("Serviço"),
                         );
                       }
                     })
@@ -94,7 +85,7 @@ class _MarcarTileState extends State<MarcarTile> {
                 padding: EdgeInsets.only(right: 10),
                 child: Image.network(
                   "https://www.wikihow.com/images/f/f0/Do-Goku-Hair-Step-23.jpg",
-                  width: 100,
+                  width: 89,
                   height: 75,
                 ),
               ),
