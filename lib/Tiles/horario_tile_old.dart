@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/disponibilidade_dados.dart';
+import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class HorarioTileOld extends StatelessWidget {
-  final DisponibilidadeDados _dados;
+  final HorarioDados _dados;
   final String _cabelereiro_id;
 
   HorarioTileOld(this._dados, this._cabelereiro_id);

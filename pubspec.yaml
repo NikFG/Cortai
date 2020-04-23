@@ -41,6 +41,8 @@ dependencies:
   flutter_masked_text: ^0.7.0
   flutter_launcher_icons: ^0.7.4
   flutter_multiselect: 0.0.1
+  firebase_messaging: ^6.0.13
+  cloud_functions: ^0.4.2+3
 
 
 

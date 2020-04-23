@@ -2,15 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../util/util.dart';
 
-class DisponibilidadeDados {
+class HorarioDados {
   String id;
   String horario;
   bool ocupado;
   bool confirmado;
 
-  DisponibilidadeDados();
+  HorarioDados();
 
-  DisponibilidadeDados.fromDocument(DocumentSnapshot snapshot) {
+  HorarioDados.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     horario = Util.TimestampToString(snapshot.data["horario"]);
     ocupado = snapshot.data["ocupado"];
@@ -28,7 +28,7 @@ class DisponibilidadeDados {
     return Firestore.instance
         .collection("usuarios")
         .document(cabelereiro_id)
-        .collection("dispobilidade")
+        .collection("disponibilidade")
         .getDocuments();
   }
 }

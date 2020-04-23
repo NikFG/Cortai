@@ -28,9 +28,8 @@ class LoginModelo extends Model {
     );
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     FirebaseUser user = authResult.user;
-    await _currentUserUID();
+    await _getUID();
     await _salvarDadosUsuario();
-
     return user;
   }
 
@@ -97,7 +96,7 @@ class LoginModelo extends Model {
     return firebaseUser != null;
   }
 
-  Future<dynamic> _currentUserUID() async {
+  Future<dynamic> _getUID() async {
     firebaseUser = await _auth.currentUser();
   }
 
