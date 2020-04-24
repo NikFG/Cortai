@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 
 class PushNotification {
   final FirebaseMessaging _fcm = FirebaseMessaging();
@@ -9,10 +10,22 @@ class PushNotification {
 
   bool iniciado = false;
 
-  Future<String> servico(String usuario_id) async {
+  Future<String> servico(String usuario_id, BuildContext context) async {
     _fcm.autoInitEnabled();
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
+        await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text("${message['notification']['title']}"),
+                  content: Text("${message['notification']['body']}"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Ok'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ));
         print("onMessage: $message");
       },
       onLaunch: (Map<String, dynamic> message) async {

@@ -44,7 +44,7 @@ dependencies:
   firebase_messaging: ^6.0.13
   image_picker: ^0.6.5+2
   firebase_storage: ^3.0.6
-
+  badges: ^1.1.1
 
 
 dev_dependencies:

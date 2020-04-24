@@ -1,14 +1,23 @@
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:badges/badges.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../Tiles/drawer_tile.dart';
 
-class CustomDrawer extends StatelessWidget {
+class DrawerCustom extends StatefulWidget {
   final PageController pageController;
 
-  CustomDrawer(this.pageController);
+  DrawerCustom(this.pageController);
+
+  @override
+  _DrawerCustomState createState() => _DrawerCustomState();
+}
+
+class _DrawerCustomState extends State<DrawerCustom> {
+  String _numeroConfirmacoes;
 
   @override
   Widget build(BuildContext context) {
@@ -81,13 +90,14 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               Divider(),
-              DrawerTile(Icons.home, "Início", pageController, 0),
-              DrawerTile(
-                  Icons.content_cut, "Marcar horário", pageController, 1),
+              DrawerTile(Icons.home, "Início", widget.pageController, 0),
+              DrawerTile(Icons.content_cut, "Marcar horário",
+                  widget.pageController, 1),
               ScopedModelDescendant<LoginModelo>(
                   builder: (context, child, model) {
-                if (model.isCabelereiro())
-                  return _cabelereiroTiles();
+                if (model.isCabelereiro()){
+                  teste(model.dados['uid']);
+                  return _cabelereiroTiles();}
                 else
                   return Container(
                     width: 0,
@@ -114,15 +124,37 @@ class CustomDrawer extends StatelessWidget {
       );
 
   Widget _cabelereiroTiles() {
+
     List<Widget> list = new List<Widget>();
-    list.add(DrawerTile(
-        FontAwesome.calendar_times_o, "Confirmar horários", pageController, 2));
-    list.add(DrawerTile(Icons.work, "Cadastrar serviço", pageController, 3));
-    list.add(DrawerTile(FontAwesome.circle, "Salão", pageController, 4));
-    list.add(DrawerTile(Icons.add, "Criar horário", pageController, 5));
+    list.add(Badge(
+        position: BadgePosition.topRight(top: 12, right: 55),
+        badgeContent:
+            Text(_numeroConfirmacoes != null ? _numeroConfirmacoes : "0"),
+        child: DrawerTile(FontAwesome.calendar_times_o, "Confirmar horários",
+            widget.pageController, 2)));
+    list.add(
+      DrawerTile(Icons.work, "Cadastrar serviço", widget.pageController, 3),
+    );
+    list.add(DrawerTile(FontAwesome.circle, "Salão", widget.pageController, 4));
+    list.add(DrawerTile(Icons.add, "Criar horário", widget.pageController, 5));
 
     return Column(
       children: list,
     );
+  }
+
+  Future teste(String uid) async {
+    var querySnapshot = await Firestore.instance
+        .collection("usuarios")
+        .document(uid)
+        .collection("horarios")
+        .where('confirmado', isEqualTo: false)
+        .where('ocupado', isEqualTo: true)
+        .getDocuments();
+
+    var totalEquals = querySnapshot.documents.length;
+    setState(() {
+      _numeroConfirmacoes = totalEquals.toString();
+    });
   }
 }
