@@ -12,7 +12,7 @@ class MarcarTela extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("New tela"),
+        title: Text("Confirmar horário e serviço"),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),

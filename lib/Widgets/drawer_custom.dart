@@ -82,7 +82,8 @@ class CustomDrawer extends StatelessWidget {
               ),
               Divider(),
               DrawerTile(Icons.home, "Início", pageController, 0),
-              DrawerTile(FontAwesome.cut, "Cabelereiros", pageController, 1),
+              DrawerTile(
+                  Icons.content_cut, "Marcar horário", pageController, 1),
               ScopedModelDescendant<LoginModelo>(
                   builder: (context, child, model) {
                 if (model.isCabelereiro())
@@ -119,7 +120,7 @@ class CustomDrawer extends StatelessWidget {
     list.add(DrawerTile(Icons.work, "Cadastrar serviço", pageController, 3));
     list.add(DrawerTile(FontAwesome.circle, "Salão", pageController, 4));
     list.add(DrawerTile(Icons.add, "Criar horário", pageController, 5));
-    list.add(DrawerTile(Icons.content_cut, "Marcar horário", pageController, 6));
+
     return Column(
       children: list,
     );

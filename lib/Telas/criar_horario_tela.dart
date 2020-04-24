@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/disponibilidade_dados.dart';
+import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -65,14 +65,14 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
                       color: Theme.of(context).primaryColor,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          DisponibilidadeDados dados = DisponibilidadeDados();
+                          HorarioDados dados = HorarioDados();
                           dados.horario = _dateTime.text;
                           dados.ocupado = false;
                           dados.confirmado = false;
                           Firestore.instance
                               .collection("usuarios")
                               .document(model.dados['uid'])
-                              .collection('disponibilidade')
+                              .collection('horarios')
                               .add(dados.toMap());
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => HomeTela()));

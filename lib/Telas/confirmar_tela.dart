@@ -20,6 +20,7 @@ class ConfirmarTela extends StatelessWidget {
                     .document(model.dados['uid'])
                     .collection("horarios")
                     .where('confirmado', isEqualTo: false)
+                    .where('ocupado', isEqualTo: true)
                     .getDocuments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {

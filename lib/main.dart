@@ -15,6 +15,8 @@ class MyApp extends StatelessWidget {
         model: LoginModelo(),
         child: ScopedModelDescendant<LoginModelo>(
           builder: (context, child, model) {
+
+
             return MaterialApp(
               title: "Agendamento de corte",
               theme: ThemeData(
@@ -22,7 +24,11 @@ class MyApp extends StatelessWidget {
                 primaryColor: Colors.deepOrange,
               ),
               debugShowCheckedModeBanner: false,
-              home: model.isLogado() ? HomeTela() : LoginTela(),
+              home: model.isLogado()
+                  ? HomeTela(
+                      usuario_id: model.dados['uid'],
+                    )
+                  : LoginTela(),
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
