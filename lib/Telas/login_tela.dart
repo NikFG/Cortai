@@ -37,7 +37,6 @@ class LoginTela extends StatelessWidget {
                           bottomRight: Radius.elliptical(110, 45))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-
                   ),
                 ),
                 Positioned(
@@ -89,12 +88,17 @@ class LoginTela extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50),
                               color: Colors.orange[900]),
                           child: Center(
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                            child: FlatButton(
+                              onPressed: () {
+                                print("Teste");
+                              },
+                              child: Text(
+                                'Login',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
@@ -118,70 +122,56 @@ class LoginTela extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        Container(
-                          alignment: Alignment.topCenter,
-                          width: 200,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Color(0xFFFA080E)),
-                          child: Center(
-                            child: Text(
-                              'Google',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        )
+                        GoogleSignInButton(
+                          darkMode: false,
+                          text: "Entre com o Google",
+                          //textStyle: TextStyle(color: Colors.blueAccent),
+                          onPressed: () {
+                            print("Teste");
+                            model.googleSignIn();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => HomeTela()));
+                          },
+                          borderRadius: 50,
+                        ),
                       ],
                     ),
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height/ 1.25,
-                  left: MediaQuery.of(context).size.width / 15,
+                    top: MediaQuery.of(context).size.height / 1.25,
+                    left: MediaQuery.of(context).size.width / 15,
                     child: Container(
-                  width: 200,
-                  child: Center(
-                    child: Text('Não tem cadastro ? Cadastre-se' ,
-                    style: TextStyle(
-                      fontSize: 11,
-                      color:Colors.grey[500] ),
+                      width: 200,
+                      child: Center(
+                        child: Text(
+                          'Não tem cadastro ? Cadastre-se',
+                          style:
+                              TextStyle(fontSize: 11, color: Colors.grey[500]),
+                        ),
                       ),
-                  ),
-                )),
+                    )),
                 Positioned(
-                  top: MediaQuery.of(context).size.height/ 8,
-                  left: MediaQuery.of(context).size.width/2.9,
-                    child: Text('Agenda Hair',
+                  top: MediaQuery.of(context).size.height / 8,
+                  left: MediaQuery.of(context).size.width / 2.9,
+                  child: Text(
+                    'Agenda Hair',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       fontSize: 22,
-
-                    ),),
-
+                    ),
                   ),
+                ),
               ],
 
-              //Criar tela de email e senha
               //  padding: EdgeInsets.only(bottom: 50),
               //  alignment: Alignment.center,
               //  child: Column(
               //    mainAxisAlignment: MainAxisAlignment.center,
               //   children: <Widget>[
               //    GoogleSignInButton(
-              //     onPressed: () {
-              //      model.googleSignIn();
-              //     Navigator.of(context).push(
-              //        MaterialPageRoute(builder: (context) => HomeTela()));
-              //   },
-              //  darkMode: true,
-              //   text: "Entre com o Google",
-              //  ),
+
               // FacebookSignInButton(
               // onPressed: () {
               // model.FacebookSignIn();

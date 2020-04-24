@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
               title: "Agendamento de corte",
               theme: ThemeData(
                 primarySwatch: Colors.orange,
-                primaryColor: Colors.deepOrange,
+                primaryColor: Color(0xFFf45d27),
               ),
               debugShowCheckedModeBanner: false,
               home: model.isLogado()
