@@ -19,18 +19,23 @@ class LoginModelo extends Model {
     _carregarUsuario();
   }
 
-  Future<FirebaseUser> googleSignIn() async {
+  Future<Null> googleSignIn() async {
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    final AuthResult authResult = await _auth
+        .signInWithCredential(credential);
     FirebaseUser user = authResult.user;
+    if (user != null) {
+
+    } else {
+
+    }
     await _getUID();
     await _salvarDadosUsuario();
-    return user;
   }
 
   Future<Null> _salvarDadosUsuario() async {

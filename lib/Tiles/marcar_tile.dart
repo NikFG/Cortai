@@ -19,7 +19,9 @@ class MarcarTile extends StatefulWidget {
 
 class _MarcarTileState extends State<MarcarTile> {
   String _precoAtual;
-  String _dispAtual;
+  String _horarioAtual;
+  String _imagemAtual;
+  Map<String, String> imagens = Map();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class _MarcarTileState extends State<MarcarTile> {
         builder: (context, child, model) {
           return InkWell(
             onTap: () {
-              adicionarHorario(_dispAtual, _precoAtual, model.dados['uid']);
+              adicionarHorario(_horarioAtual, _precoAtual, model.dados['uid']);
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => HomeTela()));
             },
@@ -56,6 +58,7 @@ class _MarcarTileState extends State<MarcarTile> {
                                 onChanged: (value) {
                                   setState(() {
                                     _precoAtual = value;
+                                    _imagemAtual = imagens[_precoAtual];
                                   });
                                 },
                                 isExpanded: false,
@@ -76,14 +79,14 @@ class _MarcarTileState extends State<MarcarTile> {
                               return CircularProgressIndicator();
                             } else {
                               return DropdownButton(
-                                items: itensDisp(snapshot),
+                                items: itensHorario(snapshot),
                                 onChanged: (value) {
                                   setState(() {
-                                    _dispAtual = value;
+                                    _horarioAtual = value;
                                   });
                                 },
                                 isExpanded: false,
-                                value: _dispAtual,
+                                value: _horarioAtual,
                                 hint: Text("Horário"),
                               );
                             }
@@ -95,7 +98,9 @@ class _MarcarTileState extends State<MarcarTile> {
                     child: Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Image.network(
-                        "https://www.wikihow.com/images/f/f0/Do-Goku-Hair-Step-23.jpg",
+                        _imagemAtual == null
+                            ? "https://www.wikihow.com/images/f/f0/Do-Goku-Hair-Step-23.jpg"
+                            : _imagemAtual,
                         width: 89,
                         height: 75,
                       ),
@@ -113,6 +118,7 @@ class _MarcarTileState extends State<MarcarTile> {
   List<DropdownMenuItem> itensPreco(AsyncSnapshot<QuerySnapshot> snapshot) {
     return snapshot.data.documents.map((doc) {
       PrecoDados preco = PrecoDados.fromDocument(doc);
+      imagens[preco.id] = preco.imagemUrl;
       var tiles = DropdownMenuItem(
         child: Text(
           "${preco.descricao} - ${preco.valor.toStringAsFixed(2)}",
@@ -123,7 +129,7 @@ class _MarcarTileState extends State<MarcarTile> {
     }).toList();
   }
 
-  List<DropdownMenuItem> itensDisp(AsyncSnapshot<QuerySnapshot> snapshot) {
+  List<DropdownMenuItem> itensHorario(AsyncSnapshot<QuerySnapshot> snapshot) {
     return snapshot.data.documents.map((doc) {
       HorarioDados horario = HorarioDados.fromDocument(doc);
       var tiles = DropdownMenuItem(
@@ -150,4 +156,6 @@ class _MarcarTileState extends State<MarcarTile> {
       "cliente": usuario_id,
     });
   }
+
+  Future<String> getImagem(String id) {}
 }

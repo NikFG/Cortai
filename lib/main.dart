@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.orange,
                 primaryColor: Color(0xFFf45d27),
+                accentColor: Color(0xFFf5851f),
               ),
               debugShowCheckedModeBanner: false,
               home: model.isLogado()

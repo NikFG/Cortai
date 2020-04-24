@@ -4,6 +4,7 @@ class PrecoDados {
   String id;
   String descricao;
   double valor;
+  String imagemUrl;
 
   double setValor(String valor){
     valor = valor.replaceAll("R\$", "");
@@ -18,12 +19,14 @@ class PrecoDados {
     id = snapshot.documentID;
     descricao = snapshot.data["descricao"];
     valor = snapshot.data["valor"];
+    imagemUrl = snapshot.data["imagemUrl"];
   }
 
   Map<String, dynamic> toMap() {
     return {
       "descricao": descricao,
       "valor": valor,
+      "imagemUrl": imagemUrl
     };
   }
   Future precoFuture(String cabelereiro_id) async{
