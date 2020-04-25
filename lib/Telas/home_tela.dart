@@ -3,9 +3,7 @@ import 'package:agendacabelo/Telas/criar_horario_tela.dart';
 import 'package:agendacabelo/Telas/salao_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
-
 import 'package:flutter/material.dart';
-
 import 'servico_tela.dart';
 import 'confirmar_tela.dart';
 
@@ -18,7 +16,7 @@ class HomeTela extends StatelessWidget {
   Widget build(BuildContext context) {
     final _pageController = PageController(initialPage: 0);
     PushNotification push = PushNotification();
-    push.servico(usuario_id, context);
+    if (usuario_id != null) push.servico(usuario_id, context);
     return PageView(
       physics: NeverScrollableScrollPhysics(),
       controller: _pageController,

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
                   ? HomeTela(
                       usuario_id: model.dados['uid'],
                     )
-                  : LoginTela(),
+                  : HomeTela(),
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,

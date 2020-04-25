@@ -9,6 +9,7 @@ class LoginModelo extends Model {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static FirebaseUser firebaseUser;
   Map<String, dynamic> dados = Map();
+  bool isCarregando = false;
 
   static LoginModelo of(BuildContext context) =>
       ScopedModel.of<LoginModelo>(context);
@@ -19,26 +20,72 @@ class LoginModelo extends Model {
     _carregarUsuario();
   }
 
+  //Criar conta com email e senha
+  void signUp(
+      {@required Map<String, dynamic> usuarioData,
+      @required String senha,
+      @required VoidCallback sucesso,
+      @required VoidCallback erro}) {
+    isCarregando = true;
+    notifyListeners();
+    _auth
+        .createUserWithEmailAndPassword(
+            email: usuarioData["email"], password: senha)
+        .then((user) async {
+      dados = usuarioData;
+      await _getUID();
+      await _salvarDadosUsuarioGoogle();
+      sucesso();
+      isCarregando = false;
+      notifyListeners();
+    }).catchError((e) async {
+      print(e);
+      erro();
+      isCarregando = false;
+      notifyListeners();
+    });
+  }
+
+  //Login no firebase via email/senha
+  void emailSignIn(
+      {@required String email,
+      @required String senha,
+      VoidCallback onSuccess,
+      VoidCallback onFail}) {
+    isCarregando = true;
+    notifyListeners();
+    _auth
+        .signInWithEmailAndPassword(email: email, password: senha)
+        .then((user) async {
+      _carregarUsuario();
+      isCarregando = false;
+      notifyListeners();
+    }).catchError((e) {
+      isCarregando = false;
+      notifyListeners();
+    });
+  }
+
+  //Login no firebase via Google
   Future<Null> googleSignIn() async {
+    isCarregando = true;
+    notifyListeners();
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+
     GoogleSignInAuthentication googleAuth = await googleUser.authentication;
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    final AuthResult authResult = await _auth
-        .signInWithCredential(credential);
-    FirebaseUser user = authResult.user;
-    if (user != null) {
-
-    } else {
-
-    }
+    AuthResult result = await _auth.signInWithCredential(credential);
     await _getUID();
-    await _salvarDadosUsuario();
+    await _salvarDadosUsuarioGoogle();
+    isCarregando = false;
+    notifyListeners();
   }
 
-  Future<Null> _salvarDadosUsuario() async {
+  //Dados salvos do usuário
+  Future<Null> _salvarDadosUsuarioGoogle() async {
     if (await _carregarUsuario() == false) {
       this.dados = {
         'uid': firebaseUser.uid,
@@ -66,6 +113,8 @@ class LoginModelo extends Model {
     notifyListeners();
   }
 
+  //Carregar os dados do firebase caso o usuário esteja logando no sistema,
+  // ou então necessite dos dados para atulizar alguma informaçã
   Future<bool> _carregarUsuario() async {
     if (firebaseUser == null) {
       firebaseUser = await _auth.currentUser();
@@ -97,6 +146,7 @@ class LoginModelo extends Model {
     return false;
   }
 
+  //verifica se o usuário está ou não logado no sistema
   bool isLogado() {
     return firebaseUser != null;
   }
@@ -108,5 +158,9 @@ class LoginModelo extends Model {
   String getSalao() {
     String salao = dados['salao'];
     return salao;
+  }
+
+  void recuperarSenha(String email) {
+    _auth.sendPasswordResetEmail(email: email);
   }
 }

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../util/util.dart';
+import '../Util/util.dart';
 
 class CriarHorarioTela extends StatefulWidget {
   @override
