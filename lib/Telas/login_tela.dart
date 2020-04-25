@@ -18,6 +18,7 @@ class _LoginTelaState extends State<LoginTela> {
 
   @override
   Widget build(BuildContext context) {
+    
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return Scaffold(
@@ -37,7 +38,7 @@ class _LoginTelaState extends State<LoginTela> {
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width,
-                //  height: MediaQuery.of(context).size.height / 2.5,
+                // height: MediaQuery.of(context).size.height / 2,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topCenter,
@@ -46,8 +47,8 @@ class _LoginTelaState extends State<LoginTela> {
                           Theme.of(context).accentColor
                         ]),
                     borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.elliptical(110, 45),
-                        bottomRight: Radius.elliptical(110, 45))),
+                        bottomLeft: Radius.circular(90),
+                        bottomRight: Radius.circular(90))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                 ),
@@ -156,12 +157,38 @@ class _LoginTelaState extends State<LoginTela> {
                   child: Container(
                     width: 200,
                     child: Center(
-                      child: Text(
-                        'Não tem cadastro ? Cadastre-se',
-                        style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, "testee");
+                        },
+                        child: Text(
+                          "Não tem cadastro ? cadastre-se",
+                          style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
                     ),
                   )),
+              Positioned(
+                 top: MediaQuery.of(context).size.height / 1.25,
+                  left: MediaQuery.of(context).size.width / 1.70,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, "teste");
+                  },
+                  child: Text(
+                    "Esqueci minha senha",
+                    style: TextStyle(
+                      color: Colors.grey[200],
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
               Positioned(
                 top: MediaQuery.of(context).size.height / 8,
                 left: MediaQuery.of(context).size.width / 2.9,
@@ -171,6 +198,7 @@ class _LoginTelaState extends State<LoginTela> {
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                     fontSize: 22,
+                    fontFamily: 'Poppins',
                   ),
                 ),
               ),

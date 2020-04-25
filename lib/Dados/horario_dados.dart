@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../util/util.dart';
+import '../Util/util.dart';
 
 class HorarioDados {
   String id;
