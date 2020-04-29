@@ -96,7 +96,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
               ScopedModelDescendant<LoginModelo>(
                   builder: (context, child, model) {
                 if (model.isCabelereiro()){
-                  teste(model.dados['uid']);
+                  _carregaConfirmados(model.dados['uid']);
                   return _cabelereiroTiles();}
                 else
                   return Container(
@@ -135,7 +135,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
     list.add(
       DrawerTile(Icons.work, "Cadastrar serviço", widget.pageController, 3),
     );
-    list.add(DrawerTile(FontAwesome.circle, "Salão", widget.pageController, 4));
+    list.add(DrawerTile(FontAwesome.circle, "Gerenciar salão", widget.pageController, 4));
     list.add(DrawerTile(Icons.add, "Criar horário", widget.pageController, 5));
 
     return Column(
@@ -143,7 +143,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
     );
   }
 
-  Future teste(String uid) async {
+  Future _carregaConfirmados(String uid) async {
     var querySnapshot = await Firestore.instance
         .collection("usuarios")
         .document(uid)

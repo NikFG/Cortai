@@ -6,6 +6,7 @@ import 'package:agendacabelo/Telas/home_tela.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MarcarTile extends StatefulWidget {
@@ -30,11 +31,7 @@ class _MarcarTileState extends State<MarcarTile> {
       child: ScopedModelDescendant<LoginModelo>(
         builder: (context, child, model) {
           return InkWell(
-            onTap: () {
-              adicionarHorario(_horarioAtual, _precoAtual, model.dados['uid']);
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HomeTela()));
-            },
+            onTap: () {},
             child: Card(
               color: Colors.deepOrange[300],
               child: Row(
@@ -90,7 +87,19 @@ class _MarcarTileState extends State<MarcarTile> {
                                 hint: Text("Horário"),
                               );
                             }
-                          })
+                          }),
+                      IconButton(
+                        onPressed: () {
+                          adicionarHorario(
+                              _horarioAtual, _precoAtual, model.dados['uid']);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => HomeTela()));
+                        },
+                        icon: Icon(
+                          FontAwesome5Solid.check,
+                          color: Colors.green,
+                        ),
+                      )
                     ],
                   ),
                   Align(
@@ -134,7 +143,7 @@ class _MarcarTileState extends State<MarcarTile> {
       HorarioDados horario = HorarioDados.fromDocument(doc);
       var tiles = DropdownMenuItem(
         child: Text(
-          "${horario.horario}",
+          "${horario.data} - ${horario.horario}",
         ),
         value: horario.id,
       );
@@ -156,6 +165,4 @@ class _MarcarTileState extends State<MarcarTile> {
       "cliente": usuario_id,
     });
   }
-
-  Future<String> getImagem(String id) {}
 }

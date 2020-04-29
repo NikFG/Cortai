@@ -7,33 +7,45 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class ConfirmarTile extends StatelessWidget {
+class ConfirmarTile extends StatefulWidget {
   final DocumentSnapshot snapshot;
 
   const ConfirmarTile(this.snapshot);
+
+  @override
+  _ConfirmarTileState createState() => _ConfirmarTileState();
+}
+
+class _ConfirmarTileState extends State<ConfirmarTile> {
+  Icon currentIcon = Icon(
+    Icons.radio_button_unchecked,
+    color: Colors.black,
+  );
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return ListTile(
-          leading: Icon(
-            Icons.error,
-            color: Colors.yellow,
-          ),
-          title: Text(_TimestampToString(snapshot.data['horario'])),
+          leading: currentIcon,
+          title: Text(_timestampToString(widget.snapshot.data['horario'])),
           subtitle: Text(
             "Confirmar",
             style: TextStyle(color: Theme.of(context).primaryColor),
             textAlign: TextAlign.start,
           ),
           trailing: Icon(FontAwesome.chevron_right),
+          onLongPress: (){
+            setState(() {
+              currentIcon = Icon(Icons.radio_button_checked);
+            });
+          },
           onTap: () async {
             await Firestore.instance
                 .collection("usuarios")
                 .document(model.dados['uid'])
                 .collection("horarios")
-                .document(snapshot.documentID)
+                .document(widget.snapshot.documentID)
                 .updateData({
               "confirmado": true,
             });
@@ -48,7 +60,7 @@ class ConfirmarTile extends StatelessWidget {
     );
   }
 
-  String _TimestampToString(Timestamp timestamp) {
+  String _timestampToString(Timestamp timestamp) {
     var formatter = new DateFormat('dd/MM/yyyy, H:mm');
     String formatted = formatter
         .format(DateTime.parse(timestamp.toDate().toLocal().toString()));

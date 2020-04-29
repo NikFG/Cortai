@@ -36,6 +36,8 @@ export const notificaConfirmado = functions.firestore
         .doc(usuario_id)
         .get()
       const nome = queryCabelereiro.get('nome')
+      // let horario = querySnapshot.get('horario');
+      //horario = Date.parse(horario);
 
 
       const payload: admin.messaging.MessagingPayload = {

@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Tabs/home_tab.dart';
+import 'package:agendacabelo/Telas/gerenciar_salao_tela.dart';
 import 'package:agendacabelo/Telas/criar_horario_tela.dart';
 import 'package:agendacabelo/Telas/salao_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
@@ -59,10 +60,10 @@ class HomeTela extends StatelessWidget {
         ),
         Scaffold(
           drawer: DrawerCustom(_pageController),
-          body: SalaoTela(),
+          body: CreateSalaoTela(),
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
-            title: Text("Salão"),
+            title: Text("Gerenciar salão"),
             centerTitle: true,
           ),
         ),

@@ -2,12 +2,10 @@ import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
-
-import '../Util/util.dart';
 
 class CriarHorarioTela extends StatefulWidget {
   @override
@@ -17,9 +15,14 @@ class CriarHorarioTela extends StatefulWidget {
 class _CriarHorarioTelaState extends State<CriarHorarioTela> {
   final _formKey = GlobalKey<FormState>();
   DateTime selectedDate = DateTime.now();
-  TextEditingController _dateTime = TextEditingController();
-  DateFormat format = DateFormat('E, dd/MM/yyyy H:m', 'pt_BR');
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
+  TextEditingController _timeController2 = TextEditingController();
+  TextEditingController _intevaloController = TextEditingController();
+  DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
+
   TimeOfDay selectedTime = TimeOfDay.now();
+  TimeOfDay selectedTime2 = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +36,11 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
               padding: EdgeInsets.all(16),
               children: <Widget>[
                 GestureDetector(
-                  onTap: () => _selectDateTime(context),
+                  onTap: () => _selectDate(context),
                   child: AbsorbPointer(
                     child: TextFormField(
-                      controller: _dateTime,
-                      keyboardType: TextInputType.datetime,
+                      controller: _dateController,
+                      //  keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
                         hintText: 'Data agendamento',
                         prefixIcon: Icon(
@@ -54,31 +57,87 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
                   ),
                 ),
                 SizedBox(height: 25),
-                SizedBox(
-                    height: 44,
-                    child: RaisedButton(
-                      child: Text(
-                        "Cadastrar",
-                        style: TextStyle(fontSize: 18),
+                GestureDetector(
+                  onTap: () => _selectTime(context),
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: _timeController,
+                      //  keyboardType: TextInputType.datetime,
+                      decoration: InputDecoration(
+                        hintText: 'Horário inicial agendamento',
+                        prefixIcon: Icon(
+                          Icons.access_time,
+                        ),
                       ),
-                      textColor: Colors.white,
-                      color: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          HorarioDados dados = HorarioDados();
-                          dados.horario = _dateTime.text;
-                          dados.ocupado = false;
-                          dados.confirmado = false;
-                          Firestore.instance
-                              .collection("usuarios")
-                              .document(model.dados['uid'])
-                              .collection('horarios')
-                              .add(dados.toMap());
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HomeTela()));
+                      // ignore: missing_return
+                      validator: (text) {
+                        if (text.isEmpty || text == null) {
+                          return "INFORME OS DADOS";
                         }
                       },
-                    ))
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25),
+                GestureDetector(
+                  onTap: () => _selectTime2(context),
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: _timeController2,
+                      //  keyboardType: TextInputType.datetime,
+                      decoration: InputDecoration(
+                        hintText: 'Horário inicial agendamento',
+                        prefixIcon: Icon(
+                          Icons.access_time,
+                        ),
+                      ),
+                      // ignore: missing_return
+                      validator: (text) {
+                        if (text.isEmpty || text == null) {
+                          return "INFORME OS DADOS";
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25),
+                TextFormField(
+                  keyboardType: TextInputType.numberWithOptions(),
+                  controller: _intevaloController,
+                  decoration: InputDecoration(
+                    hintText: 'Intervalo',
+                  ),
+                  // ignore: missing_return
+                  validator: (value) {
+                    if (int.parse(value) <= 0 && int.parse(value) >= 60) {
+                      return "O intervalo deve ser entre 1 e 60";
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 44,
+                  child: RaisedButton(
+                    child: Text(
+                      "Cadastrar",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    textColor: Colors.white,
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        _calculaHorario(
+                            int.parse(_timeController.text.substring(0, 2)),
+                            int.parse(_timeController2.text.substring(0, 2)),
+                            int.parse(_intevaloController.text),
+                            model.dados['uid']);
+
+//                           _adicionaHorario(model.dados['uid'], 30);
+//                           Navigator.of(context).push(MaterialPageRoute(
+//                               builder: (context) => HomeTela()));
+                      }
+                    },
+                  ),
+                )
               ],
             ),
           );
@@ -87,36 +146,83 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
     );
   }
 
-  void _selectDateTime(BuildContext context) async {
-    await _selectDate(context);
-    await _selectTime(context);
-  }
-
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
+        selectableDayPredicate: (DateTime val) =>
+            val.weekday == 5 || val.weekday == 6 ? false : true,
         initialDate: DateTime.now(),
-        firstDate: DateTime(
-          DateTime.now().year,
-          DateTime.now().month,
-        ),
+        firstDate: DateTime.now().subtract(Duration(days: 1)),
         lastDate: DateTime(2100),
         locale: Locale('pt'));
     if (picked != null)
       setState(() {
         selectedDate = picked;
-        _dateTime.value = TextEditingValue(text: picked.toString());
+        _dateController.value =
+            TextEditingValue(text: dateFormat.format(selectedDate));
       });
   }
 
-  Future<void> _selectTime(BuildContext context) async {
+  Future<Null> _selectTime(BuildContext context) async {
     final TimeOfDay picked =
         await showTimePicker(context: context, initialTime: selectedTime);
     if (picked != null)
       setState(() {
         selectedTime = picked;
-        selectedDate = Util.DateTimeofDayToDateTime(selectedDate, selectedTime);
-        _dateTime.value = TextEditingValue(text: format.format(selectedDate));
+        _timeController.value =
+            TextEditingValue(text: selectedTime.format(context));
       });
+  }
+
+  Future<Null> _selectTime2(BuildContext context) async {
+    final TimeOfDay picked =
+        await showTimePicker(context: context, initialTime: selectedTime2);
+    if (picked != null)
+      setState(() {
+        selectedTime2 = picked;
+        _timeController2.value =
+            TextEditingValue(text: selectedTime2.format(context));
+      });
+  }
+
+  void _adicionaHorario(String uid, String hora, List minutos) {
+    print(minutos);
+    for (int i = 0; i < minutos.length; i++) {
+      HorarioDados dados = HorarioDados();
+      dados.horario = "$hora:${minutos[i]}";
+      dados.data = _dateController.text;
+      dados.ocupado = false;
+      dados.confirmado = false;
+      print(dados.toMap());
+      Firestore.instance
+          .collection("usuarios")
+          .document(uid)
+          .collection('horarios')
+          .add(dados.toMap());
+    }
+  }
+
+  _calculaHorario(int horaInicial, int horaFinal, int intervalo, String uid) {
+    Map<int, List> mapHorarios = Map();
+    int min = 0;
+    for (int i = horaInicial; i < horaFinal; i++) {
+      if (min + intervalo >= 60) {
+        min = min + intervalo - 60;
+      }
+      List minutos = [];
+      for (int j = min; j < 60; j += intervalo) {
+        if (j == 0) {
+          minutos.add("00");
+        } else {
+          minutos.add(j.toString());
+        }
+        min = j;
+      }
+      mapHorarios[i] = minutos;
+    }
+    for (int i = 0; i < horaFinal - horaInicial; i++) {
+      _adicionaHorario(
+          uid, mapHorarios.keys.toList()[i].toString(), mapHorarios.values.toList()[i]);
+    }
   }
 }

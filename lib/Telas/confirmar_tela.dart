@@ -23,7 +23,6 @@ class ConfirmarTela extends StatelessWidget {
                     .where('ocupado', isEqualTo: true)
                     .getDocuments(),
                 builder: (context, snapshot) {
-
                   if (!snapshot.hasData) {
                     return Center(
                       child: CircularProgressIndicator(),

@@ -5,6 +5,7 @@ import '../Util/util.dart';
 class HorarioDados {
   String id;
   String horario;
+  String data;
   bool ocupado;
   bool confirmado;
 
@@ -12,13 +13,15 @@ class HorarioDados {
 
   HorarioDados.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
-    horario = Util.TimestampToString(snapshot.data["horario"]);
+    horario = snapshot.data['horario'];
+    data = snapshot.data['data'];
     ocupado = snapshot.data["ocupado"];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "horario": Util.StringToTimestamp(horario),
+      "horario": horario,
+      "data": data,
       "ocupado": ocupado,
       "confirmado": confirmado,
     };

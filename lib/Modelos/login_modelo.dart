@@ -23,9 +23,7 @@ class LoginModelo extends Model {
   //Criar conta com email e senha
   void signUp(
       {@required Map<String, dynamic> usuarioData,
-      @required String senha,
-      @required VoidCallback sucesso,
-      @required VoidCallback erro}) {
+      @required String senha}) {
     isCarregando = true;
     notifyListeners();
     _auth
@@ -35,12 +33,10 @@ class LoginModelo extends Model {
       dados = usuarioData;
       await _getUID();
       await _salvarDadosUsuarioGoogle();
-      sucesso();
       isCarregando = false;
       notifyListeners();
     }).catchError((e) async {
       print(e);
-      erro();
       isCarregando = false;
       notifyListeners();
     });
