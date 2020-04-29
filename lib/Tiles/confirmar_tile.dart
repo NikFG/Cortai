@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ConfirmarTile extends StatefulWidget {
@@ -28,7 +27,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
       builder: (context, child, model) {
         return ListTile(
           leading: currentIcon,
-          title: Text(_timestampToString(widget.snapshot.data['horario'])),
+          title: Text("${widget.snapshot.data['data']} - ${widget.snapshot.data['horario']}"),
           subtitle: Text(
             "Confirmar",
             style: TextStyle(color: Theme.of(context).primaryColor),
@@ -60,10 +59,5 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
     );
   }
 
-  String _timestampToString(Timestamp timestamp) {
-    var formatter = new DateFormat('dd/MM/yyyy, H:mm');
-    String formatted = formatter
-        .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
-    return formatted;
-  }
+
 }

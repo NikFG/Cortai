@@ -21,6 +21,8 @@ export const notificaConfirmado = functions.firestore
         .collection('horarios')
         .doc(horario_id)
         .get();
+      const horario = querySnapshot.get('horario')
+      const data = querySnapshot.get('data')
 
       //GetClientes
       const cliente = querySnapshot.get('cliente')
@@ -36,14 +38,13 @@ export const notificaConfirmado = functions.firestore
         .doc(usuario_id)
         .get()
       const nome = queryCabelereiro.get('nome')
-      // let horario = querySnapshot.get('horario');
-      //horario = Date.parse(horario);
+
 
 
       const payload: admin.messaging.MessagingPayload = {
         notification: {
           title: `Seu agendamento foi confirmado!!!! `,
-          body: `${nome} confirmou seu agendamento`,
+          body: `${nome} confirmou seu agendamento no dia ${data} às ${horario}`,
           click_action: 'FLUTTER_NOTIFICATION_CLICK'
         }
       };

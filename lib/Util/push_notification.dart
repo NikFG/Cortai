@@ -10,7 +10,7 @@ class PushNotification {
 
   bool iniciado = false;
 
-  Future<String> servico(String usuario_id, BuildContext context) async {
+  Future<Null> servico(String usuarioId, BuildContext context) async {
     _fcm.autoInitEnabled();
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -39,7 +39,7 @@ class PushNotification {
     await _fcm.getToken().then((String token) {
       Firestore.instance
           .collection('usuarios')
-          .document(usuario_id)
+          .document(usuarioId)
           .updateData({'token': token});
       iniciado = true;
     });

@@ -6,7 +6,7 @@ class PrecoDados {
   double valor;
   String imagemUrl;
 
-  double setValor(String valor){
+  void setValor(String valor){
     valor = valor.replaceAll("R\$", "");
     valor = valor.replaceAll(".", "");
     valor = valor.replaceAll(",", ".");

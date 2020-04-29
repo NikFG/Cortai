@@ -73,7 +73,7 @@ class LoginModelo extends Model {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    AuthResult result = await _auth.signInWithCredential(credential);
+    await _auth.signInWithCredential(credential);
     await _getUID();
     await _salvarDadosUsuarioGoogle();
     isCarregando = false;
@@ -111,12 +111,13 @@ class LoginModelo extends Model {
 
   //Carregar os dados do firebase caso o usuário esteja logando no sistema,
   // ou então necessite dos dados para atulizar alguma informaçã
+  // ignore: missing_return
   Future<bool> _carregarUsuario() async {
+    bool result;
     if (firebaseUser == null) {
       firebaseUser = await _auth.currentUser();
     }
     if (firebaseUser != null) {
-      bool result;
       if (this.dados["nome"] == null) {
         DocumentSnapshot doc = await Firestore.instance
             .collection("usuarios")

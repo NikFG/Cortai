@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../Util/util.dart';
 
 class HorarioDados {
   String id;
@@ -27,10 +26,10 @@ class HorarioDados {
     };
   }
 
-  Future disponibilidadeFuture(String cabelereiro_id) {
+  Future disponibilidadeFuture(String cabelereiroId) {
     return Firestore.instance
         .collection("usuarios")
-        .document(cabelereiro_id)
+        .document(cabelereiroId)
         .collection("disponibilidade")
         .getDocuments();
   }

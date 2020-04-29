@@ -5,7 +5,6 @@ import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:image_picker/image_picker.dart';

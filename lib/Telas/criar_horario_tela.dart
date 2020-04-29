@@ -1,7 +1,5 @@
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Telas/home_tela.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -129,11 +127,13 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
                             int.parse(_timeController.text.substring(0, 2)),
                             int.parse(_timeController2.text.substring(0, 2)),
                             int.parse(_intevaloController.text),
-                            model.dados['uid']);
+                            model.dados['uid'],
+                            int.parse(_timeController.text.substring(3, 5)),
+                            int.parse(_timeController2.text.substring(3, 5)));
 
 //                           _adicionaHorario(model.dados['uid'], 30);
-//                           Navigator.of(context).push(MaterialPageRoute(
-//                               builder: (context) => HomeTela()));
+//                        Navigator.of(context).push(MaterialPageRoute(
+//                            builder: (context) => HomeTela()));
                       }
                     },
                   ),
@@ -194,35 +194,40 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
       dados.ocupado = false;
       dados.confirmado = false;
       print(dados.toMap());
-      Firestore.instance
-          .collection("usuarios")
-          .document(uid)
-          .collection('horarios')
-          .add(dados.toMap());
+//      Firestore.instance
+//          .collection("usuarios")
+//          .document(uid)
+//          .collection('horarios')
+//          .add(dados.toMap());
     }
   }
 
-  _calculaHorario(int horaInicial, int horaFinal, int intervalo, String uid) {
+  _calculaHorario(int horaInicial, int horaFinal, int intervalo, String uid,
+      int minInicial, int minFinal) {
     Map<int, List> mapHorarios = Map();
-    int min = 0;
-    for (int i = horaInicial; i < horaFinal; i++) {
-      if (min + intervalo >= 60) {
-        min = min + intervalo - 60;
+
+    for (int i = horaInicial; i <= horaFinal; i++) {
+      if (minFinal == 0 && i == horaFinal) {
+        break;
       }
       List minutos = [];
-      for (int j = min; j < 60; j += intervalo) {
+      for (int j = minInicial; j < 60; j += intervalo) {
         if (j == 0) {
           minutos.add("00");
         } else {
           minutos.add(j.toString());
         }
-        min = j;
+        minInicial = j;
       }
       mapHorarios[i] = minutos;
+      if (minInicial + intervalo >= 60) {
+        minInicial = minInicial + intervalo - 60;
+      }
     }
+
     for (int i = 0; i < horaFinal - horaInicial; i++) {
-      _adicionaHorario(
-          uid, mapHorarios.keys.toList()[i].toString(), mapHorarios.values.toList()[i]);
+      _adicionaHorario(uid, mapHorarios.keys.toList()[i].toString(),
+          mapHorarios.values.toList()[i]);
     }
   }
 }
