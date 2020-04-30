@@ -29,29 +29,32 @@ class _LoginTelaState extends State<LoginTela> {
         } else
           return Scaffold(
               key: _scaffoldKey,
-              body: Form(
-                key: _formKey,
-                child: Stack(
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      //  height: MediaQuery.of(context).size.height / 2.5,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              colors: [
-                                Theme.of(context).primaryColor,
-                                Theme.of(context).accentColor
-                              ]),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.elliptical(110, 45),
-                              bottomRight: Radius.elliptical(110, 45))),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      ),
+              body: Stack(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 2.5,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            colors: [
+                              Theme.of(context).primaryColor,
+                              Theme.of(context).accentColor
+                            ]),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.elliptical(250, 100),
+                            bottomRight: Radius.elliptical(250, 100))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                     ),
-                    Positioned(
+                  ),
+                  Column(
+                   mainAxisAlignment: MainAxisAlignment.center,
+
+                  ),
+                  Stack(
+                    children: <Widget>[
+                       Positioned(
                       top: MediaQuery.of(context).size.height / 5,
                       left: MediaQuery.of(context).size.width / 9,
                       child: Container(
@@ -213,8 +216,9 @@ class _LoginTelaState extends State<LoginTela> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ));
       },
     );
