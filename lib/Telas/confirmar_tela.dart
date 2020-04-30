@@ -28,6 +28,11 @@ class ConfirmarTela extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     );
                   } else {
+                    if (snapshot.data.documents.length == 0) {
+                      return Center(
+                        child: Text("Não há agendamentos para confirmar"),
+                      );
+                    }
                     var dividedTiles = ListTile.divideTiles(
                             tiles: snapshot.data.documents.map((doc) {
                               return ConfirmarTile(doc);
