@@ -88,7 +88,8 @@ class _MarcarTileState extends State<MarcarTile> {
                               );
                             }
                           }),
-                      IconButton(
+
+                         IconButton(
                         onPressed: () {
                           adicionarHorario(
                               _horarioAtual, _precoAtual, model.dados['uid']);
@@ -100,6 +101,7 @@ class _MarcarTileState extends State<MarcarTile> {
                           color: Colors.green,
                         ),
                       )
+
                     ],
                   ),
                   Align(

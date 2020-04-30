@@ -69,6 +69,7 @@ export const notificaQuantidadeConfirmados = functions.firestore
         .doc(usuario_id)
         .collection('horarios')
         .where('confirmado', '==', false)
+        .where('ocupado', '==', true)
         .get();
 
       const cont = querySnapshot.docs.length; // quantidade a ser confirmada
