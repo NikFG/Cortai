@@ -49,173 +49,173 @@ class _LoginTelaState extends State<LoginTela> {
                     ),
                   ),
                   Column(
-                   mainAxisAlignment: MainAxisAlignment.center,
-
+                    mainAxisAlignment: MainAxisAlignment.center,
                   ),
                   Stack(
                     children: <Widget>[
-                       Positioned(
-                      top: MediaQuery.of(context).size.height / 5,
-                      left: MediaQuery.of(context).size.width / 9,
-                      child: Container(
-                        width: 300,
-                        height: 351,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Colors.black26, blurRadius: 20)
-                          ],
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        padding: EdgeInsets.only(top: 32),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: 250,
-                              child: TextFormField(
-                                controller: _emailControlador,
-                                decoration: InputDecoration(hintText: 'Email'),
-                                // ignore: missing_return
-                                validator: (text) {
-                                  if (text.isEmpty || !text.contains("@")) {
-                                    return "Email inválido";
-                                  }
-                                },
-                              ),
-                            ),
-                            Container(
-                              width: 250,
-                              child: TextFormField(
-                                controller: _senhaControlador,
-                                decoration: InputDecoration(hintText: 'Senha'),
-                                // ignore: missing_return
-                                validator: (text) {
-                                  if (text.isEmpty || text.length < 6) {
-                                    return "Senha inválida";
-                                  }
-                                },
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: FlatButton(
-                                onPressed: () {
-                                  if (_emailControlador.text.isEmpty) {
-                                    _scaffoldKey.currentState
-                                        .showSnackBar(SnackBar(
-                                      content: Text("INSIRA UM EMAIL"),
-                                      backgroundColor: Colors.redAccent,
-                                      duration: Duration(seconds: 2),
-                                    ));
-                                  } else {
-                                    model
-                                        .recuperarSenha(_emailControlador.text);
-                                    _scaffoldKey.currentState
-                                        .showSnackBar(SnackBar(
-                                      content:
-                                          Text("Confira seu email!!!!!!!!!!"),
-                                      backgroundColor:
-                                          Theme.of(context).primaryColor,
-                                      duration: Duration(seconds: 5),
-                                    ));
-                                  }
-                                },
-                                child: Text(
-                                  "Esqueci minha senha",
-                                  textAlign: TextAlign.left,
+                      Positioned(
+                        top: MediaQuery.of(context).size.height / 5,
+                        left: MediaQuery.of(context).size.width / 9,
+                        child: Container(
+                          width: 300,
+                          height: 351,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black26, blurRadius: 20)
+                            ],
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          padding: EdgeInsets.only(top: 32),
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                width: 250,
+                                child: TextFormField(
+                                  controller: _emailControlador,
+                                  decoration:
+                                      InputDecoration(hintText: 'Email'),
+                                  // ignore: missing_return
+                                  validator: (text) {
+                                    if (text.isEmpty || !text.contains("@")) {
+                                      return "Email inválido";
+                                    }
+                                  },
                                 ),
-                                padding: EdgeInsets.only(right: 10),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              alignment: Alignment.topCenter,
-                              width: 200,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.orange[900]),
-                              child: Align(
-                                alignment: Alignment.center,
+                              Container(
+                                width: 250,
+                                child: TextFormField(
+                                  controller: _senhaControlador,
+                                  decoration:
+                                      InputDecoration(hintText: 'Senha'),
+                                  // ignore: missing_return
+                                  validator: (text) {
+                                    if (text.isEmpty || text.length < 6) {
+                                      return "Senha inválida";
+                                    }
+                                  },
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
                                 child: FlatButton(
                                   onPressed: () {
-                                    if (_formKey.currentState.validate()) {
-                                      model.emailSignIn(
-                                          email: _emailControlador.text,
-                                          senha: _senhaControlador.text);
+                                    if (_emailControlador.text.isEmpty) {
+                                      _scaffoldKey.currentState
+                                          .showSnackBar(SnackBar(
+                                        content: Text("INSIRA UM EMAIL"),
+                                        backgroundColor: Colors.redAccent,
+                                        duration: Duration(seconds: 2),
+                                      ));
+                                    } else {
+                                      model.recuperarSenha(
+                                          _emailControlador.text);
+                                      _scaffoldKey.currentState
+                                          .showSnackBar(SnackBar(
+                                        content:
+                                            Text("Confira seu email!!!!!!!!!!"),
+                                        backgroundColor:
+                                            Theme.of(context).primaryColor,
+                                        duration: Duration(seconds: 5),
+                                      ));
                                     }
                                   },
                                   child: Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                                    "Esqueci minha senha",
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  padding: EdgeInsets.only(right: 10),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                alignment: Alignment.topCenter,
+                                width: 200,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: Colors.orange[900]),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState.validate()) {
+                                        model.emailSignIn(
+                                            email: _emailControlador.text,
+                                            senha: _senhaControlador.text);
+                                      }
+                                    },
+                                    child: Text(
+                                      'Login',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.grey),
-                              child: Center(
-                                child: Text(
-                                  'OU',
-                                  style: TextStyle(color: Colors.white),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: Colors.grey),
+                                child: Center(
+                                  child: Text(
+                                    'OU',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            GoogleSignInButton(
-                              darkMode: false,
-                              text: "Entre com o Google",
-                              onPressed: () {
-                                model.googleSignIn();
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => HomeTela()));
-                              },
-                              borderRadius: 50,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                        top: MediaQuery.of(context).size.height / 1.25,
-                        left: MediaQuery.of(context).size.width / 15,
-                        child: Container(
-
-                          child: Center(
-                            child: Text(
-                              'Não tem cadastro ? Cadastre-se',
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.white),
-                            ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              GoogleSignInButton(
+                                darkMode: false,
+                                text: "Entre com o Google",
+                                onPressed: () {
+                                  model.googleSignIn();
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => HomeTela()));
+                                },
+                                borderRadius: 50,
+                              ),
+                            ],
                           ),
-                        )),
-                    Positioned(
-                      top: MediaQuery.of(context).size.height / 8,
-                      left: MediaQuery.of(context).size.width / 2.9,
-                      child: Text(
-                        'Agenda Hair',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 22,
                         ),
                       ),
-                    ),
+                      Positioned(
+                          top: MediaQuery.of(context).size.height / 1.25,
+                          left: MediaQuery.of(context).size.width / 15,
+                          child: Container(
+                            child: Center(
+                              child: Text(
+                                'Não tem cadastro ? Cadastre-se',
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.grey[400]),
+                              ),
+                            ),
+                          )),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height / 8,
+                        left: MediaQuery.of(context).size.width / 2.9,
+                        child: Text(
+                          'Agenda Hair',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
