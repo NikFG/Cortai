@@ -61,6 +61,7 @@ class _MarcarTileState extends State<MarcarTile> {
                                 isExpanded: false,
                                 value: _precoAtual,
                                 hint: Text("Serviço"),
+
                               );
                             }
                           }),
@@ -85,11 +86,12 @@ class _MarcarTileState extends State<MarcarTile> {
                                 isExpanded: false,
                                 value: _horarioAtual,
                                 hint: Text("Horário"),
+                                isDense: true,
                               );
                             }
                           }),
+                      IconButton(
 
-                         IconButton(
                         onPressed: () {
                           adicionarHorario(
                               _horarioAtual, _precoAtual, model.dados['uid']);
@@ -101,7 +103,6 @@ class _MarcarTileState extends State<MarcarTile> {
                           color: Colors.green,
                         ),
                       )
-
                     ],
                   ),
                   Align(
@@ -161,7 +162,7 @@ class _MarcarTileState extends State<MarcarTile> {
         .collection("horarios")
         .document(horario_id)
         .updateData({
-      "preco_id": preco_id,
+      "preco": preco_id,
       "ocupado": true,
       "confirmado": false,
       "cliente": usuario_id,
