@@ -16,11 +16,10 @@ class ConfirmarTela extends StatelessWidget {
           return Material(
             child: FutureBuilder<QuerySnapshot>(
                 future: Firestore.instance
-                    .collection("usuarios")
-                    .document(model.dados['uid'])
                     .collection("horarios")
                     .where('confirmado', isEqualTo: false)
                     .where('ocupado', isEqualTo: true)
+                    .where('cabelereiro', isEqualTo: model.dados['uid'])
                     .getDocuments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {

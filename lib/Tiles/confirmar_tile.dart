@@ -1,5 +1,4 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 
@@ -36,7 +35,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
           secondaryBackground: Container(
             color: Colors.red,
             child: Align(
-                alignment: Alignment(0.9, -0),
+                alignment: Alignment(0.9, 0),
                 child: Icon(
                   Icons.cancel,
                   color: Colors.white,
@@ -44,16 +43,8 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
           ),
           onDismissed: (direction) async {
             switch (direction) {
-              case DismissDirection.vertical:
-                // TODO: Handle this case.
-                break;
-              case DismissDirection.horizontal:
-                // TODO: Handle this case.
-                break;
               case DismissDirection.endToStart:
                 await Firestore.instance
-                    .collection("usuarios")
-                    .document(model.dados['uid'])
                     .collection("horarios")
                     .document(widget.snapshot.documentID)
                     .updateData({
@@ -61,15 +52,14 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
                   "cliente": FieldValue.delete(),
                   "preco": FieldValue.delete(),
                 });
+
                 FlushbarHelper.createError(
                         message: "Horário cancelado com sucesso",
-                        duration: Duration(milliseconds: 1500))
+                        duration: Duration(seconds: 2))
                     .show(context);
                 break;
               case DismissDirection.startToEnd:
                 await Firestore.instance
-                    .collection("usuarios")
-                    .document(model.dados['uid'])
                     .collection("horarios")
                     .document(widget.snapshot.documentID)
                     .updateData({
@@ -77,14 +67,13 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
                 });
                 FlushbarHelper.createSuccess(
                         message: "Horário confirmado com sucesso",
-                        duration: Duration(milliseconds: 1500))
+                        duration: Duration(seconds: 2))
                     .show(context);
                 break;
+              case DismissDirection.vertical:
+              case DismissDirection.horizontal:
               case DismissDirection.up:
-                // TODO: Handle this case.
-                break;
               case DismissDirection.down:
-                // TODO: Handle this case.
                 break;
             }
           },
@@ -97,19 +86,6 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
               textAlign: TextAlign.start,
             ),
             trailing: Icon(FontAwesome.chevron_right),
-            /* onTap: () async {
-              await Firestore.instance
-                  .collection("usuarios")
-                  .document(model.dados['uid'])
-                  .collection("horarios")
-                  .document(widget.snapshot.documentID)
-                  .updateData({
-                "confirmado": true,
-              });
-              FlushbarHelper.createSuccess(
-                  message: "Horário confirmado com sucesso",
-                  duration: Duration(milliseconds: 1500));
-            },*/
           ),
         );
       },

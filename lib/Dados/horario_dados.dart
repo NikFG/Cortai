@@ -7,6 +7,8 @@ class HorarioDados {
   String data;
   bool ocupado;
   bool confirmado;
+  String cabelereiro;
+  String cliente;
 
   HorarioDados();
 
@@ -15,6 +17,9 @@ class HorarioDados {
     horario = snapshot.data['horario'];
     data = snapshot.data['data'];
     ocupado = snapshot.data["ocupado"];
+    cabelereiro = snapshot.data['cabelereiro'];
+    cliente = snapshot.data['cliente'];
+    confirmado = snapshot.data['confirmado'];
   }
 
   Map<String, dynamic> toMap() {
@@ -23,6 +28,7 @@ class HorarioDados {
       "data": data,
       "ocupado": ocupado,
       "confirmado": confirmado,
+      "cabelereiro": cabelereiro,
     };
   }
 
@@ -33,4 +39,5 @@ class HorarioDados {
         .collection("disponibilidade")
         .getDocuments();
   }
+
 }

@@ -4,7 +4,9 @@ import 'package:agendacabelo/Telas/criar_horario_tela.dart';
 import 'package:agendacabelo/Telas/salao_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'marcado_tela.dart';
 import 'servico_tela.dart';
 import 'confirmar_tela.dart';
 
@@ -16,8 +18,7 @@ class HomeTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _pageController = PageController(initialPage: 0);
-    PushNotification push = PushNotification();
-    if (usuario_id != null) push.servico(usuario_id, context);
+    if (usuario_id != null) PushNotification.servico(usuario_id, context);
     return PageView(
       physics: NeverScrollableScrollPhysics(),
       controller: _pageController,
@@ -42,11 +43,48 @@ class HomeTela extends StatelessWidget {
         ),
         Scaffold(
           drawer: DrawerCustom(_pageController),
+          body: MarcadoTela(),
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text("Horários marcados"),
+            centerTitle: true,
+          ),
+        ),
+        Scaffold(
+          drawer: DrawerCustom(_pageController),
           body: ConfirmarTela(),
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Confirmar horários"),
             centerTitle: true,
+            actions: <Widget>[
+              PopupMenuButton(
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 1,
+                    child: FlatButton(
+                      onPressed: () async {
+                        var snapshots = await Firestore.instance
+                            .collection('usuarios')
+                            .document(this.usuario_id)
+                            .collection('horarios')
+                            .getDocuments();
+
+                        for (int i = 0; i < snapshots.documents.length; i++) {}
+                      },
+                      child: Text("Confirmar todos"),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 2,
+                    child: FlatButton(
+                      onPressed: () {},
+                      child: Text("Cancelar todos"),
+                    ),
+                  )
+                ],
+              )
+            ],
           ),
         ),
         Scaffold(

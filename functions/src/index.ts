@@ -7,17 +7,14 @@ const fcm = admin.messaging();
 
 
 export const notificaConfirmado = functions.firestore
-  .document('usuarios/{usuarioId}/horarios/{horarioID}')
+  .document('horarios/{horarioID}')
   .onUpdate(async (change, context) => {
     if (change.before.get('confirmado') != change.after.get('confirmado')) {
-      const usuario_id = context.params.usuarioId
       const horario_id = context.params.horarioID
 
 
       //Get horario
       const querySnapshot = await db
-        .collection('usuarios')
-        .doc(usuario_id)
         .collection('horarios')
         .doc(horario_id)
         .get();
@@ -33,6 +30,7 @@ export const notificaConfirmado = functions.firestore
       const token = queryCliente.get('token')
 
       //GetCabelereiro
+      const usuario_id = querySnapshot.get('cabelereiro')
       const queryCabelereiro = await db
         .collection('usuarios')
         .doc(usuario_id)

@@ -4,13 +4,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class PushNotification {
-  final FirebaseMessaging _fcm = FirebaseMessaging();
+
 
   PushNotification();
 
-  bool iniciado = false;
 
-  Future<Null> servico(String usuarioId, BuildContext context) async {
+
+  static Future<Null> servico(String usuarioId, BuildContext context) async {
+    final FirebaseMessaging _fcm = FirebaseMessaging();
     _fcm.autoInitEnabled();
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -41,7 +42,7 @@ class PushNotification {
           .collection('usuarios')
           .document(usuarioId)
           .updateData({'token': token});
-      iniciado = true;
+
     });
   }
 }

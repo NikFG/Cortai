@@ -93,12 +93,14 @@ class _DrawerCustomState extends State<DrawerCustom> {
               DrawerTile(Icons.home, "Início", widget.pageController, 0),
               DrawerTile(Icons.content_cut, "Marcar horário",
                   widget.pageController, 1),
+              DrawerTile(Icons.scatter_plot, "Horários marcados",
+                  widget.pageController, 2),
               ScopedModelDescendant<LoginModelo>(
                   builder: (context, child, model) {
-                if (model.isCabelereiro()){
+                if (model.isCabelereiro()) {
                   _carregaConfirmados(model.dados['uid']);
-                  return _cabelereiroTiles();}
-                else
+                  return _cabelereiroTiles();
+                } else
                   return Container(
                     width: 0,
                     height: 0,
@@ -124,19 +126,19 @@ class _DrawerCustomState extends State<DrawerCustom> {
       );
 
   Widget _cabelereiroTiles() {
-
     List<Widget> list = new List<Widget>();
     list.add(Badge(
         position: BadgePosition.topRight(top: 12, right: 55),
         badgeContent:
             Text(_numeroConfirmacoes != null ? _numeroConfirmacoes : "0"),
         child: DrawerTile(FontAwesome.calendar_times_o, "Confirmar horários",
-            widget.pageController, 2)));
+            widget.pageController, 3)));
     list.add(
-      DrawerTile(Icons.work, "Cadastrar serviço", widget.pageController, 3),
+      DrawerTile(Icons.work, "Cadastrar serviço", widget.pageController, 4),
     );
-    list.add(DrawerTile(FontAwesome.circle, "Gerenciar salão", widget.pageController, 4));
-    list.add(DrawerTile(Icons.add, "Criar horário", widget.pageController, 5));
+    list.add(DrawerTile(
+        FontAwesome.circle, "Gerenciar salão", widget.pageController, 5));
+    list.add(DrawerTile(Icons.add, "Criar horário", widget.pageController, 6));
 
     return Column(
       children: list,
@@ -145,11 +147,10 @@ class _DrawerCustomState extends State<DrawerCustom> {
 
   Future _carregaConfirmados(String uid) async {
     var querySnapshot = await Firestore.instance
-        .collection("usuarios")
-        .document(uid)
         .collection("horarios")
         .where('confirmado', isEqualTo: false)
         .where('ocupado', isEqualTo: true)
+        .where('cabelereiro', isEqualTo: uid)
         .getDocuments();
 
     var totalEquals = querySnapshot.documents.length;

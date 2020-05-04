@@ -191,12 +191,8 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
     dados.data = _dateController.text;
     dados.ocupado = false;
     dados.confirmado = false;
-//    print(dados.toMap());
-    Firestore.instance
-        .collection("usuarios")
-        .document(uid)
-        .collection('horarios')
-        .add(dados.toMap());
+    dados.cabelereiro = uid;
+    Firestore.instance.collection('horarios').add(dados.toMap());
   }
 
   List<String> _calculaHorario(

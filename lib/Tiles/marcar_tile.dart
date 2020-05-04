@@ -61,16 +61,14 @@ class _MarcarTileState extends State<MarcarTile> {
                                 isExpanded: false,
                                 value: _precoAtual,
                                 hint: Text("Serviço"),
-
                               );
                             }
                           }),
                       FutureBuilder<QuerySnapshot>(
                           future: Firestore.instance
-                              .collection("usuarios")
-                              .document(widget.dados.id)
                               .collection("horarios")
                               .where("ocupado", isEqualTo: false)
+                              .where('cabelereiro', isEqualTo: widget.dados.id)
                               .getDocuments(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
@@ -91,7 +89,6 @@ class _MarcarTileState extends State<MarcarTile> {
                             }
                           }),
                       IconButton(
-
                         onPressed: () {
                           adicionarHorario(
                               _horarioAtual, _precoAtual, model.dados['uid']);
@@ -157,8 +154,6 @@ class _MarcarTileState extends State<MarcarTile> {
   adicionarHorario(
       String horario_id, String preco_id, String usuario_id) async {
     await Firestore.instance
-        .collection("usuarios")
-        .document(widget.dados.id)
         .collection("horarios")
         .document(horario_id)
         .updateData({

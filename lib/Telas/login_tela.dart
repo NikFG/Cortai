@@ -142,11 +142,12 @@ class _LoginTelaState extends State<LoginTela> {
                                   alignment: Alignment.center,
                                   child: FlatButton(
                                     onPressed: () {
-                                      if (_formKey.currentState.validate()) {
-                                        model.emailSignIn(
-                                            email: _emailControlador.text,
-                                            senha: _senhaControlador.text);
-                                      }
+                                      print("Apertei");
+//                                      if (_formKey.currentState.validate()) {
+//                                        model.emailSignIn(
+//                                            email: _emailControlador.text,
+//                                            senha: _senhaControlador.text);
+//                                      }
                                     },
                                     child: Text(
                                       'Login',
