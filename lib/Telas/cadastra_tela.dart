@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'home_tela.dart';
-import 'cadastra_tela.dart';
-
-class LoginTela extends StatefulWidget {
+class CadastraTela extends StatefulWidget {
   @override
-  _LoginTelaState createState() => _LoginTelaState();
+  _CadastraTelaState createState() => _CadastraTelaState();
 }
 
-class _LoginTelaState extends State<LoginTela> {
-  final _formKey = GlobalKey<FormState>();
+class _CadastraTelaState extends State<CadastraTela> {
+  final _formKey = GlobalKey<FormState>(); // nao mexi mas sei que ce vai usar, ate mexi mas fiz bosta... 
   final _emailControlador = TextEditingController();
   final _senhaControlador = TextEditingController();
+  final _telefoneControlador = TextEditingController();
+  final _usuarioControlador = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -73,6 +72,15 @@ class _LoginTelaState extends State<LoginTela> {
                                 Container(
                                   width: 250,
                                   child: TextFormField(
+                                    controller: _usuarioControlador,
+                                    decoration: InputDecoration(
+                                        hintText: 'Nome de Usuário',
+                                        hintStyle: TextStyle(fontSize: 12)),
+                                  ),
+                                ),
+                                Container(
+                                  width: 250,
+                                  child: TextFormField(
                                     controller: _emailControlador,
                                     decoration:
                                         InputDecoration(hintText: 'Email',
@@ -89,8 +97,8 @@ class _LoginTelaState extends State<LoginTela> {
                                   width: 250,
                                   child: TextFormField(
                                     controller: _senhaControlador,
-                                    decoration:
-                                        InputDecoration(hintText: 'Senha',
+                                    decoration: InputDecoration(
+                                        hintText: 'Senha',
                                         hintStyle: TextStyle(fontSize: 12)),
                                     // ignore: missing_return
                                     validator: (text) {
@@ -100,42 +108,23 @@ class _LoginTelaState extends State<LoginTela> {
                                     },
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      if (_emailControlador.text.isEmpty) {
-                                        _scaffoldKey.currentState
-                                            .showSnackBar(SnackBar(
-                                          content: Text("INSIRA UM EMAIL"),
-                                          backgroundColor: Colors.redAccent,
-                                          duration: Duration(seconds: 2),
-                                        ));
-                                      } else {
-                                        model.recuperarSenha(
-                                            _emailControlador.text);
-                                        _scaffoldKey.currentState
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                              "Confira seu email!!!!!!!!!!"),
-                                          backgroundColor:
-                                              Theme.of(context).primaryColor,
-                                          duration: Duration(seconds: 5),
-                                        ));
+                                Container(
+                                  width: 250,
+                                  child: TextFormField(
+                                    controller: _telefoneControlador,
+                                    decoration: InputDecoration(
+                                        hintText: 'Telefone de contato',
+                                        hintStyle: TextStyle(fontSize: 12)),
+                                    // ignore: missing_return
+                                    validator: (text) {
+                                      if (text.isEmpty || text.length < 11) {
+                                        return "Numero invalido";
                                       }
                                     },
-                                    child: Text(
-                                      "Esqueci minha senha",
-                                      style: TextStyle(
-                                        fontSize: 12
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                    padding: EdgeInsets.only(right: 10),
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 20,
                                 ),
                                 Container(
                                   alignment: Alignment.topCenter,
@@ -147,15 +136,9 @@ class _LoginTelaState extends State<LoginTela> {
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: FlatButton(
-                                      onPressed: () {
-                                        if (_formKey.currentState.validate()) {
-                                          model.emailSignIn(
-                                              email: _emailControlador.text,
-                                              senha: _senhaControlador.text);
-                                        }
-                                      },
+                                      onPressed: () {},
                                       child: Text(
-                                        'Login',
+                                        'Cadastrar',
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
@@ -165,65 +148,15 @@ class _LoginTelaState extends State<LoginTela> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.grey),
-                                  child: Center(
-                                    child: Text(
-                                      'OU',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                GoogleSignInButton(
-                                  darkMode: false,
-                                  text: "Entre com o Google",
-                                  onPressed: () {
-                                    model.googleSignIn();
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomeTela()));
-                                  },
-                                  borderRadius: 50,
-                                ),
                               ],
                             ),
                           ),
                         ),
                         Positioned(
-                            top: MediaQuery.of(context).size.height / 1.25,
-                            left: MediaQuery.of(context).size.width / 9,
-                            child: Container(
-                              child: Center(
-                                child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) => CadastraTela()));
-                                    },
-                                    child: Text(
-                                      'Não tem cadastro ? Cadastre-se',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
-                                          fontFamily: 'Roboto'),
-                                    )),
-                              ),
-                            )),
-                        Positioned(
                           top: MediaQuery.of(context).size.height / 8,
                           left: MediaQuery.of(context).size.width / 2.9,
                           child: Text(
-                            'AGENDA HAIR',
+                            'Cadastre-se',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
