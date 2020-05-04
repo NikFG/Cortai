@@ -22,24 +22,29 @@ class LoginModelo extends Model {
 
   //Criar conta com email e senha
   void signUp(
-      {@required Map<String, dynamic> usuarioData,
-      @required String senha}) {
-    isCarregando = true;
+      {@required Map<String, dynamic> usuarioData, @required String senha}) {
     notifyListeners();
     _auth
         .createUserWithEmailAndPassword(
             email: usuarioData["email"], password: senha)
         .then((user) async {
-      dados = usuarioData;
       await _getUID();
-      await _salvarDadosUsuarioGoogle();
-      isCarregando = false;
+      usuarioData['uid'] = firebaseUser.uid;
+      this.dados = usuarioData;
+      await _salvarDadosUsuarioEmail();
       notifyListeners();
     }).catchError((e) async {
       print(e);
       isCarregando = false;
       notifyListeners();
     });
+  }
+
+  Future<Null> _salvarDadosUsuarioEmail() async {
+    await Firestore.instance
+        .collection("usuarios")
+        .document(firebaseUser.uid)
+        .setData(this.dados);
   }
 
   //Login no firebase via email/senha
@@ -110,7 +115,7 @@ class LoginModelo extends Model {
   }
 
   //Carregar os dados do firebase caso o usuário esteja logando no sistema,
-  // ou então necessite dos dados para atulizar alguma informaçã
+  // ou então necessite dos dados para atulizar alguma informação
   // ignore: missing_return
   Future<bool> _carregarUsuario() async {
     bool result;

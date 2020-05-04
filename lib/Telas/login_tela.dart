@@ -4,7 +4,7 @@ import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'home_tela.dart';
-import 'cadastra_tela.dart';
+import 'cadastro_tela.dart';
 
 class LoginTela extends StatefulWidget {
   @override
@@ -68,134 +68,145 @@ class _LoginTelaState extends State<LoginTela> {
                                   BorderRadius.all(Radius.circular(10)),
                             ),
                             padding: EdgeInsets.only(top: 32),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  width: 250,
-                                  child: TextFormField(
-                                    controller: _emailControlador,
-                                    decoration:
-                                        InputDecoration(hintText: 'Email',
-                                        hintStyle: TextStyle(fontSize: 12)),
-                                    // ignore: missing_return
-                                    validator: (text) {
-                                      if (text.isEmpty || !text.contains("@")) {
-                                        return "Email inválido";
-                                      }
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  width: 250,
-                                  child: TextFormField(
-                                    controller: _senhaControlador,
-                                    decoration:
-                                        InputDecoration(hintText: 'Senha',
-                                        hintStyle: TextStyle(fontSize: 12)),
-                                    // ignore: missing_return
-                                    validator: (text) {
-                                      if (text.isEmpty || text.length < 6) {
-                                        return "Senha inválida";
-                                      }
-                                    },
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      if (_emailControlador.text.isEmpty) {
-                                        _scaffoldKey.currentState
-                                            .showSnackBar(SnackBar(
-                                          content: Text("INSIRA UM EMAIL"),
-                                          backgroundColor: Colors.redAccent,
-                                          duration: Duration(seconds: 2),
-                                        ));
-                                      } else {
-                                        model.recuperarSenha(
-                                            _emailControlador.text);
-                                        _scaffoldKey.currentState
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                              "Confira seu email!!!!!!!!!!"),
-                                          backgroundColor:
-                                              Theme.of(context).primaryColor,
-                                          duration: Duration(seconds: 5),
-                                        ));
-                                      }
-                                    },
-                                    child: Text(
-                                      "Esqueci minha senha",
-                                      style: TextStyle(
-                                        fontSize: 12
-                                      ),
-                                      textAlign: TextAlign.left,
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    width: 250,
+                                    child: TextFormField(
+                                      controller: _emailControlador,
+                                      decoration: InputDecoration(
+                                          hintText: 'Email',
+                                          hintStyle: TextStyle(fontSize: 12)),
+                                      // ignore: missing_return
+                                      validator: (text) {
+                                        if (text.isEmpty ||
+                                            !text.contains("@")) {
+                                          return "Email inválido";
+                                        }
+                                      },
                                     ),
-                                    padding: EdgeInsets.only(right: 10),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  alignment: Alignment.topCenter,
-                                  width: 200,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.orange[900]),
-                                  child: Align(
-                                    alignment: Alignment.center,
+                                  Container(
+                                    width: 250,
+                                    child: TextFormField(
+                                      keyboardType:
+                                          TextInputType.visiblePassword,
+                                      obscureText: true,
+                                      controller: _senhaControlador,
+                                      decoration: InputDecoration(
+                                          hintText: 'Senha',
+                                          hintStyle: TextStyle(fontSize: 12)),
+                                      // ignore: missing_return
+                                      validator: (text) {
+                                        if (text.isEmpty || text.length < 6) {
+                                          return "Senha inválida";
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerRight,
                                     child: FlatButton(
                                       onPressed: () {
-                                        if (_formKey.currentState.validate()) {
-                                          model.emailSignIn(
-                                              email: _emailControlador.text,
-                                              senha: _senhaControlador.text);
+                                        if (_emailControlador.text.isEmpty) {
+                                          _scaffoldKey.currentState
+                                              .showSnackBar(SnackBar(
+                                            content: Text("INSIRA UM EMAIL"),
+                                            backgroundColor: Colors.redAccent,
+                                            duration: Duration(seconds: 2),
+                                          ));
+                                        } else {
+                                          model.recuperarSenha(
+                                              _emailControlador.text);
+                                          _scaffoldKey.currentState
+                                              .showSnackBar(SnackBar(
+                                            content: Text(
+                                                "Confira seu email!!!!!!!!!!"),
+                                            backgroundColor:
+                                                Theme.of(context).primaryColor,
+                                            duration: Duration(seconds: 5),
+                                          ));
                                         }
                                       },
                                       child: Text(
-                                        'Login',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
+                                        "Esqueci minha senha",
+                                        style: TextStyle(fontSize: 12),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      padding: EdgeInsets.only(right: 10),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topCenter,
+                                    width: 200,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: Colors.orange[900]),
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          if (_formKey.currentState
+                                              .validate()) {
+                                            model.emailSignIn(
+                                                email: _emailControlador.text,
+                                                senha: _senhaControlador.text);
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomeTela()));
+                                          }
+                                        },
+                                        child: Text(
+                                          'Login',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.grey),
-                                  child: Center(
-                                    child: Text(
-                                      'OU',
-                                      style: TextStyle(color: Colors.white),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: Colors.grey),
+                                    child: Center(
+                                      child: Text(
+                                        'OU',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                GoogleSignInButton(
-                                  darkMode: false,
-                                  text: "Entre com o Google",
-                                  onPressed: () {
-                                    model.googleSignIn();
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomeTela()));
-                                  },
-                                  borderRadius: 50,
-                                ),
-                              ],
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  GoogleSignInButton(
+                                    darkMode: false,
+                                    text: "Entre com o Google",
+                                    onPressed: () {
+                                      model.googleSignIn();
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomeTela()));
+                                    },
+                                    borderRadius: 50,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -208,7 +219,8 @@ class _LoginTelaState extends State<LoginTela> {
                                     onPressed: () {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => CadastraTela()));
+                                              builder: (context) =>
+                                                  CadastroTela()));
                                     },
                                     child: Text(
                                       'Não tem cadastro ? Cadastre-se',
