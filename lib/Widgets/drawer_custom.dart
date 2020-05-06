@@ -17,7 +17,7 @@ class DrawerCustom extends StatefulWidget {
 }
 
 class _DrawerCustomState extends State<DrawerCustom> {
-  String _numeroConfirmacoes;
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +98,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
               ScopedModelDescendant<LoginModelo>(
                   builder: (context, child, model) {
                 if (model.isCabelereiro()) {
-                  _carregaConfirmados(model.dados['uid']);
-                  return _cabelereiroTiles();
+                  return _cabelereiroTiles(model.dados['uid']);
                 } else
                   return Container(
                     width: 0,
@@ -125,14 +124,34 @@ class _DrawerCustomState extends State<DrawerCustom> {
         )),
       );
 
-  Widget _cabelereiroTiles() {
+  Widget _cabelereiroTiles(String uid) {
     List<Widget> list = new List<Widget>();
-    list.add(Badge(
-        position: BadgePosition.topRight(top: 12, right: 55),
-        badgeContent:
-            Text(_numeroConfirmacoes != null ? _numeroConfirmacoes : "0"),
-        child: DrawerTile(FontAwesome.calendar_times_o, "Confirmar horários",
-            widget.pageController, 3)));
+    list.add(StreamBuilder(
+      stream: Firestore.instance
+          .collection("horarios")
+          .where('confirmado', isEqualTo: false)
+          .where('ocupado', isEqualTo: true)
+          .where('cabelereiro', isEqualTo: uid)
+          .snapshots(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return DrawerTile(FontAwesome.calendar_times_o,
+                "Confirmar horários", widget.pageController, 3);
+          default:
+            int _numeroConfirmacoes = snapshot.data.documents.length;
+            return Badge(
+                position: BadgePosition.topRight(top: 12, right: 55),
+                badgeContent: Text(_numeroConfirmacoes != null
+                    ? _numeroConfirmacoes.toString()
+                    : "0"),
+                child: DrawerTile(FontAwesome.calendar_times_o,
+                    "Confirmar horários", widget.pageController, 3));
+            break;
+        }
+      },
+    ));
     list.add(
       DrawerTile(Icons.work, "Cadastrar serviço", widget.pageController, 4),
     );
@@ -143,19 +162,5 @@ class _DrawerCustomState extends State<DrawerCustom> {
     return Column(
       children: list,
     );
-  }
-
-  Future _carregaConfirmados(String uid) async {
-    var querySnapshot = await Firestore.instance
-        .collection("horarios")
-        .where('confirmado', isEqualTo: false)
-        .where('ocupado', isEqualTo: true)
-        .where('cabelereiro', isEqualTo: uid)
-        .getDocuments();
-
-    var totalEquals = querySnapshot.documents.length;
-    setState(() {
-      _numeroConfirmacoes = totalEquals.toString();
-    });
   }
 }

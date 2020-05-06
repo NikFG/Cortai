@@ -83,7 +83,7 @@ export const notificaQuantidadeConfirmados = functions.firestore
         notification: {
           title: `Há um novo agendamento esperando para ser confirmado`,
           body: `Confirme os ${cont} agendamentos assim que possível`,
-          click_action: 'FLUTTER_NOTIFICATION_CLICK'
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
         }
       };
 

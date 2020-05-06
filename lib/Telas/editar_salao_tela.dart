@@ -25,7 +25,7 @@ class _EditarSalaoState extends State<EditarSalao> {
     verificaSalao();
     return Scaffold(
       appBar: AppBar(
-        title: Text("Editar salão"),
+        title: dados.id != null ? Text("Editar salão") : Text("Criar salão"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop,
@@ -110,8 +110,9 @@ class _EditarSalaoState extends State<EditarSalao> {
                 color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Colors.red)),
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(color: Colors.red),
+                ),
               ),
             ),
           ],

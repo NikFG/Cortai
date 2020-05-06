@@ -32,7 +32,7 @@ class HorarioDados {
     };
   }
 
-  Future disponibilidadeFuture(String cabelereiroId) {
+  disponibilidadeFuture(String cabelereiroId) {
     return Firestore.instance
         .collection("usuarios")
         .document(cabelereiroId)

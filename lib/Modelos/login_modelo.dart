@@ -69,7 +69,6 @@ class LoginModelo extends Model {
 
   //Login no firebase via Google
   Future<Null> googleSignIn() async {
-    isCarregando = true;
     notifyListeners();
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
 
@@ -78,11 +77,14 @@ class LoginModelo extends Model {
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
-    await _auth.signInWithCredential(credential);
-    await _getUID();
-    await _salvarDadosUsuarioGoogle();
-    isCarregando = false;
-    notifyListeners();
+    await _auth.signInWithCredential(credential).then((_) async {
+      await _getUID();
+      await _salvarDadosUsuarioGoogle();
+      notifyListeners();
+    }).catchError((e) {
+      isCarregando = false;
+      notifyListeners();
+    });
   }
 
   //Dados salvos do usuário
