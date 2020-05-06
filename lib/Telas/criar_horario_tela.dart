@@ -19,6 +19,7 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
   TextEditingController _timeController = TextEditingController();
   TextEditingController _timeController2 = TextEditingController();
   TextEditingController _intevaloController = TextEditingController();
+  int _diaDaSemana;
   DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
 
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -114,6 +115,50 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
                     }
                   },
                 ),
+                SizedBox(
+                  height: 25,
+                ),
+                DropdownButton(
+                  onChanged: (value) {
+                    setState(() {
+                      _diaDaSemana = value;
+                    });
+                  },
+                  isExpanded: true,
+                  hint: Text("Dia da semana"),
+                  value: _diaDaSemana,
+                  items: <DropdownMenuItem>[
+                    DropdownMenuItem(
+                      child: Text("Domingo"),
+                      value: 0,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Segunda"),
+                      value: 1,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Terça"),
+                      value: 2,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Quarta"),
+                      value: 3,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Quinta"),
+                      value: 4,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Sexta"),
+                      value: 5,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Sábado"),
+                      value: 6,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20,),
                 SizedBox(
                   height: 44,
                   child: RaisedButton(

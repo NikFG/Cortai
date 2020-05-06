@@ -8,7 +8,10 @@ class SalaoTela extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: FutureBuilder<QuerySnapshot>(
-        future: Firestore.instance.collection('saloes').getDocuments(),
+        future: Firestore.instance
+            .collection('saloes')
+            .orderBy('nome')
+            .getDocuments(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(

@@ -54,40 +54,42 @@ export const notificaConfirmado = functions.firestore
   });
 
 export const notificaQuantidadeConfirmados = functions.firestore
-  .document('usuarios/{usuarioId}/horarios/{horarioID}')
+  .document('horarios/{horarioID}')
   .onUpdate(async (change, context) => {
     if (change.before.get('confirmado') != change.after.get('confirmado')) {
-      const usuario_id = context.params.usuarioId
-
-
-
+      const horario_id = context.params.horarioID
       //Get horarios
       const querySnapshot = await db
-        .collection('usuarios')
-        .doc(usuario_id)
         .collection('horarios')
-        .where('confirmado', '==', false)
-        .where('ocupado', '==', true)
+        .doc(horario_id)
         .get();
 
-      const cont = querySnapshot.docs.length; // quantidade a ser confirmada
-      if (cont > 4) {
-        const queryToken = await db
-          .collection('usuarios')
-          .doc(usuario_id)
-          .get()
-        const token = queryToken.get('token')
+      const usuario_id = querySnapshot.get('cabelereiro')
+      const queryToken = await db
+        .collection('usuarios')
+        .doc(usuario_id)
+        .get()
+      const token = queryToken.get('token')
 
-        const payload: admin.messaging.MessagingPayload = {
-          notification: {
-            title: `Confirme os agendamentos assim que possível `,
-            body: `Há ${cont} agendamentos esperando para serem confirmados`,
-            click_action: 'FLUTTER_NOTIFICATION_CLICK'
-          }
-        };
+      const queryCont = await db.collection('horarios')
+        .where('confirmado', '==', false)
+        .where('cabelereiro', '==', usuario_id)
+        .where('ocupado', '==', true)
+        .get()
 
-        return fcm.sendToDevice(token, payload);
-      }
+      const cont = queryCont.docs.length
+
+      const payload: admin.messaging.MessagingPayload = {
+        notification: {
+          title: `Há um novo agendamento esperando para ser confirmado`,
+          body: `Confirme os ${cont} agendamentos assim que possível`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK'
+        }
+      };
+
+      return fcm.sendToDevice(token, payload);
     }
-    return null;
+    else {
+      return null
+    }
   });
