@@ -3,6 +3,7 @@ import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class EditarSalao extends StatefulWidget {
   final String salao;
@@ -16,8 +17,9 @@ class EditarSalao extends StatefulWidget {
 
 class _EditarSalaoState extends State<EditarSalao> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _nomeController = TextEditingController();
-  TextEditingController _enderecoController = TextEditingController();
+  var _nomeController = TextEditingController();
+  var _enderecoController = TextEditingController();
+  var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
   SalaoDados dados = SalaoDados();
 
   @override
@@ -51,6 +53,12 @@ class _EditarSalaoState extends State<EditarSalao> {
                   hintText: 'Endereço completo',
                   hintStyle: TextStyle(fontSize: 12)),
             ),
+            TextFormField(
+              controller: _telefoneController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  hintText: 'Telefone', hintStyle: TextStyle(fontSize: 12)),
+            ),
             SizedBox(
               height: 20,
             ),
@@ -63,6 +71,7 @@ class _EditarSalaoState extends State<EditarSalao> {
                   if (_formKey.currentState.validate()) {
                     dados.nome = _nomeController.text;
                     dados.endereco = _enderecoController.text;
+                    dados.telefone = _telefoneController.text;
                     if (dados.id == null) {
                       await Firestore.instance
                           .collection('saloes')
@@ -131,6 +140,7 @@ class _EditarSalaoState extends State<EditarSalao> {
         dados = SalaoDados.fromDocument(doc);
         _nomeController.text = dados.nome;
         _enderecoController.text = dados.endereco;
+        _telefoneController.text = dados.telefone;
       }
     });
   }

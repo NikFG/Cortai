@@ -5,23 +5,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CabelereiroDados {
   String id;
   String nome;
-  String apelido;
-  HorarioDados horarioDados;
-  PrecoDados precoDados;
+  String salao;
+
 
   CabelereiroDados.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     nome = snapshot.data["nome"];
-    apelido = snapshot.data["apelido"];
-    horarioDados = snapshot.data["horarioDados"];
-    precoDados = snapshot.data["precoDados"];
+
+    salao = snapshot.data['salao'];
   }
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
       "nome": nome,
-      "apelido": apelido,
+      "salao": salao,
     };
   }
 

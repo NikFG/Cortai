@@ -16,6 +16,7 @@ class MarcadoTela extends StatelessWidget {
               future: Firestore.instance
                   .collection('horarios')
                   .where('cliente', isEqualTo: model.dados['uid'])
+                  .where('ocupado', isEqualTo: true)
                   .getDocuments(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -39,6 +40,4 @@ class MarcadoTela extends StatelessWidget {
       ),
     );
   }
-
-
 }

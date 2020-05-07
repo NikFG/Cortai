@@ -1,6 +1,7 @@
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/marcar_tela.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SalaoTile extends StatelessWidget {
   final SalaoDados salao;
@@ -11,8 +12,8 @@ class SalaoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => MarcarTela(this.salao.id)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => MarcarTela(this.salao.id)));
         },
         child: Card(
           color: Colors.deepOrange[300],
@@ -78,8 +79,32 @@ class SalaoTile extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             title: Text("Mais informações"),
-            content: Text(salao.endereco),
+            content: Text("${salao.endereco}"),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Cancelar"),
+              ),
+              FlatButton(
+                onPressed: () {
+                  _ligacaoTelefone("tel:" + salao.telefone);
+                },
+                child: Text("Ligar para salão"),
+              ),
+            ],
           );
         });
   }
+
+  _ligacaoTelefone(String telefone) async {
+    if (await canLaunch(telefone)) {
+      await launch(telefone);
+    } else {
+      throw 'Could not launch $telefone';
+    }
+  }
+
+
 }

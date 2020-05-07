@@ -14,13 +14,13 @@ class ConfirmarTela extends StatelessWidget {
       child: ScopedModelDescendant<LoginModelo>(
         builder: (context, child, model) {
           return Material(
-            child: FutureBuilder<QuerySnapshot>(
-                future: Firestore.instance
+            child: StreamBuilder<QuerySnapshot>(
+                stream: Firestore.instance
                     .collection("horarios")
                     .where('confirmado', isEqualTo: false)
                     .where('ocupado', isEqualTo: true)
                     .where('cabelereiro', isEqualTo: model.dados['uid'])
-                    .getDocuments(),
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(
