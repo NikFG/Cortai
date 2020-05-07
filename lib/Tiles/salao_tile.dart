@@ -1,5 +1,6 @@
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/marcar_tela.dart';
+import 'package:agendacabelo/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -89,7 +90,7 @@ class SalaoTile extends StatelessWidget {
               ),
               FlatButton(
                 onPressed: () {
-                  _ligacaoTelefone("tel:" + salao.telefone);
+                  Util.LligacaoTelefone("tel:" + salao.telefone);
                 },
                 child: Text("Ligar para salão"),
               ),
@@ -97,14 +98,4 @@ class SalaoTile extends StatelessWidget {
           );
         });
   }
-
-  _ligacaoTelefone(String telefone) async {
-    if (await canLaunch(telefone)) {
-      await launch(telefone);
-    } else {
-      throw 'Could not launch $telefone';
-    }
-  }
-
-
 }

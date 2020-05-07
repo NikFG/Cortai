@@ -106,12 +106,25 @@ class _MarcarTileState extends State<MarcarTile> {
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: EdgeInsets.only(right: 10),
-                      child: Image.network(
-                        _imagemAtual == null
-                            ? "https://www.wikihow.com/images/f/f0/Do-Goku-Hair-Step-23.jpg"
-                            : _imagemAtual,
-                        width: 89,
-                        height: 75,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                            return DetailScreen(_imagemAtual == null
+                                ? ""
+                                : _imagemAtual);
+                          }));
+                        },
+                        child: Hero(
+                          tag: _imagemAtual == null ? "" : _imagemAtual,
+                          child: Image.network(
+                            _imagemAtual == null
+                                ? ""
+                                : _imagemAtual,
+                            width: 89,
+                            height: 75,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -162,5 +175,33 @@ class _MarcarTileState extends State<MarcarTile> {
       "confirmado": false,
       "cliente": usuario_id,
     });
+  }
+}
+
+class DetailScreen extends StatelessWidget {
+  final String _imagemAtual;
+
+  DetailScreen(this._imagemAtual);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        child: Center(
+          child: Hero(
+            tag: 'Foto',
+            child: Image.network(_imagemAtual),
+          ),
+        ),
+        onTap: () {
+          Navigator.pop(context);
+        },
+        onPanUpdate: (details) {
+          if (details.delta.dx > 10) {
+            Navigator.pop(context);
+          }
+        },
+      ),
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Util {
   static String TimestampToString(Timestamp timestamp) {
@@ -19,5 +20,12 @@ class Util {
   }
   static DateTimeofDayToDateTime(DateTime dt, TimeOfDay time) {
     return new DateTime(dt.year, dt.month, dt.day, time.hour, time.minute);
+  }
+  static LligacaoTelefone(String telefone) async {
+    if (await canLaunch(telefone)) {
+      await launch(telefone);
+    } else {
+      throw 'Could not launch $telefone';
+    }
   }
 }

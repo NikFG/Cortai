@@ -17,8 +17,6 @@ class DrawerCustom extends StatefulWidget {
 }
 
 class _DrawerCustomState extends State<DrawerCustom> {
-
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -142,10 +140,14 @@ class _DrawerCustomState extends State<DrawerCustom> {
           default:
             int _numeroConfirmacoes = snapshot.data.documents.length;
             return Badge(
+                badgeColor: Theme.of(context).primaryColor,
+                showBadge: _numeroConfirmacoes != 0 ? true : false,
+                animationType: BadgeAnimationType.scale,
                 position: BadgePosition.topRight(top: 12, right: 55),
-                badgeContent: Text(_numeroConfirmacoes != null
-                    ? _numeroConfirmacoes.toString()
-                    : "0"),
+                badgeContent: Text(
+                  _numeroConfirmacoes.toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
                 child: DrawerTile(FontAwesome.calendar_times_o,
                     "Confirmar horários", widget.pageController, 3));
             break;

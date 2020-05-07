@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -120,14 +121,7 @@ class _LoginTelaState extends State<LoginTela> {
                                         } else {
                                           model.recuperarSenha(
                                               _emailControlador.text);
-                                          _scaffoldKey.currentState
-                                              .showSnackBar(SnackBar(
-                                            content: Text(
-                                                "Confira seu email!!!!!!!!!!"),
-                                            backgroundColor:
-                                                Theme.of(context).primaryColor,
-                                            duration: Duration(seconds: 5),
-                                          ));
+                                        FlushbarHelper.createInformation(message: "Confira seu email").show(context);
                                         }
                                       },
                                       child: Text(

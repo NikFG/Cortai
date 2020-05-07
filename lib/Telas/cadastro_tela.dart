@@ -2,6 +2,7 @@ import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CadastroTela extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _CadastroTelaState extends State<CadastroTela> {
   final _emailControlador = TextEditingController();
   final _senhaControlador = TextEditingController();
   final _senhaConfirmaControlador = TextEditingController();
-  final _telefoneControlador = TextEditingController();
+  final _telefoneControlador = MaskedTextController(mask: '(00) 0 0000-0000');
   final _nomeControlador = TextEditingController();
 
   @override
@@ -24,22 +25,12 @@ class _CadastroTelaState extends State<CadastroTela> {
         body: Stack(
           children: <Widget>[
             Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height / 2.5,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height / 2.5,
               decoration: BoxDecoration(
                   gradient: LinearGradient(begin: Alignment.topCenter, colors: [
-                    Theme
-                        .of(context)
-                        .primaryColor,
-                    Theme
-                        .of(context)
-                        .accentColor
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).accentColor
                   ]),
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.elliptical(250, 100),
@@ -50,14 +41,8 @@ class _CadastroTelaState extends State<CadastroTela> {
               child: Stack(
                 children: <Widget>[
                   Positioned(
-                    top: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 5,
-                    left: MediaQuery
-                        .of(context)
-                        .size
-                        .width / 9,
+                    top: MediaQuery.of(context).size.height / 5,
+                    left: MediaQuery.of(context).size.width / 9,
                     child: Container(
                       width: 300,
                       height: 351,
@@ -69,8 +54,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
                       padding: EdgeInsets.only(top: 32),
-                      child: ListView(
-                        padding: EdgeInsets.fromLTRB(20, 0, 20, 7),
+                      child: Column(
                         children: <Widget>[
                           Container(
                             width: 250,
@@ -197,14 +181,8 @@ class _CadastroTelaState extends State<CadastroTela> {
                     ),
                   ),
                   Positioned(
-                    top: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 8,
-                    left: MediaQuery
-                        .of(context)
-                        .size
-                        .width / 2.9,
+                    top: MediaQuery.of(context).size.height / 8,
+                    left: MediaQuery.of(context).size.width / 2.9,
                     child: Text(
                       'Cadastre-se',
                       style: TextStyle(
