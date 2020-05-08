@@ -1,5 +1,6 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -73,11 +74,12 @@ class _CadastroTelaState extends State<CadastroTela> {
                               decoration: InputDecoration(
                                   hintText: 'Email',
                                   hintStyle: TextStyle(fontSize: 12)),
-                              // ignore: missing_return
                               validator: (text) {
-                                if (text.isEmpty || !text.contains("@")) {
+                                if (text.isEmpty ||
+                                    EmailValidator.validate(text)) {
                                   return "Email inválido";
                                 }
+                                return null;
                               },
                             ),
                           ),

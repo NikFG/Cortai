@@ -195,7 +195,7 @@ class _CriarHorarioTelaState extends State<CriarHorarioTela> {
     final DateTime picked = await showDatePicker(
         context: context,
         selectableDayPredicate: (DateTime val) =>
-            val.weekday == 5 || val.weekday == 6 ? false : true,
+            val.weekday == 0 || val.weekday == 6 ? false : true,
         initialDate: DateTime.now(),
         firstDate: DateTime.now().subtract(Duration(days: 1)),
         lastDate: DateTime(2100),

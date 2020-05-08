@@ -3,7 +3,6 @@ import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -110,7 +109,7 @@ class _MarcarTileState extends State<MarcarTile> {
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (_) {
-                            return DetailScreen(_imagemAtual == null
+                            return _MostraImagem(_imagemAtual == null
                                 ? ""
                                 : _imagemAtual);
                           }));
@@ -178,10 +177,10 @@ class _MarcarTileState extends State<MarcarTile> {
   }
 }
 
-class DetailScreen extends StatelessWidget {
+class _MostraImagem extends StatelessWidget {
   final String _imagemAtual;
 
-  DetailScreen(this._imagemAtual);
+  _MostraImagem(this._imagemAtual);
 
   @override
   Widget build(BuildContext context) {
