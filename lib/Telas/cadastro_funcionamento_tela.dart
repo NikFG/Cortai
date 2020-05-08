@@ -54,8 +54,10 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                     child: AbsorbPointer(
                       child: TextFormField(
                         controller: _fechamentoController,
-                        decoration:
-                            InputDecoration(hintText: "Horário de fechamento",prefixIcon: Icon(Icons.access_time),),
+                        decoration: InputDecoration(
+                          hintText: "Horário de fechamento",
+                          prefixIcon: Icon(Icons.access_time),
+                        ),
                       ),
                     ),
                   ),
@@ -63,18 +65,21 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                     height: 20,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Column(
                         children: <Widget>[
                           Text('DOM'),
-                          Checkbox(
-                            onChanged: (bool value) {
-                              setState(() {
-                                _diasSemana[0] = value;
-                              });
-                            },
-                            value: _diasSemana[0],
+                          SizedBox(
+                            width: 42,
+                            height: 49,
+                            child: Checkbox(
+                              onChanged: (bool value) {
+                                setState(() {
+                                  _diasSemana[0] = value;
+                                });
+                              },
+                              value: _diasSemana[0],
+                            ),
                           ),
                         ],
                       ),
