@@ -1,5 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:agendacabelo/Dados/cabelereiro_dados.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:agendacabelo/Telas/salao_tela.dart';
 
 class HomeTile extends StatefulWidget {
   @override
@@ -20,7 +25,7 @@ class _HomeTileState extends State<HomeTile> {
       'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
     ];
 
-    return Column(children: [
+    return ListView(children: [
       CarouselSlider(
         items: imgList
             .map((item) => Container(
@@ -90,6 +95,391 @@ class _HomeTileState extends State<HomeTile> {
             ),
           );
         }).toList(),
+      ),
+      Row(
+        children: <Widget>[
+          Text(
+            "  Salões",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Poppins"),
+          )
+        ],
+      ),
+      SizedBox(
+        height: 30,
+      ),
+      Container(
+        // Primeiro cartao
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        height: 220,
+        width: double.maxFinite,
+        child: Card(
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          color: Theme.of(context).primaryColor,
+          child: Padding(
+            padding: EdgeInsets.all(7),
+            child: Stack(children: <Widget>[
+              Align(
+                alignment: Alignment.centerRight,
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 5),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 1.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Icon(
+                                      Icons.star,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 2.0, top: 3),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "5.0",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Entre RS 15,00 ~ RS 100,00",
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, right: 5),
+                              child: Container(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: AutoSizeText(
+                                    "Celminho Barber's",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                    minFontSize: 10,
+                                    stepGranularity: 2,
+                                    maxLines: 4,
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SalaoTela()));
+                                    },
+                                    child: Text(
+                                      'Saber mais',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.amber,
+                                          fontFamily: 'Poppins'),
+                                    )),
+                              ),
+                            ),
+                          ],
+                        )),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: CircleAvatar(
+                                radius: 50,
+                                backgroundImage: NetworkImage(
+                                    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'))),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ]),
+          ),
+        ),
+      ),
+      Container(
+        // segundo cartao
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        height: 220,
+        width: double.maxFinite,
+        child: Card(
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          color: Theme.of(context).primaryColor,
+          child: Padding(
+            padding: EdgeInsets.all(7),
+            child: Stack(children: <Widget>[
+              Align(
+                alignment: Alignment.centerRight,
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 5),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 1.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Icon(
+                                      Icons.star,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 2.0, top: 3),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "5.0",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Entre RS 15,00 ~ RS 100,00",
+                                  style: TextStyle(
+                                    color: Colors.grey[300],
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: AutoSizeText(
+                                  "Celminho Barber's",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                  minFontSize: 10,
+                                  stepGranularity: 2,
+                                  maxLines: 4,
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SalaoTela()));
+                                    },
+                                    child: Text(
+                                      'Saber mais',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.amber,
+                                          fontFamily: 'Poppins'),
+                                    )),
+                              ),
+                            ),
+                          ],
+                        )),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: CircleAvatar(
+                                radius: 50,
+                                backgroundImage: NetworkImage(
+                                    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'))),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ]),
+          ),
+        ),
+      ),
+      Container(
+        // Terceiro Cartao
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        height: 220,
+        width: double.maxFinite,
+        child: Card(
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          color: Colors.white70,
+          child: Padding(
+            padding: EdgeInsets.all(7),
+            child: Stack(children: <Widget>[
+              Align(
+                alignment: Alignment.centerRight,
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 5),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 1.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 2.0, top: 3),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "5.0",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Entre RS 15,00 ~ RS 100,00",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                               child: LimitedBox(maxWidth: 0.2,
+                                child: AutoSizeText(
+                                  "Celminho Barber's",
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontSize: 22,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                  minFontSize: 10,
+                                  maxLines: 1,
+                                ),),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SalaoTela()));
+                                    },
+                                    child: Text(
+                                      'Saber mais',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.amber,
+                                          fontFamily: 'Poppins'),
+                                    )),
+                              ),
+                            ),
+                          ],
+                        )),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        child: Padding(
+                            padding: EdgeInsets.all(0),
+                            child: CircleAvatar(
+                                radius: 50,
+                                backgroundImage: NetworkImage(
+                                    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'))),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ]),
+          ),
+        ),
       ),
     ]);
   }
