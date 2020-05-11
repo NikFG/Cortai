@@ -39,7 +39,6 @@ class ConfirmarTela extends StatelessWidget {
                             color: Colors.grey[500],
                             context: context)
                         .toList();
-
                     return ListView(
                       children: dividedTiles,
                     );

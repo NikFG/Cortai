@@ -428,17 +428,19 @@ class _HomeTileState extends State<HomeTile> {
                               padding: const EdgeInsets.only(top: 20),
                               child: Align(
                                 alignment: Alignment.centerLeft,
-                               child: LimitedBox(maxWidth: 0.2,
-                                child: AutoSizeText(
-                                  "Celminho Barber's",
-                                  style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontSize: 22,
-                                    fontFamily: 'Poppins',
+                                child: LimitedBox(
+                                  maxWidth: 0.2,
+                                  child: AutoSizeText(
+                                    "Celminho Barber's",
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: 22,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                    minFontSize: 10,
+                                    maxLines: 1,
                                   ),
-                                  minFontSize: 10,
-                                  maxLines: 1,
-                                ),),
+                                ),
                               ),
                             ),
                             Padding(

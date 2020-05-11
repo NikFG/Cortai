@@ -84,6 +84,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
               "Confirmar",
               style: TextStyle(color: Theme.of(context).primaryColor),
               textAlign: TextAlign.start,
+
             ),
             trailing: Icon(FontAwesome.chevron_right),
           ),

@@ -1,6 +1,5 @@
 import 'package:agendacabelo/Tiles/home_tile.dart';
 import 'package:agendacabelo/Telas/gerenciar_salao_tela.dart';
-import 'package:agendacabelo/Telas/criar_horario_tela.dart';
 import 'package:agendacabelo/Telas/salao_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
@@ -105,15 +104,7 @@ class HomeTela extends StatelessWidget {
             centerTitle: true,
           ),
         ),
-        Scaffold(
-          drawer: DrawerCustom(_pageController),
-          body: CriarHorarioTela(),
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            title: Text("Criar horário"),
-            centerTitle: true,
-          ),
-        ),
+
       ],
     );
   }
