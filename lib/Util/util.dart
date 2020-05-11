@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Util {
+  static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
+  static DateFormat timeFormat = DateFormat("H:m");
+
   static String TimestampToString(Timestamp timestamp) {
     var formatter = new DateFormat('dd/MM/yyyy, H:mm');
     String formatted = formatter
@@ -12,20 +15,51 @@ class Util {
   }
 
   static Timestamp StringToTimestamp(String horario) {
-    horario =horario.substring(5);
+    horario = horario.substring(5);
     horario = horario.replaceAll("/", "-");
     horario = horario.replaceAll(",", "");
     DateFormat format = new DateFormat('dd-MM-yyyy H:m');
     return Timestamp.fromDate(format.parse(horario));
   }
+
   static DateTimeofDayToDateTime(DateTime dt, TimeOfDay time) {
     return new DateTime(dt.year, dt.month, dt.day, time.hour, time.minute);
   }
+
   static LligacaoTelefone(String telefone) async {
     if (await canLaunch(telefone)) {
       await launch(telefone);
     } else {
       throw 'Could not launch $telefone';
     }
+  }
+
+  static String weekdayToString(DateTime data) {
+    switch (data.weekday) {
+      case 1:
+        return 'SEG';
+        break;
+      case 2:
+        return 'TER';
+        break;
+      case 3:
+        return 'QUA';
+        break;
+      case 4:
+        return 'QUI';
+        break;
+      case 5:
+        return 'SEX';
+        break;
+      case 6:
+        return 'SAB';
+        break;
+      case 7:
+        return 'DOM';
+        break;
+    }
+  }
+  static stringToWeekday(String dia){
+
   }
 }

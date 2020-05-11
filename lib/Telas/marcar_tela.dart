@@ -14,10 +14,6 @@ class MarcarTela extends StatelessWidget {
       appBar: AppBar(
         title: Text("Confirmar horário e serviço"),
         centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
       ),
       body: Material(
         child: FutureBuilder<QuerySnapshot>(
@@ -38,7 +34,7 @@ class MarcarTela extends StatelessWidget {
                   crossAxisCount: 1,
                   mainAxisSpacing: 4,
                   crossAxisSpacing: 4,
-                  childAspectRatio: 2.1),
+                  childAspectRatio: 1.3),
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 CabelereiroDados dados = CabelereiroDados.fromDocument(

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class HorarioDados {
   String id;
   String horario;
@@ -9,6 +8,7 @@ class HorarioDados {
   bool confirmado;
   String cabelereiro;
   String cliente;
+  String preco;
 
   HorarioDados();
 
@@ -24,11 +24,13 @@ class HorarioDados {
 
   Map<String, dynamic> toMap() {
     return {
-      "horario": horario,
-      "data": data,
-      "ocupado": ocupado,
-      "confirmado": confirmado,
       "cabelereiro": cabelereiro,
+      "cliente": cliente,
+      "confirmado": confirmado,
+      "data": data,
+      "horario": horario,
+      "ocupado": ocupado,
+      "preco": preco,
     };
   }
 
@@ -39,5 +41,4 @@ class HorarioDados {
         .collection("disponibilidade")
         .getDocuments();
   }
-
 }
