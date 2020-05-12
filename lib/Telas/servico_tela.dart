@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
+import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,7 @@ class _ServicoTelaState extends State<ServicoTela> {
                       PrecoDados dados = PrecoDados();
                       dados.descricao = _nomeControlador.text;
                       dados.setValor(_precoControlador.text);
-                      dados.imagemUrl = await _enviaImagem(model);
+                      dados.imagemUrl = await Util.enviaImagem(model.dados['uid'], _imagem);
                       await Firestore.instance
                           .collection("usuarios")
                           .document(model.dados['uid'])
@@ -126,16 +127,7 @@ class _ServicoTelaState extends State<ServicoTela> {
     );
   }
 
-  Future<String> _enviaImagem(LoginModelo model) async {
-    StorageUploadTask task = FirebaseStorage.instance
-        .ref()
-        .child(model.dados['uid'] +
-            DateTime.now().millisecondsSinceEpoch.toString())
-        .putFile(_imagem);
-    StorageTaskSnapshot taskSnapshot = await task.onComplete;
-    String url = await taskSnapshot.ref.getDownloadURL();
-    return url;
-  }
+
 
   Future<Null> getImagem(bool camera) async {
     var imagem = await ImagePicker.pickImage(

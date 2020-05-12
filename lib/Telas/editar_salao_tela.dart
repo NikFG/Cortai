@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
+import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditarSalaoTela extends StatefulWidget {
   final String salao;
@@ -21,6 +25,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   var _enderecoController = TextEditingController();
   var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
   SalaoDados dados = SalaoDados();
+  File _imagem;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +67,35 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
             SizedBox(
               height: 20,
             ),
+            Container(
+                width: 40,
+                child: Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.photo_camera),
+                      onPressed: () {
+                        getImagem(true);
+                      },
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        getImagem(false);
+                      },
+                      child: _imagem == null
+                          ? Text("Imagem de fundo para o salão")
+                          : Text("Altere a imagem caso necessário"),
+                    ),
+                  ],
+                )),
+            _imagem != null
+                ? Image.file(_imagem)
+                : Container(
+                    width: 0,
+                    height: 0,
+                  ),
+            SizedBox(
+              height: 20,
+            ),
             SizedBox(
               height: 40,
               width: 20,
@@ -72,6 +106,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                     dados.nome = _nomeController.text;
                     dados.endereco = _enderecoController.text;
                     dados.telefone = _telefoneController.text;
+                    dados.imagem =
+                        await Util.enviaImagem(widget.usuario, _imagem);
                     if (dados.id == null) {
                       await Firestore.instance
                           .collection('saloes')
@@ -141,6 +177,16 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
         _nomeController.text = dados.nome;
         _enderecoController.text = dados.endereco;
         _telefoneController.text = dados.telefone;
+      }
+    });
+  }
+
+  Future<Null> getImagem(bool camera) async {
+    var imagem = await ImagePicker.pickImage(
+        source: camera ? ImageSource.camera : ImageSource.gallery);
+    setState(() {
+      if (imagem != null) {
+        _imagem = imagem;
       }
     });
   }

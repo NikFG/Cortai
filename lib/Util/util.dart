@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -59,7 +62,16 @@ class Util {
         break;
     }
   }
-  static stringToWeekday(String dia){
 
+  static stringToWeekday(String dia) {}
+
+  static Future<String> enviaImagem(String uid, File imagem) async {
+    StorageUploadTask task = FirebaseStorage.instance
+        .ref()
+        .child(uid + DateTime.now().millisecondsSinceEpoch.toString())
+        .putFile(imagem);
+    StorageTaskSnapshot taskSnapshot = await task.onComplete;
+    String url = await taskSnapshot.ref.getDownloadURL();
+    return url;
   }
 }
