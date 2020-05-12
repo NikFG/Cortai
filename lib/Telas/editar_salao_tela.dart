@@ -5,17 +5,17 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
-class EditarSalao extends StatefulWidget {
+class EditarSalaoTela extends StatefulWidget {
   final String salao;
   final String usuario;
 
-  EditarSalao(this.usuario, this.salao);
+  EditarSalaoTela(this.usuario, this.salao);
 
   @override
-  _EditarSalaoState createState() => _EditarSalaoState();
+  _EditarSalaoTelaState createState() => _EditarSalaoTelaState();
 }
 
-class _EditarSalaoState extends State<EditarSalao> {
+class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   final _formKey = GlobalKey<FormState>();
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();

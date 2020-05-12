@@ -159,7 +159,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
     );
     list.add(DrawerTile(
         FontAwesome.circle, "Gerenciar salão", widget.pageController, 5));
-    list.add(DrawerTile(Icons.add, "Criar horário", widget.pageController, 6));
+
 
     return Column(
       children: list,
