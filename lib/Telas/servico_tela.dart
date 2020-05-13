@@ -108,7 +108,8 @@ class _ServicoTelaState extends State<ServicoTela> {
                       PrecoDados dados = PrecoDados();
                       dados.descricao = _nomeControlador.text;
                       dados.setValor(_precoControlador.text);
-                      dados.imagemUrl = await Util.enviaImagem(model.dados['uid'], _imagem);
+                      dados.imagemUrl =
+                          await Util.enviaImagem(model.dados['uid'], _imagem);
                       await Firestore.instance
                           .collection("usuarios")
                           .document(model.dados['uid'])
@@ -126,8 +127,6 @@ class _ServicoTelaState extends State<ServicoTela> {
       }),
     );
   }
-
-
 
   Future<Null> getImagem(bool camera) async {
     var imagem = await ImagePicker.pickImage(

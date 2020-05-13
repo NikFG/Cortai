@@ -27,6 +27,7 @@ dependencies:
   flutter_auth_buttons: ^0.8.0
   flutter_icons: ^1.0.0+1
   flutter_masked_text: ^0.8.0
+  flutter_rating_bar: ^3.0.1+1
   google_sign_in: ^4.4.1
   image_picker: ^0.6.5+2
   intl: ^0.16.0
