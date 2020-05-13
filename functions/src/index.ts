@@ -1,11 +1,33 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 admin.initializeApp();
+const crypto = require('crypto');
+const segredo = 'a2e3f5t9w0c7v34tx321ve05morbtiex';
 
 const db = admin.firestore();
 const fcm = admin.messaging();
 
+//Criptografia dos dados
+function encrypt(usuario: String) {
+  const iv = Buffer.from(crypto.randomBytes(16));
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(segredo), iv);
+  let encrypted = cipher.update(usuario);
+  encrypted = Buffer.concat([encrypted, cipher.final()])
+  return `${iv.toString('hex')}:${encrypted.toString('hex')} `;
+}
 
+function decrypt(usuario: String) {
+  const [iv, encrypted] = usuario.split(':');
+  const ivBuffer = Buffer.from(iv, 'hex');
+  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(segredo), ivBuffer);
+  let content = decipher.update(Buffer.from(encrypted, 'hex'));
+  content = Buffer.concat([content, decipher.final()]);
+  return content.toString();
+}
+//////////////////////////////////////////////////////////////
+
+
+//Funções de exportação do Firebase
 export const notificaConfirmado = functions.firestore
   .document('horarios/{horarioID}')
   .onUpdate(async (change, context) => {
@@ -120,7 +142,7 @@ export const enviaEmailConfirmacaoCabelereiro = functions.firestore
           pass: 'niks1111'
         }
       });
-
+      const criptado = encrypt(usuario_id);
 
       const mailOptions = {
         from: `App hair`,
@@ -130,12 +152,13 @@ export const enviaEmailConfirmacaoCabelereiro = functions.firestore
                <p>
                 Agora você é um cabelereiro do salão ${salao.get('nome')}
                </p><br>
-               Clique neste <a href=https://us-central1-agendamento-cortes.cloudfunctions.net/confirmaCabelereiroEmail?usuario=${usuario_id}>link</a> para confirmar a ação 
-                        `
+               Clique neste 
+               <a href=https://us-central1-agendamento-cortes.cloudfunctions.net/confirmaCabelereiroEmail?usuario=${criptado}>link</a>
+               para confirmar a ação`
       };
 
 
-      return transporter.sendMail(mailOptions, (error: any, data: any) => {
+      return transporter.sendMail(mailOptions, (error: any) => {
         if (error) {
           console.log(error)
           return
@@ -148,7 +171,7 @@ export const enviaEmailConfirmacaoCabelereiro = functions.firestore
 
 export const confirmaCabelereiroEmail = functions.https
   .onRequest(async (request, response) => {
-    const usuario = request.query.usuario;
+    const usuario = decrypt(`${request.query.usuario}`);
     if (!usuario) {
       response.status(400).send("ERRO AO ENCONTRAR USUÁRIO")
     }
@@ -161,5 +184,3 @@ export const confirmaCabelereiroEmail = functions.https
       .get();
     response.send(`<h1>Olá ${query.get('nome')}!</h1><br><b>Reinicie seu app para utilizar todas as funcionalidades</b>`)
   });
-
-
