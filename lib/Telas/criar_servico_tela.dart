@@ -159,8 +159,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                           .add(dados.toMap())
                           .then((value) async {
                         await FlushbarHelper.createSuccess(
-                            message: "Serviço criado com sucesso",
-                            duration: Duration(milliseconds: 1200)).show(context);
+                                message: "Serviço criado com sucesso",
+                                duration: Duration(milliseconds: 1200))
+                            .show(context);
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => HomeTela()));
                       });
@@ -218,13 +219,16 @@ class _MyDialogState extends State<_MyDialog> {
                   textAlign: TextAlign.center,
                 ),
               )),
+          Divider(
+            color: Colors.black87,
+            thickness: 1,
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: widget.dados.length,
               itemBuilder: (context, index) {
                 final nome = widget.dados[index].nome;
                 final id = widget.dados[index].id;
-
                 return Container(
                   child: CheckboxListTile(
                     title: Text(nome),
@@ -250,6 +254,10 @@ class _MyDialogState extends State<_MyDialog> {
                 );
               },
             ),
+          ),
+          Divider(
+            color: Colors.black87,
+            thickness: 1,
           ),
           Align(
             alignment: Alignment.centerRight,
