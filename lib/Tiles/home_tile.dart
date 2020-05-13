@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:agendacabelo/Dados/cabelereiro_dados.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -44,12 +43,9 @@ class _HomeTileState extends State<HomeTile> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: [
-                                      Color.fromARGB(200, 0, 0, 0),
-                                      Color.fromARGB(0, 0, 0, 0)
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
+                                    colors: [Colors.transparent, Colors.black],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
                                   ),
                                 ),
                                 padding: EdgeInsets.symmetric(
@@ -80,23 +76,6 @@ class _HomeTileState extends State<HomeTile> {
             }),
       ),
       Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: imgList.map((url) {
-          int index = imgList.indexOf(url);
-          return Container(
-            width: 8.0,
-            height: 8.0,
-            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: _current == index
-                  ? Color.fromRGBO(0, 0, 0, 0.9)
-                  : Color.fromRGBO(0, 0, 0, 0.4),
-            ),
-          );
-        }).toList(),
-      ),
-      Row(
         children: <Widget>[
           Text(
             "  Salões",
@@ -105,381 +84,449 @@ class _HomeTileState extends State<HomeTile> {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 fontFamily: "Poppins"),
-          )
+          ),
         ],
       ),
-      SizedBox(
-        height: 30,
-      ),
-      Container(
-        // Primeiro cartao
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-        height: 220,
-        width: double.maxFinite,
-        child: Card(
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          color: Theme.of(context).primaryColor,
-          child: Padding(
-            padding: EdgeInsets.all(7),
-            child: Stack(children: <Widget>[
-              Align(
-                alignment: Alignment.centerRight,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 5),
-                        child: Column(
+      Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey[300], width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    image: new DecorationImage(
+                        image: new NetworkImage(
+                            'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                        fit: BoxFit.cover)),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10.0),
+                    width: MediaQuery.of(context).size.width - 180,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Celminhos Barber's",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              fontFamily: 'Poppins'),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 1.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Icon(
-                                      Icons.star,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                  ),
+                                Text(
+                                  "4.0",
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.black38),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 2.0, top: 3),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "5.0",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.black38, size: 10.0),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  "(200)",
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.black38),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Entre RS 15,00 ~ RS 100,00",
-                                  style: TextStyle(
-                                    color: Colors.grey[300],
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, right: 5),
-                              child: Container(
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: AutoSizeText(
-                                    "Celminho Barber's",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontFamily: 'Poppins',
-                                    ),
-                                    minFontSize: 10,
-                                    stepGranularity: 2,
-                                    maxLines: 4,
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SalaoTela()));
-                                    },
-                                    child: Text(
-                                      'Saber mais',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.amber,
-                                          fontFamily: 'Poppins'),
-                                    )),
-                              ),
-                            ),
                           ],
-                        )),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        child: Padding(
-                            padding: EdgeInsets.all(0),
-                            child: CircleAvatar(
-                                radius: 50,
-                                backgroundImage: NetworkImage(
-                                    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'))),
-                      ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Entre RS 15.00 ~ RS 100.00",
+                              style:
+                                  TextStyle(fontSize: 9, color: Colors.black38),
+                            ))
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SalaoTela()));
+                        },
+                      ),
+                      Text(
+                        'Ver mais',
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Theme.of(context).primaryColor),
+                      )
+                    ],
+                  )
+                ],
               )
-            ]),
+            ],
           ),
         ),
       ),
-      Container(
-        // segundo cartao
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-        height: 220,
-        width: double.maxFinite,
-        child: Card(
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          color: Theme.of(context).primaryColor,
-          child: Padding(
-            padding: EdgeInsets.all(7),
-            child: Stack(children: <Widget>[
-              Align(
-                alignment: Alignment.centerRight,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 5),
-                        child: Column(
+      Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey[300], width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    image: new DecorationImage(
+                        image: new NetworkImage(
+                            'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                        fit: BoxFit.cover)),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10.0),
+                    width: MediaQuery.of(context).size.width - 180,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Celminhos Barber's",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              fontFamily: 'Poppins'),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 1.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Icon(
-                                      Icons.star,
-                                      color: Colors.white,
-                                      size: 20,
-                                    ),
-                                  ),
+                                Text(
+                                  "4.0",
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.black38),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 2.0, top: 3),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "5.0",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.black38, size: 10.0),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  "(200)",
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.black38),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Entre RS 15,00 ~ RS 100,00",
-                                  style: TextStyle(
-                                    color: Colors.grey[300],
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: AutoSizeText(
-                                  "Celminho Barber's",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontFamily: 'Poppins',
-                                  ),
-                                  minFontSize: 10,
-                                  stepGranularity: 2,
-                                  maxLines: 4,
-                                  overflow: TextOverflow.clip,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SalaoTela()));
-                                    },
-                                    child: Text(
-                                      'Saber mais',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.amber,
-                                          fontFamily: 'Poppins'),
-                                    )),
-                              ),
-                            ),
                           ],
-                        )),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        child: Padding(
-                            padding: EdgeInsets.all(0),
-                            child: CircleAvatar(
-                                radius: 50,
-                                backgroundImage: NetworkImage(
-                                    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'))),
-                      ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Entre RS 15.00 ~ RS 100.00",
+                              style:
+                                  TextStyle(fontSize: 9, color: Colors.black38),
+                            ))
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SalaoTela()));
+                        },
+                      ),
+                      Text(
+                        'Ver mais',
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Theme.of(context).primaryColor),
+                      )
+                    ],
+                  )
+                ],
               )
-            ]),
+            ],
           ),
         ),
       ),
-      Container(
-        // Terceiro Cartao
-        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-        height: 220,
-        width: double.maxFinite,
-        child: Card(
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          color: Colors.white70,
-          child: Padding(
-            padding: EdgeInsets.all(7),
-            child: Stack(children: <Widget>[
-              Align(
-                alignment: Alignment.centerRight,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 5),
-                        child: Column(
+      Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey[300], width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    image: new DecorationImage(
+                        image: new NetworkImage(
+                            'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                        fit: BoxFit.cover)),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10.0),
+                    width: MediaQuery.of(context).size.width - 180,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Celminhos Barber's",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              fontFamily: 'Poppins'),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 1.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 20,
-                                    ),
-                                  ),
+                                Text(
+                                  "4.0",
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.black38),
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 2.0, top: 3),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "5.0",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.black38, size: 10.0),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  "(200)",
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.black38),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Entre RS 15,00 ~ RS 100,00",
+                          ],
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Entre RS 15.00 ~ RS 100.00",
+                              style:
+                                  TextStyle(fontSize: 9, color: Colors.black38),
+                            ))
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SalaoTela()));
+                        },
+                      ),
+                      Text(
+                        'Ver mais',
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Theme.of(context).primaryColor),
+                      )
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey[300], width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Row(
+            children: <Widget>[
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    image: new DecorationImage(
+                        image: new NetworkImage(
+                            'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'),
+                        fit: BoxFit.cover)),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10.0),
+                    width: MediaQuery.of(context).size.width - 180,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Celminhos Barber's",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              fontFamily: 'Poppins'),
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "4.0",
                                   style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 14,
-                                  ),
+                                      fontSize: 12.0, color: Colors.black38),
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: LimitedBox(
-                                  maxWidth: 0.2,
-                                  child: AutoSizeText(
-                                    "Celminho Barber's",
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 22,
-                                      fontFamily: 'Poppins',
-                                    ),
-                                    minFontSize: 10,
-                                    maxLines: 1,
-                                  ),
+                                SizedBox(
+                                  width: 5.0,
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SalaoTela()));
-                                    },
-                                    child: Text(
-                                      'Saber mais',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.amber,
-                                          fontFamily: 'Poppins'),
-                                    )),
-                              ),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.amber, size: 10.0),
+                                Icon(Icons.star,
+                                    color: Colors.black38, size: 10.0),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  "(200)",
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.black38),
+                                ),
+                              ],
                             ),
                           ],
-                        )),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        child: Padding(
-                            padding: EdgeInsets.all(0),
-                            child: CircleAvatar(
-                                radius: 50,
-                                backgroundImage: NetworkImage(
-                                    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80'))),
-                      ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Entre RS 15.00 ~ RS 100.00",
+                              style:
+                                  TextStyle(fontSize: 9, color: Colors.black38),
+                            ))
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SalaoTela()));
+                        },
+                      ),
+                      Text(
+                        'Ver mais',
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Theme.of(context).primaryColor),
+                      )
+                    ],
+                  )
+                ],
               )
-            ]),
+            ],
           ),
         ),
       ),
