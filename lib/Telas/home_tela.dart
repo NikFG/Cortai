@@ -6,7 +6,7 @@ import 'package:agendacabelo/Widgets/drawer_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'marcado_tela.dart';
-import 'servico_tela.dart';
+import 'criar_servico_tela.dart';
 import 'confirmar_tela.dart';
 
 class HomeTela extends StatelessWidget {
@@ -88,7 +88,7 @@ class HomeTela extends StatelessWidget {
         ),
         Scaffold(
           drawer: DrawerCustom(_pageController),
-          body: ServicoTela(),
+          body: CriarServicoTela(),
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Cadastrar serviços"),

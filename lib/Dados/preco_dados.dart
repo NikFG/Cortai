@@ -5,8 +5,10 @@ class PrecoDados {
   String descricao;
   double valor;
   String imagemUrl;
+  List<String> cabeleireiros;
+  String salao;
 
-  void setValor(String valor){
+  void setValor(String valor) {
     valor = valor.replaceAll("R\$", "");
     valor = valor.replaceAll(".", "");
     valor = valor.replaceAll(",", ".");
@@ -20,20 +22,18 @@ class PrecoDados {
     descricao = snapshot.data["descricao"];
     valor = snapshot.data["valor"];
     imagemUrl = snapshot.data["imagemUrl"];
+    cabeleireiros = List.from(snapshot.data['cabeleireiros']);
   }
 
   Map<String, dynamic> toMap() {
     return {
       "descricao": descricao,
       "valor": valor,
-      "imagemUrl": imagemUrl
+      "imagemUrl": imagemUrl,
+      'salao': salao,
+      'cabeleireiros': cabeleireiros,
     };
   }
-  Future precoFuture(String cabelereiro_id) async{
-    return await Firestore.instance
-        .collection("usuarios")
-        .document(cabelereiro_id)
-        .collection("precos")
-        .getDocuments();
-  }
+
+
 }

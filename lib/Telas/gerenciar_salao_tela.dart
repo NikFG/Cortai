@@ -5,6 +5,8 @@ import 'package:agendacabelo/Telas/solicitacao_cabelereiro_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'editar_servico_tela.dart';
+
 class CreateSalaoTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -49,10 +51,18 @@ class CreateSalaoTela extends StatelessWidget {
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => SolicitacaoCabelereiroTela(model.getSalao())));
+                      builder: (context) =>
+                          SolicitacaoCabelereiroTela(model.getSalao())));
                 },
                 child: Text("Cadastrar cabelereiros"),
               ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => EditarServicoTela()));
+                },
+                child: Text("Editar Serviço"),
+              )
             ],
           );
         },

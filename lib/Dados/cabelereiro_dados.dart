@@ -1,5 +1,3 @@
-import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CabelereiroDados {
@@ -20,4 +18,14 @@ class CabelereiroDados {
       "salao": salao,
     };
   }
+
+  @override
+  bool operator ==(dados) {
+    return dados is CabelereiroDados && dados.id == id;
+  }
+
+
+
+  @override
+  int get hashCode => id.hashCode;
 }
