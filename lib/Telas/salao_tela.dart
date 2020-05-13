@@ -29,7 +29,7 @@ class SalaoTela extends StatelessWidget {
             itemBuilder: (context, index) {
               SalaoDados dados =
                   SalaoDados.fromDocument(snapshot.data.documents[index]);
-              return SalaoTile(dados);
+              return SalaoTile(dados);  
             },
           );
         },
