@@ -74,7 +74,14 @@ class Util {
     String url = await taskSnapshot.ref.getDownloadURL();
     return url;
   }
-  static Widget leadingScaffold(BuildContext context){
+
+  static deletaImagem(String url) async {
+    await FirebaseStorage.instance
+        .getReferenceFromUrl(url)
+        .then((value) => value.delete());
+  }
+
+  static Widget leadingScaffold(BuildContext context) {
     return IconButton(
       onPressed: () => Navigator.of(context).pop(),
       icon: Platform.isAndroid

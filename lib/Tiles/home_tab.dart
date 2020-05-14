@@ -2,10 +2,7 @@ import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Tiles/home_tile.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:agendacabelo/Telas/salao_tela.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -30,6 +27,7 @@ class _HomeTabState extends State<HomeTab> {
       CarouselSlider(
         items: imgList
             .map((item) => Container(
+                  height: 100,
                   child: Container(
                     margin: EdgeInsets.all(5.0),
                     child: ClipRRect(
@@ -40,7 +38,6 @@ class _HomeTabState extends State<HomeTab> {
                               item,
                               fit: BoxFit.cover,
                               width: 1000.0,
-                              height: 500,
                             ),
                             Positioned(
                               bottom: 0.0,
@@ -72,10 +69,10 @@ class _HomeTabState extends State<HomeTab> {
                 ))
             .toList(),
         options: CarouselOptions(
-          autoPlayInterval: Duration(seconds: 3),
+            autoPlayInterval: Duration(seconds: 3),
             autoPlay: true,
             enlargeCenterPage: true,
-            aspectRatio: 2.0,
+            aspectRatio: 2.5,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
@@ -102,16 +99,15 @@ class _HomeTabState extends State<HomeTab> {
               child: CircularProgressIndicator(),
             );
           } else {
-            List widgets = snapshot.data.documents.map((doc) {
-              return HomeTile(SalaoDados.fromDocument(doc));
-            }).toList();
+            List widgets = snapshot.data.documents
+                .map((doc) => HomeTile(SalaoDados.fromDocument(doc)))
+                .toList();
             return Column(
               children: widgets,
             );
           }
         },
       ),
-
     ]);
   }
 }

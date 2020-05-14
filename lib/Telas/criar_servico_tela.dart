@@ -5,6 +5,7 @@ import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -12,18 +13,23 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CriarServicoTela extends StatefulWidget {
+  final PrecoDados precoDados;
+
+  CriarServicoTela({this.precoDados});
+
   @override
   _CriarServicoTelaState createState() => _CriarServicoTelaState();
 }
 
 class _CriarServicoTelaState extends State<CriarServicoTela> {
   final _formKey = GlobalKey<FormState>();
-  final _nomeControlador = TextEditingController();
+  final _descricaoControlador = TextEditingController();
   final _cabeleireirosControlador = TextEditingController();
   final _precoControlador = MoneyMaskedTextController(
       decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   File _imagem;
   List<CabelereiroDados> selecionados = [];
+  int cont = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +37,17 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
       model: LoginModelo(),
       child:
           ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
+        if (widget.precoDados != null && cont == 0) {
+          _teste();
+          cont++;
+        }
         return Form(
           key: _formKey,
           child: ListView(
             padding: EdgeInsets.all(16),
             children: <Widget>[
               TextFormField(
-                controller: _nomeControlador,
+                controller: _descricaoControlador,
                 keyboardType: TextInputType.text,
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(hintText: "Nome do serviço"),
@@ -120,7 +130,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                         onPressed: () {
                           getImagem(false);
                         },
-                        child: _imagem == null
+                        child: _imagem == null && widget.precoDados == null
                             ? Text("Selecione uma imagem para o serviço")
                             : Text("Altere a imagem caso necessário"),
                       ),
@@ -128,10 +138,12 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                   )),
               _imagem != null
                   ? Image.file(_imagem)
-                  : Container(
-                      width: 0,
-                      height: 0,
-                    ),
+                  : widget.precoDados != null
+                      ? Image.network(widget.precoDados.imagemUrl)
+                      : Container(
+                          width: 0,
+                          height: 0,
+                        ),
               SizedBox(
                 height: 25,
               ),
@@ -147,24 +159,47 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       PrecoDados dados = PrecoDados();
-                      dados.descricao = _nomeControlador.text;
+                      dados.descricao = _descricaoControlador.text;
                       dados.setValor(_precoControlador.text);
                       dados.salao = model.getSalao();
                       dados.cabeleireiros =
                           selecionados.map((e) => e.id).toList();
-                      dados.imagemUrl =
-                          await Util.enviaImagem(model.dados['uid'], _imagem);
-                      await Firestore.instance
-                          .collection("servicos")
-                          .add(dados.toMap())
-                          .then((value) async {
-                        await FlushbarHelper.createSuccess(
-                                message: "Serviço criado com sucesso",
-                                duration: Duration(milliseconds: 1200))
-                            .show(context);
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HomeTela()));
-                      });
+                      if (widget.precoDados != null) {
+                        if (_imagem != null) {
+                          await Util.deletaImagem(widget.precoDados.imagemUrl);
+                          dados.imagemUrl = await Util.enviaImagem(
+                              model.dados['uid'], _imagem);
+                        } else {
+                          dados.imagemUrl = widget.precoDados.imagemUrl;
+                        }
+                      }
+                      if (widget.precoDados == null) {
+                        await Firestore.instance
+                            .collection("servicos")
+                            .add(dados.toMap())
+                            .then((value) async {
+                          await FlushbarHelper.createSuccess(
+                                  message: "Serviço criado com sucesso",
+                                  duration: Duration(milliseconds: 1200))
+                              .show(context);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => HomeTela()));
+                        });
+                      } else {
+                        dados.id = widget.precoDados.id;
+                        await Firestore.instance
+                            .collection("servicos")
+                            .document(dados.id)
+                            .updateData(dados.toMap())
+                            .then((value) async {
+                          await FlushbarHelper.createSuccess(
+                                  message: "Serviço alterado com sucesso",
+                                  duration: Duration(milliseconds: 1200))
+                              .show(context);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => HomeTela()));
+                        });
+                      }
                     }
                   },
                 ),
@@ -177,6 +212,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   }
 
   Future<Null> getImagem(bool camera) async {
+
     var imagem = await ImagePicker.pickImage(
         source: camera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
@@ -184,6 +220,26 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         _imagem = imagem;
       }
     });
+  }
+
+  Future<Null> _teste() async {
+    _descricaoControlador.text = widget.precoDados.descricao;
+    _precoControlador.text = widget.precoDados.valor.toStringAsFixed(2);
+
+    var documents = await Firestore.instance
+        .collection('usuarios')
+        .where('uid', whereIn: widget.precoDados.cabeleireiros)
+        .getDocuments();
+    selecionados = documents.documents
+        .map((e) => CabelereiroDados.fromDocument(e))
+        .toList();
+    _cabeleireirosControlador.text = "";
+    for (int i = 0; i < selecionados.length; i++) {
+      if (i != selecionados.length - 1)
+        _cabeleireirosControlador.text += selecionados[i].nome + ", ";
+      else
+        _cabeleireirosControlador.text += selecionados[i].nome;
+    }
   }
 }
 

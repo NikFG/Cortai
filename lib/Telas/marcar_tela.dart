@@ -3,7 +3,7 @@ import 'package:agendacabelo/Tiles/marcar_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
+
 
 class MarcarTela extends StatelessWidget {
   final String salao_id;

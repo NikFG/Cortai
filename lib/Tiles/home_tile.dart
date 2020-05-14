@@ -116,9 +116,7 @@ class HomeTile extends StatelessWidget {
                       ButtonTheme(
                           padding: EdgeInsets.zero,
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          //limits the touch area to the button area
                           minWidth: 0,
-                          //wraps child's width
                           height: 0,
                           child: FlatButton(
                             materialTapTargetSize: MaterialTapTargetSize.padded,
@@ -126,7 +124,7 @@ class HomeTile extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             onPressed: () => _dialogDados(context),
                             child: Text(
-                              'Ver mais',
+                              'Saiba mais',
                               overflow: TextOverflow.visible,
                               style: TextStyle(
                                   fontSize: 10,
