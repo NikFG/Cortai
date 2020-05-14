@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Tiles/home_tile.dart';
+import 'package:agendacabelo/Tiles/home_tab.dart';
 import 'package:agendacabelo/Telas/gerenciar_salao_tela.dart';
 import 'package:agendacabelo/Telas/salao_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
@@ -28,7 +28,7 @@ class HomeTela extends StatelessWidget {
             backgroundColor: Theme.of(context).primaryColor,
             centerTitle: true,
           ),
-          body: HomeTile(),
+          body: HomeTab(),
           drawer: DrawerCustom(_pageController),
         ),
         Scaffold(

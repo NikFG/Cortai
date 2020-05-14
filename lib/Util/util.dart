@@ -29,7 +29,7 @@ class Util {
     return new DateTime(dt.year, dt.month, dt.day, time.hour, time.minute);
   }
 
-  static LligacaoTelefone(String telefone) async {
+  static LigacaoTelefonica(String telefone) async {
     if (await canLaunch(telefone)) {
       await launch(telefone);
     } else {
@@ -73,5 +73,13 @@ class Util {
     StorageTaskSnapshot taskSnapshot = await task.onComplete;
     String url = await taskSnapshot.ref.getDownloadURL();
     return url;
+  }
+  static Widget leadingScaffold(BuildContext context){
+    return IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: Platform.isAndroid
+          ? Icon(Icons.arrow_back)
+          : Icon(Icons.arrow_back_ios),
+    );
   }
 }

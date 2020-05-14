@@ -38,9 +38,7 @@ class _MarcarTileState extends State<MarcarTile> {
       child: ScopedModelDescendant<LoginModelo>(
         builder: (context, child, model) {
           return InkWell(
-            onTap: () {
-
-            },
+            onTap: () {},
             child: Card(
               color: Colors.deepOrange[300],
               child: Row(
@@ -51,9 +49,9 @@ class _MarcarTileState extends State<MarcarTile> {
                       Text("Cabelereiro ${widget.dados.nome}"),
                       FutureBuilder<QuerySnapshot>(
                           future: Firestore.instance
-                              .collection("usuarios")
-                              .document(widget.dados.id)
-                              .collection("precos")
+                              .collection("servicos")
+                              .where("cabeleireiros",
+                                  arrayContains: widget.dados.id)
                               .getDocuments(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
@@ -74,11 +72,11 @@ class _MarcarTileState extends State<MarcarTile> {
                             }
                           }),
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       SizedBox(
                         width: 100,
-                        height: 20,
+                        height: 10,
                         child: FutureBuilder<QuerySnapshot>(
                           future: Firestore.instance
                               .collection('saloes')
@@ -134,7 +132,7 @@ class _MarcarTileState extends State<MarcarTile> {
                         ),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
                       _diaSemana != null
                           ? FutureBuilder(
@@ -198,8 +196,10 @@ class _MarcarTileState extends State<MarcarTile> {
                         padding: EdgeInsets.only(top: 20),
                         onPressed: () {
                           _adicionarHorario(model.dados['uid']);
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HomeTela()));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeTela()));
                         },
                         icon: Icon(
                           FontAwesome5Solid.check,
@@ -220,14 +220,14 @@ class _MarcarTileState extends State<MarcarTile> {
                                 _imagemAtual == null ? "" : _imagemAtual);
                           }));
                         },
-                        child: Hero(
-                          tag: _imagemAtual == null ? "" : _imagemAtual,
-                          child: Image.network(
-                            _imagemAtual == null ? "" : _imagemAtual,
-                            width: 89,
-                            height: 75,
-                          ),
+                        //  child: Hero(
+                        //  tag: _imagemAtual == null ? "" : _imagemAtual,
+                        child: Image.network(
+                          _imagemAtual == null ? "" : _imagemAtual,
+                          width: 89,
+                          height: 75,
                         ),
+                        //    ),
                       ),
                     ),
                   ),
@@ -267,11 +267,13 @@ class _MarcarTileState extends State<MarcarTile> {
       atual = atual.add(Duration(minutes: intervalo));
     }
     List listaDocuments = snapshot.data.documents.toList();
-    for (int i = 0; i < listaDocuments.length; i++) {
-      int index = lista.indexWhere(
-          (element) => element.value == listaDocuments[i].data['horario']);
-      if (index != -1) {
-        lista.removeAt(index);
+    if (listaDocuments.length > 0) {
+      for (int i = 0; i < listaDocuments.length; i++) {
+        int index = lista.indexWhere(
+            (element) => element.value == listaDocuments[i].data['horario']);
+        if (index != -1) {
+          lista.removeAt(index);
+        }
       }
     }
     return lista;

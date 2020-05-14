@@ -90,7 +90,7 @@ class SalaoTile extends StatelessWidget {
               ),
               FlatButton(
                 onPressed: () {
-                  Util.LligacaoTelefone("tel:" + salao.telefone);
+                  Util.LigacaoTelefonica("tel:" + salao.telefone);
                 },
                 child: Text("Ligar para salão"),
               ),

@@ -4,6 +4,7 @@ class FuncionamentoDados {
   String diaSemana;
   String horarioAbertura;
   String horarioFechamento;
+  int intervalo;
 
   FuncionamentoDados();
 
@@ -11,12 +12,14 @@ class FuncionamentoDados {
     diaSemana = snapshot.documentID;
     horarioAbertura = snapshot.data['horarioAbertura'];
     horarioFechamento = snapshot.data['horarioFechamento'];
+    intervalo = snapshot.data['intervalo'];
   }
 
   Map<String, dynamic> toMap() {
     return {
       "horarioAbertura": horarioAbertura,
       "horarioFechamento": horarioFechamento,
+      "intervalo": intervalo,
     };
   }
 }

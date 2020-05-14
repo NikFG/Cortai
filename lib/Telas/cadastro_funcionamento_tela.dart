@@ -1,8 +1,11 @@
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CadastroFuncionamentoTela extends StatefulWidget {
@@ -17,8 +20,8 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
   TimeOfDay selectedTime2 = TimeOfDay.now();
   var _aberturaController = TextEditingController();
   var _fechamentoController = TextEditingController();
-  var _almocoStartController = TextEditingController();
-  var _almocoEndController = TextEditingController();
+  var _intervaloController = MaskedTextController(mask: '00');
+
   List _diasSemana = [false, false, false, false, false, false, false];
 
   @override
@@ -53,6 +56,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                     onTap: () => _selectTime(context, _fechamentoController),
                     child: AbsorbPointer(
                       child: TextFormField(
+                        autofocus: false,
                         controller: _fechamentoController,
                         decoration: InputDecoration(
                           hintText: "Horário de fechamento",
@@ -60,6 +64,24 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                         ),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: _intervaloController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: "Intervalo entre horários",
+                      prefixIcon: Icon(Icons.settings_backup_restore),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Digite um número";
+                      }
+
+                      return null;
+                    },
                   ),
                   SizedBox(
                     height: 20,
@@ -170,10 +192,13 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                     height: 44,
                     child: RaisedButton(
                       onPressed: () {
+                        print("Apertei");
                         if (_formKey.currentState.validate()) {
                           FuncionamentoDados dados = FuncionamentoDados();
                           dados.horarioAbertura = _aberturaController.text;
                           dados.horarioFechamento = _fechamentoController.text;
+                          dados.intervalo =
+                              int.parse(_intervaloController.text);
                           for (int i = 0; i < 7; i++)
                             if (_diasSemana[i])
                               Firestore.instance
@@ -182,8 +207,17 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                   .collection('funcionamento')
                                   .document(_diaSemanaIndex(i))
                                   .setData(dados.toMap(), merge: true)
-                                  .then((value) {})
-                                  .catchError((e) {
+                                  .then((value) async {
+                                await FlushbarHelper.createSuccess(
+                                        message:
+                                            "Horário de funcionamento alterado com sucesso",
+                                        duration: Duration(milliseconds: 1200))
+                                    .show(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeTela()));
+                              }).catchError((e) {
                                 print(e);
                               });
                         }

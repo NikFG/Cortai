@@ -202,7 +202,6 @@ class _MyDialogState extends State<_MyDialog> {
   @override
   Widget build(BuildContext context) {
     List<CabelereiroDados> _tempSelecionados = widget.selecionados;
-    //MUDAR PARA DIALOG
     return Dialog(
       child: Column(
         children: <Widget>[
