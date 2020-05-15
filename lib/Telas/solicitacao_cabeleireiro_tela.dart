@@ -4,18 +4,18 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class SolicitacaoCabelereiroTela extends StatelessWidget {
+class SolicitacaoCabeleireiroTela extends StatelessWidget {
   final String salao;
   var _emailControlador = TextEditingController();
   var _formKey = GlobalKey<FormState>();
 
-  SolicitacaoCabelereiroTela(this.salao);
+  SolicitacaoCabeleireiroTela(this.salao);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: (AppBar(
-        title: Text("Cadastrar cabelereiro"),
+        title: Text("Cadastrar cabeleireiro"),
         centerTitle: true,
       )),
       body: Form(
@@ -43,9 +43,9 @@ class SolicitacaoCabelereiroTela extends StatelessWidget {
                       .where('email', isEqualTo: _emailControlador.text)
                       .getDocuments()
                       .then((value) async {
-                    List<DocumentSnapshot> cabelereiro =
+                    List<DocumentSnapshot> cabeleireiro =
                         value.documents.toList();
-                    String uid = cabelereiro[0].data['uid'];
+                    String uid = cabeleireiro[0].data['uid'];
                     await Firestore.instance
                         .collection('usuarios')
                         .document(uid)

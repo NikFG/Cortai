@@ -95,8 +95,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
                   widget.pageController, 2),
               ScopedModelDescendant<LoginModelo>(
                   builder: (context, child, model) {
-                if (model.isCabelereiro()) {
-                  return _cabelereiroTiles(model.dados['uid']);
+                if (model.isCabeleireiro()) {
+                  return _cabeleireiroTiles(model.dados['uid']);
                 } else
                   return Container(
                     width: 0,
@@ -122,14 +122,14 @@ class _DrawerCustomState extends State<DrawerCustom> {
         )),
       );
 
-  Widget _cabelereiroTiles(String uid) {
+  Widget _cabeleireiroTiles(String uid) {
     List<Widget> list = new List<Widget>();
     list.add(StreamBuilder(
       stream: Firestore.instance
           .collection("horarios")
           .where('confirmado', isEqualTo: false)
           .where('ocupado', isEqualTo: true)
-          .where('cabelereiro', isEqualTo: uid)
+          .where('cabeleireiro', isEqualTo: uid)
           .snapshots(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {

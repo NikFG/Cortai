@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CabelereiroDados {
+class CabeleireiroDados {
   String id;
   String nome;
   String salao;
 
-  CabelereiroDados.fromDocument(DocumentSnapshot snapshot) {
+  CabeleireiroDados.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     nome = snapshot.data["nome"];
     salao = snapshot.data['salao'];
@@ -21,7 +21,7 @@ class CabelereiroDados {
 
   @override
   bool operator ==(dados) {
-    return dados is CabelereiroDados && dados.id == id;
+    return dados is CabeleireiroDados && dados.id == id;
   }
 
 

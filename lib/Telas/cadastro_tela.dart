@@ -157,7 +157,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                                       'email': _emailControlador.text,
                                       'nome': _nomeControlador.text,
                                       'telefone': _telefoneControlador.text,
-                                      'cabelereiro': false,
+                                      'cabeleireiro': false,
                                     };
                                     login.signUp(
                                         usuarioData: login.dados,

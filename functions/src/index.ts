@@ -51,13 +51,13 @@ export const notificaConfirmado = functions.firestore
         .get()
       const token = queryCliente.get('token')
 
-      //GetCabelereiro
-      const usuario_id = querySnapshot.get('cabelereiro')
-      const queryCabelereiro = await db
+      //GetCabeleireiro
+      const usuario_id = querySnapshot.get('cabeleireiro')
+      const queryCabeleireiro = await db
         .collection('usuarios')
         .doc(usuario_id)
         .get()
-      const nome = queryCabelereiro.get('nome')
+      const nome = queryCabeleireiro.get('nome')
 
 
 
@@ -86,7 +86,7 @@ export const notificaQuantidadeConfirmados = functions.firestore
         .doc(horario_id)
         .get();
 
-      const usuario_id = querySnapshot.get('cabelereiro')
+      const usuario_id = querySnapshot.get('cabeleireiro')
       const queryToken = await db
         .collection('usuarios')
         .doc(usuario_id)
@@ -95,7 +95,7 @@ export const notificaQuantidadeConfirmados = functions.firestore
 
       const queryCont = await db.collection('horarios')
         .where('confirmado', '==', false)
-        .where('cabelereiro', '==', usuario_id)
+        .where('cabeleireiro', '==', usuario_id)
         .where('ocupado', '==', true)
         .get()
 
@@ -116,7 +116,7 @@ export const notificaQuantidadeConfirmados = functions.firestore
     }
   });
 
-export const enviaEmailConfirmacaoCabelereiro = functions.firestore
+export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
   .document('usuarios/{usuarioID}')
   .onUpdate(async (change, context) => {
     const usuario_id = context.params.usuarioID;
@@ -150,10 +150,10 @@ export const enviaEmailConfirmacaoCabelereiro = functions.firestore
         subject: 'Email de confirmação',
         html: `<h1>Parabéns!!</h1>
                <p>
-                Agora você é um cabelereiro do salão ${salao.get('nome')}
+                Agora você é um cabeleireiro do salão ${salao.get('nome')}
                </p><br>
                Clique neste 
-               <a href=https://us-central1-agendamento-cortes.cloudfunctions.net/confirmaCabelereiroEmail?usuario=${criptado}>link</a>
+               <a href=https://us-central1-agendamento-cortes.cloudfunctions.net/confirmaCabeleireiroEmail?usuario=${criptado}>link</a>
                para confirmar a ação`
       };
 
@@ -169,7 +169,7 @@ export const enviaEmailConfirmacaoCabelereiro = functions.firestore
 
   });
 
-export const confirmaCabelereiroEmail = functions.https
+export const confirmaCabeleireiroEmail = functions.https
   .onRequest(async (request, response) => {
     const usuario = decrypt(`${request.query.usuario}`);
     if (!usuario) {
@@ -177,7 +177,7 @@ export const confirmaCabelereiroEmail = functions.https
     }
 
 
-    await db.collection('usuarios').doc(`${usuario}`).update({ cabelereiro: true })
+    await db.collection('usuarios').doc(`${usuario}`).update({ cabeleireiro: true })
     const query = await db
       .collection('usuarios')
       .doc(`${usuario}`)

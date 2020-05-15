@@ -19,7 +19,7 @@ class ConfirmarTela extends StatelessWidget {
                     .collection("horarios")
                     .where('confirmado', isEqualTo: false)
                     .where('ocupado', isEqualTo: true)
-                    .where('cabelereiro', isEqualTo: model.dados['uid'])
+                    .where('cabeleireiro', isEqualTo: model.dados['uid'])
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {

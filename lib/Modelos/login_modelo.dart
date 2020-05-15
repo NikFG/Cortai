@@ -96,10 +96,11 @@ class LoginModelo extends Model {
         'fotoURL': firebaseUser.photoUrl,
         'nome': firebaseUser.displayName,
         'vistoPorUltimo': DateTime.now(),
-        'cabelereiro': false,
+        'cabeleireiro': false,
       };
     } else {
       await _carregarUsuario();
+      this.dados['cabeleireiro'] = this.dados['cabelereiro'];
       this.dados['vistoPorUltimo'] = DateTime.now();
     }
     await Firestore.instance
@@ -142,9 +143,9 @@ class LoginModelo extends Model {
     }
   }
 
-  bool isCabelereiro() {
+  bool isCabeleireiro() {
     if (isLogado()) {
-      bool result = dados['cabelereiro'];
+      bool result = dados['cabeleireiro'];
       return result;
     }
     return false;
