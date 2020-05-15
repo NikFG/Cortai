@@ -89,6 +89,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                       .toList();
 
                   showDialog(
+                      barrierDismissible: false,
                       context: context,
                       builder: (context) => _MyDialog(
                             dados: dados,
@@ -151,7 +152,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 height: 44,
                 child: RaisedButton(
                   child: Text(
-                    "Cadastrar",
+                    "Confirmar",
                     style: TextStyle(fontSize: 18),
                   ),
                   textColor: Colors.white,
@@ -212,7 +213,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   }
 
   Future<Null> getImagem(bool camera) async {
-
     var imagem = await ImagePicker.pickImage(
         source: camera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
@@ -248,7 +248,10 @@ class _MyDialog extends StatefulWidget {
   final List<CabeleireiroDados> selecionados;
   final ValueChanged<List<CabeleireiroDados>> onSelectedDadosChanged;
 
-  const _MyDialog({this.dados, this.selecionados, this.onSelectedDadosChanged});
+  const _MyDialog(
+      {@required this.dados,
+      @required this.selecionados,
+      @required this.onSelectedDadosChanged});
 
   @override
   _MyDialogState createState() => _MyDialogState();
@@ -303,7 +306,6 @@ class _MyDialogState extends State<_MyDialog> {
                           });
                         }
                       }
-                      widget.onSelectedDadosChanged(_tempSelecionados);
                     },
                   ),
                 );
@@ -314,18 +316,31 @@ class _MyDialogState extends State<_MyDialog> {
             color: Colors.black87,
             thickness: 1,
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: FlatButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                "Confirmar",
-                style: TextStyle(
-                    fontSize: 15, color: Theme.of(context).primaryColor),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Cancelar",
+                  style: TextStyle(
+                      fontSize: 15, color: Theme.of(context).primaryColor),
+                ),
               ),
-            ),
+              FlatButton(
+                onPressed: () {
+                  widget.onSelectedDadosChanged(_tempSelecionados);
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Confirmar",
+                  style: TextStyle(
+                      fontSize: 15, color: Theme.of(context).primaryColor),
+                ),
+              ),
+            ],
           ),
         ],
       ),
