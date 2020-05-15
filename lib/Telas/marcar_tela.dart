@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/cabelereiro_dados.dart';
+import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Tiles/marcar_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,7 +23,7 @@ class MarcarTela extends StatelessWidget {
           future: Firestore.instance
               .collection("usuarios")
               .where("salao", isEqualTo: salao_id)
-              .where("cabelereiro", isEqualTo: true)
+              .where("cabeleireiro", isEqualTo: true)
               .getDocuments(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -40,7 +40,7 @@ class MarcarTela extends StatelessWidget {
                   childAspectRatio: 1.3),
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
-                CabelereiroDados dados = CabelereiroDados.fromDocument(
+                CabeleireiroDados dados = CabeleireiroDados.fromDocument(
                     snapshot.data.documents[index]);
                 return MarcarTile(dados);
               },

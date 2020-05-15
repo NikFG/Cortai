@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Dados/avaliacao_dados.dart';
-import 'package:agendacabelo/Dados/cabelereiro_dados.dart';
+import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MarcadoTile extends StatefulWidget {
-  final DocumentSnapshot snapshot;
+  final HorarioDados horario;
 
-  MarcadoTile(this.snapshot);
+  MarcadoTile(this.horario);
 
   @override
   _MarcadoTileState createState() => _MarcadoTileState();
@@ -17,11 +17,9 @@ class MarcadoTile extends StatefulWidget {
 
 class _MarcadoTileState extends State<MarcadoTile> {
   double _avaliacao;
-  HorarioDados horario;
 
   @override
   Widget build(BuildContext context) {
-    horario = HorarioDados.fromDocument(widget.snapshot);
     return ListTile(
       onTap: () {
         // _cancelarDialog(context);
@@ -30,20 +28,20 @@ class _MarcadoTileState extends State<MarcadoTile> {
       title: FutureBuilder<DocumentSnapshot>(
         future: Firestore.instance
             .collection('usuarios')
-            .document(horario.cabelereiro)
+            .document(widget.horario.cabeleireiro)
             .get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           } else {
-            CabelereiroDados dados =
-                CabelereiroDados.fromDocument(snapshot.data);
+            CabeleireiroDados dados =
+                CabeleireiroDados.fromDocument(snapshot.data);
             return Text(dados.nome);
           }
         },
       ),
-      subtitle: Text(horario.horario),
-      leading: horario.confirmado
+      subtitle: Text(widget.horario.horario),
+      leading: widget.horario.confirmado
           ? Icon(
               Icons.check_circle,
               color: Colors.green,
@@ -81,64 +79,81 @@ class _MarcadoTileState extends State<MarcadoTile> {
     );
   }
 
-  _avaliarDialog(BuildContext context) {
-    return showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              title:
-                  Text("Qual a avaliação que deseja dar ao seu cabelereiro?"),
-              content: RatingBar(
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (double value) {
-                  setState(() {
-                    _avaliacao = value;
-                  });
-                },
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Cancelar"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
+  _avaliarDialog(BuildContext context) async {
+    String salao = await getSalao();
+    bool avaliado = await Firestore.instance
+        .collection('avaliacoes')
+        .where('horario', isEqualTo: widget.horario.id)
+        .where('cabeleireiro', isEqualTo: widget.horario.cabeleireiro)
+        .where('salao', isEqualTo: salao)
+        .getDocuments()
+        .then((value) => value.documents.length > 0);
+    if (!avaliado) {
+      return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title:
+                    Text("Qual a avaliação que deseja dar ao seu cabeleireiro?"),
+                content: RatingBar(
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (double value) {
+                    setState(() {
+                      _avaliacao = value;
+                    });
                   },
                 ),
-                FlatButton(
-                  child: Text("Confirmar"),
-                  onPressed: () async {
-                    if (_avaliacao > 1) {
-                      AvaliacaoDados dados = AvaliacaoDados();
-                      dados.cabelereiro = horario.cabelereiro;
-                      dados.avaliacao = _avaliacao;
-                      dados.salao = await getSalao();
-                      await Firestore.instance
-                          .collection('avaliacoes')
-                          .add(dados.toMap())
-                          .then((value) async {
-                        await FlushbarHelper.createSuccess(
-                                message: "Avaliação enviada com sucesso!!",
-                                duration: Duration(milliseconds: 1300))
-                            .show(context);
-                        Navigator.of(context).pop();
-                      });
-                    }
-                  },
-                ),
-              ],
-            ));
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Cancelar"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("Confirmar"),
+                    onPressed: () async {
+                      if (_avaliacao > 1) {
+                        AvaliacaoDados dados = AvaliacaoDados();
+                        dados.cabeleireiro = widget.horario.cabeleireiro;
+                        dados.avaliacao = _avaliacao;
+                        dados.salao = salao;
+                        dados.horario = widget.horario.id;
+                        await Firestore.instance
+                            .collection('avaliacoes')
+                            .add(dados.toMap())
+                            .then((value) async {
+                          await FlushbarHelper.createSuccess(
+                                  message: "Avaliação enviada com sucesso!!",
+                                  duration: Duration(milliseconds: 1300))
+                              .show(context);
+                          Navigator.of(context).pop();
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ));
+    } else {
+      return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                content: Text("Você já avaliou este corte"),
+              ));
+    }
   }
 
   Future<String> getSalao() async {
     var snapshot = await Firestore.instance
         .collection('usuarios')
-        .document(horario.cabelereiro)
+        .document(widget.horario.cabeleireiro)
         .get();
     String salao = snapshot.data['salao'];
     return salao;

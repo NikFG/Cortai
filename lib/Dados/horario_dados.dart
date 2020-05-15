@@ -6,7 +6,7 @@ class HorarioDados {
   String data;
   bool ocupado;
   bool confirmado;
-  String cabelereiro;
+  String cabeleireiro;
   String cliente;
   String preco;
 
@@ -17,14 +17,14 @@ class HorarioDados {
     horario = snapshot.data['horario'];
     data = snapshot.data['data'];
     ocupado = snapshot.data["ocupado"];
-    cabelereiro = snapshot.data['cabelereiro'];
+    cabeleireiro = snapshot.data['cabeleireiro'];
     cliente = snapshot.data['cliente'];
     confirmado = snapshot.data['confirmado'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "cabelereiro": cabelereiro,
+      "cabeleireiro": cabeleireiro,
       "cliente": cliente,
       "confirmado": confirmado,
       "data": data,
@@ -34,10 +34,10 @@ class HorarioDados {
     };
   }
 
-  disponibilidadeFuture(String cabelereiroId) {
+  disponibilidadeFuture(String cabeleireiroId) {
     return Firestore.instance
         .collection("usuarios")
-        .document(cabelereiroId)
+        .document(cabeleireiroId)
         .collection("disponibilidade")
         .getDocuments();
   }

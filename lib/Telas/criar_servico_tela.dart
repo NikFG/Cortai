@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:agendacabelo/Dados/cabelereiro_dados.dart';
+import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
@@ -28,7 +28,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   final _precoControlador = MoneyMaskedTextController(
       decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   File _imagem;
-  List<CabelereiroDados> selecionados = [];
+  List<CabeleireiroDados> selecionados = [];
   int cont = 0;
 
   @override
@@ -38,7 +38,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
       child:
           ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
         if (widget.precoDados != null && cont == 0) {
-          _teste();
+          _verificaEditar();
           cont++;
         }
         return Form(
@@ -84,8 +84,8 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                       .collection('usuarios')
                       .where('salao', isEqualTo: model.getSalao())
                       .getDocuments();
-                  List<CabelereiroDados> dados = snapshots.documents
-                      .map((e) => CabelereiroDados.fromDocument(e))
+                  List<CabeleireiroDados> dados = snapshots.documents
+                      .map((e) => CabeleireiroDados.fromDocument(e))
                       .toList();
 
                   showDialog(
@@ -111,7 +111,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     controller: _cabeleireirosControlador,
-                    decoration: InputDecoration(hintText: "Cabelereiros"),
+                    decoration: InputDecoration(hintText: "Cabeleireiros"),
                   ),
                 ),
               ),
@@ -222,7 +222,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
     });
   }
 
-  Future<Null> _teste() async {
+  Future<Null> _verificaEditar() async {
     _descricaoControlador.text = widget.precoDados.descricao;
     _precoControlador.text = widget.precoDados.valor.toStringAsFixed(2);
 
@@ -231,7 +231,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         .where('uid', whereIn: widget.precoDados.cabeleireiros)
         .getDocuments();
     selecionados = documents.documents
-        .map((e) => CabelereiroDados.fromDocument(e))
+        .map((e) => CabeleireiroDados.fromDocument(e))
         .toList();
     _cabeleireirosControlador.text = "";
     for (int i = 0; i < selecionados.length; i++) {
@@ -244,9 +244,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
 }
 
 class _MyDialog extends StatefulWidget {
-  final List<CabelereiroDados> dados;
-  final List<CabelereiroDados> selecionados;
-  final ValueChanged<List<CabelereiroDados>> onSelectedDadosChanged;
+  final List<CabeleireiroDados> dados;
+  final List<CabeleireiroDados> selecionados;
+  final ValueChanged<List<CabeleireiroDados>> onSelectedDadosChanged;
 
   const _MyDialog({this.dados, this.selecionados, this.onSelectedDadosChanged});
 
@@ -257,7 +257,7 @@ class _MyDialog extends StatefulWidget {
 class _MyDialogState extends State<_MyDialog> {
   @override
   Widget build(BuildContext context) {
-    List<CabelereiroDados> _tempSelecionados = widget.selecionados;
+    List<CabeleireiroDados> _tempSelecionados = widget.selecionados;
     return Dialog(
       child: Column(
         children: <Widget>[
@@ -266,7 +266,7 @@ class _MyDialogState extends State<_MyDialog> {
               child: Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: Text(
-                  'Cabelereiros para o serviço',
+                  'Cabeleireiros para o serviço',
                   style: TextStyle(
                       fontSize: 18.0,
                       color: Colors.black,

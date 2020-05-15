@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/marcado_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,7 +27,7 @@ class MarcadoTela extends StatelessWidget {
                 } else {
                   var dividedTiles = ListTile.divideTiles(
                           tiles: snapshot.data.documents.map((doc) {
-                            return MarcadoTile(doc);
+                            return MarcadoTile(HorarioDados.fromDocument(doc));
                           }).toList(),
                           color: Colors.grey[500],
                           context: context)

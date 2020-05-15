@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/cabelereiro_dados.dart';
+import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Dados/preco_dados.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class MarcarTile extends StatefulWidget {
-  final CabelereiroDados dados;
+  final CabeleireiroDados dados;
 
   const MarcarTile(this.dados);
 
@@ -46,7 +46,7 @@ class _MarcarTileState extends State<MarcarTile> {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Text("Cabelereiro ${widget.dados.nome}"),
+                      Text("Cabeleireiro ${widget.dados.nome}"),
                       FutureBuilder<QuerySnapshot>(
                           future: Firestore.instance
                               .collection("servicos")
@@ -149,7 +149,7 @@ class _MarcarTileState extends State<MarcarTile> {
                                   return StreamBuilder<QuerySnapshot>(
                                     stream: Firestore.instance
                                         .collection('horarios')
-                                        .where('cabelereiro',
+                                        .where('cabeleireiro',
                                             isEqualTo: widget.dados.id)
                                         .where('ocupado', isEqualTo: true)
                                         .where('data',
@@ -282,7 +282,7 @@ class _MarcarTileState extends State<MarcarTile> {
   _adicionarHorario(String cliente) async {
     HorarioDados dados = HorarioDados();
     dados.cliente = cliente;
-    dados.cabelereiro = widget.dados.id;
+    dados.cabeleireiro = widget.dados.id;
     dados.data = _dataController.text;
     dados.horario = _horarioAtual;
     dados.ocupado = true;
