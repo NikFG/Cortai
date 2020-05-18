@@ -6,6 +6,8 @@ class SalaoDados {
   String endereco;
   String telefone;
   String imagem;
+  double latitude;
+  double longitude;
 
   SalaoDados();
 
@@ -15,6 +17,8 @@ class SalaoDados {
     endereco = snapshot.data['endereco'];
     telefone = snapshot.data['telefone'];
     imagem = snapshot.data['imagem'];
+    latitude = snapshot.data['latitude'];
+    longitude = snapshot.data['longitude'];
   }
 
   Map<String, dynamic> toMap() {
@@ -23,6 +27,8 @@ class SalaoDados {
       "endereco": endereco,
       "telefone": telefone,
       "imagem": imagem,
+      "latitude": latitude,
+      "longitude": longitude,
     };
   }
 

@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'haversine.dart';
 
 class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
@@ -60,6 +63,8 @@ class Util {
       case 7:
         return 'DOM';
         break;
+      default:
+        return '';
     }
   }
 
@@ -89,4 +94,5 @@ class Util {
           : Icon(Icons.arrow_back_ios),
     );
   }
+
 }

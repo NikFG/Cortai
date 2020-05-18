@@ -76,7 +76,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                                   hintStyle: TextStyle(fontSize: 12)),
                               validator: (text) {
                                 if (text.isEmpty ||
-                                    EmailValidator.validate(text)) {
+                                    !EmailValidator.validate(text)) {
                                   return "Email inválido";
                                 }
                                 return null;

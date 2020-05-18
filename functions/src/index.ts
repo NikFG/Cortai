@@ -77,8 +77,8 @@ export const notificaConfirmado = functions.firestore
 
 export const notificaQuantidadeConfirmados = functions.firestore
   .document('horarios/{horarioID}')
-  .onUpdate(async (change, context) => {
-    if (change.before.get('confirmado') != change.after.get('confirmado')) {
+  .onUpdate(async (change, context) => { //mudar pra onCreate
+    if (change.before.get('ocupado') != change.after.get('ocupado')) {
       const horario_id = context.params.horarioID
       //Get horarios
       const querySnapshot = await db

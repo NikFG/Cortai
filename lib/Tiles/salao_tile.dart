@@ -2,7 +2,6 @@ import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/marcar_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SalaoTile extends StatelessWidget {
   final SalaoDados salao;

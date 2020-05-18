@@ -4,7 +4,7 @@ description: Agendamento para cabeleireiros
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -28,9 +28,13 @@ dependencies:
   flutter_icons: ^1.0.0+1
   flutter_masked_text: ^0.8.0
   flutter_rating_bar: ^3.0.1+1
+  geocoder: ^0.2.1
+  geolocator: ^5.1.4+2
+  google_maps_flutter: ^0.5.27+3
   google_sign_in: ^4.4.1
   image_picker: ^0.6.5+2
   intl: ^0.16.0
+  permission_handler: ^5.0.0+hotfix.6
   scoped_model: ^1.0.1
   url_launcher: ^5.4.5
 

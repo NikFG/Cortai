@@ -100,7 +100,6 @@ class LoginModelo extends Model {
       };
     } else {
       await _carregarUsuario();
-      this.dados['cabeleireiro'] = this.dados['cabelereiro'];
       this.dados['vistoPorUltimo'] = DateTime.now();
     }
     await Firestore.instance

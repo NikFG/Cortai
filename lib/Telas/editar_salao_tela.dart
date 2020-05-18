@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditarSalaoTela extends StatefulWidget {
@@ -106,8 +108,12 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                     dados.nome = _nomeController.text;
                     dados.endereco = _enderecoController.text;
                     dados.telefone = _telefoneController.text;
+                    LatLng latlng = await getLatitudeLongitude(dados.endereco);
+                    dados.latitude = latlng.latitude;
+                    dados.longitude = latlng.longitude;
                     dados.imagem =
                         await Util.enviaImagem(widget.usuario, _imagem);
+
                     if (dados.id == null) {
                       await Firestore.instance
                           .collection('saloes')
@@ -189,5 +195,11 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
         _imagem = imagem;
       }
     });
+  }
+
+  Future<LatLng> getLatitudeLongitude(String endereco) async {
+    var geopoint = await Geocoder.local.findAddressesFromQuery(endereco);
+    return LatLng(geopoint.first.coordinates.latitude,
+        geopoint.first.coordinates.longitude);
   }
 }

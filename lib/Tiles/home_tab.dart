@@ -1,8 +1,12 @@
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Tiles/home_tile.dart';
+import 'package:agendacabelo/Util/haversine.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -11,6 +15,7 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int _current = 0;
+  PermissionStatus _permissionStatus = PermissionStatus.undetermined;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +87,7 @@ class _HomeTabState extends State<HomeTab> {
       Row(
         children: <Widget>[
           Text(
-            "  Salões",
+            "Salões",
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 18,
@@ -99,15 +104,57 @@ class _HomeTabState extends State<HomeTab> {
               child: CircularProgressIndicator(),
             );
           } else {
-            List widgets = snapshot.data.documents
-                .map((doc) => HomeTile(SalaoDados.fromDocument(doc)))
-                .toList();
-            return Column(
-              children: widgets,
-            );
+            return FutureBuilder<Position>(
+                future: Geolocator()
+                    .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
+                builder: (context, localizacao) {
+                  if (!localizacao.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    //TODO Se permissão negada perguntar endereço de casa
+                    if (_permissionStatus.isUndetermined || _permissionStatus.isDenied)
+                      requestPermission(Permission.location);
+                    var currentLocation = localizacao.data;
+                    var lista = snapshot.data.documents.toList();
+                    lista.sort((a, b) {
+                      double distanciaA = Haversine.distancia(
+                          lat1: currentLocation.latitude,
+                          lon1: currentLocation.longitude,
+                          lat2: a.data['latitude'],
+                          lon2: a.data['longitude']);
+                      double distanciaB = Haversine.distancia(
+                          lat1: currentLocation.latitude,
+                          lon1: currentLocation.longitude,
+                          lat2: b.data['latitude'],
+                          lon2: b.data['longitude']);
+
+                      return distanciaA.compareTo(distanciaB);
+                    });
+
+                    List<Widget> widgets = lista
+                        .map((doc) => HomeTile(SalaoDados.fromDocument(doc)))
+                        .toList();
+
+                    return Column(
+                      children: widgets,
+                    );
+                  }
+                });
           }
         },
       ),
     ]);
+  }
+
+  Future<Null> requestPermission(Permission permission) async {
+    final status = await permission.request();
+
+    setState(() {
+      print(status);
+      _permissionStatus = status;
+      print(_permissionStatus);
+    });
   }
 }

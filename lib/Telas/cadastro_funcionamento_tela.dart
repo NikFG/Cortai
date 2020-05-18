@@ -268,6 +268,8 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
         return 'SEX';
       case 6:
         return 'SAB';
+      default:
+        return '';
     }
   }
 }

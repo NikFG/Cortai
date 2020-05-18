@@ -5,6 +5,7 @@ import 'package:agendacabelo/Util/push_notification.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'marcado_tela.dart';
 import 'criar_servico_tela.dart';
 import 'confirmar_tela.dart';
@@ -16,6 +17,7 @@ class HomeTela extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final _pageController = PageController(initialPage: 0);
     if (usuario_id != null) PushNotification.servico(usuario_id, context);
     return PageView(
@@ -64,12 +66,17 @@ class HomeTela extends StatelessWidget {
                     child: FlatButton(
                       onPressed: () async {
                         var snapshots = await Firestore.instance
-                            .collection('usuarios')
-                            .document(this.usuario_id)
-                            .collection('horarios')
+                            .collection('servicos')
                             .getDocuments();
 
-                        for (int i = 0; i < snapshots.documents.length; i++) {}
+                        for (int i = 0; i < snapshots.documents.length; i++) {
+                          Firestore.instance
+                              .collection('servicos')
+                              .document(snapshots.documents[i].documentID)
+                              .updateData({
+                            "confirmado": true,
+                          });
+                        }
                       },
                       child: Text("Confirmar todos"),
                     ),
@@ -104,7 +111,6 @@ class HomeTela extends StatelessWidget {
             centerTitle: true,
           ),
         ),
-
       ],
     );
   }

@@ -1,8 +1,6 @@
-import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class SolicitacaoCabeleireiroTela extends StatelessWidget {
   final String salao;

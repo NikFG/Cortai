@@ -14,9 +14,9 @@ class HomeTile extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => MarcarTela(dados.id))),
-        child:Container(
+        onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => MarcarTela(dados.id))),
+        child: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               color: Colors.white,
@@ -94,12 +94,11 @@ class HomeTile extends StatelessWidget {
                               "Entre RS 15.00 ~ RS 100.00",
                               //TODO min e max preços de serviços
                               style:
-                              TextStyle(fontSize: 9, color: Colors.black38),
+                                  TextStyle(fontSize: 9, color: Colors.black38),
                             ))
                       ],
                     ),
                   ),
-
                   Column(
                     children: <Widget>[
                       IconButton(
@@ -115,7 +114,8 @@ class HomeTile extends StatelessWidget {
                       ),
                       ButtonTheme(
                           padding: EdgeInsets.zero,
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           minWidth: 0,
                           height: 0,
                           child: FlatButton(
@@ -137,7 +137,8 @@ class HomeTile extends StatelessWidget {
               )
             ],
           ),
-        ),),
+        ),
+      ),
     );
   }
 
