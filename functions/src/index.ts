@@ -75,7 +75,37 @@ export const notificaConfirmado = functions.firestore
     }
   });
 
-export const notificaQuantidadeConfirmados = functions.firestore
+export const quantidadeConfirmados = functions.firestore
+  .document('horarios/{horarioID}')
+  .onCreate(async snapshot => {
+     
+      const cabeleireiro = snapshot.get('cabeleireiro')
+      
+      const queryToken = await db
+        .collection('usuarios')
+        .doc(cabeleireiro)
+        .get()
+      const token = queryToken.get('token') 
+
+      const queryCont = await db.collection('horarios')
+        .where('confirmado', '==', false)
+        .where('cabeleireiro', '==', cabeleireiro)
+        .where('ocupado', '==', true)
+        .get()
+
+        const cont = queryCont.docs.length
+
+      const payload: admin.messaging.MessagingPayload = {
+        notification: {
+          title: `Há um novo agendamento esperando para ser confirmado`,
+          body: `Confirme os ${cont} agendamentos assim que possível`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+        }
+      };
+      return fcm.sendToDevice(token, payload);
+
+  });
+/*export const notificaQuantidadeConfirmados = functions.firestore
   .document('horarios/{horarioID}')
   .onUpdate(async (change, context) => { //mudar pra onCreate
     if (change.before.get('ocupado') != change.after.get('ocupado')) {
@@ -114,7 +144,7 @@ export const notificaQuantidadeConfirmados = functions.firestore
     else {
       return null
     }
-  });
+  });*/
 
 export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
   .document('usuarios/{usuarioID}')
