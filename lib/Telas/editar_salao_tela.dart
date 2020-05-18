@@ -21,7 +21,7 @@ class EditarSalaoTela extends StatefulWidget {
   _EditarSalaoTelaState createState() => _EditarSalaoTelaState();
 }
 
-class _EditarSalaoTelaState extends State<EditarSalaoTela> {
+class _EditarSalaoTelaState extends State<EditarSalaoTela> { //TODO REFAZER VERIFICA SALÃO
   final _formKey = GlobalKey<FormState>();
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();

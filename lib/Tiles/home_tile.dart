@@ -1,21 +1,37 @@
+import 'package:agendacabelo/Dados/avaliacao_dados.dart';
+import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/marcar_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
-class HomeTile extends StatelessWidget {
+class HomeTile extends StatefulWidget {
   final SalaoDados dados;
 
   HomeTile(this.dados);
 
   @override
+  _HomeTileState createState() => _HomeTileState();
+}
+
+class _HomeTileState extends State<HomeTile> {
+  double _media = 0;
+  int _quantidade = 0;
+  double _menorValor = 0;
+  double _maiorValor = 0;
+
+  @override
   Widget build(BuildContext context) {
+    _mediaAvaliacoes();
+    _minMaxPrecos();
     return Padding(
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => MarcarTela(dados.id))),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => MarcarTela(widget.dados.id))),
         child: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -30,7 +46,8 @@ class HomeTile extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     image: DecorationImage(
-                        image: NetworkImage(dados.imagem), fit: BoxFit.cover)),
+                        image: NetworkImage(widget.dados.imagem),
+                        fit: BoxFit.cover)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,7 +59,7 @@ class HomeTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          dados.nome,
+                          widget.dados.nome,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colors.black,
@@ -59,7 +76,7 @@ class HomeTile extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  "4.0", //TODO Select com média de avaliações
+                                  _media.toStringAsFixed(1),
                                   style: TextStyle(
                                       fontSize: 12.0, color: Colors.black38),
                                 ),
@@ -68,19 +85,11 @@ class HomeTile extends StatelessWidget {
                                 ),
                                 Icon(Icons.star,
                                     color: Colors.amber, size: 10.0),
-                                Icon(Icons.star,
-                                    color: Colors.amber, size: 10.0),
-                                Icon(Icons.star,
-                                    color: Colors.amber, size: 10.0),
-                                Icon(Icons.star,
-                                    color: Colors.amber, size: 10.0),
-                                Icon(Icons.star,
-                                    color: Colors.black38, size: 10.0),
                                 SizedBox(
                                   width: 5.0,
                                 ),
                                 Text(
-                                  "(200)",
+                                  "(${_quantidade.toString()})",
                                   style: TextStyle(
                                       fontSize: 12.0, color: Colors.black38),
                                 ),
@@ -91,8 +100,8 @@ class HomeTile extends StatelessWidget {
                         Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              "Entre RS 15.00 ~ RS 100.00",
-                              //TODO min e max preços de serviços
+                              "Entre R\$${_menorValor.toStringAsFixed(2)} ~ R\$${_maiorValor.toStringAsFixed(2)} ",
+
                               style:
                                   TextStyle(fontSize: 9, color: Colors.black38),
                             ))
@@ -110,7 +119,8 @@ class HomeTile extends StatelessWidget {
                         ),
                         onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => MarcarTela(dados.id))),
+                                builder: (context) =>
+                                    MarcarTela(widget.dados.id))),
                       ),
                       ButtonTheme(
                           padding: EdgeInsets.zero,
@@ -148,7 +158,7 @@ class HomeTile extends StatelessWidget {
         builder: (context) {
           return AlertDialog(
             title: Text("Mais informações"),
-            content: Text("${dados.endereco}"),
+            content: Text("${widget.dados.endereco}"),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
@@ -158,12 +168,44 @@ class HomeTile extends StatelessWidget {
               ),
               FlatButton(
                 onPressed: () {
-                  Util.LigacaoTelefonica("tel:" + dados.telefone);
+                  Util.LigacaoTelefonica("tel:" + widget.dados.telefone);
                 },
                 child: Text("Ligar para salão"),
               ),
             ],
           );
         });
+  }
+
+  _mediaAvaliacoes() async {
+    var lista = await Firestore.instance
+        .collection('avaliacoes')
+        .where('salao', isEqualTo: widget.dados.id)
+        .getDocuments()
+        .then((doc) =>
+            doc.documents.map((e) => AvaliacaoDados.fromDocument(e)).toList());
+    _quantidade = lista.length;
+    if (_quantidade > 0) {
+      double media = 0;
+      for (int i = 0; i < _quantidade; i++) {
+        media += lista[i].avaliacao;
+      }
+      media = media / lista.length;
+
+      _media = media;
+      _quantidade = lista.length;
+    }
+  }
+
+  _minMaxPrecos() async {
+    var lista = await Firestore.instance
+        .collection('servicos')
+        .where('salao', isEqualTo: widget.dados.id)
+        .getDocuments()
+        .then((doc) =>
+            doc.documents.map((e) => PrecoDados.fromDocument(e)).toList());
+    lista.sort((a, b) => a.valor.compareTo(b.valor));
+    _menorValor = lista.first.valor;
+    _maiorValor = lista.last.valor;
   }
 }

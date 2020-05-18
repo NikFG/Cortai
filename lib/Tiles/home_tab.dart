@@ -86,14 +86,17 @@ class _HomeTabState extends State<HomeTab> {
       ),
       Row(
         children: <Widget>[
-          Text(
-            "Salões",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                fontFamily: "Poppins"),
-          ),
+          Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Text(
+              "Salões",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Poppins"),
+            ),
+          )
         ],
       ),
       FutureBuilder<QuerySnapshot>(
@@ -114,7 +117,8 @@ class _HomeTabState extends State<HomeTab> {
                     );
                   } else {
                     //TODO Se permissão negada perguntar endereço de casa
-                    if (_permissionStatus.isUndetermined || _permissionStatus.isDenied)
+                    if (_permissionStatus.isUndetermined ||
+                        _permissionStatus.isDenied)
                       requestPermission(Permission.location);
                     var currentLocation = localizacao.data;
                     var lista = snapshot.data.documents.toList();
