@@ -6,7 +6,6 @@ import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'marcado_tela.dart';
 import 'criar_servico_tela.dart';
 import 'confirmar_tela.dart';
@@ -32,15 +31,6 @@ class HomeTela extends StatelessWidget {
           ),
           body: HomeTab(),
           drawer: DrawerCustom(_pageController),
-        ),
-        Scaffold(
-          drawer: DrawerCustom(_pageController),
-          body: SalaoTela(),
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            title: Text("Escolha seu salão"),
-            centerTitle: true,
-          ),
         ),
         Scaffold(
           drawer: DrawerCustom(_pageController),

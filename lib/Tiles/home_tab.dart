@@ -138,7 +138,8 @@ class _HomeTabState extends State<HomeTab> {
                     });
 
                     List<Widget> widgets = lista
-                        .map((doc) => HomeTile(SalaoDados.fromDocument(doc)))
+                        .map((doc) => HomeTile(
+                            SalaoDados.fromDocument(doc), currentLocation))
                         .toList();
 
                     return Column(

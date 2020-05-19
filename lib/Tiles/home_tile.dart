@@ -2,16 +2,18 @@ import 'package:agendacabelo/Dados/avaliacao_dados.dart';
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/marcar_tela.dart';
+import 'package:agendacabelo/Util/haversine.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:geolocator/geolocator.dart';
 
 class HomeTile extends StatefulWidget {
   final SalaoDados dados;
+  final Position currentLocation;
 
-  HomeTile(this.dados);
+  HomeTile(this.dados, this.currentLocation);
 
   @override
   _HomeTileState createState() => _HomeTileState();
@@ -22,9 +24,11 @@ class _HomeTileState extends State<HomeTile> {
   int _quantidade = 0;
   double _menorValor = 0;
   double _maiorValor = 0;
+  String _distancia = "";
 
   @override
   Widget build(BuildContext context) {
+    _calculaDistancia();
     _mediaAvaliacoes();
     _minMaxPrecos();
     return Padding(
@@ -81,7 +85,7 @@ class _HomeTileState extends State<HomeTile> {
                                       fontSize: 12.0, color: Colors.black38),
                                 ),
                                 SizedBox(
-                                  width: 5.0,
+                                  width: 2.0,
                                 ),
                                 Icon(Icons.star,
                                     color: Colors.amber, size: 10.0),
@@ -93,6 +97,14 @@ class _HomeTileState extends State<HomeTile> {
                                   style: TextStyle(
                                       fontSize: 12.0, color: Colors.black38),
                                 ),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  _distancia,
+                                  style: TextStyle(
+                                      fontSize: 12.0, color: Colors.black38),
+                                ),
                               ],
                             ),
                           ],
@@ -101,7 +113,6 @@ class _HomeTileState extends State<HomeTile> {
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
                               "Entre R\$${_menorValor.toStringAsFixed(2)} ~ R\$${_maiorValor.toStringAsFixed(2)} ",
-
                               style:
                                   TextStyle(fontSize: 9, color: Colors.black38),
                             ))
@@ -207,5 +218,16 @@ class _HomeTileState extends State<HomeTile> {
     lista.sort((a, b) => a.valor.compareTo(b.valor));
     _menorValor = lista.first.valor;
     _maiorValor = lista.last.valor;
+  }
+
+  String _calculaDistancia() {
+    double distancia = Haversine.distancia(
+        lat1: widget.currentLocation.latitude,
+        lon1: widget.currentLocation.longitude,
+        lat2: widget.dados.latitude,
+        lon2: widget.dados.longitude);
+
+    this._distancia =
+        "${(distancia / 1000.0).toStringAsFixed(1)}km".replaceAll(".", ",");
   }
 }
