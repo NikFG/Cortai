@@ -184,7 +184,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                   message: "Serviço criado com sucesso",
                                   duration: Duration(milliseconds: 1200))
                               .show(context);
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
                               builder: (context) => HomeTela()));
                         });
                       } else {
@@ -198,7 +198,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                   message: "Serviço alterado com sucesso",
                                   duration: Duration(milliseconds: 1200))
                               .show(context);
-                          Navigator.of(context).push(MaterialPageRoute(
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
                               builder: (context) => HomeTela()));
                         });
                       }

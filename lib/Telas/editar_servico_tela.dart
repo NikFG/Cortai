@@ -17,7 +17,10 @@ class EditarServicoTela extends StatelessWidget {
           leading: Util.leadingScaffold(context),
         ),
         body: FutureBuilder<QuerySnapshot>(
-          future: Firestore.instance.collection('servicos').getDocuments(),
+          future: Firestore.instance
+              .collection('servicos')
+              .where('salao', isEqualTo: salao)
+              .getDocuments(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Center(

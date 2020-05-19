@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/confirmar_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,7 +35,7 @@ class ConfirmarTela extends StatelessWidget {
                     }
                     var dividedTiles = ListTile.divideTiles(
                             tiles: snapshot.data.documents.map((doc) {
-                              return ConfirmarTile(doc);
+                              return ConfirmarTile(HorarioDados.fromDocument(doc));
                             }).toList(),
                             color: Colors.grey[500],
                             context: context)

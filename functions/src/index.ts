@@ -28,6 +28,8 @@ function decrypt(usuario: String) {
 
 
 //Funções de exportação do Firebase
+
+
 export const notificaConfirmado = functions.firestore
   .document('horarios/{horarioID}')
   .onUpdate(async (change, context) => {
@@ -78,73 +80,33 @@ export const notificaConfirmado = functions.firestore
 export const quantidadeConfirmados = functions.firestore
   .document('horarios/{horarioID}')
   .onCreate(async snapshot => {
-     
-      const cabeleireiro = snapshot.get('cabeleireiro')
-      
-      const queryToken = await db
-        .collection('usuarios')
-        .doc(cabeleireiro)
-        .get()
-      const token = queryToken.get('token') 
 
-      const queryCont = await db.collection('horarios')
-        .where('confirmado', '==', false)
-        .where('cabeleireiro', '==', cabeleireiro)
-        .where('ocupado', '==', true)
-        .get()
+    const cabeleireiro = snapshot.get('cabeleireiro')
 
-        const cont = queryCont.docs.length
+    const queryToken = await db
+      .collection('usuarios')
+      .doc(cabeleireiro)
+      .get()
+    const token = queryToken.get('token')
 
-      const payload: admin.messaging.MessagingPayload = {
-        notification: {
-          title: `Há um novo agendamento esperando para ser confirmado`,
-          body: `Confirme os ${cont} agendamentos assim que possível`,
-          click_action: 'FLUTTER_NOTIFICATION_CLICK',
-        }
-      };
-      return fcm.sendToDevice(token, payload);
+    const queryCont = await db.collection('horarios')
+      .where('confirmado', '==', false)
+      .where('cabeleireiro', '==', cabeleireiro)
+      .where('ocupado', '==', true)
+      .get()
+
+    const cont = queryCont.docs.length
+
+    const payload: admin.messaging.MessagingPayload = {
+      notification: {
+        title: `Há um novo agendamento esperando para ser confirmado`,
+        body: `Confirme os ${cont} agendamentos assim que possível`,
+        click_action: 'FLUTTER_NOTIFICATION_CLICK',
+      }
+    };
+    return fcm.sendToDevice(token, payload);
 
   });
-/*export const notificaQuantidadeConfirmados = functions.firestore
-  .document('horarios/{horarioID}')
-  .onUpdate(async (change, context) => { //mudar pra onCreate
-    if (change.before.get('ocupado') != change.after.get('ocupado')) {
-      const horario_id = context.params.horarioID
-      //Get horarios
-      const querySnapshot = await db
-        .collection('horarios')
-        .doc(horario_id)
-        .get();
-
-      const usuario_id = querySnapshot.get('cabeleireiro')
-      const queryToken = await db
-        .collection('usuarios')
-        .doc(usuario_id)
-        .get()
-      const token = queryToken.get('token')
-
-      const queryCont = await db.collection('horarios')
-        .where('confirmado', '==', false)
-        .where('cabeleireiro', '==', usuario_id)
-        .where('ocupado', '==', true)
-        .get()
-
-      const cont = queryCont.docs.length
-
-      const payload: admin.messaging.MessagingPayload = {
-        notification: {
-          title: `Há um novo agendamento esperando para ser confirmado`,
-          body: `Confirme os ${cont} agendamentos assim que possível`,
-          click_action: 'FLUTTER_NOTIFICATION_CLICK',
-        }
-      };
-
-      return fcm.sendToDevice(token, payload);
-    }
-    else {
-      return null
-    }
-  });*/
 
 export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
   .document('usuarios/{usuarioID}')
@@ -213,4 +175,31 @@ export const confirmaCabeleireiroEmail = functions.https
       .doc(`${usuario}`)
       .get();
     response.send(`<h1>Olá ${query.get('nome')}!</h1><br><b>Reinicie seu app para utilizar todas as funcionalidades</b>`)
+  });
+
+export const horarioCancelado = functions.firestore
+  .document('horarios/{horarioID}')
+  .onDelete(async (event) => {
+
+    const queryCliente = await db
+      .collection('usuarios')
+      .doc(event.get('cliente'))
+      .get()
+
+    const queryCabeleireiro = await db
+      .collection('usuarios')
+      .doc(event.get('cabeleireiro'))
+      .get()
+
+    const token = queryCliente.get('token')
+    const cabeleireiro = queryCabeleireiro.get('nome')
+
+    const payload: admin.messaging.MessagingPayload = {
+      notification: {
+        title: `Seu agendamento foi cancelado pelo cabeleireiro`,
+        body: `Seu horário com ${cabeleireiro} foi cancelado`,
+        click_action: 'FLUTTER_NOTIFICATION_CLICK',
+      }
+    };
+    return fcm.sendToDevice(token, payload);
   });

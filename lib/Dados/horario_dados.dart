@@ -20,6 +20,7 @@ class HorarioDados {
     cabeleireiro = snapshot.data['cabeleireiro'];
     cliente = snapshot.data['cliente'];
     confirmado = snapshot.data['confirmado'];
+    preco = snapshot.data['preco'];
   }
 
   Map<String, dynamic> toMap() {
