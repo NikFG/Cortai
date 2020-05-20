@@ -29,6 +29,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   File _imagem;
   List<CabeleireiroDados> selecionados = [];
   int cont = 0;
+  bool _botaoHabilitado = true;
 
   @override
   Widget build(BuildContext context) {
@@ -150,60 +151,73 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
               SizedBox(
                 height: 44,
                 child: RaisedButton(
-                  child: Text(
-                    "Confirmar",
-                    style: TextStyle(fontSize: 18),
-                  ),
+                  child: _botaoHabilitado
+                      ? Text(
+                          "Confirmar",
+                          style: TextStyle(fontSize: 18),
+                        )
+                      : CircularProgressIndicator(
+                          backgroundColor: Colors.white70,
+                        ),
                   textColor: Colors.white,
                   color: Theme.of(context).primaryColor,
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      PrecoDados dados = PrecoDados();
-                      dados.descricao = _descricaoControlador.text;
-                      dados.setValor(_precoControlador.text);
-                      dados.salao = model.getSalao();
-                      dados.cabeleireiros =
-                          selecionados.map((e) => e.id).toList();
-                      if (widget.precoDados != null) {
-                        if (_imagem != null) {
-                          await Util.deletaImagem(widget.precoDados.imagemUrl);
-                          dados.imagemUrl = await Util.enviaImagem(
-                              model.dados['uid'], _imagem);
-                        } else {
-                          dados.imagemUrl = widget.precoDados.imagemUrl;
+                  onPressed: _botaoHabilitado
+                      ? () async {
+
+                          if (_formKey.currentState.validate()) {
+                            setState(() {
+                              _botaoHabilitado = false;
+                            });
+                            PrecoDados dados = PrecoDados();
+                            dados.descricao = _descricaoControlador.text;
+                            dados.setValor(_precoControlador.text);
+                            dados.salao = model.getSalao();
+                            dados.cabeleireiros =
+                                selecionados.map((e) => e.id).toList();
+                            if (widget.precoDados != null) {
+                              if (_imagem != null) {
+                                await Util.deletaImagem(
+                                    widget.precoDados.imagemUrl);
+                                dados.imagemUrl = await Util.enviaImagem(
+                                    model.dados['uid'], _imagem);
+                              } else {
+                                dados.imagemUrl = widget.precoDados.imagemUrl;
+                              }
+                            }
+                            if (widget.precoDados == null) {
+                              dados.imagemUrl = await Util.enviaImagem(
+                                  model.dados['uid'], _imagem);
+                              await Firestore.instance
+                                  .collection("servicos")
+                                  .add(dados.toMap())
+                                  .then((value) async {
+                                await FlushbarHelper.createSuccess(
+                                        message: "Serviço criado com sucesso",
+                                        duration: Duration(milliseconds: 1200))
+                                    .show(context);
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeTela()));
+                              });
+                            } else {
+                              dados.id = widget.precoDados.id;
+                              await Firestore.instance
+                                  .collection("servicos")
+                                  .document(dados.id)
+                                  .updateData(dados.toMap())
+                                  .then((value) async {
+                                await FlushbarHelper.createSuccess(
+                                        message: "Serviço alterado com sucesso",
+                                        duration: Duration(milliseconds: 1200))
+                                    .show(context);
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeTela()));
+                              });
+                            }
+                          }
                         }
-                      }
-                      if (widget.precoDados == null) {
-                        dados.imagemUrl =
-                            await Util.enviaImagem(model.dados['uid'], _imagem);
-                        await Firestore.instance
-                            .collection("servicos")
-                            .add(dados.toMap())
-                            .then((value) async {
-                          await FlushbarHelper.createSuccess(
-                                  message: "Serviço criado com sucesso",
-                                  duration: Duration(milliseconds: 1200))
-                              .show(context);
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (context) => HomeTela()));
-                        });
-                      } else {
-                        dados.id = widget.precoDados.id;
-                        await Firestore.instance
-                            .collection("servicos")
-                            .document(dados.id)
-                            .updateData(dados.toMap())
-                            .then((value) async {
-                          await FlushbarHelper.createSuccess(
-                                  message: "Serviço alterado com sucesso",
-                                  duration: Duration(milliseconds: 1200))
-                              .show(context);
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (context) => HomeTela()));
-                        });
-                      }
-                    }
-                  },
+                      : null,
                 ),
               )
             ],

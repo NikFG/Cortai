@@ -13,12 +13,12 @@ class MarcadoTela extends StatelessWidget {
       child: ScopedModelDescendant<LoginModelo>(
         builder: (context, child, model) {
           return Material(
-            child: FutureBuilder<QuerySnapshot>(
-              future: Firestore.instance
+            child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance
                   .collection('horarios')
                   .where('cliente', isEqualTo: model.dados['uid'])
                   .where('ocupado', isEqualTo: true)
-                  .getDocuments(),
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(

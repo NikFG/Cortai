@@ -68,6 +68,9 @@ export const notificaConfirmado = functions.firestore
           title: `Seu agendamento foi confirmado!!!! `,
           body: `${nome} confirmou seu agendamento no dia ${data} às ${horario}`,
           click_action: 'FLUTTER_NOTIFICATION_CLICK'
+        },
+        data: {
+          screen: "marcado_tela"
         }
       };
 
@@ -102,7 +105,11 @@ export const quantidadeConfirmados = functions.firestore
         title: `Há um novo agendamento esperando para ser confirmado`,
         body: `Confirme os ${cont} agendamentos assim que possível`,
         click_action: 'FLUTTER_NOTIFICATION_CLICK',
+      },
+      data: {
+        screen: "confirmar_tela"
       }
+
     };
     return fcm.sendToDevice(token, payload);
 

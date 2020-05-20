@@ -80,12 +80,13 @@ class _LoginTelaState extends State<LoginTela> {
                                       decoration: InputDecoration(
                                           hintText: 'Email',
                                           hintStyle: TextStyle(fontSize: 12)),
-                                      // ignore: missing_return
+
                                       validator: (text) {
                                         if (text.isEmpty ||
                                             !text.contains("@")) {
                                           return "Email inválido";
                                         }
+                                        return null;
                                       },
                                     ),
                                   ),
@@ -99,11 +100,12 @@ class _LoginTelaState extends State<LoginTela> {
                                       decoration: InputDecoration(
                                           hintText: 'Senha',
                                           hintStyle: TextStyle(fontSize: 12)),
-                                      // ignore: missing_return
+
                                       validator: (text) {
                                         if (text.isEmpty || text.length < 6) {
                                           return "Senha inválida";
                                         }
+                                        return null;
                                       },
                                     ),
                                   ),

@@ -21,7 +21,8 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
   var _aberturaController = TextEditingController();
   var _fechamentoController = TextEditingController();
   var _intervaloController = MaskedTextController(mask: '00');
-
+  bool _switchMarcado = true;
+  bool _botaoHabilitado = true;
   List _diasSemana = [false, false, false, false, false, false, false];
 
   @override
@@ -79,9 +80,24 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                       if (value.isEmpty) {
                         return "Digite um número";
                       }
-
                       return null;
                     },
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Switch(
+                        onChanged: (value) {
+                          setState(() {
+                            _switchMarcado = value;
+                          });
+                        },
+                        value: _switchMarcado,
+                      ),
+                      Text(_switchMarcado ? "Acrescentar" : "Substituir"),
+                    ],
                   ),
                   SizedBox(
                     height: 20,
@@ -191,23 +207,39 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                   SizedBox(
                     height: 44,
                     child: RaisedButton(
-                      onPressed: () {
-                        print("Apertei");
-                        if (_formKey.currentState.validate()) {
-                          FuncionamentoDados dados = FuncionamentoDados();
-                          dados.horarioAbertura = _aberturaController.text;
-                          dados.horarioFechamento = _fechamentoController.text;
-                          dados.intervalo =
-                              int.parse(_intervaloController.text);
-                          for (int i = 0; i < 7; i++)
-                            if (_diasSemana[i])
-                              Firestore.instance
-                                  .collection('saloes')
-                                  .document(model.dados['salao'])
-                                  .collection('funcionamento')
-                                  .document(_diaSemanaIndex(i))
-                                  .setData(dados.toMap(), merge: true)
-                                  .then((value) async {
+                      onPressed: _botaoHabilitado
+                          ? () async {
+                              if (_formKey.currentState.validate()) {
+                                FuncionamentoDados dados = FuncionamentoDados();
+                                dados.horarioAbertura =
+                                    _aberturaController.text;
+                                dados.horarioFechamento =
+                                    _fechamentoController.text;
+                                dados.intervalo =
+                                    int.parse(_intervaloController.text);
+                                if (!_switchMarcado) {
+                                  await Firestore.instance
+                                      .collection('saloes')
+                                      .document(model.dados['salao'])
+                                      .collection('funcionamento')
+                                      .getDocuments()
+                                      .then((value) {
+                                    for (var doc in value.documents) {
+                                      doc.reference.delete();
+                                    }
+                                  });
+                                }
+                                for (int i = 0; i < 7; i++) {
+                                  if (_diasSemana[i]) {
+                                    await Firestore.instance
+                                        .collection('saloes')
+                                        .document(model.dados['salao'])
+                                        .collection('funcionamento')
+                                        .document(_diaSemanaIndex(i))
+                                        .setData(dados.toMap(), merge: true);
+                                  }
+                                }
+
                                 await FlushbarHelper.createSuccess(
                                         message:
                                             "Horário de funcionamento alterado com sucesso",
@@ -217,18 +249,18 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => HomeTela()));
-                              }).catchError((e) {
-                                print(e);
-                              });
-                        }
-                      },
+                              }
+                            }
+                          : null,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                           side: BorderSide(color: Colors.red)),
-                      child: Text(
-                        "Confirmar",
-                        style: TextStyle(fontSize: 18),
-                      ),
+                      child: _botaoHabilitado
+                          ? Text(
+                              "Confirmar",
+                              style: TextStyle(fontSize: 18),
+                            )
+                          : CircularProgressIndicator(),
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
                     ),

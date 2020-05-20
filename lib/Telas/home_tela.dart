@@ -1,6 +1,5 @@
 import 'package:agendacabelo/Tiles/home_tab.dart';
 import 'package:agendacabelo/Telas/gerenciar_salao_tela.dart';
-import 'package:agendacabelo/Telas/salao_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
@@ -12,12 +11,14 @@ import 'confirmar_tela.dart';
 
 class HomeTela extends StatelessWidget {
   final String usuario_id;
+  final int paginaInicial;
 
-  HomeTela({this.usuario_id});
+  HomeTela({this.usuario_id, this.paginaInicial});
 
   @override
   Widget build(BuildContext context) {
-    final _pageController = PageController(initialPage: 0);
+    final _pageController =
+        PageController(initialPage: paginaInicial == null ? 0 : paginaInicial);
     if (usuario_id != null) PushNotification.servico(usuario_id, context);
     return PageView(
       physics: NeverScrollableScrollPhysics(),
@@ -48,7 +49,7 @@ class HomeTela extends StatelessWidget {
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Confirmar horários"),
             centerTitle: true,
-            leading: Util.leadingScaffold(context),
+
             actions: <Widget>[
               PopupMenuButton(
                 itemBuilder: (context) => [

@@ -17,6 +17,7 @@ class _CadastroTelaState extends State<CadastroTela> {
   final _senhaConfirmaControlador = TextEditingController();
   final _telefoneControlador = MaskedTextController(mask: '(00) 0 0000-0000');
   final _nomeControlador = TextEditingController();
+  bool _botaoHabilitado = true;
 
   @override
   Widget build(BuildContext context) {
@@ -91,11 +92,11 @@ class _CadastroTelaState extends State<CadastroTela> {
                               decoration: InputDecoration(
                                   hintText: 'Telefone de contato',
                                   hintStyle: TextStyle(fontSize: 12)),
-                              // ignore: missing_return
                               validator: (text) {
                                 if (text.isEmpty || text.length < 11) {
                                   return "Numero invalido";
                                 }
+                                return null;
                               },
                             ),
                           ),
@@ -108,11 +109,11 @@ class _CadastroTelaState extends State<CadastroTela> {
                               decoration: InputDecoration(
                                   hintText: 'Senha',
                                   hintStyle: TextStyle(fontSize: 12)),
-                              // ignore: missing_return
                               validator: (text) {
                                 if (text.isEmpty || text.length < 6) {
                                   return "Senha inválida";
                                 }
+                                return null;
                               },
                             ),
                           ),
@@ -125,14 +126,14 @@ class _CadastroTelaState extends State<CadastroTela> {
                               decoration: InputDecoration(
                                   hintText: 'Confirmar senha',
                                   hintStyle: TextStyle(fontSize: 12)),
-                              // ignore: missing_return
                               validator: (text) {
                                 if (text.isEmpty || text.length < 6) {
                                   return "Senha inválida";
                                 }
                                 if (text != _senhaControlador.text) {
-                                  return "As senhas não estão iguais";
+                                  return "As senhas estão diferentes";
                                 }
+                                return null;
                               },
                             ),
                           ),
@@ -149,32 +150,38 @@ class _CadastroTelaState extends State<CadastroTela> {
                             child: Align(
                               alignment: Alignment.center,
                               child: FlatButton(
-                                onPressed: () {
-                                  if (_formKey.currentState.validate()) {
-                                    LoginModelo login = LoginModelo();
-                                    login.dados = {
-                                      'uid': '',
-                                      'email': _emailControlador.text,
-                                      'nome': _nomeControlador.text,
-                                      'telefone': _telefoneControlador.text,
-                                      'cabeleireiro': false,
-                                    };
-                                    login.signUp(
-                                        usuarioData: login.dados,
-                                        senha: _senhaControlador.text);
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginTela()));
-                                  }
-                                },
-                                child: Text(
-                                  'Cadastrar',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
+                                onPressed: _botaoHabilitado
+                                    ? () {
+                                        if (_formKey.currentState.validate()) {
+                                          LoginModelo login = LoginModelo();
+                                          login.dados = {
+                                            'uid': '',
+                                            'email': _emailControlador.text,
+                                            'nome': _nomeControlador.text,
+                                            'telefone':
+                                                _telefoneControlador.text,
+                                            'cabeleireiro': false,
+                                          };
+                                          login.signUp(
+                                              usuarioData: login.dados,
+                                              senha: _senhaControlador.text);
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LoginTela()));
+                                        }
+                                      }
+                                    : null,
+                                child: _botaoHabilitado
+                                    ? Text(
+                                        'Confirmar',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    : CircularProgressIndicator(),
                               ),
                             ),
                           ),

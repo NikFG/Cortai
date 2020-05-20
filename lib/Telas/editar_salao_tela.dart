@@ -30,6 +30,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   int cont = 0;
   SalaoDados dados;
   File _imagem;
+  bool _botaoHabilitado = true;
 
   @override
   Widget build(BuildContext context) {
@@ -106,66 +107,75 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
               width: 20,
               child: RaisedButton(
                 padding: EdgeInsets.all(8),
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    dados.nome = _nomeController.text;
-                    dados.endereco = _enderecoController.text;
-                    dados.telefone = _telefoneController.text;
-                    LatLng latlng = await getLatitudeLongitude(dados.endereco);
-                    dados.latitude = latlng.latitude;
-                    dados.longitude = latlng.longitude;
+                onPressed: _botaoHabilitado
+                    ? () async {
+                        if (_formKey.currentState.validate()) {
+                          setState(() {
+                            _botaoHabilitado = false;
+                          });
+                          dados.nome = _nomeController.text;
+                          dados.endereco = _enderecoController.text;
+                          dados.telefone = _telefoneController.text;
+                          LatLng latlng =
+                              await getLatitudeLongitude(dados.endereco);
+                          dados.latitude = latlng.latitude;
+                          dados.longitude = latlng.longitude;
 
-                    if (dados.id == null) {
-                      dados.imagem =
-                          await Util.enviaImagem(widget.usuario, _imagem);
-                      await Firestore.instance
-                          .collection('saloes')
-                          .add(dados.toMap())
-                          .then((doc) async {
-                        await FlushbarHelper.createSuccess(
-                          message: "Salão criado com sucesso",
-                        ).show(context);
-                        Firestore.instance
-                            .collection('usuarios')
-                            .document(widget.usuario)
-                            .updateData({'salao': widget.salao});
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HomeTela()));
-                      }).catchError((e) {
-                        FlushbarHelper.createError(
-                                message:
-                                    'Houve algum erro ao criar o salão\nTente novamente!!')
-                            .show(context);
-                      });
-                    } else {
-                      if (_imagem != null) {
-                        await Util.deletaImagem(dados.imagem);
-                        dados.imagem =
-                            await Util.enviaImagem(widget.usuario, _imagem);
+                          if (dados.id == null) {
+                            dados.imagem =
+                                await Util.enviaImagem(widget.usuario, _imagem);
+                            await Firestore.instance
+                                .collection('saloes')
+                                .add(dados.toMap())
+                                .then((doc) async {
+                              await FlushbarHelper.createSuccess(
+                                message: "Salão criado com sucesso",
+                              ).show(context);
+                              Firestore.instance
+                                  .collection('usuarios')
+                                  .document(widget.usuario)
+                                  .updateData({'salao': widget.salao});
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomeTela()));
+                            }).catchError((e) {
+                              FlushbarHelper.createError(
+                                      message:
+                                          'Houve algum erro ao criar o salão\nTente novamente!!')
+                                  .show(context);
+                            });
+                          } else {
+                            if (_imagem != null) {
+                              await Util.deletaImagem(dados.imagem);
+                              dados.imagem = await Util.enviaImagem(
+                                  widget.usuario, _imagem);
+                            }
+                            await Firestore.instance
+                                .collection('saloes')
+                                .document(dados.id)
+                                .updateData(dados.toMap())
+                                .then((doc) async {
+                              await FlushbarHelper.createSuccess(
+                                message: "Salão modificado com sucesso",
+                              ).show(context);
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeTela()));
+                            }).catchError((e) {
+                              FlushbarHelper.createError(
+                                      message:
+                                          'Houve algum erro ao editar o salão\nTente novamente!!')
+                                  .show(context);
+                            });
+                          }
+                        }
                       }
-                      await Firestore.instance
-                          .collection('saloes')
-                          .document(dados.id)
-                          .updateData(dados.toMap())
-                          .then((doc) async {
-                        await FlushbarHelper.createSuccess(
-                          message: "Salão modificado com sucesso",
-                        ).show(context);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => HomeTela()));
-                      }).catchError((e) {
-                        FlushbarHelper.createError(
-                                message:
-                                    'Houve algum erro ao editar o salão\nTente novamente!!')
-                            .show(context);
-                      });
-                    }
-                  }
-                },
-                child: Text(
-                  "Confirmar",
-                  style: TextStyle(fontSize: 18),
-                ),
+                    : null,
+                child: _botaoHabilitado
+                    ? Text(
+                        "Confirmar",
+                        style: TextStyle(fontSize: 18),
+                      )
+                    : CircularProgressIndicator(),
                 color: Theme.of(context).primaryColor,
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(
