@@ -21,12 +21,13 @@ class EditarSalaoTela extends StatefulWidget {
   _EditarSalaoTelaState createState() => _EditarSalaoTelaState();
 }
 
-class _EditarSalaoTelaState extends State<EditarSalaoTela> { //TODO REFAZER VERIFICA SALÃO
+class _EditarSalaoTelaState extends State<EditarSalaoTela> {
+  //TODO REFAZER VERIFICA SALÃO
   final _formKey = GlobalKey<FormState>();
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();
   var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
-
+  int cont = 0;
   SalaoDados dados;
   File _imagem;
 
@@ -35,11 +36,10 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> { //TODO REFAZER VERI
     verificaSalao();
     return Scaffold(
       appBar: AppBar(
-        title: dados.id != null ? Text("Editar salão") : Text("Criar salão"),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop,
-        ),
+        title: widget.salao.id != null
+            ? Text("Editar salão")
+            : Text("Criar salão"),
+        leading: Util.leadingScaffold(context),
       ),
       body: Form(
         key: _formKey,
@@ -151,7 +151,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> { //TODO REFAZER VERI
                         await FlushbarHelper.createSuccess(
                           message: "Salão modificado com sucesso",
                         ).show(context);
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => HomeTela()));
                       }).catchError((e) {
                         FlushbarHelper.createError(
@@ -181,11 +181,12 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> { //TODO REFAZER VERI
   }
 
   Future<Null> verificaSalao() {
-    if (widget.salao != null) {
+    if (widget.salao != null && cont == 0) {
       dados = widget.salao;
       _nomeController.text = dados.nome;
       _enderecoController.text = dados.endereco;
       _telefoneController.text = dados.telefone;
+      cont++;
     } else {
       dados = SalaoDados();
     }

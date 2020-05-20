@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Haversine {
-  static final R = 6372.8; // In kilometers
+  static final _R = 6372.8;
 
   static double distancia(
       {@required double lat1,
@@ -16,7 +16,7 @@ class Haversine {
     double a =
         pow(sin(dLat / 2), 2) + pow(sin(dLon / 2), 2) * cos(lat1) * cos(lat2);
     double c = 2 * asin(sqrt(a));
-    return R * c * 1000;
+    return _R * c * 1000;
   }
 
   static double _toRadians(double degree) {

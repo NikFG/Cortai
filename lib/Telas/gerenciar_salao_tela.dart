@@ -64,6 +64,9 @@ class CreateSalaoTela extends StatelessWidget {
                 },
                 child: Text("Cadastrar cabeleireiros"),
               ),
+              Divider(
+                color: Colors.black45,
+              ),
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(

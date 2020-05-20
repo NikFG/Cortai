@@ -89,10 +89,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
               ),
               Divider(),
               DrawerTile(Icons.home, "Início", widget.pageController, 0),
-              DrawerTile(Icons.content_cut, "Marcar horário",
-                  widget.pageController, 1),
               DrawerTile(Icons.scatter_plot, "Horários marcados",
-                  widget.pageController, 2),
+                  widget.pageController, 1),
               ScopedModelDescendant<LoginModelo>(
                   builder: (context, child, model) {
                 if (model.isCabeleireiro()) {
@@ -136,7 +134,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
           case ConnectionState.none:
           case ConnectionState.waiting:
             return DrawerTile(FontAwesome.calendar_times_o,
-                "Confirmar horários", widget.pageController, 3);
+                "Confirmar horários", widget.pageController, 2);
           default:
             int _numeroConfirmacoes = snapshot.data.documents.length;
             return Badge(
@@ -149,17 +147,16 @@ class _DrawerCustomState extends State<DrawerCustom> {
                   style: TextStyle(color: Colors.white),
                 ),
                 child: DrawerTile(FontAwesome.calendar_times_o,
-                    "Confirmar horários", widget.pageController, 3));
+                    "Confirmar horários", widget.pageController, 2));
             break;
         }
       },
     ));
     list.add(
-      DrawerTile(Icons.work, "Cadastrar serviço", widget.pageController, 4),
+      DrawerTile(Icons.work, "Cadastrar serviço", widget.pageController, 3),
     );
     list.add(DrawerTile(
-        FontAwesome.circle, "Gerenciar salão", widget.pageController, 5));
-
+        FontAwesome.circle, "Gerenciar salão", widget.pageController, 4));
 
     return Column(
       children: list,
