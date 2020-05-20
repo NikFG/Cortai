@@ -227,7 +227,7 @@ class _LoginTelaState extends State<LoginTela> {
                             )),
                         Positioned(
                           top: MediaQuery.of(context).size.height / 8,
-                          left: MediaQuery.of(context).size.width / 2.9,
+                          left: MediaQuery.of(context).size.width /3.2,
                           child: Text(
                             'AGENDA HAIR',
                             style: TextStyle(
