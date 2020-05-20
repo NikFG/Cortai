@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -22,11 +23,11 @@ class MyApp extends StatelessWidget {
                 accentColor: Color(0xFFf5851f),
               ),
               debugShowCheckedModeBanner: false,
-                home: model.isLogado()
+              home: model.isLogado()
                   ? HomeTela(
                       usuario_id: model.dados['uid'],
                     )
-                  : HomeTela(),
+                  : LoginTela(),
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,

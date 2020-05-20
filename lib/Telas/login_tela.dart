@@ -1,4 +1,6 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
@@ -80,7 +82,6 @@ class _LoginTelaState extends State<LoginTela> {
                                       decoration: InputDecoration(
                                           hintText: 'Email',
                                           hintStyle: TextStyle(fontSize: 12)),
-
                                       validator: (text) {
                                         if (text.isEmpty ||
                                             !text.contains("@")) {
@@ -100,7 +101,6 @@ class _LoginTelaState extends State<LoginTela> {
                                       decoration: InputDecoration(
                                           hintText: 'Senha',
                                           hintStyle: TextStyle(fontSize: 12)),
-
                                       validator: (text) {
                                         if (text.isEmpty || text.length < 6) {
                                           return "Senha inválida";
@@ -112,18 +112,26 @@ class _LoginTelaState extends State<LoginTela> {
                                   Align(
                                     alignment: Alignment.centerRight,
                                     child: FlatButton(
-                                      onPressed: () {
-                                        if (_emailControlador.text.isEmpty) {
-                                          _scaffoldKey.currentState
-                                              .showSnackBar(SnackBar(
-                                            content: Text("INSIRA UM EMAIL"),
-                                            backgroundColor: Colors.redAccent,
-                                            duration: Duration(seconds: 2),
-                                          ));
+                                      onPressed: () async {
+                                        if (_emailControlador.text.isEmpty ||
+                                            !EmailValidator.validate(
+                                                _emailControlador.text)) {
+                                          FlushbarHelper.createError(
+                                                  message:
+                                                      "Insira um email válido",
+                                                  duration: Duration(
+                                                      milliseconds: 2500))
+                                              .show(context);
                                         } else {
                                           model.recuperarSenha(
                                               _emailControlador.text);
-                                        FlushbarHelper.createInformation(message: "Confira seu email").show(context);
+                                          FlushbarHelper.createInformation(
+                                                  title: "Confira seu email!",
+                                                  message:
+                                                      "Caso exista uma conta ativa, foi enviado um email para recuperação de senha!",
+                                                  duration:
+                                                      Duration(seconds: 3))
+                                              .show(context);
                                         }
                                       },
                                       child: Text(
@@ -152,11 +160,9 @@ class _LoginTelaState extends State<LoginTela> {
                                               .validate()) {
                                             model.emailSignIn(
                                                 email: _emailControlador.text,
-                                                senha: _senhaControlador.text);
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomeTela()));
+                                                senha: _senhaControlador.text,
+                                                onSuccess: onSuccess,
+                                                onFail: onFail);
                                           }
                                         },
                                         child: Text(
@@ -229,7 +235,7 @@ class _LoginTelaState extends State<LoginTela> {
                             )),
                         Positioned(
                           top: MediaQuery.of(context).size.height / 8,
-                          left: MediaQuery.of(context).size.width /3.2,
+                          left: MediaQuery.of(context).size.width / 3.2,
                           child: Text(
                             'AGENDA HAIR',
                             style: TextStyle(
@@ -246,5 +252,16 @@ class _LoginTelaState extends State<LoginTela> {
               ));
       },
     );
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(message: "Teste de sucesso")
+        .show(context);
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  void onFail() async {
+    await FlushbarHelper.createError(message: "Teste de erro").show(context);
   }
 }

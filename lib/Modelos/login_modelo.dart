@@ -51,8 +51,8 @@ class LoginModelo extends Model {
   void emailSignIn(
       {@required String email,
       @required String senha,
-      VoidCallback onSuccess,
-      VoidCallback onFail}) {
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) {
     isCarregando = true;
     notifyListeners();
     _auth
@@ -61,9 +61,11 @@ class LoginModelo extends Model {
       _carregarUsuario();
       isCarregando = false;
       notifyListeners();
+      onSuccess();
     }).catchError((e) {
       isCarregando = false;
       notifyListeners();
+      onFail();
     });
   }
 
