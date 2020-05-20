@@ -37,19 +37,25 @@ dependencies:
   permission_handler: ^5.0.0+hotfix.6
   scoped_model: ^1.0.1
   url_launcher: ^5.4.5
+  flutter_svg: ^0.17.4
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
+assets:
+  - assets/icones/corte.svg
 
 flutter:
   uses-material-design: true
   fonts:
     - family: Poppins
       fonts:
-        - asset: fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
+          
+    - family: Cairo
+      fonts: 
+          - asset: assets/fonts/Cairo-Black.ttf
 
 

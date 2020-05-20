@@ -29,6 +29,18 @@ class _HomeTabState extends State<HomeTab> {
     ];
 
     return ListView(children: [
+       Row(
+        children: <Widget>[
+          Text(
+            "  Novidades",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                fontFamily: "Roboto"),
+          ),
+        ],
+      ),
       CarouselSlider(
         items: imgList
             .map((item) => Container(
