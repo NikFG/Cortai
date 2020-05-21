@@ -2,6 +2,7 @@ import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -69,9 +70,21 @@ class _DrawerCustomState extends State<DrawerCustom> {
                                       color: Theme.of(context).primaryColor,
                                     ),
                                   ),
-                                  onTap: () {
+                                  onTap: () async {
                                     if (model.isLogado()) {
-                                      model.logOut();
+                                      await model.signOut().then((value) async {
+                                        await FlushbarHelper.createSuccess(
+                                                message:
+                                                    "Signout realizado com sucesso",
+                                                duration: Duration(
+                                                    milliseconds: 1750))
+                                            .show(context);
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoginTela()));
+                                      });
                                     } else {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(

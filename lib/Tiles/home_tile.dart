@@ -34,14 +34,14 @@ class _HomeTileState extends State<HomeTile> {
     return Padding(
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ServicoTile())),
-        child:Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey[300], width: 1.0),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
+        onTap: () => Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => ServicoTile())),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey[300], width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(
             children: <Widget>[
               Container(
