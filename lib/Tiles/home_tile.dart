@@ -215,8 +215,10 @@ class _HomeTileState extends State<HomeTile> {
         .then((doc) =>
             doc.documents.map((e) => PrecoDados.fromDocument(e)).toList());
     lista.sort((a, b) => a.valor.compareTo(b.valor));
-    _menorValor = lista.first.valor;
-    _maiorValor = lista.last.valor;
+    if (lista.length > 0) {
+      _menorValor = lista.first.valor;
+      _maiorValor = lista.last.valor;
+    }
   }
 
   String _calculaDistancia() {
