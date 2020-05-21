@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -24,9 +25,11 @@ class MyApp extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               home: model.isLogado()
-                  ? HomeTela(
-                      usuario_id: model.dados['uid'],
-                    )
+                  ? model.dados['donoSalao'] != null && model.getSalao() == null
+                      ? EditarSalaoTela(model.dados['uid'])
+                      : HomeTela(
+                          usuario_id: model.dados['uid'],
+                        )
                   : LoginTela(),
               localizationsDelegates: [
                 GlobalMaterialLocalizations.delegate,
