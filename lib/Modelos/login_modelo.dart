@@ -111,7 +111,7 @@ class LoginModelo extends Model {
     notifyListeners();
   }
 
-  void logOut() async {
+  Future<Null> signOut() async {
     await _auth.signOut();
     dados = Map();
     firebaseUser = null;
