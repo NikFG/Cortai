@@ -5,6 +5,8 @@ import 'package:agendacabelo/Telas/marcar_tela.dart';
 import 'package:agendacabelo/Util/haversine.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Tiles/teste_tile.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +38,7 @@ class _HomeTileState extends State<HomeTile> {
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ServicoTile())),
+            builder: (context) => TesteTile())),
         child:Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -46,13 +48,13 @@ class _HomeTileState extends State<HomeTile> {
           child: Row(
             children: <Widget>[
               Container(
-                height: 80,
+                height: 100,
                 width: 80,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     image: DecorationImage(
                         image: NetworkImage(widget.dados.imagem),
-                        fit: BoxFit.cover)),
+                        fit: BoxFit.contain)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +70,7 @@ class _HomeTileState extends State<HomeTile> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 16.0,
+                              fontSize: 20.0,
                               fontFamily: 'Poppins'),
                         ),
                         SizedBox(
@@ -83,7 +85,7 @@ class _HomeTileState extends State<HomeTile> {
                                 Text(
                                   _media.toStringAsFixed(1),
                                   style: TextStyle(
-                                      fontSize: 12.0, color: Colors.black38),
+                                      fontSize: 14.0, color: Colors.black38),
                                 ),
                                 SizedBox(
                                   width: 2.0,
@@ -96,7 +98,7 @@ class _HomeTileState extends State<HomeTile> {
                                 Text(
                                   "(${_quantidade.toString()})",
                                   style: TextStyle(
-                                      fontSize: 12.0, color: Colors.black38),
+                                      fontSize: 14.0, color: Colors.black38),
                                 ),
                                 SizedBox(
                                   width: 5.0,
@@ -104,7 +106,7 @@ class _HomeTileState extends State<HomeTile> {
                                 Text(
                                   _distancia,
                                   style: TextStyle(
-                                      fontSize: 12.0, color: Colors.black38),
+                                      fontSize: 14.0, color: Colors.black38),
                                 ),
                               ],
                             ),
@@ -115,7 +117,7 @@ class _HomeTileState extends State<HomeTile> {
                             child: Text(
                               "Entre R\$${_menorValor.toStringAsFixed(2)} ~ R\$${_maiorValor.toStringAsFixed(2)} ",
                               style:
-                                  TextStyle(fontSize: 9, color: Colors.black38),
+                                  TextStyle(fontSize: 11, color: Colors.black38),
                             ))
                       ],
                     ),
@@ -131,7 +133,7 @@ class _HomeTileState extends State<HomeTile> {
                         ),
                         onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => ServicoTile())),
+                                builder: (context) => TesteTile())),
                       ),
                       ButtonTheme(
                           padding: EdgeInsets.zero,

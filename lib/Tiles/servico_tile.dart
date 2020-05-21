@@ -33,7 +33,7 @@ class ServicoTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 40),
+                    margin: EdgeInsets.symmetric(vertical: 50),
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -41,10 +41,10 @@ class ServicoTile extends StatelessWidget {
                     ),
                     child: Text(
                       "Salao o Taisu",
-                      style: Theme.of(context).textTheme.display1.copyWith(
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black87,
-                          fontFamily: 'Poppins'),
+                        style: Theme.of(context).textTheme.display1.copyWith(
+                            fontWeight: FontWeight.w900,
+                            color: Colors.black87,
+                            fontFamily: 'Poppins'),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -54,15 +54,20 @@ class ServicoTile extends StatelessWidget {
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
-                      childAspectRatio: .85,
+                      childAspectRatio: .99,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
                       children: <Widget>[
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(13),
-                          ),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(13),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(1.0, 6.0),
+                                    blurRadius: 40.0),
+                              ]),
                           child: Column(
                             children: <Widget>[
                               Container(
@@ -108,9 +113,14 @@ class ServicoTile extends StatelessWidget {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(13),
-                          ),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(13),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(1.0, 6.0),
+                                    blurRadius: 40.0),
+                              ]),
                           child: Column(
                             children: <Widget>[
                               Container(
@@ -132,17 +142,14 @@ class ServicoTile extends StatelessWidget {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(13),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 17),
-                                blurRadius: 17,
-                                spreadRadius: -23,
-                                color: Color(0xFFE6E6E6),
-                              ),
-                            ],
-                          ),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(13),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(1.0, 6.0),
+                                    blurRadius: 40.0),
+                              ]),
                           child: Column(
                             children: <Widget>[
                               Container(
@@ -164,13 +171,14 @@ class ServicoTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
+                  ), 
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
+      
     );
   }
 }
