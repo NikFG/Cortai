@@ -13,7 +13,7 @@ class HomeTela extends StatelessWidget {
   final String usuario_id;
   final int paginaInicial;
 
-  HomeTela({this.usuario_id, this.paginaInicial});
+  HomeTela({ this.usuario_id, this.paginaInicial});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class HomeTela extends StatelessWidget {
         ),
         Scaffold(
           drawer: DrawerCustom(_pageController),
-          body: CreateSalaoTela(),
+          body: GerenciarSalaoTela(),
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Gerenciar salão"),
