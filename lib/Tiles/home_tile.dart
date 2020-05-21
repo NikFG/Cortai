@@ -1,7 +1,6 @@
 import 'package:agendacabelo/Dados/avaliacao_dados.dart';
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
-import 'package:agendacabelo/Telas/marcar_tela.dart';
 import 'package:agendacabelo/Util/haversine.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -218,8 +217,10 @@ class _HomeTileState extends State<HomeTile> {
         .then((doc) =>
             doc.documents.map((e) => PrecoDados.fromDocument(e)).toList());
     lista.sort((a, b) => a.valor.compareTo(b.valor));
-    _menorValor = lista.first.valor;
-    _maiorValor = lista.last.valor;
+    if (lista.length > 0) {
+      _menorValor = lista.first.valor;
+      _maiorValor = lista.last.valor;
+    }
   }
 
   String _calculaDistancia() {

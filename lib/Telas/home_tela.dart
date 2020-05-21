@@ -1,7 +1,6 @@
 import 'package:agendacabelo/Tiles/home_tab.dart';
 import 'package:agendacabelo/Telas/gerenciar_salao_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
-import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/drawer_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,6 @@ class HomeTela extends StatelessWidget {
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Confirmar horários"),
             centerTitle: true,
-
             actions: <Widget>[
               PopupMenuButton(
                 itemBuilder: (context) => [
@@ -96,7 +94,7 @@ class HomeTela extends StatelessWidget {
         ),
         Scaffold(
           drawer: DrawerCustom(_pageController),
-          body: CreateSalaoTela(),
+          body: GerenciarSalaoTela(),
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
             title: Text("Gerenciar salão"),

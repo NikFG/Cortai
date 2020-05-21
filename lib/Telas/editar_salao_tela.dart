@@ -37,9 +37,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
     verificaSalao();
     return Scaffold(
       appBar: AppBar(
-        title: widget.salao.id != null
-            ? Text("Editar salão")
-            : Text("Criar salão"),
+        title:
+            widget.salao != null ? Text("Editar salão") : Text("Criar salão"),
         leading: Util.leadingScaffold(context),
       ),
       body: Form(
@@ -113,13 +112,13 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           setState(() {
                             _botaoHabilitado = false;
                           });
+                          LatLng latlng = await getLatitudeLongitude(
+                              _enderecoController.text);
+                          dados.latitude = latlng.latitude;
+                          dados.longitude = latlng.longitude;
                           dados.nome = _nomeController.text;
                           dados.endereco = _enderecoController.text;
                           dados.telefone = _telefoneController.text;
-                          LatLng latlng =
-                              await getLatitudeLongitude(dados.endereco);
-                          dados.latitude = latlng.latitude;
-                          dados.longitude = latlng.longitude;
 
                           if (dados.id == null) {
                             dados.imagem =
@@ -134,7 +133,10 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                               Firestore.instance
                                   .collection('usuarios')
                                   .document(widget.usuario)
-                                  .updateData({'salao': widget.salao});
+                                  .updateData({
+                                'salao': doc.documentID,
+                                'cabeleireiro': true
+                              });
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeTela()));
                             }).catchError((e) {

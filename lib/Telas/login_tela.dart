@@ -199,11 +199,13 @@ class _LoginTelaState extends State<LoginTela> {
                                     darkMode: false,
                                     text: "Entre com o Google",
                                     onPressed: () {
-                                      model.googleSignIn();
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeTela()));
+                                      model
+                                          .googleSignIn()
+                                          .then((value) => onSuccess())
+                                          .catchError((e) {
+                                        print(e);
+                                        onFail();
+                                      });
                                     },
                                     borderRadius: 50,
                                   ),
@@ -255,13 +257,15 @@ class _LoginTelaState extends State<LoginTela> {
   }
 
   void onSuccess() async {
-    await FlushbarHelper.createSuccess(message: "Teste de sucesso")
+    await FlushbarHelper.createSuccess(message: "Login realizado com sucesso")
         .show(context);
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomeTela()));
   }
 
   void onFail() async {
-    await FlushbarHelper.createError(message: "Teste de erro").show(context);
+    await FlushbarHelper.createError(
+            message: "Erro ao realizar o login, teste novamente!")
+        .show(context);
   }
 }

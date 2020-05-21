@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'editar_servico_tela.dart';
 
-class CreateSalaoTela extends StatelessWidget {
+class GerenciarSalaoTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScopedModel<LoginModelo>(
