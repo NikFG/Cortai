@@ -59,8 +59,6 @@ class _HomeTabState extends State<HomeTab> {
                 child: CircularProgressIndicator(),
               );
             } else {
-              print("To aqui $cont");
-              cont++;
               return FutureBuilder<Position>(
                   future: Geolocator().getCurrentPosition(
                       desiredAccuracy: LocationAccuracy.best),
