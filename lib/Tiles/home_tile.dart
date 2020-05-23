@@ -4,7 +4,7 @@ import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Util/haversine.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Tiles/teste_tile.dart';
+import 'package:agendacabelo/Telas/servico_tela.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +37,7 @@ class _HomeTileState extends State<HomeTile> {
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => TesteTile())),
+            builder: (context) => ServicoTela())),
         child:Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -132,7 +132,7 @@ class _HomeTileState extends State<HomeTile> {
                         ),
                         onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => TesteTile())),
+                                builder: (context) => ServicoTela())),
                       ),
                       ButtonTheme(
                           padding: EdgeInsets.zero,
