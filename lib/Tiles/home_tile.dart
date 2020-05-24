@@ -2,10 +2,8 @@ import 'package:agendacabelo/Dados/avaliacao_dados.dart';
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Util/haversine.dart';
-import 'package:agendacabelo/Tiles/servico_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Telas/servico_tela.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,13 +35,17 @@ class _HomeTileState extends State<HomeTile> {
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ServicoTela())),
-        child:Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey[300], width: 1.0),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
+            builder: (context) => ServicoTela(
+                dados: widget.dados,
+                menorValor: _menorValor,
+                maiorValor: _maiorValor,
+                distancia: _distancia))),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey[300], width: 1.0),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(
             children: <Widget>[
               Container(
@@ -115,8 +117,8 @@ class _HomeTileState extends State<HomeTile> {
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
                               "Entre R\$${_menorValor.toStringAsFixed(2)} ~ R\$${_maiorValor.toStringAsFixed(2)} ",
-                              style:
-                                  TextStyle(fontSize: 11, color: Colors.black38),
+                              style: TextStyle(
+                                  fontSize: 11, color: Colors.black38),
                             ))
                       ],
                     ),
@@ -132,7 +134,11 @@ class _HomeTileState extends State<HomeTile> {
                         ),
                         onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => ServicoTela())),
+                                builder: (context) => ServicoTela(
+                                    dados: widget.dados,
+                                    menorValor: _menorValor,
+                                    maiorValor: _maiorValor,
+                                    distancia: _distancia))),
                       ),
                       ButtonTheme(
                           padding: EdgeInsets.zero,
