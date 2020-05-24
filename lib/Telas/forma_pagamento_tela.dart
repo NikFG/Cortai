@@ -25,12 +25,12 @@ class FormaPagamentoTela extends StatelessWidget {
             );
           } else {
             var tiles = ListTile.divideTiles(
-                    tiles: snapshot.data.documents
-                        .map((doc) => FormaPagamentoTile(
-                            FormaPagamentoDados.fromDocument(doc)))
-                        .toList(),
-                    color: Colors.grey[500],
-                    context: context)
+                tiles: snapshot.data.documents
+                    .map((doc) => FormaPagamentoTile(
+                    FormaPagamentoDados.fromDocument(doc)))
+                    .toList(),
+                color: Colors.grey[500],
+                context: context)
                 .toList();
             return ListView(
               children: tiles,
