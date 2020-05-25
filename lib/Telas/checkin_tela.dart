@@ -29,15 +29,13 @@ class _CheckinTelaState extends State<CheckinTela> {
                     .collection('horarios')
                     .where('cabeleireiro', isEqualTo: model.dados['uid'])
                     .where('confirmado', isEqualTo: true)
+                    .where('pago', isEqualTo: false)
+                    .orderBy('cliente')
                     .getDocuments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-//                    var lista = snapshot.data.documents;
-//                    lista.sort((a, b) => a.data['horario']
-//                        .toString()
-//                        .compareTo(b.data['horario'].toString())); //consertar para order por numero
                     var dividedTiles = ListTile.divideTiles(
                             tiles: snapshot.data.documents.map((doc) {
                               return CheckinTile(
