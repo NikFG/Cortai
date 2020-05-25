@@ -25,13 +25,16 @@ class _HomeTabState extends State<HomeTab> {
       child: ListView(children: [
         Row(
           children: <Widget>[
-            Text(
-              "  Novidades",
+            Padding(
+              padding: EdgeInsets.only(left:20, top: 10),
+              child: Text(
+              "Novidades",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: "Roboto"),
+                  fontWeight: FontWeight.w900,
+                  fontFamily: "Poppins"),
+            ),
             ),
           ],
         ),
@@ -39,13 +42,13 @@ class _HomeTabState extends State<HomeTab> {
         Row(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: 10),
+              padding: EdgeInsets.only(left: 20, top:10),
               child: Text(
                 "Salões",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                     fontFamily: "Poppins"),
               ),
             )
