@@ -1,5 +1,10 @@
+import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Tiles/checkin_tile.dart';
+import 'package:agendacabelo/Util/util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:slider_button/slider_button.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class CheckinTela extends StatefulWidget {
   @override
@@ -9,41 +14,43 @@ class CheckinTela extends StatefulWidget {
 class _CheckinTelaState extends State<CheckinTela> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Checkin do cliente nomeLegal"),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Text("O valor foi x e será pago via bufunfa virtual :D"),
-          SizedBox(
-            height: 44,
-            width: 250,
-            child: SliderButton(
-              dismissible: false,
-              shimmer: false,
-              action: () {
+    return ScopedModel<LoginModelo>(
+      model: LoginModelo(),
+      child: ScopedModelDescendant<LoginModelo>(
+        builder: (context, child, model) {
+          return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text("Checkin do cliente nomeLegal"),
+                leading: Util.leadingScaffold(context),
+              ),
+              body: StreamBuilder<QuerySnapshot>(
+                stream: Firestore.instance
+                    .collection('horarios')
+                    .orderBy('horario')
+                    .where('cabeleireiro', isEqualTo: model.dados['uid'])
+                    .where('confirmado', isEqualTo: true)
 
-                Navigator.of(context).pop();
-              },
-              label: Text(
-                "Confirmar",
-                style: TextStyle(
-                    color: Color(0xff4a4a4a),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17),
-              ),
-              icon: Container(
-                width: 0,
-                height: 0,
-              ),
-              highlightedColor: Colors.white70,
-            ),
-          ),
-        ],
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    var dividedTiles = ListTile.divideTiles(
+                            tiles: snapshot.data.documents.map((doc) {
+                              return CheckinTile(
+                                  HorarioDados.fromDocument(doc));
+                            }).toList(),
+                            color: Colors.grey[500],
+                            context: context)
+                        .toList();
+                    return ListView(
+                      children: dividedTiles,
+                    );
+                  }
+                },
+              ));
+        },
       ),
     );
   }
