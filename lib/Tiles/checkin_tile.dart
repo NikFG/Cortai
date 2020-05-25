@@ -11,7 +11,7 @@ class CheckinTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(dados);
+
     return ListTile(
       onTap: () async {
         await Firestore.instance
