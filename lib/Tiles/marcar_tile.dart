@@ -287,6 +287,7 @@ class _MarcarTileState extends State<MarcarTile> {
     dados.horario = _horarioAtual;
     dados.ocupado = true;
     dados.confirmado = false;
+    dados.pago = false;
     dados.preco = _precoAtual;
     await Firestore.instance
         .collection("horarios")
