@@ -39,7 +39,7 @@ class CheckinTile extends StatelessWidget {
             .get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return CircularProgressIndicator();
+            return LinearProgressIndicator();
           } else {
             return Text('${snapshot.data['nome']} às ${dados.horario}');
           }

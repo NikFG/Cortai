@@ -24,18 +24,20 @@ class _CheckinTelaState extends State<CheckinTela> {
                 title: Text("Checkin do cliente nomeLegal"),
                 leading: Util.leadingScaffold(context),
               ),
-              body: StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance
+              body: FutureBuilder<QuerySnapshot>(
+                future: Firestore.instance
                     .collection('horarios')
-                    .orderBy('horario')
                     .where('cabeleireiro', isEqualTo: model.dados['uid'])
                     .where('confirmado', isEqualTo: true)
-
-                    .snapshots(),
+                    .getDocuments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
                   } else {
+//                    var lista = snapshot.data.documents;
+//                    lista.sort((a, b) => a.data['horario']
+//                        .toString()
+//                        .compareTo(b.data['horario'].toString())); //consertar para order por numero
                     var dividedTiles = ListTile.divideTiles(
                             tiles: snapshot.data.documents.map((doc) {
                               return CheckinTile(
