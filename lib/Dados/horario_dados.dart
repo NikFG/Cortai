@@ -9,6 +9,7 @@ class HorarioDados {
   String cabeleireiro;
   String cliente;
   String preco;
+  bool pago;
 
   HorarioDados();
 
@@ -21,6 +22,7 @@ class HorarioDados {
     cliente = snapshot.data['cliente'];
     confirmado = snapshot.data['confirmado'];
     preco = snapshot.data['preco'];
+    pago = snapshot.data['pago'];
   }
 
   Map<String, dynamic> toMap() {
@@ -32,6 +34,7 @@ class HorarioDados {
       "horario": horario,
       "ocupado": ocupado,
       "preco": preco,
+      "pago": pago,
     };
   }
 
