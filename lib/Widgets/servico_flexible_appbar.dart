@@ -80,7 +80,7 @@ class ServicoFlexibleAppBar extends StatelessWidget {
                                     ),
                                     Container(
                                       child: Text(
-                                        "${distancia}KM",
+                                        "$distancia",
                                         style: TextStyle(
                                           color: Color(0xFFFFFFFF),
                                           fontFamily: 'Poppins',
