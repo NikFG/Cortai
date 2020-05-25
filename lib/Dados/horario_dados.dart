@@ -42,4 +42,11 @@ class HorarioDados {
         .collection("disponibilidade")
         .getDocuments();
   }
+
+  @override
+  String toString() {
+    return 'HorarioDados{id: $id, horario: $horario,'
+        ' data: $data, ocupado: $ocupado, confirmado:'
+        ' $confirmado, cabeleireiro: $cabeleireiro, cliente: $cliente, preco: $preco}';
+  }
 }
