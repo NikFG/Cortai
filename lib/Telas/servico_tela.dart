@@ -1,11 +1,10 @@
 import 'package:agendacabelo/Dados/preco_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
-import 'package:agendacabelo/Telas/forma_pagamento_tela.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/nikol/AndroidStudioProjects/agenda_cabelo/lib/Widgets/servico_flexible_appbar.dart';
-import 'file:///C:/Users/nikol/AndroidStudioProjects/agenda_cabelo/lib/Widgets/servico_fixed_appbar.dart';
+import 'package:agendacabelo/Widgets/servico_fixed_appbar.dart';
+import 'package:agendacabelo/Widgets/servico_flexible_appbar.dart';
 
 class ServicoTela extends StatelessWidget {
   final SalaoDados dados;
@@ -26,12 +25,20 @@ class ServicoTela extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-              title: FixedAppBar(dados.nome),
+              title: servico_fixed_appbar(
+                child: Text(
+                  dados.nome,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Poppins',
+                    fontSize: 20.0,
+                  ),
+                  overflow: TextOverflow.fade,
+                )
+              ),
               stretch: true,
               pinned: true,
-              onStretchTrigger: () {
-                return;
-              },
+              centerTitle: true,
               expandedHeight: 200.0,
               flexibleSpace: FlexibleSpaceBar(
                 background: ServicoFlexibleAppBar(
