@@ -1,13 +1,12 @@
 import 'dart:io';
-
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/maps_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -27,6 +26,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();
   var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
+  var latlng = LatLng(0, 0);
   int cont = 0;
   SalaoDados dados;
   File _imagem;
@@ -52,14 +52,27 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
               decoration: InputDecoration(
                   hintText: 'Nome', hintStyle: TextStyle(fontSize: 12)),
             ),
-            TextFormField(
-              controller: _enderecoController,
-              textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.multiline,
-              autocorrect: true,
-              decoration: InputDecoration(
-                  hintText: 'Endereço completo',
-                  hintStyle: TextStyle(fontSize: 12)),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => MapsTela(
+                          enderecoChanged: (value) {
+                            _enderecoController.text = value;
+                          },
+                          latLngChanged: (value) {
+                            latlng = value;
+                          },
+                        )));
+              },
+              child: AbsorbPointer(
+                child: TextFormField(
+                  controller: _enderecoController,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                      hintText: 'Endereço completo',
+                      hintStyle: TextStyle(fontSize: 12)),
+                ),
+              ),
             ),
             TextFormField(
               controller: _telefoneController,
@@ -112,8 +125,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           setState(() {
                             _botaoHabilitado = false;
                           });
-                          LatLng latlng = await getLatitudeLongitude(
-                              _enderecoController.text);
+
                           dados.latitude = latlng.latitude;
                           dados.longitude = latlng.longitude;
                           dados.nome = _nomeController.text;
@@ -212,11 +224,5 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
         _imagem = imagem;
       }
     });
-  }
-
-  Future<LatLng> getLatitudeLongitude(String endereco) async {
-    var geopoint = await Geocoder.local.findAddressesFromQuery(endereco);
-    return LatLng(geopoint.first.coordinates.latitude,
-        geopoint.first.coordinates.longitude);
   }
 }
