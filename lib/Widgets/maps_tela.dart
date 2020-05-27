@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +12,14 @@ const API_KEY = "AIzaSyBN_mWl_3BjJLCPkKzCKaCqu2Wv8pe0UFw";
 class MapsTela extends StatefulWidget {
   final ValueChanged<String> enderecoChanged;
   final ValueChanged<LatLng> latLngChanged;
+  final String endereco;
   final double lat;
   final double lng;
 
   MapsTela(
       {@required this.enderecoChanged,
       @required this.latLngChanged,
+      this.endereco,
       this.lat,
       this.lng});
 
@@ -35,6 +38,7 @@ class _MapsTelaState extends State<MapsTela> {
   Widget build(BuildContext context) {
     if (widget.lat != null && widget.lng != null) {
       latLng = LatLng(widget.lat, widget.lng);
+      procuraController.text = widget.endereco;
     }
 
     return Scaffold(
@@ -61,8 +65,6 @@ class _MapsTelaState extends State<MapsTela> {
       body: Stack(
         children: <Widget>[
           GoogleMap(
-            zoomControlsEnabled: false,
-            mapType: MapType.normal,
             onMapCreated: (controller) async {
               mapController = controller;
               if (widget.lat != null) {
@@ -70,12 +72,23 @@ class _MapsTelaState extends State<MapsTela> {
                     CameraPosition(
                         target: LatLng(widget.lat, widget.lng), zoom: 20.0)));
                 setState(() {
-                  _markers.add(Marker(
-                      markerId: MarkerId('home'),
-                      position: LatLng(widget.lat, widget.lng)));
+                  _markers.add(marker(LatLng(widget.lat, widget.lng)));
                 });
               } else
                 recarregaMaps();
+            },
+            zoomControlsEnabled: false,
+            mapType: MapType.normal,
+            onTap: (latLng) async {
+              setState(() {
+                _markers.add(marker(latLng));
+              });
+
+              var coordinates =
+                  new Coordinates(latLng.latitude, latLng.longitude);
+              var endereco = await Geocoder.local
+                  .findAddressesFromCoordinates(coordinates);
+              procuraController.text = endereco.first.addressLine;
             },
             initialCameraPosition: CameraPosition(target: latLng, zoom: 1),
             markers: _markers,
@@ -103,7 +116,7 @@ class _MapsTelaState extends State<MapsTela> {
                         hintText: 'Digite seu endereço',
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.only(left: 15, top: 15),
-                        suffixIcon: IconButton(
+                        prefixIcon: IconButton(
                           icon: Icon(Icons.search),
                           onPressed: _barraPesquisaPlaces,
                           iconSize: 30,
@@ -161,9 +174,13 @@ class _MapsTelaState extends State<MapsTela> {
 
   Future<Null> _marcarMapaPrevisao() async {
     setState(() {
-      _markers.add(Marker(markerId: MarkerId('home'), position: latLng));
+      _markers.add(marker(latLng));
     });
     mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: latLng, zoom: 20)));
+  }
+
+  marker(LatLng latLng) {
+    return Marker(markerId: MarkerId('home'), position: latLng);
   }
 }

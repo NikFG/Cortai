@@ -56,6 +56,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MapsTela(
+                      endereco: widget.salao.endereco,
                           lat: widget.salao.latitude,
                           lng: widget.salao.longitude,
                           enderecoChanged: (value) {
@@ -111,8 +112,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                 )),
             _imagem != null
                 ? Image.file(_imagem)
-                : dados.imagem != null
-                    ? Image.network(dados.imagem)
+                : widget.salao.imagem != null
+                    ? Image.network(widget.salao.imagem)
                     : Container(
                         width: 0,
                         height: 0,
