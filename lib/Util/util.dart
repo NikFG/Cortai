@@ -1,13 +1,11 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'haversine.dart';
+
 
 class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
@@ -68,7 +66,24 @@ class Util {
     }
   }
 
-  static stringToWeekday(String dia) {}
+  static int ordenarDiasSemana(String dia) {
+    switch (dia) {
+      case 'DOM':
+        return 0;
+      case 'SEG':
+        return 1;
+      case 'TER':
+        return 2;
+      case 'QUA':
+        return 3;
+      case 'QUI':
+        return 4;
+      case 'SEX':
+        return 5;
+      case 'SAB':
+        return 6;
+    }
+  }
 
   static Future<String> enviaImagem(String uid, File imagem) async {
     StorageUploadTask task = FirebaseStorage.instance
