@@ -56,6 +56,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MapsTela(
+                          lat: widget.salao.latitude,
+                          lng: widget.salao.longitude,
                           enderecoChanged: (value) {
                             _enderecoController.text = value;
                           },
@@ -67,6 +69,10 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
               child: AbsorbPointer(
                 child: TextFormField(
                   controller: _enderecoController,
+                  textCapitalization: TextCapitalization.sentences,
+                  keyboardType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 3,
                   readOnly: true,
                   decoration: InputDecoration(
                       hintText: 'Endereço completo',
@@ -204,7 +210,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
     );
   }
 
-  Future<Null> verificaSalao() {
+  verificaSalao() {
     if (widget.salao != null && cont == 0) {
       dados = widget.salao;
       _nomeController.text = dados.nome;

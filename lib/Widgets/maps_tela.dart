@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -12,8 +11,14 @@ const API_KEY = "AIzaSyBN_mWl_3BjJLCPkKzCKaCqu2Wv8pe0UFw";
 class MapsTela extends StatefulWidget {
   final ValueChanged<String> enderecoChanged;
   final ValueChanged<LatLng> latLngChanged;
+  final double lat;
+  final double lng;
 
-  MapsTela({@required this.enderecoChanged, @required this.latLngChanged});
+  MapsTela(
+      {@required this.enderecoChanged,
+      @required this.latLngChanged,
+      this.lat,
+      this.lng});
 
   @override
   _MapsTelaState createState() => _MapsTelaState();
@@ -28,6 +33,10 @@ class _MapsTelaState extends State<MapsTela> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.lat != null && widget.lng != null) {
+      latLng = LatLng(widget.lat, widget.lng);
+    }
+
     return Scaffold(
       floatingActionButton: IconButton(
         color: Theme.of(context).primaryColor,
@@ -35,7 +44,7 @@ class _MapsTelaState extends State<MapsTela> {
         onPressed: recarregaMaps,
       ),
       appBar: AppBar(
-        title: Text("MAPS"),
+        title: Text("Selecione o endereço"),
         centerTitle: true,
         leading: Util.leadingScaffold(context),
         actions: <Widget>[
@@ -56,10 +65,19 @@ class _MapsTelaState extends State<MapsTela> {
             mapType: MapType.normal,
             onMapCreated: (controller) async {
               mapController = controller;
-              recarregaMaps();
+              if (widget.lat != null) {
+                mapController.animateCamera(CameraUpdate.newCameraPosition(
+                    CameraPosition(
+                        target: LatLng(widget.lat, widget.lng), zoom: 20.0)));
+                setState(() {
+                  _markers.add(Marker(
+                      markerId: MarkerId('home'),
+                      position: LatLng(widget.lat, widget.lng)));
+                });
+              } else
+                recarregaMaps();
             },
-            initialCameraPosition:
-                CameraPosition(target: LatLng(-20.146652, -44.88663), zoom: 10),
+            initialCameraPosition: CameraPosition(target: latLng, zoom: 1),
             markers: _markers,
 //                );
 //              }
