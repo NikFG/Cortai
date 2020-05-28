@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class servico_fixed_appbar extends StatefulWidget {
+class ServicoFixedAppbar extends StatefulWidget {
   final Widget child;
 
-  const servico_fixed_appbar({
+  const ServicoFixedAppbar({
     Key key,
     @required this.child,
   }) : super(key: key);
 
   @override
-  _servico_fixed_appbarState createState() {
-    return new _servico_fixed_appbarState();
+  _ServicoFixedAppbarState createState() {
+    return new _ServicoFixedAppbarState();
   }
 }
 
-class _servico_fixed_appbarState extends State<servico_fixed_appbar> {
+class _ServicoFixedAppbarState extends State<ServicoFixedAppbar> {
   ScrollPosition _position;
   bool _visible;
 

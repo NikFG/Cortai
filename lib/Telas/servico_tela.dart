@@ -25,7 +25,7 @@ class ServicoTela extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-              title: servico_fixed_appbar(
+              title: ServicoFixedAppbar(
                 child: Text(
                   dados.nome,
                   style: TextStyle(
@@ -43,9 +43,11 @@ class ServicoTela extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 background: ServicoFlexibleAppBar(
                     nomeSalao: dados.nome,
+                    enderecoSalao: dados.endereco,
                     menorValor: menorValor,
                     maiorValor: maiorValor,
-                    distancia: distancia),
+                    distancia: distancia
+                ),
               )),
           SliverList(
             delegate: SliverChildListDelegate([
