@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ServicoFlexibleAppBar extends StatelessWidget {
@@ -6,9 +7,11 @@ class ServicoFlexibleAppBar extends StatelessWidget {
   final double maiorValor;
   final String distancia;
   final String nomeSalao;
+  final String enderecoSalao;
 
   ServicoFlexibleAppBar(
       {@required this.nomeSalao,
+      @required this.enderecoSalao,
       @required this.menorValor,
       @required this.maiorValor,
       @required this.distancia});
@@ -28,24 +31,24 @@ class ServicoFlexibleAppBar extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    /* Container(
-                      child: Text(
-                        "Salao",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xCCFFFFFF),
-                          fontFamily: 'Poppins',
-                          fontSize: 48,
-                        ),
-                      ),
-                    ),*/
                     Container(
-                      child: Text(
-                        nomeSalao,
-                        style: TextStyle(
-                          color: Color(0xFFFFFFFF),
-                          fontFamily: 'Poppins',
-                          fontSize: 36,
+                      child: FlatButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          return showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text(nomeSalao),
+                                    content: Text(enderecoSalao),
+                                  ));
+                        },
+                        child: Text(
+                          nomeSalao,
+                          style: TextStyle(
+                            color: Color(0xFFFFFFFF),
+                            fontFamily: 'Poppins',
+                            fontSize: 36,
+                          ),
                         ),
                       ),
                     ),

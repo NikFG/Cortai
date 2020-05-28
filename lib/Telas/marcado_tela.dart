@@ -18,6 +18,7 @@ class MarcadoTela extends StatelessWidget {
                   .collection('horarios')
                   .where('cliente', isEqualTo: model.dados['uid'])
                   .where('ocupado', isEqualTo: true)
+                  .orderBy('data',descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
