@@ -57,7 +57,7 @@ class _CarouselState extends State<Carousel> {
                                     padding: EdgeInsets.symmetric(
                                         vertical: 10.0, horizontal: 20.0),
                                     child: Text(
-                                      '${snapshot.data.documents[imgList.indexOf(item)].data['nome']}',
+                                      '${snapshot.data.documents[_current].data['nome']}',
                                       overflow: TextOverflow.fade,
                                       style: TextStyle(
                                         color: Colors.white,
