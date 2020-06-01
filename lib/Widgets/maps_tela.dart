@@ -36,7 +36,7 @@ class _MapsTelaState extends State<MapsTela> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.lat != null && widget.lng != null) {
+    if (widget.lat != null && widget.lng != null && procuraController.text.isEmpty) {
       latLng = LatLng(widget.lat, widget.lng);
       procuraController.text = widget.endereco;
     }
