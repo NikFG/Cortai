@@ -29,7 +29,6 @@ dependencies:
   flutter_icons: ^1.0.0+1
   flutter_masked_text: ^0.8.0
   flutter_rating_bar: ^3.0.1+1
-  flutter_svg: ^0.17.4
   geocoder: ^0.2.1
   geolocator: ^5.1.4+2
   google_maps_flutter: ^0.5.27+3
