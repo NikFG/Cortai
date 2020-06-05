@@ -1,32 +1,63 @@
 import 'package:flutter/material.dart';
 
-class FixedAppBar extends StatelessWidget {
-  final double barHeight = 100.0;
-  final String nome;
+class ServicoFixedAppbar extends StatefulWidget {
+  final Widget child;
 
-  const FixedAppBar(this.nome);
+  const ServicoFixedAppbar({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  _ServicoFixedAppbarState createState() {
+    return new _ServicoFixedAppbarState();
+  }
+}
+
+class _ServicoFixedAppbarState extends State<ServicoFixedAppbar> {
+  ScrollPosition _position;
+  bool _visible;
+
+  @override
+  void dispose() {
+    _removeListener();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _removeListener();
+    _addListener();
+  }
+
+  void _addListener() {
+    _position = Scrollable.of(context)?.position;
+    _position?.addListener(_positionListener);
+    _positionListener();
+  }
+
+  void _removeListener() {
+    _position?.removeListener(_positionListener);
+  }
+
+  void _positionListener() {
+    final FlexibleSpaceBarSettings settings =
+        context.dependOnInheritedWidgetOfExactType();
+    bool visible =
+        settings == null || settings.currentExtent <= settings.minExtent;
+    if (_visible != visible) {
+      setState(() {
+        _visible = visible;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 60.0, top: 10, bottom: 10),
-              child: Text(
-                "",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Poppins',
-                  fontSize: 20.0,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+    return Visibility(
+      visible: _visible,
+      child: widget.child,
     );
   }
 }

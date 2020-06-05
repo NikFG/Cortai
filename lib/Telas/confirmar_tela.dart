@@ -21,6 +21,8 @@ class ConfirmarTela extends StatelessWidget {
                     .where('confirmado', isEqualTo: false)
                     .where('ocupado', isEqualTo: true)
                     .where('cabeleireiro', isEqualTo: model.dados['uid'])
+                    .orderBy('data')
+                    .orderBy('horario')
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -35,7 +37,8 @@ class ConfirmarTela extends StatelessWidget {
                     }
                     var dividedTiles = ListTile.divideTiles(
                             tiles: snapshot.data.documents.map((doc) {
-                              return ConfirmarTile(HorarioDados.fromDocument(doc));
+                              return ConfirmarTile(
+                                  HorarioDados.fromDocument(doc));
                             }).toList(),
                             color: Colors.grey[500],
                             context: context)
