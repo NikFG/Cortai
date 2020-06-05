@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Dados/preco_dados.dart';
+import 'package:agendacabelo/Telas/agenda_tela.dart';
 import 'package:agendacabelo/Telas/forma_pagamento_tela.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class ServicoTile extends StatelessWidget {
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => FormaPagamentoTela())),
+            MaterialPageRoute(builder: (context) => AgendaTela())),
         child: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -99,7 +100,7 @@ class ServicoTile extends StatelessWidget {
                         ),
                         onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => FormaPagamentoTela())),
+                                builder: (context) => AgendaTela())),
                       ),
                     ],
                   ),
