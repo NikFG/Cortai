@@ -90,3 +90,5 @@ lint/tmp/
 *.lock
 
 lib/maps_tela.dart
+
+lib/Tiles/servico_grid_view.dart
