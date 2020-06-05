@@ -1,18 +1,29 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ServicoFlexibleAppBar extends StatelessWidget {
   final double appBarHeight = 66.0;
+  final double menorValor;
+  final double maiorValor;
+  final String distancia;
+  final String nomeSalao;
+  final String enderecoSalao;
 
-  const ServicoFlexibleAppBar();
+  ServicoFlexibleAppBar(
+      {@required this.nomeSalao,
+      @required this.enderecoSalao,
+      @required this.menorValor,
+      @required this.maiorValor,
+      @required this.distancia});
 
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
-    return new Container(
+    return Container(
         padding: EdgeInsets.only(top: statusBarHeight),
         height: statusBarHeight + appBarHeight,
-        child: new Center(
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -21,23 +32,23 @@ class ServicoFlexibleAppBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      child: new Text(
-                        "Salao",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xCCFFFFFF),
-                          fontFamily: 'Poppins',
-                          fontSize: 48,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: new Text(
-                        "Nome do Salao",
-                        style: TextStyle(
-                          color: Color(0xFFFFFFFF),
-                          fontFamily: 'Poppins',
-                          fontSize: 36,
+                      child: FlatButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          return showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text(nomeSalao),
+                                    content: Text(enderecoSalao),
+                                  ));
+                        },
+                        child: Text(
+                          nomeSalao,
+                          style: TextStyle(
+                            color: Color(0xFFFFFFFF),
+                            fontFamily: 'Poppins',
+                            fontSize: 36,
+                          ),
                         ),
                       ),
                     ),
@@ -48,7 +59,8 @@ class ServicoFlexibleAppBar extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.only(bottom: 8.0, left: 8.0),
                             child: Text(
-                              "\$15.00 ~ \$100.00",
+                              "R\$${menorValor.toStringAsFixed(2).replaceAll('.', ',')} "
+                              "~ R\$${maiorValor.toStringAsFixed(2).replaceAll('.', ',')}",
                               style: TextStyle(
                                 color: Color(0xB6FFFFFF),
                                 fontFamily: 'Poppins',
@@ -71,7 +83,7 @@ class ServicoFlexibleAppBar extends StatelessWidget {
                                     ),
                                     Container(
                                       child: Text(
-                                        "4.36KM",
+                                        "$distancia",
                                         style: TextStyle(
                                           color: Color(0xFFFFFFFF),
                                           fontFamily: 'Poppins',

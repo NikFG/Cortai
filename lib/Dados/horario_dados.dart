@@ -9,6 +9,7 @@ class HorarioDados {
   String cabeleireiro;
   String cliente;
   String preco;
+  bool pago;
 
   HorarioDados();
 
@@ -21,6 +22,7 @@ class HorarioDados {
     cliente = snapshot.data['cliente'];
     confirmado = snapshot.data['confirmado'];
     preco = snapshot.data['preco'];
+    pago = snapshot.data['pago'];
   }
 
   Map<String, dynamic> toMap() {
@@ -32,6 +34,7 @@ class HorarioDados {
       "horario": horario,
       "ocupado": ocupado,
       "preco": preco,
+      "pago": pago,
     };
   }
 
@@ -41,5 +44,12 @@ class HorarioDados {
         .document(cabeleireiroId)
         .collection("disponibilidade")
         .getDocuments();
+  }
+
+  @override
+  String toString() {
+    return 'HorarioDados{id: $id, horario: $horario,'
+        ' data: $data, ocupado: $ocupado, confirmado:'
+        ' $confirmado, cabeleireiro: $cabeleireiro, cliente: $cliente, preco: $preco}';
   }
 }

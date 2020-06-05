@@ -22,7 +22,8 @@ class GerenciarSalaoTela extends StatelessWidget {
               FlatButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CadastroFuncionamentoTela()));
+                      builder: (context) =>
+                          CadastroFuncionamentoTela(model.getSalao())));
                 },
                 child: Text("Horário de funcionamento"),
               ),
@@ -31,16 +32,16 @@ class GerenciarSalaoTela extends StatelessWidget {
               ),
               FlatButton(
                 onPressed: () async {
-
                   var salaoDados = await Firestore.instance
                       .collection('saloes')
                       .document(model.getSalao())
-                      .get().then((doc) {
-                        return SalaoDados.fromDocument(doc);
+                      .get()
+                      .then((doc) {
+                    return SalaoDados.fromDocument(doc);
                   });
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => EditarSalaoTela(
-                          model.dados['uid'], salao: salaoDados)));
+                      builder: (context) => EditarSalaoTela(model.dados['uid'],
+                          salao: salaoDados)));
                 },
                 child: model.getSalao() != null
                     ? Text("Editar salão")

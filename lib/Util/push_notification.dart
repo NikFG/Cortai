@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:agendacabelo/Telas/confirmar_tela.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,9 +13,9 @@ class PushNotification {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         await showDialog(
+            barrierDismissible: false,
             context: context,
-            builder: (context) =>
-                AlertDialog(
+            builder: (context) => AlertDialog(
                   title: Text("${message['notification']['title']}"),
                   content: Text("${message['notification']['body']}"),
                   actions: <Widget>[
@@ -55,11 +54,9 @@ class PushNotification {
       case "confirmar_tela":
         paginaInicial = 2;
         break;
-
     }
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) =>
-            HomeTela(
+        builder: (context) => HomeTela(
               paginaInicial: paginaInicial,
             )));
   }
