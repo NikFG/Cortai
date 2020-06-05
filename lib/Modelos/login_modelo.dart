@@ -22,7 +22,10 @@ class LoginModelo extends Model {
 
   //Criar conta com email e senha
   void signUp(
-      {@required Map<String, dynamic> usuarioData, @required String senha}) {
+      {@required Map<String, dynamic> usuarioData,
+      @required String senha,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) {
     notifyListeners();
     _auth
         .createUserWithEmailAndPassword(
@@ -166,7 +169,13 @@ class LoginModelo extends Model {
     return salao;
   }
 
-  void recuperarSenha(String email) {
-    _auth.sendPasswordResetEmail(email: email);
+  recuperarSenha(String email) async {
+    return await _auth
+        .sendPasswordResetEmail(email: email)
+        .then((value) => true)
+        .catchError((e) {
+      print(e);
+      return false;
+    });
   }
 }
