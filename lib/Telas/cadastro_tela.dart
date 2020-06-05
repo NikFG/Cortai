@@ -1,8 +1,11 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
+import 'package:agendacabelo/Util/util.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CadastroTela extends StatefulWidget {
@@ -21,6 +24,7 @@ class _CadastroTelaState extends State<CadastroTela> {
 
   @override
   Widget build(BuildContext context) {
+    Util.corPrimariaStatusBar(context);
     return Scaffold(
         body: Form(
       key: _formKey,
@@ -98,6 +102,12 @@ class _CadastroTelaState extends State<CadastroTela> {
                             ),
                             hintText: 'Nome Completo',
                           ),
+                          validator: (text) {
+                            if (text.isEmpty) {
+                              return "O nome não pode estar vazio";
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       SizedBox(
@@ -116,6 +126,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                             ]),
                         child: TextFormField(
                           controller: _emailControlador,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             icon: Icon(
@@ -149,6 +160,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                             ]),
                         child: TextFormField(
                           controller: _telefoneControlador,
+                          keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             icon: Icon(
@@ -181,6 +193,8 @@ class _CadastroTelaState extends State<CadastroTela> {
                             ]),
                         child: TextFormField(
                           controller: _senhaControlador,
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             icon: Icon(
@@ -189,18 +203,20 @@ class _CadastroTelaState extends State<CadastroTela> {
                             ),
                             hintText: 'Senha',
                           ),
-                         validator: (text) {
-                                if (text.isEmpty || text.length < 6) {
-                                  return "Senha inválida";
-                                }
-                                return null;
-                              },
+                          validator: (text) {
+                            if (text.isEmpty || text.length < 6) {
+                              return "Senha inválida";
+                            }
+                            return null;
+                          },
                         ),
+                      ),
+                      SizedBox(
+                        height: 15,
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width / 1.2,
                         height: 45,
-                        margin: EdgeInsets.only(top: 32),
                         padding: EdgeInsets.only(
                             top: 4, left: 16, right: 16, bottom: 4),
                         decoration: BoxDecoration(
@@ -221,15 +237,15 @@ class _CadastroTelaState extends State<CadastroTela> {
                             ),
                             hintText: 'Confirmar Senha',
                           ),
-                           validator: (text) {
-                                if (text.isEmpty || text.length < 6) {
-                                  return "Senha inválida";
-                                }
-                                if (text != _senhaControlador.text) {
-                                  return "As senhas estão diferentes";
-                                }
-                                return null;
-                              },
+                          validator: (text) {
+                            if (text.isEmpty || text.length < 6) {
+                              return "Senha inválida";
+                            }
+                            if (text != _senhaControlador.text) {
+                              return "As senhas estão diferentes";
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       SizedBox(
@@ -246,39 +262,36 @@ class _CadastroTelaState extends State<CadastroTela> {
                                 BorderRadius.all(Radius.circular(50))),
                         child: Center(
                           child: FlatButton(
-                                onPressed: _botaoHabilitado
-                                    ? () {
-                                        if (_formKey.currentState.validate()) {
-                                          LoginModelo login = LoginModelo();
-                                          login.dados = {
-                                            'uid': '',
-                                            'email': _emailControlador.text,
-                                            'nome': _nomeControlador.text,
-                                            'telefone':
-                                                _telefoneControlador.text,
-                                            'cabeleireiro': false,
-                                          };
-                                          login.signUp(
-                                              usuarioData: login.dados,
-                                              senha: _senhaControlador.text);
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      LoginTela()));
-                                        }
-                                      }
-                                    : null,
-                                child: _botaoHabilitado
-                                    ? Text(
-                                        'Confirmar',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                    : CircularProgressIndicator(),
-                              ),
+                            onPressed: _botaoHabilitado
+                                ? () {
+                                    if (_formKey.currentState.validate()) {
+                                      LoginModelo login = LoginModelo();
+                                      login.dados = {
+                                        'uid': '',
+                                        'email': _emailControlador.text,
+                                        'nome': _nomeControlador.text,
+                                        'telefone': _telefoneControlador.text,
+                                        'cabeleireiro': false,
+                                      };
+                                      login.signUp(
+                                          usuarioData: login.dados,
+                                          senha: _senhaControlador.text,
+                                          onSuccess: onSuccess,
+                                          onFail: onFail);
+                                    }
+                                  }
+                                : null,
+                            child: _botaoHabilitado
+                                ? Text(
+                                    'Confirmar',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                : CircularProgressIndicator(),
+                          ),
                         ),
                       ),
                       Container(
@@ -306,5 +319,19 @@ class _CadastroTelaState extends State<CadastroTela> {
         ],
       ),
     ));
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Cadastro realizado com sucesso")
+        .show(context);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginTela()));
+  }
+
+  void onFail() async {
+    await FlushbarHelper.createError(
+            message: "Erro ao realizar o cadastro, teste novamente!")
+        .show(context);
   }
 }

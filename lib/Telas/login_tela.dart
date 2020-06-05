@@ -30,11 +30,11 @@ class _LoginTelaState extends State<LoginTela> {
               backgroundColor: Colors.white70,
             ),
           );
-        } else
+        } else {
           return Scaffold(
-            body: Form(
-              key: _formKey,
-              child: ListView(
+              body: Form(
+            key: _formKey,
+            child: ListView(
               children: <Widget>[
                 Container(
                   child: Column(
@@ -100,66 +100,95 @@ class _LoginTelaState extends State<LoginTela> {
                                     BoxShadow(
                                         color: Colors.black12, blurRadius: 5)
                                   ]),
-                                child: TextFormField(
-                                  controller: _emailControlador,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    icon: Icon(
-                                      Icons.email,
-                                      color: Colors.grey,
-                                    ),
-                                    hintText: 'Email',
+                              child: TextFormField(
+                                controller: _emailControlador,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  icon: Icon(
+                                    Icons.email,
+                                    color: Colors.grey,
                                   ),
-                                  validator: (text) {
-                                    if (text.isEmpty || !text.contains("@")) {
-                                      return "Email inválido";
-                                    }
-                                    return null;
-                                  },
+                                  hintText: 'Email',
                                 ),
-                            ),
-                           Container(
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                height: 45,
-                                margin: EdgeInsets.only(top: 32),
-                                padding: EdgeInsets.only(
-                                    top: 4, left: 16, right: 16, bottom: 4),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50)),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black12, blurRadius: 5)
-                                    ]),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.visiblePassword,
-                                  obscureText: true,
-                                  controller: _senhaControlador,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    icon: Icon(
-                                      Icons.vpn_key,
-                                      color: Colors.grey,
-                                    ),
-                                    hintText: 'Senha',
-                                  ),
-                                  validator: (text) {
-                                    if (text.isEmpty || text.length < 6) {
-                                      return "Senha inválida";
-                                    }
-                                    return null;
-                                  },
-                                ),
+                                validator: (text) {
+                                  if (text.isEmpty) {
+                                    return "O email não pode estar em branco";
+                                  }
+                                  if (!EmailValidator.validate(text)) {
+                                    return "O email digitado está incorreto";
+                                  }
+                                  return null;
+                                },
                               ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.2,
+                              height: 45,
+                              margin: EdgeInsets.only(top: 32),
+                              padding: EdgeInsets.only(
+                                  top: 4, left: 16, right: 16, bottom: 4),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50)),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black12, blurRadius: 5)
+                                  ]),
+                              child: TextFormField(
+                                keyboardType: TextInputType.visiblePassword,
+                                obscureText: true,
+                                controller: _senhaControlador,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  icon: Icon(
+                                    Icons.vpn_key,
+                                    color: Colors.grey,
+                                  ),
+                                  hintText: 'Senha',
+                                ),
+                                validator: (text) {
+                                  if (text.isEmpty || text.length < 6) {
+                                    return "Senha inválida";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
                             Align(
                               alignment: Alignment.centerRight,
                               child: Padding(
                                 padding:
                                     const EdgeInsets.only(top: 16, right: 32),
-                                child: Text(
-                                  'Esqueceu a senha ?',
-                                  style: TextStyle(color: Colors.grey),
+                                child: ButtonTheme(
+                                  padding: EdgeInsets.zero,
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  minWidth: 0,
+                                  height: 0,
+                                  child: FlatButton(
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () async {
+                                      if (_emailControlador.text.isNotEmpty) {
+                                        bool result =
+                                            await model.recuperarSenha(
+                                                _emailControlador.text);
+                                        if (result) {
+                                          await FlushbarHelper.createInformation(
+                                                  message:
+                                                      "Verifique seu email para recuperar a senha!")
+                                              .show(context);
+                                        }else{
+                                          await FlushbarHelper.createError(
+                                              message:
+                                              "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
+                                              .show(context);
+                                        }
+                                      }
+                                    },
+                                    child: Text('Esqueceu a senha ?',
+                                        style: TextStyle(color: Colors.grey)),
+                                  ),
                                 ),
                               ),
                             ),
@@ -259,8 +288,8 @@ class _LoginTelaState extends State<LoginTela> {
                 ),
               ],
             ),
-            )
-          );
+          ));
+        }
       },
     );
   }
