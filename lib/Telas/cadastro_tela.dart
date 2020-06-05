@@ -21,112 +21,207 @@ class _CadastroTelaState extends State<CadastroTela> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return Scaffold(
+        body: Form(
       key: _formKey,
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 2.5,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: Alignment.topCenter, colors: [
-                    Theme.of(context).primaryColor,
-                    Theme.of(context).accentColor
-                  ]),
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.elliptical(250, 100),
-                      bottomRight: Radius.elliptical(250, 100))),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 40),
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: MediaQuery.of(context).size.height / 5,
-                    left: MediaQuery.of(context).size.width / 9,
-                    child: Container(
-                      width: 300,
-                      height: 351,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(color: Colors.black26, blurRadius: 20)
+      child: ListView(
+        children: <Widget>[
+          Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 3,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Theme.of(context).primaryColor,
+                          Theme.of(context).accentColor
                         ],
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
-                      padding: EdgeInsets.only(top: 32),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: 250,
-                            child: TextFormField(
-                              controller: _nomeControlador,
-                              decoration: InputDecoration(
-                                  hintText: 'Nome completo',
-                                  hintStyle: TextStyle(fontSize: 12)),
-                            ),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.elliptical(250, 100),
+                          bottomRight: Radius.elliptical(250, 100))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Spacer(),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.person,
+                          size: 70,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Text(
+                          'Cadastre-se',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: Color(0xCCFFFFFF),
+                            fontFamily: 'Poppins',
+                            fontSize: 38,
                           ),
-                          Container(
-                            width: 250,
-                            child: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _emailControlador,
-                              decoration: InputDecoration(
-                                  hintText: 'Email',
-                                  hintStyle: TextStyle(fontSize: 12)),
-                              validator: (text) {
-                                if (text.isEmpty ||
-                                    !EmailValidator.validate(text)) {
-                                  return "Email inválido";
-                                }
-                                return null;
-                              },
+                        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.only(top: 30),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 45,
+                        padding: EdgeInsets.only(
+                            top: 4, left: 16, right: 16, bottom: 4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 5)
+                            ]),
+                        child: TextFormField(
+                          controller: _nomeControlador,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.person_pin,
+                              color: Colors.grey,
                             ),
+                            hintText: 'Nome Completo',
                           ),
-                          Container(
-                            width: 250,
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              controller: _telefoneControlador,
-                              decoration: InputDecoration(
-                                  hintText: 'Telefone de contato',
-                                  hintStyle: TextStyle(fontSize: 12)),
-                              validator: (text) {
-                                if (text.isEmpty || text.length < 11) {
-                                  return "Numero invalido";
-                                }
-                                return null;
-                              },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 45,
+                        padding: EdgeInsets.only(
+                            top: 4, left: 16, right: 16, bottom: 4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 5)
+                            ]),
+                        child: TextFormField(
+                          controller: _emailControlador,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.email,
+                              color: Colors.grey,
                             ),
+                            hintText: 'Email',
                           ),
-                          Container(
-                            width: 250,
-                            child: TextFormField(
-                              keyboardType: TextInputType.visiblePassword,
-                              controller: _senhaControlador,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                  hintText: 'Senha',
-                                  hintStyle: TextStyle(fontSize: 12)),
-                              validator: (text) {
+                          validator: (text) {
+                            if (text.isEmpty ||
+                                !EmailValidator.validate(text)) {
+                              return "Email inválido";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 45,
+                        padding: EdgeInsets.only(
+                            top: 4, left: 16, right: 16, bottom: 4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 5)
+                            ]),
+                        child: TextFormField(
+                          controller: _telefoneControlador,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.phone,
+                              color: Colors.grey,
+                            ),
+                            hintText: 'Telefone de Contato',
+                          ),
+                          validator: (text) {
+                            if (text.isEmpty || text.length < 11) {
+                              return "Numero invalido";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 45,
+                        padding: EdgeInsets.only(
+                            top: 4, left: 16, right: 16, bottom: 4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 5)
+                            ]),
+                        child: TextFormField(
+                          controller: _senhaControlador,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.vpn_key,
+                              color: Colors.grey,
+                            ),
+                            hintText: 'Senha',
+                          ),
+                         validator: (text) {
                                 if (text.isEmpty || text.length < 6) {
                                   return "Senha inválida";
                                 }
                                 return null;
                               },
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        height: 45,
+                        margin: EdgeInsets.only(top: 32),
+                        padding: EdgeInsets.only(
+                            top: 4, left: 16, right: 16, bottom: 4),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black12, blurRadius: 5)
+                            ]),
+                        child: TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          controller: _senhaConfirmaControlador,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(
+                              Icons.lock,
+                              color: Colors.grey,
                             ),
+                            hintText: 'Confirmar Senha',
                           ),
-                          Container(
-                            width: 250,
-                            child: TextFormField(
-                              keyboardType: TextInputType.visiblePassword,
-                              controller: _senhaConfirmaControlador,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                  hintText: 'Confirmar senha',
-                                  hintStyle: TextStyle(fontSize: 12)),
-                              validator: (text) {
+                           validator: (text) {
                                 if (text.isEmpty || text.length < 6) {
                                   return "Senha inválida";
                                 }
@@ -135,21 +230,22 @@ class _CadastroTelaState extends State<CadastroTela> {
                                 }
                                 return null;
                               },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        height: 45,
+                        width: MediaQuery.of(context).size.width / 1.2,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFFf45d27), Color(0xFFf5851f)],
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            alignment: Alignment.topCenter,
-                            width: 200,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: Colors.orange[900]),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: FlatButton(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        child: Center(
+                          child: FlatButton(
                                 onPressed: _botaoHabilitado
                                     ? () {
                                         if (_formKey.currentState.validate()) {
@@ -183,30 +279,32 @@ class _CadastroTelaState extends State<CadastroTela> {
                                       )
                                     : CircularProgressIndicator(),
                               ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                      Container(
+                        child: Center(
+                          child: FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => LoginTela()));
+                              },
+                              child: Text(
+                                'Já tem cadastro ? Faça Login',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey,
+                                    fontFamily: 'Roboto'),
+                              )),
+                        ),
+                      )
+                    ],
                   ),
-                  Positioned(
-                    top: MediaQuery.of(context).size.height / 8,
-                    left: MediaQuery.of(context).size.width / 2.9,
-                    child: Text(
-                      'Cadastre-se',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 22,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
-    );
+    ));
   }
 }
