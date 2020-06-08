@@ -9,10 +9,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class Util {
+
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
-  static DateFormat timeFormat = DateFormat("H:m");
+  static DateFormat timeFormat = DateFormat("HH:mm");
 
   static String TimestampToString(Timestamp timestamp) {
+
     var formatter = new DateFormat('dd/MM/yyyy, H:mm');
     String formatted = formatter
         .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
