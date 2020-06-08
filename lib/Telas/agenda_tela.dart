@@ -1,8 +1,9 @@
+import 'package:agendacabelo/Dados/funcionamento_dados.dart';
+import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:radio_grouped_buttons/radio_grouped_buttons.dart';
-
-import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Util/util.dart';
 
 class AgendaTela extends StatelessWidget {
@@ -21,7 +22,6 @@ class AgendaTela extends StatelessWidget {
     '15/06/2020',
     '16/06/2020'
   ];
-  List<String> paymentList = ["Dinheiro", "Cartão"];
   String dropdownValue = '13/06/2020';
 
   @override
@@ -73,15 +73,14 @@ class AgendaTela extends StatelessWidget {
                           Column(
                             children: <Widget>[
                               Padding(
-                                  padding: EdgeInsets.only(top: 10),
-                                  child: Flexible(
-                                    child: Text(
-                                      "Breve descrição,",
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins', fontSize: 13),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  )),
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  "Breve descrição,",
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins', fontSize: 13),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -139,17 +138,50 @@ class AgendaTela extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: Text(
-                      "Quando seria melhor para você ?",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w900,
-                      ),
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            "Quando seria melhor para você ?",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            List<bool> diasSemana = [
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false
+                            ];
+                            var snapshots = await Firestore.instance
+                                .collection('saloes')
+                                .document(
+                                    'yJoxHp864CqIWTORAADm') //estático para pegar depois os dados do firebase
+                                .collection('funcionamento')
+                                .getDocuments();
+                            List<FuncionamentoDados> funcionamento = snapshots
+                                .documents
+                                .map((doc) =>
+                                    FuncionamentoDados.fromDocument(doc))
+                                .toList();
+                            _verificaDiasSemana(funcionamento, diasSemana);
+                            _calendario(context, diasSemana);
+                          },
+                          icon: Icon(Icons.calendar_today),
+                        )
+                      ],
                     ),
                   ),
                 ),
-               /* Align(
+                /* Align(
                   alignment: Alignment.topLeft,
                   child: Row(
                     children: <Widget>[
@@ -167,12 +199,10 @@ class AgendaTela extends StatelessWidget {
                   ),
                 ),*/
                 Container(
-                  width: MediaQuery.of(context).size.width/1.1,
+                  width: MediaQuery.of(context).size.width / 1.1,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
-
-                  // dropdown below..
                   child: DropdownButtonHideUnderline(
                       child: ButtonTheme(
                     alignedDropdown: true,
@@ -252,7 +282,7 @@ class AgendaTela extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width/1.1,
+                  width: MediaQuery.of(context).size.width / 1.1,
                   height: 45,
                   padding:
                       EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
@@ -269,7 +299,9 @@ class AgendaTela extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 Align(
                   alignment: Alignment.topLeft,
                   child: Row(
@@ -288,27 +320,56 @@ class AgendaTela extends StatelessWidget {
                     ],
                   ),
                 ),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  runAlignment: WrapAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(1),
-                      width: MediaQuery.of(context).size.width,
-                      height: 100,
-                      child: CustomRadioButton(
-                        buttonLables: paymentList,
-                        buttonValues: paymentList,
-                        radioButtonValue: (value) => print(value),
-                        horizontal: true,
-                        enableShape: false,
-                        buttonSpace: 0,
-                        buttonColor: Colors.white,
-                        selectedColor: Colors.lightBlueAccent[700],
-                        buttonWidth: 190,
-                      ),
-                    ),
-                  ],
+                FutureBuilder<QuerySnapshot>(
+                  future: Firestore.instance
+                      .collection('formaPagamento')
+                      .getDocuments(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      var ids = snapshot.data.documents
+                          .map((doc) => doc.documentID)
+                          .toList();
+                      List<String> descricoes = snapshot.data.documents
+                          .map((doc) => doc.data['descricao'].toString())
+                          .toList();
+
+                      return Wrap(
+                        alignment: WrapAlignment.center,
+                        runAlignment: WrapAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(1),
+                            width: MediaQuery.of(context).size.width,
+                            child: CustomRadioButton(
+                              buttonLables: descricoes,
+                              buttonValues: ids,
+                              radioButtonValue: (value) {
+                                HorarioDados a = HorarioDados();
+                                a.horario = '9:00';
+                                a.data = '21/01/2020';
+                                a.pago = false;
+                                HorarioDados b = HorarioDados();
+                                b.horario = '10:30';
+                                b.data = '21/01/2020';
+                                b.pago = false;
+                                _itensHorario('08:00', '18:00', 30, [a, b]);
+                              },
+                              horizontal: true,
+                              enableShape: false,
+                              buttonSpace: 0,
+                              buttonColor: Colors.white,
+                              selectedColor: Colors.lightBlueAccent[700],
+                              buttonWidth: 190,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
                 ),
                 Align(
                   alignment: Alignment.center,
@@ -346,5 +407,80 @@ class AgendaTela extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _verificaDiasSemana(
+      List<FuncionamentoDados> funcionamento, List<bool> diasSemana) {
+    for (int i = 0; i < funcionamento.length; i++) {
+      switch (funcionamento[i].diaSemana) {
+        case 'SEG':
+          diasSemana[0] = true;
+          break;
+        case 'TER':
+          diasSemana[1] = true;
+          break;
+        case 'QUA':
+          diasSemana[2] = true;
+          break;
+        case 'QUI':
+          diasSemana[3] = true;
+          break;
+        case 'SEX':
+          diasSemana[4] = true;
+          break;
+        case 'SAB':
+          diasSemana[5] = true;
+          break;
+        case 'DOM':
+          diasSemana[6] = true;
+          break;
+      }
+    }
+  }
+
+  Future<Null> _calendario(BuildContext context, List diasSemana) async {
+    var dataAgora = DateTime.now();
+    while (!diasSemana[dataAgora.weekday - 1]) {
+      dataAgora = dataAgora.add(Duration(days: 1));
+    }
+    final DateTime picked = await showDatePicker(
+        context: context,
+        selectableDayPredicate: (DateTime val) =>
+            diasSemana[val.weekday - 1] ? true : false,
+        initialDate: dataAgora,
+        firstDate: DateTime.now().subtract(Duration(days: 1)),
+        lastDate: DateTime(2100),
+        locale: Locale('pt'));
+    if (picked != null) {
+      //Apenas printando para quando tiver campo de texto, atualizar valor
+      print(picked);
+//      setState(() {
+//        _diaSemana = Util.weekdayToString(picked);
+//        _horarioAtual = null;
+//        selectedDate = picked;
+//        _dataController.value =
+//            TextEditingValue(text: Util.dateFormat.format(selectedDate));
+//      });
+//    }
+    }
+  }
+
+  _itensHorario(String abertura, String fechamento, int intervalo,
+      List<HorarioDados> dados) {
+    DateTime atual = Util.timeFormat.parse(abertura);
+    DateTime fecha = Util.timeFormat.parse(fechamento);
+    List listaHorarios = [];
+    while (atual.isBefore(fecha)) {
+      listaHorarios.add(Util.timeFormat.format(atual));
+      atual = atual.add(Duration(minutes: intervalo));
+    }
+
+    if (dados.length > 0) {
+      for (var dado in dados) {
+        listaHorarios.remove(dado.horario);
+      }
+    }
+
+    return listaHorarios;
   }
 }
