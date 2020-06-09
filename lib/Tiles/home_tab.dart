@@ -13,99 +13,111 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  Firestore firestore = Firestore.instance;
   int cont = 0;
   PermissionStatus _permissionStatus = PermissionStatus.undetermined;
+  int limite = 4;
+  bool temMais = true;
+  bool isLoading = false;
+  DocumentSnapshot ultimoSalao;
+  List<DocumentSnapshot> saloes = [];
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    getSaloes();
+    _scrollController.addListener(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double currentScroll = _scrollController.position.pixels;
+      double delta = MediaQuery.of(context).size.height * 0.25;
+      if (maxScroll - currentScroll <= delta) {
+        getSaloes();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: () async {
-        setState(() {});
-      },
-      child: ListView(children: [
+    return ListView(
+      controller: _scrollController,
+      physics: AlwaysScrollableScrollPhysics(),
+      children: [
         Row(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left:20, top: 10),
+              padding: EdgeInsets.only(left: 20, top: 10),
               child: Text(
-              "Novidades",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                  fontFamily: "Poppins"),
-            ),
+                "Novidades",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w900,
+                    fontFamily: "Poppins"),
+              ),
             ),
           ],
         ),
         Carousel(),
-        Row(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 20, top:10),
-              child: Text(
-                "Salões",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "Poppins"),
-              ),
-            )
-          ],
-        ),
-        FutureBuilder<QuerySnapshot>(
-          future: Firestore.instance.collection('saloes').getDocuments(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
+        Padding(
+            padding: EdgeInsets.only(left: 20, top: 10),
+            child: Text(
+              "Salões",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Poppins"),
+            )),
+        FutureBuilder<Position>(
+            future: Geolocator()
+                .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
+            builder: (context, localizacao) {
+              if (!localizacao.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                //TODO Se permissão negada perguntar endereço de casa
+                if (_permissionStatus.isUndetermined ||
+                    _permissionStatus.isDenied)
+                  requestPermission(Permission.location);
+                var currentLocation = localizacao.data;
+                var lista = this.saloes;
+                lista.sort((a, b) {
+                  double distanciaA = Haversine.distancia(
+                      lat1: currentLocation.latitude,
+                      lon1: currentLocation.longitude,
+                      lat2: a.data['latitude'],
+                      lon2: a.data['longitude']);
+                  double distanciaB = Haversine.distancia(
+                      lat1: currentLocation.latitude,
+                      lon1: currentLocation.longitude,
+                      lat2: b.data['latitude'],
+                      lon2: b.data['longitude']);
+
+                  return distanciaA.compareTo(distanciaB);
+                });
+
+                List<Widget> widgets = lista
+                    .map((doc) =>
+                        HomeTile(SalaoDados.fromDocument(doc), currentLocation))
+                    .toList();
+
+                return Column(
+                  children: widgets,
+                );
+              }
+            }),
+        isLoading
+            ? Center(
                 child: CircularProgressIndicator(),
-              );
-            } else {
-              return FutureBuilder<Position>(
-                  future: Geolocator().getCurrentPosition(
-                      desiredAccuracy: LocationAccuracy.best),
-                  builder: (context, localizacao) {
-                    if (!localizacao.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      //TODO Se permissão negada perguntar endereço de casa
-                      if (_permissionStatus.isUndetermined ||
-                          _permissionStatus.isDenied)
-                        requestPermission(Permission.location);
-                      var currentLocation = localizacao.data;
-                      var lista = snapshot.data.documents.toList();
-                      lista.sort((a, b) {
-                        double distanciaA = Haversine.distancia(
-                            lat1: currentLocation.latitude,
-                            lon1: currentLocation.longitude,
-                            lat2: a.data['latitude'],
-                            lon2: a.data['longitude']);
-                        double distanciaB = Haversine.distancia(
-                            lat1: currentLocation.latitude,
-                            lon1: currentLocation.longitude,
-                            lat2: b.data['latitude'],
-                            lon2: b.data['longitude']);
-
-                        return distanciaA.compareTo(distanciaB);
-                      });
-
-                      List<Widget> widgets = lista
-                          .map((doc) => HomeTile(
-                              SalaoDados.fromDocument(doc), currentLocation))
-                          .toList();
-
-                      return Column(
-                        children: widgets,
-                      );
-                    }
-                  });
-            }
-          },
-        ),
-      ]),
+              )
+            : Container(
+                height: 0,
+                width: 0,
+              )
+      ],
     );
   }
 
@@ -113,6 +125,41 @@ class _HomeTabState extends State<HomeTab> {
     final status = await permission.request();
     setState(() {
       _permissionStatus = status;
+    });
+  }
+
+  getSaloes() async {
+    if (!temMais) {
+      return;
+    }
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      isLoading = true;
+    });
+    QuerySnapshot querySnapshot;
+    if (ultimoSalao == null) {
+      querySnapshot = await firestore
+          .collection('saloes')
+          .orderBy('nome')
+          .limit(limite)
+          .getDocuments();
+    } else {
+      querySnapshot = await firestore
+          .collection('saloes')
+          .orderBy('nome')
+          .startAfterDocument(ultimoSalao)
+          .limit(limite)
+          .getDocuments();
+    }
+    if (querySnapshot.documents.length < limite) {
+      temMais = false;
+    }
+    ultimoSalao = querySnapshot.documents[querySnapshot.documents.length - 1];
+    saloes.addAll(querySnapshot.documents);
+    setState(() {
+      isLoading = false;
     });
   }
 }
