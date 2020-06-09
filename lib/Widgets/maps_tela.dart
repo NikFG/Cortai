@@ -35,11 +35,19 @@ class _MapsTelaState extends State<MapsTela> {
   var latLng = LatLng(0, 0);
 
   @override
-  Widget build(BuildContext context) {
-    if (widget.lat != null && widget.lng != null && procuraController.text.isEmpty) {
+  void initState() {
+    super.initState();
+    if (widget.lat != null &&
+        widget.lng != null &&
+        procuraController.text.isEmpty) {
       latLng = LatLng(widget.lat, widget.lng);
       procuraController.text = widget.endereco;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
 
     return Scaffold(
       floatingActionButton: IconButton(
@@ -133,9 +141,12 @@ class _MapsTelaState extends State<MapsTela> {
   }
 
   recarregaMaps() async {
+    procuraController.text = '';
     setState(() {
       _markers.clear();
+
     });
+
     var location = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
     var latlng = LatLng(location.latitude, location.longitude);
