@@ -24,6 +24,12 @@ class _HomeTelaState extends State<HomeTela> {
   int index = 0;
 
   @override
+  void initState() {
+    if (widget.usuario_id != null)
+      PushNotification.servico(widget.usuario_id, context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _pageController = PageController(
         initialPage:
