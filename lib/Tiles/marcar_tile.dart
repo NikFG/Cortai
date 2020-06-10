@@ -1,7 +1,7 @@
 import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Dados/preco_dados.dart';
+import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -242,7 +242,7 @@ class _MarcarTileState extends State<MarcarTile> {
 
   List<DropdownMenuItem> itensPreco(AsyncSnapshot<QuerySnapshot> snapshot) {
     return snapshot.data.documents.map((doc) {
-      PrecoDados preco = PrecoDados.fromDocument(doc);
+      ServicoDados preco = ServicoDados.fromDocument(doc);
       imagens[preco.id] = preco.imagemUrl;
       var tiles = DropdownMenuItem(
         child: Text(

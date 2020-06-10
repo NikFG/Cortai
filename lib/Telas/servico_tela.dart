@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/preco_dados.dart';
+import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -64,7 +64,7 @@ class ServicoTela extends StatelessWidget {
                     );
                   } else {
                     var widgets = snapshot.data.documents
-                        .map((doc) => ServicoTile(PrecoDados.fromDocument(doc)))
+                        .map((doc) => ServicoTile(ServicoDados.fromDocument(doc)))
                         .toList();
                     return Column(
                       children: widgets,
