@@ -28,12 +28,9 @@ class _HomeTelaState extends State<HomeTela> {
     final _pageController = PageController(
         initialPage:
             widget.paginaInicial == null ? index : widget.paginaInicial);
-    if (widget.usuario_id != null)
-      PushNotification.servico(widget.usuario_id, context);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return PageView(
-          physics: NeverScrollableScrollPhysics(),
           controller: _pageController,
           onPageChanged: (index) {
             setState(() {
