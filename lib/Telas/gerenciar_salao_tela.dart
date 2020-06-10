@@ -2,6 +2,7 @@ import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
 import 'package:agendacabelo/Telas/editar_salao_tela.dart';
+import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,17 @@ class GerenciarSalaoTela extends StatelessWidget {
                           EditarServicoTela(model.getSalao())));
                 },
                 child: Text("Editar Serviço"),
+              ),
+              Divider(
+                color: Colors.black45,
+              ),
+              FlatButton(
+                onPressed: () async {
+                  await model.signOut();
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => LoginTela()));
+                },
+                child: Text("Logout"),
               )
             ],
           );
