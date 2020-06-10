@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class SalaoDados {
   String id;
@@ -32,7 +33,31 @@ class SalaoDados {
     };
   }
 
-  Future salaoFuture() {
-    return Firestore.instance.collection("saloes").getDocuments();
+  store(SalaoDados dados,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    await Firestore.instance
+        .collection('saloes')
+        .add(dados.toMap())
+        .then((value) {
+      print(value);
+      onSuccess();
+    }).catchError((e) {
+      print(e);
+      onFail();
+    });
+  }
+
+  update(SalaoDados dados,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    await Firestore.instance
+        .collection('horarios')
+        .document(dados.id)
+        .updateData(dados.toMap())
+        .then((value) {
+      onSuccess();
+    }).catchError((e) {
+      print(e);
+      onFail();
+    });
   }
 }
