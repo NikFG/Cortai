@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/preco_dados.dart';
+import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Telas/criar_servico_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,7 +28,7 @@ class EditarServicoTela extends StatelessWidget {
               );
             } else {
               List widgets = snapshot.data.documents.map((doc) {
-                PrecoDados dados = PrecoDados.fromDocument(doc);
+                ServicoDados dados = ServicoDados.fromDocument(doc);
                 return GestureDetector(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => Scaffold(
