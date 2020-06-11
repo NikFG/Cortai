@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Dados/avaliacao_dados.dart';
-import 'package:agendacabelo/Dados/preco_dados.dart';
+import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Util/haversine.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -221,7 +221,7 @@ class _HomeTileState extends State<HomeTile> {
         .where('salao', isEqualTo: widget.dados.id)
         .getDocuments()
         .then((doc) =>
-            doc.documents.map((e) => PrecoDados.fromDocument(e)).toList());
+            doc.documents.map((e) => ServicoDados.fromDocument(e)).toList());
     lista.sort((a, b) => a.valor.compareTo(b.valor));
     if (lista.length > 0) {
       _menorValor = lista.first.valor;

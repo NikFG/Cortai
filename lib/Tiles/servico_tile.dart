@@ -1,10 +1,10 @@
-import 'package:agendacabelo/Dados/preco_dados.dart';
+import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Telas/agenda_tela.dart';
 import 'package:agendacabelo/Telas/forma_pagamento_tela.dart';
 import 'package:flutter/material.dart';
 
 class ServicoTile extends StatelessWidget {
-  final PrecoDados dados;
+  final ServicoDados dados;
 
   ServicoTile(this.dados);
 

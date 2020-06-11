@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
-class PrecoDados {
+class ServicoDados {
   String id;
   String descricao;
   double valor;
@@ -15,9 +16,9 @@ class PrecoDados {
     this.valor = double.parse(valor);
   }
 
-  PrecoDados();
+  ServicoDados();
 
-  PrecoDados.fromDocument(DocumentSnapshot snapshot) {
+  ServicoDados.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     descricao = snapshot.data["descricao"];
     valor = snapshot.data["valor"];
@@ -34,6 +35,4 @@ class PrecoDados {
       'cabeleireiros': cabeleireiros,
     };
   }
-
-
 }

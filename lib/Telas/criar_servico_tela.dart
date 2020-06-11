@@ -1,6 +1,7 @@
 import 'dart:io';
+import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
-import 'package:agendacabelo/Dados/preco_dados.dart';
+import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -12,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CriarServicoTela extends StatefulWidget {
-  final PrecoDados precoDados;
+  final ServicoDados precoDados;
 
   CriarServicoTela({this.precoDados});
 
@@ -163,12 +164,11 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                   color: Theme.of(context).primaryColor,
                   onPressed: _botaoHabilitado
                       ? () async {
-
                           if (_formKey.currentState.validate()) {
                             setState(() {
                               _botaoHabilitado = false;
                             });
-                            PrecoDados dados = PrecoDados();
+                            ServicoDados dados = ServicoDados();
                             dados.descricao = _descricaoControlador.text;
                             dados.setValor(_precoControlador.text);
                             dados.salao = model.getSalao();
@@ -187,33 +187,12 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                             if (widget.precoDados == null) {
                               dados.imagemUrl = await Util.enviaImagem(
                                   model.dados['uid'], _imagem);
-                              await Firestore.instance
-                                  .collection("servicos")
-                                  .add(dados.toMap())
-                                  .then((value) async {
-                                await FlushbarHelper.createSuccess(
-                                        message: "Serviço criado com sucesso",
-                                        duration: Duration(milliseconds: 1200))
-                                    .show(context);
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) => HomeTela()));
-                              });
+                              await ServicoControle.store(dados,
+                                  onSuccess: onSuccess, onFail: onFail);
                             } else {
                               dados.id = widget.precoDados.id;
-                              await Firestore.instance
-                                  .collection("servicos")
-                                  .document(dados.id)
-                                  .updateData(dados.toMap())
-                                  .then((value) async {
-                                await FlushbarHelper.createSuccess(
-                                        message: "Serviço alterado com sucesso",
-                                        duration: Duration(milliseconds: 1200))
-                                    .show(context);
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) => HomeTela()));
-                              });
+                              ServicoControle.update(dados,
+                                  onSuccess: onUpdateSuccess, onFail: onFail);
                             }
                           }
                         }
@@ -255,6 +234,33 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
       else
         _cabeleireirosControlador.text += selecionados[i].nome;
     }
+  }
+
+  onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Serviço criado com sucesso",
+            duration: Duration(milliseconds: 1200))
+        .show(context);
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  onUpdateSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Serviço alterado com sucesso",
+            duration: Duration(milliseconds: 1200))
+        .show(context);
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  onFail() async {
+    await FlushbarHelper.createError(
+            message: "Houve erro ao enviar os dados",
+            duration: Duration(milliseconds: 1200))
+        .show(context);
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
   }
 }
 

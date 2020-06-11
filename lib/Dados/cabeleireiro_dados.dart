@@ -24,8 +24,6 @@ class CabeleireiroDados {
     return dados is CabeleireiroDados && dados.id == id;
   }
 
-
-
   @override
   int get hashCode => id.hashCode;
 }

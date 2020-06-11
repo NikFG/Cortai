@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class HorarioDados {
   String id;
@@ -36,14 +37,6 @@ class HorarioDados {
       "preco": preco,
       "pago": pago,
     };
-  }
-
-  disponibilidadeFuture(String cabeleireiroId) {
-    return Firestore.instance
-        .collection("usuarios")
-        .document(cabeleireiroId)
-        .collection("disponibilidade")
-        .getDocuments();
   }
 
   @override

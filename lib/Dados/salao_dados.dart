@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class SalaoDados {
   String id;
@@ -30,9 +31,5 @@ class SalaoDados {
       "latitude": latitude,
       "longitude": longitude,
     };
-  }
-
-  Future salaoFuture() {
-    return Firestore.instance.collection("saloes").getDocuments();
   }
 }
