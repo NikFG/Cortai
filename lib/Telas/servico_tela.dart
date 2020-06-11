@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
@@ -26,16 +27,15 @@ class ServicoTela extends StatelessWidget {
         slivers: <Widget>[
           SliverAppBar(
               title: ServicoFixedAppbar(
-                child: Text(
-                  dados.nome,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                    fontSize: 20.0,
-                  ),
-                  overflow: TextOverflow.fade,
-                )
-              ),
+                  child: Text(
+                dados.nome,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Poppins',
+                  fontSize: 20.0,
+                ),
+                overflow: TextOverflow.fade,
+              )),
               stretch: true,
               pinned: true,
               centerTitle: true,
@@ -46,14 +46,12 @@ class ServicoTela extends StatelessWidget {
                     enderecoSalao: dados.endereco,
                     menorValor: menorValor,
                     maiorValor: maiorValor,
-                    distancia: distancia
-                ),
+                    distancia: distancia),
               )),
           SliverList(
             delegate: SliverChildListDelegate([
               FutureBuilder<QuerySnapshot>(
-                future: Firestore.instance
-                    .collection('servicos')
+                future: ServicoControle.get()
                     .where('salao', isEqualTo: dados.id)
                     .orderBy('descricao')
                     .getDocuments(),
@@ -64,7 +62,8 @@ class ServicoTela extends StatelessWidget {
                     );
                   } else {
                     var widgets = snapshot.data.documents
-                        .map((doc) => ServicoTile(ServicoDados.fromDocument(doc)))
+                        .map((doc) =>
+                            ServicoTile(ServicoDados.fromDocument(doc)))
                         .toList();
                     return Column(
                       children: widgets,

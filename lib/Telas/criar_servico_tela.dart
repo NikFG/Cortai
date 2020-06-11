@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
@@ -186,11 +187,11 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                             if (widget.precoDados == null) {
                               dados.imagemUrl = await Util.enviaImagem(
                                   model.dados['uid'], _imagem);
-                              await dados.store(dados,
+                              await ServicoControle.store(dados,
                                   onSuccess: onSuccess, onFail: onFail);
                             } else {
                               dados.id = widget.precoDados.id;
-                              dados.update(dados,
+                              ServicoControle.update(dados,
                                   onSuccess: onUpdateSuccess, onFail: onFail);
                             }
                           }

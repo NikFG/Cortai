@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Telas/criar_servico_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -17,8 +18,7 @@ class EditarServicoTela extends StatelessWidget {
           leading: Util.leadingScaffold(context),
         ),
         body: FutureBuilder<QuerySnapshot>(
-          future: Firestore.instance
-              .collection('servicos')
+          future: ServicoControle.get()
               .where('salao', isEqualTo: salao)
               .getDocuments(),
           builder: (context, snapshot) {
