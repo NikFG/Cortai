@@ -23,36 +23,4 @@ class FuncionamentoDados {
       "intervalo": intervalo,
     };
   }
-
-  store(FuncionamentoDados dados, String salao,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('saloes')
-        .document(salao)
-        .collection('funcionamento')
-        .add(dados.toMap())
-        .then((value) {
-      print(value);
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
-
-  update(FuncionamentoDados dados, String salao,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('saloes')
-        .document(salao)
-        .collection('funcionamento')
-        .document(dados.diaSemana)
-        .updateData(dados.toMap())
-        .then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
 }

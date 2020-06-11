@@ -32,32 +32,4 @@ class SalaoDados {
       "longitude": longitude,
     };
   }
-
-  store(SalaoDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('saloes')
-        .add(dados.toMap())
-        .then((value) {
-      print(value);
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
-
-  update(SalaoDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('horarios')
-        .document(dados.id)
-        .updateData(dados.toMap())
-        .then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
 }

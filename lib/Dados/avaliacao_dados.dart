@@ -26,32 +26,4 @@ class AvaliacaoDados {
       "horario": horario
     };
   }
-
-  store(AvaliacaoDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('avaliacoes')
-        .add(dados.toMap())
-        .then((value) {
-      print(value);
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
-
-  update(AvaliacaoDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('avaliacoes')
-        .document(dados.id)
-        .setData(dados.toMap(), merge: true)
-        .then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
 }

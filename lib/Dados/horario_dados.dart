@@ -45,32 +45,4 @@ class HorarioDados {
         ' data: $data, ocupado: $ocupado, confirmado:'
         ' $confirmado, cabeleireiro: $cabeleireiro, cliente: $cliente, preco: $preco}';
   }
-
-  store(HorarioDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('horarios')
-        .add(dados.toMap())
-        .then((value) {
-      print(value);
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
-
-  update(HorarioDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('horarios')
-        .document(dados.id)
-        .updateData(dados.toMap())
-        .then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
 }

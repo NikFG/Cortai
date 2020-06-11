@@ -35,27 +35,4 @@ class ServicoDados {
       'cabeleireiros': cabeleireiros,
     };
   }
-
-  store(ServicoDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('servicos')
-        .add(dados.toMap())
-        .then((value) {
-      print(value);
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
-
-  update(ServicoDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await Firestore.instance
-        .collection('servicos')
-        .document(dados.id)
-        .updateData(dados.toMap())
-        .then((value) => onSuccess());
-  }
 }
