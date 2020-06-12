@@ -7,7 +7,7 @@ import 'package:agendacabelo/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'editar_servico_tela.dart';
+
 
 class GerenciarSalaoTela extends StatelessWidget {
   @override
@@ -65,17 +65,6 @@ class GerenciarSalaoTela extends StatelessWidget {
                           SolicitacaoCabeleireiroTela(model.getSalao())));
                 },
                 child: Text("Cadastrar cabeleireiros"),
-              ),
-              Divider(
-                color: Colors.black45,
-              ),
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          EditarServicoTela(model.getSalao())));
-                },
-                child: Text("Editar Serviço"),
               ),
               Divider(
                 color: Colors.black45,
