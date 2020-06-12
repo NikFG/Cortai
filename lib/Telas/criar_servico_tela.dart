@@ -5,6 +5,7 @@ import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/hero_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -146,13 +147,30 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                       ],
                     )),
                 _imagem != null
-                    ? Image.file(_imagem)
+                    ? GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  HeroCustom(imagemFile: _imagem)));
+                    },
+                    child: Image.file(_imagem))
                     : widget.dados != null
-                        ? Image.network(widget.dados.imagemUrl)
-                        : Container(
-                            width: 0,
-                            height: 0,
-                          ),
+                    ? GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HeroCustom(
+                                  imagemUrl:
+                                  widget.dados.imagemUrl)));
+                    },
+                    child: Image.network(widget.dados.imagemUrl))
+                    : Container(
+                  width: 0,
+                  height: 0,
+                ),
                 SizedBox(
                   height: 25,
                 ),
