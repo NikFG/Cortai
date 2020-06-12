@@ -6,6 +6,7 @@ import 'package:agendacabelo/Widgets/bottom_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'gerenciar_servico_tela.dart';
 import 'marcado_tela.dart';
 import 'criar_servico_tela.dart';
 import 'confirmar_tela.dart';
@@ -55,14 +56,25 @@ class _HomeTelaState extends State<HomeTela> {
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.isCabeleireiro(), model.dados['uid']),
             ),
-            Scaffold(
-              bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.isCabeleireiro(), model.dados['uid']),
-              body: MarcadoTela(),
-              appBar: AppBar(
-                backgroundColor: Theme.of(context).primaryColor,
-                title: Text("Horários marcados"),
-                centerTitle: true,
+            DefaultTabController(
+              length: 2,
+              child: Scaffold(
+                bottomNavigationBar: BottomCustom(_pageController, index,
+                    model.isCabeleireiro(), model.dados['uid']),
+                body: MarcadoTela(),
+                appBar: AppBar(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  title: Text("Horários marcados"),
+                  centerTitle: true,
+                  bottom: TabBar(
+                    tabs: <Widget>[
+                      Tab(
+                        icon: Icon(Icons.content_cut),
+                      ),
+                      Tab(icon: Icon(Icons.person))
+                    ],
+                  ),
+                ),
               ),
             ),
             Scaffold(
@@ -113,10 +125,10 @@ class _HomeTelaState extends State<HomeTela> {
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.isCabeleireiro(), model.dados['uid']),
-              body: CriarServicoTela(),
+              body: GerenciarServicoTela(),
               appBar: AppBar(
                 backgroundColor: Theme.of(context).primaryColor,
-                title: Text("Cadastrar serviços"),
+                title: Text("Gerenciar serviços"),
                 centerTitle: true,
               ),
             ),
