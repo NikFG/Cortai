@@ -97,8 +97,8 @@ class _BottomCustomState extends State<BottomCustom> {
         title: Text("Serviços"),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.store),
-        title: Text("Salão"),
+        icon: Icon(Icons.person),
+        title: Text("Perfil"),
       ),
     ];
     this.itens.addAll(itens);
