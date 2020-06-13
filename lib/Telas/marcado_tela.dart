@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/marcado_tile.dart';
@@ -12,34 +13,56 @@ class MarcadoTela extends StatelessWidget {
       model: LoginModelo(),
       child: ScopedModelDescendant<LoginModelo>(
         builder: (context, child, model) {
-          return Material(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance
-                  .collection('horarios')
-                  .where('cliente', isEqualTo: model.dados['uid'])
-                  .where('ocupado', isEqualTo: true)
-                  .orderBy('data',descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  var dividedTiles = ListTile.divideTiles(
-                          tiles: snapshot.data.documents.map((doc) {
-                            return MarcadoTile(HorarioDados.fromDocument(doc));
-                          }).toList(),
-                          color: Colors.grey[500],
-                          context: context)
-                      .toList();
-                  return ListView(children: dividedTiles);
-                }
-              },
-            ),
+          return TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              StreamBuilder<QuerySnapshot>(
+                stream: HorarioControle.get()
+                    .where('cliente', isEqualTo: model.dados['uid'])
+                    .where('ocupado', isEqualTo: true)
+                    .orderBy('data', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return lista(snapshot, context);
+                  }
+                },
+              ),
+              StreamBuilder<QuerySnapshot>(
+                stream: HorarioControle.get()
+                    .where('cabeleireiro', isEqualTo: model.dados['uid'])
+                    .where('ocupado', isEqualTo: true)
+                    .orderBy('data', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return lista(snapshot, context);
+                  }
+                },
+              ),
+            ],
           );
         },
       ),
     );
+  }
+
+  ListView lista(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
+    var dividedTiles = ListTile.divideTiles(
+            tiles: snapshot.data.documents.map((doc) {
+              return MarcadoTile(HorarioDados.fromDocument(doc));
+            }).toList(),
+            color: Colors.grey[500],
+            context: context)
+        .toList();
+    return ListView(children: dividedTiles);
   }
 }
