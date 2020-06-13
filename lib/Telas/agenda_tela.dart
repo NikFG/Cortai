@@ -1,10 +1,14 @@
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Util/custom_payment.dart';
+import 'package:agendacabelo/Util/custom_profissional.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:radio_grouped_buttons/radio_grouped_buttons.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Util/custom_date.dart';
+import 'package:agendacabelo/Util/custom_time.dart';
 
 class AgendaTela extends StatelessWidget {
   List<String> buttonList = [
@@ -16,15 +20,7 @@ class AgendaTela extends StatelessWidget {
     "Celmo",
   ];
   List<String> horarioList = ["16:30", "19:30", "10:00", "15:00"];
-  List<String> dataList = [
-    '13/06/2020',
-    '14/06/2020',
-    '15/06/2020',
-    '16/06/2020'
-  ];
-  String dropdownValue = '13/06/2020';
-
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +54,7 @@ class AgendaTela extends StatelessWidget {
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(left: 0),
-                                child: Container(
+                                child: Center(
                                   child: Text(
                                     "Corte Topster",
                                     style: TextStyle(
@@ -75,9 +71,9 @@ class AgendaTela extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text(
-                                  "Breve descrição,",
+                                  "RS 15,00,",
                                   style: TextStyle(
-                                      fontFamily: 'Poppins', fontSize: 13),
+                                      fontFamily: 'Poppins', fontSize: 14),
                                   textAlign: TextAlign.left,
                                 ),
                               ),
@@ -112,28 +108,7 @@ class AgendaTela extends StatelessWidget {
                     ),
                   ),
                 ),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  runAlignment: WrapAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      width: MediaQuery.of(context).size.width,
-                      height: 160,
-                      child: CustomRadioButton(
-                        buttonLables: buttonList,
-                        buttonValues: buttonList,
-                        radioButtonValue: (value) => print(value),
-                        horizontal: true,
-                        enableShape: true,
-                        buttonSpace: 1,
-                        buttonColor: Colors.white,
-                        selectedColor: Theme.of(context).accentColor,
-                        //buttonWidth: 90,
-                      ),
-                    ),
-                  ],
-                ),
+               CustomProfissional(),
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: Align(
@@ -176,55 +151,12 @@ class AgendaTela extends StatelessWidget {
                             _calendario(context, diasSemana);
                           },
                           icon: Icon(Icons.calendar_today),
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ),
-                /* Align(
-                  alignment: Alignment.topLeft,
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'Em qual dia ?',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),*/
-                Container(
-                  width: MediaQuery.of(context).size.width / 1.1,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: DropdownButtonHideUnderline(
-                      child: ButtonTheme(
-                    alignedDropdown: true,
-                    child: DropdownButton<String>(
-                        value: dropdownValue,
-                        icon: Icon(Icons.arrow_drop_down),
-                        iconSize: 42,
-                        underline: SizedBox(),
-                        onChanged: (String newValue) {},
-                        items: <String>[
-                          '13/06/2020',
-                          '14/06/2020',
-                          '15/06/2020',
-                          '16/06/2020'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList()),
-                  )),
-                ),
+                CustomDate(),
                 Align(
                   alignment: Alignment.topLeft,
                   child: Row(
@@ -236,34 +168,14 @@ class AgendaTela extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 18,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  runAlignment: WrapAlignment.end,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(1),
-                      width: MediaQuery.of(context).size.width,
-                      height: 160,
-                      child: CustomRadioButton(
-                        buttonLables: horarioList,
-                        buttonValues: horarioList,
-                        radioButtonValue: (value) => print(value),
-                        horizontal: true,
-                        enableShape: false,
-                        buttonSpace: 0,
-                        buttonColor: Colors.white,
-                        selectedColor: Theme.of(context).accentColor,
-                        buttonWidth: 190,
-                      ),
-                    ),
-                  ],
-                ),
+                CustomTime(),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Row(
@@ -320,7 +232,10 @@ class AgendaTela extends StatelessWidget {
                     ],
                   ),
                 ),
-                FutureBuilder<QuerySnapshot>(
+                CustomPayment(),
+               
+
+                /* FutureBuilder<QuerySnapshot>(
                   future: Firestore.instance
                       .collection('formaPagamento')
                       .getDocuments(),
@@ -370,7 +285,7 @@ class AgendaTela extends StatelessWidget {
                       );
                     }
                   },
-                ),
+                ),  */
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
