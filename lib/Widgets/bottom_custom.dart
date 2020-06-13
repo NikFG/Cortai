@@ -41,8 +41,7 @@ class _BottomCustomState extends State<BottomCustom> {
 
   void _bottomTapped(int index) {
     setState(() {
-      widget.pageController.animateToPage(index,
-          duration: Duration(milliseconds: 500), curve: Curves.ease);
+      widget.pageController.jumpToPage(index);
     });
   }
 
