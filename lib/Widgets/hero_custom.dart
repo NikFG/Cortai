@@ -1,5 +1,9 @@
+import 'package:agendacabelo/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+
+import 'package:photo_view/photo_view.dart';
+
 class HeroCustom extends StatelessWidget {
   final String imagemUrl;
   final File imagemFile;
@@ -9,23 +13,21 @@ class HeroCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        child: Center(
-          child: Hero(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        leading: Util.leadingScaffold(context),
+        backgroundColor: Colors.transparent,
+      ),
+      body: Center(
+        child: PhotoView(
+          heroAttributes: PhotoViewHeroAttributes(
             tag: 'Foto',
-            child: this.imagemFile == null
-                ? Image.network(this.imagemUrl)
-                : Image.file(this.imagemFile),
+            transitionOnUserGestures: true,
           ),
+          imageProvider: this.imagemFile == null
+              ? NetworkImage(this.imagemUrl)
+              : FileImage(this.imagemFile),
         ),
-        onTap: () {
-          Navigator.pop(context);
-        },
-        onPanUpdate: (details) {
-          if (details.delta.dx > 10) {
-            Navigator.pop(context);
-          }
-        },
       ),
     );
   }
