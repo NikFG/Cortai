@@ -23,33 +23,25 @@ class CustomProfissionalState extends State<CustomProfissional> {
       false,
       'Fernando',
     ));
-    sampleData.add(RadioModel(
+      sampleData.add(RadioModel(
       false,
-      'Nikollas',
+      'Joao',
     ));
-    sampleData.add(RadioModel(
+      sampleData.add(RadioModel(
       false,
-      'Lucas',
+      'Maria',
     ));
-    sampleData.add(RadioModel(
+      sampleData.add(RadioModel(
       false,
-      'Mateus',
+      'Nicolas',
     ));
-    sampleData.add(RadioModel(
+      sampleData.add(RadioModel(
       false,
-      'Gilberto',
+      'Aroldu',
     ));
-    sampleData.add(RadioModel(
+      sampleData.add(RadioModel(
       false,
-      'Paulinho',
-    ));
-    sampleData.add(RadioModel(
-      false,
-      'Celmo',
-    ));
-     sampleData.add(RadioModel(
-      false,
-      'Sr ze',
+      'Marcos',
     ));
   }
 
@@ -58,17 +50,16 @@ class CustomProfissionalState extends State<CustomProfissional> {
     return ConstrainedBox(
       constraints: BoxConstraints(
         minHeight:80,
-        maxHeight:200,
+        maxHeight:100,
       ),
-      child: GridView.builder(
+      child: ListView.builder(
         itemCount: sampleData.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4),
+        scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
           return ConstrainedBox(
             constraints: BoxConstraints(
               minHeight:120,
-              maxHeight:300,
+              maxHeight:120,
             ),
            child: InkWell(
             borderRadius: BorderRadius.circular(10),
