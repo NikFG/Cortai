@@ -9,8 +9,16 @@ import 'package:radio_grouped_buttons/radio_grouped_buttons.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Util/custom_date.dart';
 import 'package:agendacabelo/Util/custom_time.dart';
+import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:agendacabelo/Telas/teste_tela.dart';
 
-class AgendaTela extends StatelessWidget {
+class AgendaTela extends StatefulWidget {
+  @override
+  _AgendaTelaState createState() => _AgendaTelaState();
+}
+
+class _AgendaTelaState extends State<AgendaTela> {
   List<String> buttonList = [
     "Fernando",
     "Mateus",
@@ -19,8 +27,13 @@ class AgendaTela extends StatelessWidget {
     "Marcus",
     "Celmo",
   ];
+
+  final format = DateFormat("yyyy-MM-dd");
   List<String> horarioList = ["16:30", "19:30", "10:00", "15:00"];
-   @override
+  bool isSelected;
+  var dataController = TextEditingController();
+  var horarioController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -29,64 +42,17 @@ class AgendaTela extends StatelessWidget {
           leading: Util.leadingScaffold(context)),
       body: ListView(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 20, top: 30),
-                      child: Container(
-                          child: GFAvatar(
-                              radius: 60,
-                              backgroundImage: NetworkImage(
-                                "https://images.unsplash.com/photo-1534778356534-d3d45b6df1da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-                              ),
-                              shape: GFAvatarShape.standard)),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 0),
-                                child: Center(
-                                  child: Text(
-                                    "Corte Topster",
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 18),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Text(
-                                  "RS 15,00,",
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins', fontSize: 14),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+          ListTile(
+                      title: Text('Corte Topster',style: TextStyle(fontSize: 22,
+                      fontFamily: 'Poppins'),),
+                      subtitle: Text('R\$15,00',style: TextStyle(fontSize: 16,
+                      fontFamily: 'Poppins')),
+                      leading: CircleAvatar(
+                        radius: 30,
+                        backgroundImage: NetworkImage(
+                          "https://i.pinimg.com/originals/bb/5f/6b/bb5f6b2bed3a6ac41d9ba82fa5d47d36.jpg"),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ],
-          ),
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: Column(
@@ -108,7 +74,7 @@ class AgendaTela extends StatelessWidget {
                     ),
                   ),
                 ),
-               CustomProfissional(),
+                CustomProfissional(),
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: Align(
@@ -125,38 +91,47 @@ class AgendaTela extends StatelessWidget {
                             ),
                           ),
                         ),
-                        IconButton(
-                          onPressed: () async {
-                            List<bool> diasSemana = [
-                              false,
-                              false,
-                              false,
-                              false,
-                              false,
-                              false,
-                              false
-                            ];
-                            var snapshots = await Firestore.instance
-                                .collection('saloes')
-                                .document(
-                                    'yJoxHp864CqIWTORAADm') //estático para pegar depois os dados do firebase
-                                .collection('funcionamento')
-                                .getDocuments();
-                            List<FuncionamentoDados> funcionamento = snapshots
-                                .documents
-                                .map((doc) =>
-                                    FuncionamentoDados.fromDocument(doc))
-                                .toList();
-                            _verificaDiasSemana(funcionamento, diasSemana);
-                            _calendario(context, diasSemana);
-                          },
-                          icon: Icon(Icons.calendar_today),
-                        ),
                       ],
                     ),
                   ),
                 ),
-                CustomDate(),
+                Padding(
+                  padding: EdgeInsets.all(24),
+                  child: GestureDetector(
+                    onTap: () async {
+                      List<bool> diasSemana = [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false
+                      ];
+                      var snapshots = await Firestore.instance
+                          .collection('saloes')
+                          .document(
+                              'yJoxHp864CqIWTORAADm') //estático para pegar depois os dados do firebase
+                          .collection('funcionamento')
+                          .getDocuments();
+                      List<FuncionamentoDados> funcionamento = snapshots
+                          .documents
+                          .map((doc) => FuncionamentoDados.fromDocument(doc))
+                          .toList();
+                      _verificaDiasSemana(funcionamento, diasSemana);
+                      _calendario(context, diasSemana);
+                    },
+                    child: AbsorbPointer(
+                      child: TextFormField(
+                        controller: dataController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.calendar_today),
+                          hintText: 'dd/mm/yyyy',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.topLeft,
                   child: Row(
@@ -175,7 +150,23 @@ class AgendaTela extends StatelessWidget {
                     ],
                   ),
                 ),
-                CustomTime(),
+                Padding(
+                  padding: EdgeInsets.all(24),
+                  child: GestureDetector(
+                    onTap: () async {
+                      _horarioBottomSheet(context);
+                    },
+                    child: AbsorbPointer(
+                      child: TextFormField(
+                        controller: horarioController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.access_time),
+                          hintText: 'xx:yy',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: Row(
@@ -233,59 +224,6 @@ class AgendaTela extends StatelessWidget {
                   ),
                 ),
                 CustomPayment(),
-               
-
-                /* FutureBuilder<QuerySnapshot>(
-                  future: Firestore.instance
-                      .collection('formaPagamento')
-                      .getDocuments(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      var ids = snapshot.data.documents
-                          .map((doc) => doc.documentID)
-                          .toList();
-                      List<String> descricoes = snapshot.data.documents
-                          .map((doc) => doc.data['descricao'].toString())
-                          .toList();
-
-                      return Wrap(
-                        alignment: WrapAlignment.center,
-                        runAlignment: WrapAlignment.end,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(1),
-                            width: MediaQuery.of(context).size.width,
-                            child: CustomRadioButton(
-                              buttonLables: descricoes,
-                              buttonValues: ids,
-                              radioButtonValue: (value) {
-                                HorarioDados a = HorarioDados();
-                                a.horario = '9:00';
-                                a.data = '21/01/2020';
-                                a.pago = false;
-                                HorarioDados b = HorarioDados();
-                                b.horario = '10:30';
-                                b.data = '21/01/2020';
-                                b.pago = false;
-                                _itensHorario('08:00', '18:00', 30, [a, b]);
-                              },
-                              horizontal: true,
-                              enableShape: false,
-                              buttonSpace: 0,
-                              buttonColor: Colors.white,
-                              selectedColor: Colors.lightBlueAccent[700],
-                              buttonWidth: 190,
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                ),  */
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
@@ -322,6 +260,43 @@ class AgendaTela extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _horarioBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          HorarioDados a = HorarioDados();
+          a.horario = '9:00';
+          a.data = '21/01/2020';
+          a.pago = false;
+          HorarioDados b = HorarioDados();
+          b.horario = '10:30';
+          b.data = '21/01/2020';
+          b.pago = false;
+          List horarios = _itensHorario("8:00", "18:00", 30, [a, b]);
+          return Container(
+            child: ListView.builder(
+              itemCount: horarios.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    horarioController.text = horarios[index];
+                    Navigator.of(context).pop();
+                  },
+                  title: Text(
+                    horarios[index],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        });
   }
 
   _verificaDiasSemana(
@@ -369,14 +344,13 @@ class AgendaTela extends StatelessWidget {
     if (picked != null) {
       //Apenas printando para quando tiver campo de texto, atualizar valor
       print(picked);
-//      setState(() {
-//        _diaSemana = Util.weekdayToString(picked);
-//        _horarioAtual = null;
-//        selectedDate = picked;
-//        _dataController.value =
-//            TextEditingValue(text: Util.dateFormat.format(selectedDate));
-//      });
-//    }
+      // setState(() {
+      // diasSemana = Util.weekdayToString(picked);
+      // _horarioAtual = null;
+      // selectedDate = picked;
+      dataController.text = Util.dateFormat.format(picked);
+      // });
+      //}
     }
   }
 
@@ -397,5 +371,33 @@ class AgendaTela extends StatelessWidget {
     }
 
     return listaHorarios;
+  }
+}
+
+class BasicDateField extends StatelessWidget {
+  final format = DateFormat("dd-MM-yyyy");
+  final diasSemana;
+  BasicDateField(this.diasSemana);
+  @override
+  Widget build(BuildContext context) {
+    var dataAgora = DateTime.now();
+    while (!diasSemana[dataAgora.weekday - 1]) {
+      dataAgora = dataAgora.add(Duration(days: 1));
+    }
+    return Column(children: <Widget>[
+      DateTimeField(
+        format: format,
+        onShowPicker: (context, currentValue) {
+          return showDatePicker(
+              context: context,
+              selectableDayPredicate: (DateTime val) =>
+                  diasSemana[val.weekday - 1] ? true : false,
+              initialDate: dataAgora,
+              firstDate: DateTime.now().subtract(Duration(days: 1)),
+              lastDate: DateTime(2100),
+              locale: Locale('pt'));
+        },
+      ),
+    ]);
   }
 }
