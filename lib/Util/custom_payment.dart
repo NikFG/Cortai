@@ -42,6 +42,7 @@ class CustomPaymentState extends State<CustomPayment> {
     return Container(
       height: 100,
       child: GridView.builder(
+       physics: NeverScrollableScrollPhysics(),
         itemCount: sampleData.length,
         gridDelegate:
             SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
