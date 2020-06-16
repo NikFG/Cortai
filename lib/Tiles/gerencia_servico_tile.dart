@@ -13,11 +13,16 @@ class GerenciaServicoTile extends StatelessWidget {
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => CriarServicoTela(
                 dados: dados,
-            titulo: "Editar Serviço",
+                titulo: "Editar Serviço",
               ))),
-      leading: CircleAvatar(
-        child: Image.network(dados.imagemUrl),
-      ),
+      leading: dados.imagemUrl != null
+          ? CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(dados.imagemUrl),
+            )
+          : CircleAvatar(
+              radius: 30,
+            ),
       title: Text(dados.descricao),
       subtitle: Text(dados.valor.toStringAsFixed(2)),
     );
