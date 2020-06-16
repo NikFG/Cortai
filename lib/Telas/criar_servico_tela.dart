@@ -31,8 +31,16 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
       decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   File _imagem;
   List<CabeleireiroDados> selecionados = [];
-  int cont = 0;
   bool _botaoHabilitado = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.dados != null) {
+
+      _verificaEditar();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +54,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         model: LoginModelo(),
         child: ScopedModelDescendant<LoginModelo>(
             builder: (context, child, model) {
-          if (widget.dados != null && cont == 0) {
-            _verificaEditar();
-            cont++;
-          }
           return Form(
             key: _formKey,
             child: ListView(
@@ -140,7 +144,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                           onPressed: () {
                             getImagem(false);
                           },
-                          child: _imagem == null && widget.dados == null
+                          child: _imagem == null && widget.dados.imagemUrl == null
                               ? Text("Selecione uma imagem para o serviço")
                               : Text("Altere a imagem caso necessário"),
                         ),
@@ -148,29 +152,28 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                     )),
                 _imagem != null
                     ? GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  HeroCustom(imagemFile: _imagem)));
-                    },
-                    child: Image.file(_imagem))
-                    : widget.dados != null
-                    ? GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HeroCustom(
-                                  imagemUrl:
-                                  widget.dados.imagemUrl)));
-                    },
-                    child: Image.network(widget.dados.imagemUrl))
-                    : Container(
-                  width: 0,
-                  height: 0,
-                ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      HeroCustom(imagemFile: _imagem)));
+                        },
+                        child: Image.file(_imagem))
+                    : widget.dados.imagemUrl != null
+                        ? GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HeroCustom(
+                                          imagemUrl: widget.dados.imagemUrl)));
+                            },
+                            child: Image.network(widget.dados.imagemUrl))
+                        : Container(
+                            width: 0,
+                            height: 0,
+                          ),
                 SizedBox(
                   height: 25,
                 ),
@@ -260,6 +263,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
       else
         _cabeleireirosControlador.text += selecionados[i].nome;
     }
+
   }
 
   onSuccess() async {
