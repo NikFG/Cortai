@@ -30,8 +30,12 @@ class GerenciarServicoTela extends StatelessWidget {
                           CriarServicoTela(titulo: "Criar serviço"))),
                   leading: Icon(Icons.add),
                   title: Text("Adicionar novo serviço"),
+                ),
+                Divider(
+                  color: Colors.grey[500],
                 )
               ];
+
               lista.addAll(ListTile.divideTiles(
                   tiles: snapshot.data.documents.map((doc) {
                     return GerenciaServicoTile(ServicoDados.fromDocument(doc));
