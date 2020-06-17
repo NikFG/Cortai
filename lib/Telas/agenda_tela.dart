@@ -7,7 +7,6 @@ import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
-
 import 'package:agendacabelo/Widgets/custom_radio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -274,9 +273,9 @@ class _AgendaTelaState extends State<AgendaTela> {
                               return FlatButton(
                                 onPressed: _botaoHabilitado
                                     ? () async {
-                                  setState(() {
-                                    _botaoHabilitado = false;
-                                  });
+                                        setState(() {
+                                          _botaoHabilitado = false;
+                                        });
                                         var snapshot =
                                             await HorarioControle.get()
                                                 .where('cabeleireiro',
