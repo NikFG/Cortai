@@ -5,14 +5,15 @@ import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Dados/servico_dados.dart';
-import 'package:agendacabelo/Util/custom_payment.dart';
-import 'package:agendacabelo/Util/custom_profissional.dart';
+import 'package:agendacabelo/Modelos/login_modelo.dart';
+
+import 'package:agendacabelo/Widgets/custom_radio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'home_tela.dart';
 
 class AgendaTela extends StatefulWidget {
@@ -29,7 +30,9 @@ class _AgendaTelaState extends State<AgendaTela> {
   var horarioController = TextEditingController();
   var profissionalController = TextEditingController();
   String profissional;
+  String pagamento;
   DateTime data;
+  bool _botaoHabilitado = true;
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +250,12 @@ class _AgendaTelaState extends State<AgendaTela> {
                     ],
                   ),
                 ),
-//                CustomPayment(),
+                Container(
+                  height: 100,
+                  child: CustomRadio(idPagamento: (value) {
+                    this.pagamento = value;
+                  }),
+                ),
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
@@ -261,43 +269,57 @@ class _AgendaTelaState extends State<AgendaTela> {
                             color: Theme.of(context).accentColor),
                         child: Align(
                           alignment: Alignment.bottomLeft,
-                          child: FlatButton(
-                            onPressed: () async {
-                              var snapshot = await HorarioControle.get()
-                                  .where('cabeleireiro',
-                                      isEqualTo: profissional)
-                                  .where('data', isEqualTo: dataController.text)
-                                  .where('horario',
-                                      isEqualTo: horarioController.text)
-                                  .getDocuments();
-                              if (snapshot.documents.length == 0) {
-                                HorarioDados dados = HorarioDados();
-                                dados.cabeleireiro =
-                                    profissionalController.text;
-                                dados.cliente = '';
-                                dados.confirmado = false;
-                                dados.data = dataController.text;
-                                dados.formaPagamento = '';
-                                dados.horario = horarioController.text;
-                                dados.pago = false;
-                                dados.servico = widget.servicoDados.id;
+                          child: ScopedModelDescendant<LoginModelo>(
+                            builder: (context, child, model) {
+                              return FlatButton(
+                                onPressed: _botaoHabilitado
+                                    ? () async {
+                                  setState(() {
+                                    _botaoHabilitado = false;
+                                  });
+                                        var snapshot =
+                                            await HorarioControle.get()
+                                                .where('cabeleireiro',
+                                                    isEqualTo: profissional)
+                                                .where('data',
+                                                    isEqualTo:
+                                                        dataController.text)
+                                                .where('horario',
+                                                    isEqualTo:
+                                                        horarioController.text)
+                                                .getDocuments();
+                                        if (snapshot.documents.length == 0) {
+                                          HorarioDados dados = HorarioDados();
+                                          dados.cabeleireiro = profissional;
+                                          dados.cliente = model.dados['uid'];
+                                          dados.confirmado = false;
+                                          dados.data = dataController.text;
+                                          dados.formaPagamento = this.pagamento;
+                                          dados.horario =
+                                              horarioController.text;
+                                          dados.pago = false;
+                                          dados.servico =
+                                              widget.servicoDados.id;
 
-                                HorarioControle.store(dados,
-                                    onSuccess: onSuccess, onFail: onFail);
-                              }
-
-//                              Navigator.of(context).push(MaterialPageRoute(
-//                                  builder: (context) => HomeTela()));
+                                          HorarioControle.store(dados,
+                                              onSuccess: onSuccess,
+                                              onFail: onFail);
+                                        }
+                                      }
+                                    : null,
+                                child: Center(
+                                    child: _botaoHabilitado
+                                        ? Text(
+                                            'Confirmar',
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : CircularProgressIndicator()),
+                              );
                             },
-                            child: Center(
-                                child: Text(
-                              'Confirmar',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
-                            )),
                           ),
                         )),
                   ),
@@ -442,15 +464,18 @@ class _AgendaTelaState extends State<AgendaTela> {
         selectableDayPredicate: (DateTime val) =>
             diasSemana[val.weekday - 1] ? true : false,
         initialDate: dataAgora,
-        firstDate: DateTime.now().subtract(Duration(days: 1)),
-        lastDate: DateTime(2100),
+        firstDate: dataAgora,
+        lastDate: dataAgora.add(Duration(days: 365)),
+        helpText: "SELECIONE A DATA",
+        fieldLabelText: "DIGITE A DATA",
         locale: Locale('pt'));
+
     if (picked != null) {
       setState(() {
         this.data = picked;
       });
       dataController.text = Util.dateFormat.format(picked);
-      //}
+      horarioController.text = '';
     }
   }
 
