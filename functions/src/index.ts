@@ -95,24 +95,24 @@ export const quantidadeConfirmados = functions.firestore
     const queryCont = await db.collection('horarios')
       .where('confirmado', '==', false)
       .where('cabeleireiro', '==', cabeleireiro)
-      .where('ocupado', '==', true)
       .get()
 
     const cont = queryCont.docs.length
+    if (cont > 0) {
+      const payload: admin.messaging.MessagingPayload = {
+        notification: {
+          title: `Há um novo agendamento esperando para ser confirmado`,
+          body: `Confirme os ${cont} agendamentos assim que possível`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+        },
+        data: {
+          screen: "confirmar_tela"
+        }
 
-    const payload: admin.messaging.MessagingPayload = {
-      notification: {
-        title: `Há um novo agendamento esperando para ser confirmado`,
-        body: `Confirme os ${cont} agendamentos assim que possível`,
-        click_action: 'FLUTTER_NOTIFICATION_CLICK',
-      },
-      data: {
-        screen: "confirmar_tela"
-      }
-
-    };
-    return fcm.sendToDevice(token, payload);
-
+      };
+      return fcm.sendToDevice(token, payload);
+    }
+    return null;
   });
 
 export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
