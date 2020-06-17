@@ -17,7 +17,6 @@ class CustomProfissionalState extends State<CustomProfissional> {
   List<RadioModel> sampleData = List<RadioModel>();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     sampleData.add(RadioModel(
       false,

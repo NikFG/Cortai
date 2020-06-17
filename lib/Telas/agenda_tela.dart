@@ -1,58 +1,60 @@
+import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
+import 'package:agendacabelo/Controle/funcionamento_controle.dart';
+import 'package:agendacabelo/Controle/horario_controle.dart';
+import 'package:agendacabelo/Controle/salao_controle.dart';
+import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/salao_dados.dart';
+import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Util/custom_payment.dart';
 import 'package:agendacabelo/Util/custom_profissional.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:getflutter/getflutter.dart';
-import 'package:radio_grouped_buttons/radio_grouped_buttons.dart';
 import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Util/custom_date.dart';
-import 'package:agendacabelo/Util/custom_time.dart';
-import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:agendacabelo/Telas/teste_tela.dart';
+import 'home_tela.dart';
 
 class AgendaTela extends StatefulWidget {
+  final ServicoDados servicoDados;
+
+  AgendaTela(this.servicoDados);
+
   @override
   _AgendaTelaState createState() => _AgendaTelaState();
 }
 
 class _AgendaTelaState extends State<AgendaTela> {
-  List<String> buttonList = [
-    "Fernando",
-    "Mateus",
-    "Ana",
-    "Julia",
-    "Marcus",
-    "Celmo",
-  ];
-
-  final format = DateFormat("yyyy-MM-dd");
-  List<String> horarioList = ["16:30", "19:30", "10:00", "15:00"];
-  bool isSelected;
   var dataController = TextEditingController();
   var horarioController = TextEditingController();
+  var profissionalController = TextEditingController();
+  String profissional;
+  DateTime data;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text("Marcar"),
+          title: Text(widget.servicoDados.descricao),
           centerTitle: true,
           leading: Util.leadingScaffold(context)),
       body: ListView(
         children: <Widget>[
           ListTile(
-                      title: Text('Corte Topster',style: TextStyle(fontSize: 22,
-                      fontFamily: 'Poppins'),),
-                      subtitle: Text('R\$15,00',style: TextStyle(fontSize: 16,
-                      fontFamily: 'Poppins')),
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(
-                          "https://i.pinimg.com/originals/bb/5f/6b/bb5f6b2bed3a6ac41d9ba82fa5d47d36.jpg"),
-                      ),
-                    ),
+            title: Text(
+              widget.servicoDados.descricao,
+              style: TextStyle(fontSize: 22, fontFamily: 'Poppins'),
+            ),
+            subtitle: Text('R\$${widget.servicoDados.valor.toStringAsFixed(2)}',
+                style: TextStyle(fontSize: 16, fontFamily: 'Poppins')),
+            leading: CircleAvatar(
+              radius: 30,
+              backgroundImage: widget.servicoDados.imagemUrl != null
+                  ? NetworkImage(widget.servicoDados.imagemUrl)
+                  : null,
+              backgroundColor: Colors.transparent,
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: Column(
@@ -74,24 +76,42 @@ class _AgendaTelaState extends State<AgendaTela> {
                     ),
                   ),
                 ),
-                CustomProfissional(),
+                Padding(
+                  padding: EdgeInsets.all(24),
+                  child: GestureDetector(
+                    onTap: () async {
+                      var profissionais = await CabeleireiroControle.get()
+                          .where('uid',
+                              whereIn: widget.servicoDados.cabeleireiros)
+                          .orderBy('nome')
+                          .getDocuments();
+                      var cabeleireiros = profissionais.documents
+                          .map((doc) => CabeleireiroDados.fromDocument(doc))
+                          .toList();
+                      _profissionalBottomSheet(context, cabeleireiros);
+                    },
+                    child: AbsorbPointer(
+                      child: TextFormField(
+                        controller: profissionalController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.content_cut),
+                          hintText: 'Profissional',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child: Text(
-                            "Quando seria melhor para você ?",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ),
-                      ],
+                    child: Text(
+                      "Quando seria melhor para você ?",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                   ),
                 ),
@@ -99,26 +119,15 @@ class _AgendaTelaState extends State<AgendaTela> {
                   padding: EdgeInsets.all(24),
                   child: GestureDetector(
                     onTap: () async {
-                      List<bool> diasSemana = [
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
-                      ];
-                      var snapshots = await Firestore.instance
-                          .collection('saloes')
-                          .document(
-                              'yJoxHp864CqIWTORAADm') //estático para pegar depois os dados do firebase
+                      var snapshots = await SalaoControle.get()
+                          .document(widget.servicoDados.salao)
                           .collection('funcionamento')
                           .getDocuments();
                       List<FuncionamentoDados> funcionamento = snapshots
                           .documents
                           .map((doc) => FuncionamentoDados.fromDocument(doc))
                           .toList();
-                      _verificaDiasSemana(funcionamento, diasSemana);
+                      var diasSemana = _verificaDiasSemana(funcionamento);
                       _calendario(context, diasSemana);
                     },
                     child: AbsorbPointer(
@@ -154,14 +163,29 @@ class _AgendaTelaState extends State<AgendaTela> {
                   padding: EdgeInsets.all(24),
                   child: GestureDetector(
                     onTap: () async {
-                      _horarioBottomSheet(context);
+                      if (this.data != null) {
+                        var snapshot = await FuncionamentoControle.get(
+                                widget.servicoDados.salao)
+                            .document(Util.weekdayToString(this.data))
+                            .get();
+                        FuncionamentoDados funcionamento =
+                            FuncionamentoDados.fromDocument(snapshot);
+
+                        _horarioBottomSheet(context, funcionamento);
+                      } else {
+                        FlushbarHelper.createInformation(
+                            message: "Selecione o dia primeiro",
+                            duration: Duration(
+                              milliseconds: 1500,
+                            )).show(context);
+                      }
                     },
                     child: AbsorbPointer(
                       child: TextFormField(
                         controller: horarioController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(Icons.access_time),
-                          hintText: 'xx:yy',
+                          hintText: 'hh:mm',
                         ),
                       ),
                     ),
@@ -223,7 +247,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                     ],
                   ),
                 ),
-                CustomPayment(),
+//                CustomPayment(),
                 Align(
                   alignment: Alignment.center,
                   child: Padding(
@@ -238,9 +262,33 @@ class _AgendaTelaState extends State<AgendaTela> {
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: FlatButton(
-                            onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => AgendaTela())),
+                            onPressed: () async {
+                              var snapshot = await HorarioControle.get()
+                                  .where('cabeleireiro',
+                                      isEqualTo: profissional)
+                                  .where('data', isEqualTo: dataController.text)
+                                  .where('horario',
+                                      isEqualTo: horarioController.text)
+                                  .getDocuments();
+                              if (snapshot.documents.length == 0) {
+                                HorarioDados dados = HorarioDados();
+                                dados.cabeleireiro =
+                                    profissionalController.text;
+                                dados.cliente = '';
+                                dados.confirmado = false;
+                                dados.data = dataController.text;
+                                dados.formaPagamento = '';
+                                dados.horario = horarioController.text;
+                                dados.pago = false;
+                                dados.servico = widget.servicoDados.id;
+
+                                HorarioControle.store(dados,
+                                    onSuccess: onSuccess, onFail: onFail);
+                              }
+
+//                              Navigator.of(context).push(MaterialPageRoute(
+//                                  builder: (context) => HomeTela()));
+                            },
                             child: Center(
                                 child: Text(
                               'Confirmar',
@@ -262,45 +310,97 @@ class _AgendaTelaState extends State<AgendaTela> {
     );
   }
 
-  void _horarioBottomSheet(context) {
+  _horarioBottomSheet(context, FuncionamentoDados funcionamento) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          HorarioDados a = HorarioDados();
-          a.horario = '9:00';
-          a.data = '21/01/2020';
-          a.pago = false;
-          HorarioDados b = HorarioDados();
-          b.horario = '10:30';
-          b.data = '21/01/2020';
-          b.pago = false;
-          List horarios = _itensHorario("8:00", "18:00", 30, [a, b]);
-          return Container(
-            child: ListView.builder(
-              itemCount: horarios.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    horarioController.text = horarios[index];
-                    Navigator.of(context).pop();
-                  },
-                  title: Text(
-                    horarios[index],
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: 'Poppins',
+//          List horarios = _itensHorario("8:00", "18:00", 30, []);
+          return StreamBuilder<QuerySnapshot>(
+              stream: HorarioControle.get()
+                  .where('cabeleireiro', isEqualTo: profissional)
+                  .where('data', isEqualTo: dataController.text)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  List<HorarioDados> horarioDados = snapshot.data.documents
+                      .map((doc) => HorarioDados.fromDocument(doc))
+                      .toList();
+                  DateTime dataAgora = DateTime.now();
+                  DateTime horarioAtual;
+                  if (data.day == dataAgora.day &&
+                      dataAgora.month == data.month &&
+                      data.year == dataAgora.year) {
+                    horarioAtual = Util.timeFormat
+                        .parse("${dataAgora.hour}:${dataAgora.minute}");
+                  }
+                  List<String> horarios = _itensHorario(
+                      abertura: funcionamento.horarioAbertura,
+                      fechamento: funcionamento.horarioFechamento,
+                      intervalo: funcionamento.intervalo,
+                      horarios: horarioDados,
+                      horarioAtual: horarioAtual);
+
+                  return Container(
+                    child: ListView.builder(
+                      itemCount: horarios.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          onTap: () {
+                            horarioController.text = horarios[index];
+                            Navigator.of(context).pop();
+                          },
+                          title: Text(
+                            horarios[index],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                );
-              },
-            ),
-          );
+                  );
+                }
+              });
         });
   }
 
-  _verificaDiasSemana(
-      List<FuncionamentoDados> funcionamento, List<bool> diasSemana) {
+  _profissionalBottomSheet(context, List<CabeleireiroDados> cabeleireiros) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          List<Widget> listTiles = [];
+          for (var c in cabeleireiros) {
+            listTiles.add(ListTile(
+              onTap: () {
+                profissionalController.text = c.nome;
+                profissional = c.id;
+                Navigator.of(context).pop();
+              },
+              title: Text(
+                c.nome,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            ));
+          }
+          var tiles = ListTile.divideTiles(
+                  tiles: listTiles, color: Colors.grey[500], context: context)
+              .toList();
+          return ListView(children: tiles);
+        });
+  }
+
+  _verificaDiasSemana(List<FuncionamentoDados> funcionamento) {
+    List<bool> diasSemana = [false, false, false, false, false, false, false];
     for (int i = 0; i < funcionamento.length; i++) {
       switch (funcionamento[i].diaSemana) {
         case 'SEG':
@@ -326,12 +426,16 @@ class _AgendaTelaState extends State<AgendaTela> {
           break;
       }
     }
+    return diasSemana;
   }
 
   Future<Null> _calendario(BuildContext context, List diasSemana) async {
     var dataAgora = DateTime.now();
     while (!diasSemana[dataAgora.weekday - 1]) {
       dataAgora = dataAgora.add(Duration(days: 1));
+      if (dataAgora.difference(DateTime.now()) >= Duration(days: 7)) {
+        break;
+      }
     }
     final DateTime picked = await showDatePicker(
         context: context,
@@ -342,35 +446,56 @@ class _AgendaTelaState extends State<AgendaTela> {
         lastDate: DateTime(2100),
         locale: Locale('pt'));
     if (picked != null) {
-      //Apenas printando para quando tiver campo de texto, atualizar valor
-      print(picked);
-      // setState(() {
-      // diasSemana = Util.weekdayToString(picked);
-      // _horarioAtual = null;
-      // selectedDate = picked;
+      setState(() {
+        this.data = picked;
+      });
       dataController.text = Util.dateFormat.format(picked);
-      // });
       //}
     }
   }
 
-  _itensHorario(String abertura, String fechamento, int intervalo,
-      List<HorarioDados> dados) {
+  List<String> _itensHorario(
+      {@required String abertura,
+      @required String fechamento,
+      @required int intervalo,
+      @required List<HorarioDados> horarios,
+      @required DateTime horarioAtual}) {
+    DateTime inicial = Util.timeFormat.parse(abertura);
     DateTime atual = Util.timeFormat.parse(abertura);
     DateTime fecha = Util.timeFormat.parse(fechamento);
-    List listaHorarios = [];
+    List<String> listaHorarios = [];
     while (atual.isBefore(fecha)) {
       listaHorarios.add(Util.timeFormat.format(atual));
       atual = atual.add(Duration(minutes: intervalo));
     }
-
-    if (dados.length > 0) {
-      for (var dado in dados) {
+    if (horarioAtual != null)
+      while (horarioAtual.isAfter(inicial)) {
+        listaHorarios.remove(Util.timeFormat.format(inicial));
+        inicial = inicial.add(Duration(minutes: intervalo));
+      }
+    if (horarios.length > 0) {
+      for (var dado in horarios) {
         listaHorarios.remove(dado.horario);
       }
     }
 
     return listaHorarios;
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Horário agendado com sucesso",
+            duration: Duration(milliseconds: 1500))
+        .show(context);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  void onFail() async {
+    await FlushbarHelper.createError(
+            message: "Houve algum erro ao agendar",
+            duration: Duration(milliseconds: 1500))
+        .show(context);
   }
 }
 

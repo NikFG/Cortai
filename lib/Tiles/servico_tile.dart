@@ -10,11 +10,12 @@ class ServicoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
         onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => AgendaTela())),
+            MaterialPageRoute(builder: (context) => AgendaTela(this.dados))),
         child: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -100,7 +101,7 @@ class ServicoTile extends StatelessWidget {
                         ),
                         onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                                builder: (context) => AgendaTela())),
+                                builder: (context) => AgendaTela(this.dados))),
                       ),
                     ],
                   ),
