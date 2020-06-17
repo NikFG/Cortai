@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Controle/salao_controle.dart';
@@ -521,3 +522,4 @@ class _AgendaTelaState extends State<AgendaTela> {
         .show(context);
   }
 }
+

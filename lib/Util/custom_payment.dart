@@ -1,3 +1,6 @@
+import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
+import 'package:agendacabelo/Dados/forma_pagamento_dados.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,76 +17,84 @@ class CustomPayment extends StatefulWidget {
 }
 
 class CustomPaymentState extends State<CustomPayment> {
-  List<RadioModel> sampleData = List<RadioModel>();
+  List<RadioModel> lista= [];
   @override
   void initState() {
-   
     super.initState();
-    sampleData.add(RadioModel(
-      false,
-      'Credito',
-    ));
-    sampleData.add(RadioModel(
-      false,
-      'Debito',
-    ));
-    sampleData.add(RadioModel(
-      false,
-      'Dinheiro',
-    ));
-    sampleData.add(RadioModel(
-      false,
-      'PicPay',
-    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      child: GridView.builder(
-        itemCount: sampleData.length,
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-              child: InkWell(
-                borderRadius: BorderRadius.circular(10),
-                //highlightColor: Colors.red,
-                splashColor: Theme.of(context).accentColor,
-                onTap: () {
-                  setState(() {
-                    sampleData.forEach((element) => element.isSelected = false);
-                    sampleData[index].isSelected = true;
-                  });
+
+      child: FutureBuilder<QuerySnapshot>(
+          future: FormaPagamentoControle.get().getDocuments(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              lista = snapshot.data.documents.map((doc) {
+                return RadioModel(false, FormaPagamentoDados.fromDocument(doc));
+              }).toList();
+              return GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: lista.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                      child: InkWell(
+                    borderRadius: BorderRadius.circular(10),
+                    //highlightColor: Colors.red,
+                    splashColor: Theme.of(context).accentColor,
+                    onTap: () {
+                      setState(() {
+                        lista.forEach((element) => element.isSelected = false);
+                        lista[index].isSelected = true;
+                      });
+                    },
+                    child: RadioItem(lista[index]),
+                  ));
                 },
-                child: RadioItem(sampleData[index]),
-              ));
-        },
-      ),
+              );
+            }
+          }),
     );
   }
 }
 
 class RadioItem extends StatelessWidget {
   final RadioModel _item;
+
   RadioItem(this._item);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: EdgeInsets.symmetric(horizontal: 5.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Container(
             height: 50.0,
-            width: 80.0,
-            child: Center(
-              child: Text(_item.buttonText,
-                  style: TextStyle(
-                      color: _item.isSelected ? Colors.white : Colors.black,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 18.0)),
+
+            child: Row(
+              children: <Widget>[
+                CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(_item.formaPagamentoDados.icone),
+                  backgroundColor: Colors.transparent,
+                  radius: 10,
+                ),
+                Text(_item.formaPagamentoDados.descricao,
+                    style: TextStyle(
+                        color: _item.isSelected ? Colors.white : Colors.black,
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 18.0)),
+              ],
             ),
             decoration: BoxDecoration(
               color: _item.isSelected
@@ -105,10 +116,11 @@ class RadioItem extends StatelessWidget {
 
 class RadioModel {
   bool isSelected;
-  final String buttonText;
+
+  final FormaPagamentoDados formaPagamentoDados;
 
   RadioModel(
     this.isSelected,
-    this.buttonText,
+    this.formaPagamentoDados,
   );
 }
