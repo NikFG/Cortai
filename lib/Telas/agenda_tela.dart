@@ -1,7 +1,8 @@
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Util/custom_payment.dart';
-import 'package:agendacabelo/Util/custom_profissional.dart';
+import 'package:agendacabelo/Dados/servico_dados.dart';
+import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Widgets/custom_radio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
@@ -299,19 +300,57 @@ class AgendaTela extends StatelessWidget {
                             color: Theme.of(context).accentColor),
                         child: Align(
                           alignment: Alignment.bottomLeft,
-                          child: FlatButton(
-                            onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => AgendaTela())),
-                            child: Center(
-                                child: Text(
-                              'Confirmar',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
-                            )),
+                          child: ScopedModelDescendant<LoginModelo>(
+                            builder: (context, child, model) {
+                              return FlatButton(
+                                onPressed: _botaoHabilitado
+                                    ? () async {
+                                        setState(() {
+                                          _botaoHabilitado = false;
+                                        });
+                                        var snapshot =
+                                            await HorarioControle.get()
+                                                .where('cabeleireiro',
+                                                    isEqualTo: profissional)
+                                                .where('data',
+                                                    isEqualTo:
+                                                        dataController.text)
+                                                .where('horario',
+                                                    isEqualTo:
+                                                        horarioController.text)
+                                                .getDocuments();
+                                        if (snapshot.documents.length == 0) {
+                                          HorarioDados dados = HorarioDados();
+                                          dados.cabeleireiro = profissional;
+                                          dados.cliente = model.dados['uid'];
+                                          dados.confirmado = false;
+                                          dados.data = dataController.text;
+                                          dados.formaPagamento = this.pagamento;
+                                          dados.horario =
+                                              horarioController.text;
+                                          dados.pago = false;
+                                          dados.servico =
+                                              widget.servicoDados.id;
+
+                                          HorarioControle.store(dados,
+                                              onSuccess: onSuccess,
+                                              onFail: onFail);
+                                        }
+                                      }
+                                    : null,
+                                child: Center(
+                                    child: _botaoHabilitado
+                                        ? Text(
+                                            'Confirmar',
+                                            style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : CircularProgressIndicator()),
+                              );
+                            },
                           ),
                         )),
                   ),
