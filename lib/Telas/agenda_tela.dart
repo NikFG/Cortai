@@ -523,30 +523,3 @@ class _AgendaTelaState extends State<AgendaTela> {
   }
 }
 
-class BasicDateField extends StatelessWidget {
-  final format = DateFormat("dd-MM-yyyy");
-  final diasSemana;
-  BasicDateField(this.diasSemana);
-  @override
-  Widget build(BuildContext context) {
-    var dataAgora = DateTime.now();
-    while (!diasSemana[dataAgora.weekday - 1]) {
-      dataAgora = dataAgora.add(Duration(days: 1));
-    }
-    return Column(children: <Widget>[
-      DateTimeField(
-        format: format,
-        onShowPicker: (context, currentValue) {
-          return showDatePicker(
-              context: context,
-              selectableDayPredicate: (DateTime val) =>
-                  diasSemana[val.weekday - 1] ? true : false,
-              initialDate: dataAgora,
-              firstDate: DateTime.now().subtract(Duration(days: 1)),
-              lastDate: DateTime(2100),
-              locale: Locale('pt'));
-        },
-      ),
-    ]);
-  }
-}
