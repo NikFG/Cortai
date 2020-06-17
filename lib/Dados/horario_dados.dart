@@ -32,18 +32,19 @@ class HorarioDados {
       "cliente": cliente,
       "confirmado": confirmado,
       "data": data,
-      "formaPagamento":formaPagamento,
+      "formaPagamento": formaPagamento,
       "horario": horario,
       "pago": pago,
       "servico": servico,
-
     };
   }
 
   @override
   String toString() {
-    return 'HorarioDados{id: $id, horario: $horario,'
-        ' data: $data, confirmado:'
-        ' $confirmado, cabeleireiro: $cabeleireiro, cliente: $cliente, serviço: $servico}';
+    return 'HorarioDados{id: $id, horario:'
+        ' $horario, data: $data, confirmado: '
+        '$confirmado, cabeleireiro: $cabeleireiro, '
+        'cliente: $cliente, servico: $servico, pago:'
+        ' $pago, formaPagamento: $formaPagamento}';
   }
 }
