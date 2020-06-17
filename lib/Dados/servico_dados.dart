@@ -24,6 +24,7 @@ class ServicoDados {
     valor = snapshot.data["valor"];
     imagemUrl = snapshot.data["imagemUrl"];
     cabeleireiros = List.from(snapshot.data['cabeleireiros']);
+    salao = snapshot.data['salao'];
   }
 
   Map<String, dynamic> toMap() {
