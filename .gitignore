@@ -88,6 +88,3 @@ lint/tmp/
 .flutter-plugins-dependencies
 
 *.lock
-
-
-lib/Tiles/servico_grid_view.dart
