@@ -1,16 +1,18 @@
 import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Telas/agenda_tela.dart';
 import 'package:agendacabelo/Telas/forma_pagamento_tela.dart';
+import 'package:agendacabelo/Widgets/hero_custom.dart';
 import 'package:flutter/material.dart';
 
 class ServicoTile extends StatelessWidget {
   final ServicoDados dados;
+  final String imgPadrao =
+      "https://images.unsplash.com/photo-1534778356534-d3d45b6df1da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80";
 
   ServicoTile(this.dados);
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
       child: GestureDetector(
@@ -24,19 +26,23 @@ class ServicoTile extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(
             children: <Widget>[
-              Container(
-                height: 110,
-                width: 70,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                    image: DecorationImage(
-
-                        image: NetworkImage(
-                          dados.imagemUrl != null
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => HeroCustom(
+                          imagemUrl: dados.imagemUrl != null
                               ? dados.imagemUrl
-                              : "https://images.unsplash.com/photo-1534778356534-d3d45b6df1da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-                        ),
-                        fit: BoxFit.contain)),
+                              : imgPadrao)));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(4.7),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 32,
+                    backgroundImage: NetworkImage(
+                        dados.imagemUrl != null ? dados.imagemUrl : imgPadrao),
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
