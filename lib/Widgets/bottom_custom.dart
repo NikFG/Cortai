@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -63,8 +64,7 @@ class _BottomCustomState extends State<BottomCustom> {
     var itens = [
       BottomNavigationBarItem(
         icon: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance
-                .collection("horarios")
+            stream: HorarioControle.get()
                 .where('confirmado', isEqualTo: false)
                 .where('cabeleireiro', isEqualTo: uid)
                 .snapshots(),

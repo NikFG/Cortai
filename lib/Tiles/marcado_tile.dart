@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/avaliacao_controle.dart';
 import 'package:agendacabelo/Dados/avaliacao_dados.dart';
 import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
@@ -81,8 +82,7 @@ class _MarcadoTileState extends State<MarcadoTile> {
 
   _avaliarDialog(BuildContext context) async {
     String salao = await getSalao();
-    bool avaliado = await Firestore.instance
-        .collection('avaliacoes')
+    bool avaliado = await AvaliacaoControle.get()
         .where('horario', isEqualTo: widget.horario.id)
         .where('cabeleireiro', isEqualTo: widget.horario.cabeleireiro)
         .where('salao', isEqualTo: salao)
@@ -92,8 +92,8 @@ class _MarcadoTileState extends State<MarcadoTile> {
       return showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title:
-                    Text("Qual a avaliação que deseja dar ao seu cabeleireiro?"),
+                title: Text(
+                    "Qual a avaliação que deseja dar ao seu cabeleireiro?"),
                 content: RatingBar(
                   minRating: 1,
                   direction: Axis.horizontal,
@@ -119,23 +119,15 @@ class _MarcadoTileState extends State<MarcadoTile> {
                   ),
                   FlatButton(
                     child: Text("Confirmar"),
-                    onPressed: () async {
+                    onPressed: () {
                       if (_avaliacao > 1) {
                         AvaliacaoDados dados = AvaliacaoDados();
                         dados.cabeleireiro = widget.horario.cabeleireiro;
                         dados.avaliacao = _avaliacao;
                         dados.salao = salao;
                         dados.horario = widget.horario.id;
-                        await Firestore.instance
-                            .collection('avaliacoes')
-                            .add(dados.toMap())
-                            .then((value) async {
-                          await FlushbarHelper.createSuccess(
-                                  message: "Avaliação enviada com sucesso!!",
-                                  duration: Duration(milliseconds: 1300))
-                              .show(context);
-                          Navigator.of(context).pop();
-                        });
+                        AvaliacaoControle.store(dados,
+                            onSuccess: onSuccess, onFail: onFail);
                       }
                     },
                   ),
@@ -157,5 +149,20 @@ class _MarcadoTileState extends State<MarcadoTile> {
         .get();
     String salao = snapshot.data['salao'];
     return salao;
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Avaliação enviada com sucesso!!",
+            duration: Duration(milliseconds: 1300))
+        .show(context);
+    Navigator.of(context).pop();
+  }
+
+  void onFail() async {
+    await FlushbarHelper.createError(
+            message: "Houve algum erro ao enviar a avaliação!",
+            duration: Duration(milliseconds: 1300))
+        .show(context);
   }
 }

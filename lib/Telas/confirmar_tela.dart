@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/confirmar_tile.dart';
@@ -16,8 +17,7 @@ class ConfirmarTela extends StatelessWidget {
         builder: (context, child, model) {
           return Material(
             child: StreamBuilder<QuerySnapshot>(
-                stream: Firestore.instance
-                    .collection("horarios")
+                stream: HorarioControle.get()
                     .where('confirmado', isEqualTo: false)
                     .where('cabeleireiro', isEqualTo: model.dados['uid'])
                     .orderBy('data')

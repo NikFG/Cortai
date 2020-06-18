@@ -1,3 +1,5 @@
+import 'package:agendacabelo/Controle/funcionamento_controle.dart';
+import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
@@ -43,11 +45,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
           padding: EdgeInsets.all(15),
           children: <Widget>[
             FutureBuilder<QuerySnapshot>(
-              future: Firestore.instance
-                  .collection('saloes')
-                  .document(widget.salao)
-                  .collection('funcionamento')
-                  .getDocuments(),
+              future: FuncionamentoControle.get(widget.salao).getDocuments(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -255,10 +253,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                           dados.intervalo =
                               int.parse(_intervaloController.text);
                           if (!_switchMarcado) {
-                            await Firestore.instance
-                                .collection('saloes')
-                                .document(widget.salao)
-                                .collection('funcionamento')
+                            await FuncionamentoControle.get(widget.salao)
                                 .getDocuments()
                                 .then((value) {
                               for (var doc in value.documents) {
@@ -268,10 +263,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                           }
                           for (int i = 0; i < 7; i++) {
                             if (_diasSemana[i]) {
-                              await Firestore.instance
-                                  .collection('saloes')
-                                  .document(widget.salao)
-                                  .collection('funcionamento')
+                              await FuncionamentoControle.get(widget.salao)
                                   .document(_diaSemanaIndex(i))
                                   .setData(dados.toMap(), merge: true);
                             }

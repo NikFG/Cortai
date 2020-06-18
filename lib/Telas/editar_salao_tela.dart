@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -21,7 +22,6 @@ class EditarSalaoTela extends StatefulWidget {
 }
 
 class _EditarSalaoTelaState extends State<EditarSalaoTela> {
-  
   final _formKey = GlobalKey<FormState>();
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();
@@ -142,55 +142,23 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           dados.telefone = _telefoneController.text;
 
                           if (widget.salao == null) {
-                            if (_imagem != null){
+                            if (_imagem != null) {
                               dados.imagem = await Util.enviaImagem(
                                   widget.usuario, _imagem);
                             }
-                            await Firestore.instance
-                                .collection('saloes')
-                                .add(dados.toMap())
-                                .then((doc) async {
-                              await FlushbarHelper.createSuccess(
-                                message: "Salão criado com sucesso",
-                              ).show(context);
-                              Firestore.instance
-                                  .collection('usuarios')
-                                  .document(widget.usuario)
-                                  .updateData({
-                                'salao': doc.documentID,
-                                'cabeleireiro': true
-                              });
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => HomeTela()));
-                            }).catchError((e) {
-                              FlushbarHelper.createError(
-                                      message:
-                                          'Houve algum erro ao criar o salão\nTente novamente!!')
-                                  .show(context);
-                            });
+                            SalaoControle.store(dados,
+                                usuario: widget.usuario,
+                                onSuccess: onSuccess,
+                                onFail: onFail);
                           } else {
                             if (_imagem != null) {
                               await Util.deletaImagem(dados.imagem);
                               dados.imagem = await Util.enviaImagem(
                                   widget.usuario, _imagem);
                             }
-                            await Firestore.instance
-                                .collection('saloes')
-                                .document(dados.id)
-                                .updateData(dados.toMap())
-                                .then((doc) async {
-                              await FlushbarHelper.createSuccess(
-                                message: "Salão modificado com sucesso",
-                              ).show(context);
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeTela()));
-                            }).catchError((e) {
-                              FlushbarHelper.createError(
-                                      message:
-                                          'Houve algum erro ao editar o salão\nTente novamente!!')
-                                  .show(context);
-                            });
+                            SalaoControle.update(dados,
+                                onSuccess: onSuccessEditar,
+                                onFail: onFailEditar);
                           }
                         }
                       }
@@ -257,5 +225,35 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
       }
     }
     return Text(texto);
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+      message: "Salão criado com sucesso",
+    ).show(context);
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  void onFail() async {
+    FlushbarHelper.createError(
+            message: 'Houve algum erro ao criar o salão\nTente novamente!!')
+        .show(context);
+  }
+
+  void onSuccessEditar() async {
+    await FlushbarHelper.createSuccess(
+      message: "Salão modificado com sucesso",
+    ).show(context);
+
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  void onFailEditar() async {
+    FlushbarHelper.createError(
+            message: 'Houve algum erro ao modificar o salão\nTente novamente!!')
+        .show(context);
   }
 }
