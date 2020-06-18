@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -22,6 +23,7 @@ class _LoginTelaState extends State<LoginTela> {
 
   @override
   Widget build(BuildContext context) {
+    Util.corPrimariaStatusBar(context);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model.isCarregando) {
@@ -178,10 +180,10 @@ class _LoginTelaState extends State<LoginTela> {
                                                   message:
                                                       "Verifique seu email para recuperar a senha!")
                                               .show(context);
-                                        }else{
+                                        } else {
                                           await FlushbarHelper.createError(
-                                              message:
-                                              "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
+                                                  message:
+                                                      "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
                                               .show(context);
                                         }
                                       }
