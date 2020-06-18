@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/checkin_tile.dart';
@@ -25,8 +26,7 @@ class _CheckinTelaState extends State<CheckinTela> {
                 leading: Util.leadingScaffold(context),
               ),
               body: FutureBuilder<QuerySnapshot>(
-                future: Firestore.instance
-                    .collection('horarios')
+                future: HorarioControle.get()
                     .where('cabeleireiro', isEqualTo: model.dados['uid'])
                     .where('confirmado', isEqualTo: true)
                     .where('pago', isEqualTo: false)

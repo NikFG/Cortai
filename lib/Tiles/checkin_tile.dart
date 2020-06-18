@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,11 +12,9 @@ class CheckinTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ListTile(
       onTap: () async {
-        await Firestore.instance
-            .collection('horarios')
+        await HorarioControle.get()
             .document(dados.id)
             .updateData({'pago': true}).then((value) async {
           await FlushbarHelper.createSuccess(

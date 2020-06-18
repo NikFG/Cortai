@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/home_tab.dart';
 import 'package:agendacabelo/Telas/gerenciar_salao_tela.dart';
@@ -52,7 +53,6 @@ class _HomeTelaState extends State<HomeTela> {
                 centerTitle: true,
               ),
               body: HomeTab(),
-//          bottomNavigationBar: BottomCustom(_pageController, index, model.isCabeleireiro(), model.dados['uid']),
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.isCabeleireiro(), model.dados['uid']),
             ),
@@ -92,15 +92,13 @@ class _HomeTelaState extends State<HomeTela> {
                         value: 1,
                         child: FlatButton(
                           onPressed: () async {
-                            var snapshots = await Firestore.instance
-                                .collection('servicos')
-                                .getDocuments();
+                            var snapshots =
+                                await ServicoControle.get().getDocuments();
 
                             for (int i = 0;
                                 i < snapshots.documents.length;
                                 i++) {
-                              Firestore.instance
-                                  .collection('servicos')
+                              ServicoControle.get()
                                   .document(snapshots.documents[i].documentID)
                                   .updateData({
                                 "confirmado": true,

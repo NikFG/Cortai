@@ -1,3 +1,5 @@
+import 'package:agendacabelo/Controle/avaliacao_controle.dart';
+import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Dados/avaliacao_dados.dart';
 import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
@@ -196,8 +198,7 @@ class _HomeTileState extends State<HomeTile> {
   }
 
   _mediaAvaliacoes() async {
-    var lista = await Firestore.instance
-        .collection('avaliacoes')
+    var lista = await AvaliacaoControle.get()
         .where('salao', isEqualTo: widget.dados.id)
         .getDocuments()
         .then((doc) =>
@@ -216,8 +217,7 @@ class _HomeTileState extends State<HomeTile> {
   }
 
   _minMaxPrecos() async {
-    var lista = await Firestore.instance
-        .collection('servicos')
+    var lista = await ServicoControle.get()
         .where('salao', isEqualTo: widget.dados.id)
         .getDocuments()
         .then((doc) =>
