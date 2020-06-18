@@ -19,7 +19,6 @@ class ConfirmarTela extends StatelessWidget {
                 stream: Firestore.instance
                     .collection("horarios")
                     .where('confirmado', isEqualTo: false)
-                    .where('ocupado', isEqualTo: true)
                     .where('cabeleireiro', isEqualTo: model.dados['uid'])
                     .orderBy('data')
                     .orderBy('horario')

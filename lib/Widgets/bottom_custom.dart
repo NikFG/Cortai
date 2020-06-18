@@ -66,7 +66,6 @@ class _BottomCustomState extends State<BottomCustom> {
             stream: Firestore.instance
                 .collection("horarios")
                 .where('confirmado', isEqualTo: false)
-                .where('ocupado', isEqualTo: true)
                 .where('cabeleireiro', isEqualTo: uid)
                 .snapshots(),
             builder: (context, snapshot) {

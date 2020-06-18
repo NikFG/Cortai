@@ -139,7 +139,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
       stream: Firestore.instance
           .collection("horarios")
           .where('confirmado', isEqualTo: false)
-          .where('ocupado', isEqualTo: true)
+
           .where('cabeleireiro', isEqualTo: uid)
           .snapshots(),
       builder: (context, snapshot) {
