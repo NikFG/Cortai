@@ -37,7 +37,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   void initState() {
     super.initState();
     if (widget.dados != null) {
-
       _verificaEditar();
     }
   }
@@ -144,9 +143,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                           onPressed: () {
                             getImagem(false);
                           },
-                          child: _imagem == null && widget.dados.imagemUrl == null
-                              ? Text("Selecione uma imagem para o serviço")
-                              : Text("Altere a imagem caso necessário"),
+                          child: _verificaImagemNula(),
                         ),
                       ],
                     )),
@@ -160,16 +157,22 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                       HeroCustom(imagemFile: _imagem)));
                         },
                         child: Image.file(_imagem))
-                    : widget.dados.imagemUrl != null
-                        ? GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HeroCustom(
-                                          imagemUrl: widget.dados.imagemUrl)));
-                            },
-                            child: Image.network(widget.dados.imagemUrl))
+                    : widget.dados != null
+                        ? widget.dados.imagemUrl == null
+                            ? Container(
+                                width: 0,
+                                height: 0,
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HeroCustom(
+                                              imagemUrl:
+                                                  widget.dados.imagemUrl)));
+                                },
+                                child: Image.network(widget.dados.imagemUrl))
                         : Container(
                             width: 0,
                             height: 0,
@@ -211,16 +214,15 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 } else {
                                   dados.imagemUrl = widget.dados.imagemUrl;
                                 }
-                              }
-                              if (widget.dados == null) {
-                                dados.imagemUrl = await Util.enviaImagem(
-                                    model.dados['uid'], _imagem);
-                                ServicoControle.store(dados,
-                                    onSuccess: onSuccess, onFail: onFail);
-                              } else {
                                 dados.id = widget.dados.id;
                                 ServicoControle.update(dados,
                                     onSuccess: onUpdateSuccess, onFail: onFail);
+                              } else {
+                                if (_imagem != null)
+                                  dados.imagemUrl = await Util.enviaImagem(
+                                      model.dados['uid'], _imagem);
+                                ServicoControle.store(dados,
+                                    onSuccess: onSuccess, onFail: onFail);
                               }
                             }
                           }
@@ -236,11 +238,13 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   }
 
   Future<Null> getImagem(bool camera) async {
-    var imagem = await ImagePicker.pickImage(
+    var picker = ImagePicker();
+
+    var imagem = await picker.getImage(
         source: camera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
       if (imagem != null) {
-        _imagem = imagem;
+        _imagem = File(imagem.path);
       }
     });
   }
@@ -263,7 +267,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
       else
         _cabeleireirosControlador.text += selecionados[i].nome;
     }
-
   }
 
   onSuccess() async {
@@ -291,6 +294,29 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         .show(context);
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  Widget _verificaImagemNula() {
+    String texto = '';
+
+    if (widget.dados == null) {
+      if (_imagem == null) {
+        texto = "Selecione uma imagem para o serviço";
+      } else {
+        texto = "Altere a imagem caso necessário";
+      }
+    } else {
+      if (widget.dados.imagemUrl == null) {
+        if (_imagem == null) {
+          texto = "Selecione uma imagem para o serviço";
+        } else {
+          texto = "Altere a imagem caso necessário";
+        }
+      } else {
+        texto = "Altere a imagem caso necessário";
+      }
+    }
+    return Text(texto);
   }
 }
 
