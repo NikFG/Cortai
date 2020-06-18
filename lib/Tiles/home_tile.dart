@@ -6,10 +6,12 @@ import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Util/haversine.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Telas/servico_tela.dart';
+import 'package:agendacabelo/Widgets/hero_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:getflutter/components/avatar/gf_avatar.dart';
 
 class HomeTile extends StatefulWidget {
   final SalaoDados dados;
@@ -50,14 +52,19 @@ class _HomeTileState extends State<HomeTile> {
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Row(
             children: <Widget>[
-              Container(
-                height: 100,
-                width: 80,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                    image: DecorationImage(
-                        image: NetworkImage(widget.dados.imagem),
-                        fit: BoxFit.contain)),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          HeroCustom(imagemUrl: widget.dados.imagem)));
+                },
+                child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: NetworkImage(widget.dados.imagem),
+                    )),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
