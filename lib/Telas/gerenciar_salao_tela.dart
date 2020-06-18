@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
@@ -7,7 +8,6 @@ import 'package:agendacabelo/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-
 
 class GerenciarSalaoTela extends StatelessWidget {
   @override
@@ -33,8 +33,7 @@ class GerenciarSalaoTela extends StatelessWidget {
               ),
               FlatButton(
                 onPressed: () async {
-                  var salaoDados = await Firestore.instance
-                      .collection('saloes')
+                  var salaoDados = await SalaoControle.get()
                       .document(model.getSalao())
                       .get()
                       .then((doc) {

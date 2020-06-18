@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:badges/badges.dart';
@@ -136,10 +137,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
   Widget _cabeleireiroTiles(String uid) {
     List<Widget> list = new List<Widget>();
     list.add(StreamBuilder(
-      stream: Firestore.instance
-          .collection("horarios")
+      stream: HorarioControle.get()
           .where('confirmado', isEqualTo: false)
-
           .where('cabeleireiro', isEqualTo: uid)
           .snapshots(),
       builder: (context, snapshot) {

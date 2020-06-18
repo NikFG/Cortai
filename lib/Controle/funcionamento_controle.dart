@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,7 @@ class FuncionamentoControle {
   static Firestore _firestore = Firestore.instance;
 
   static CollectionReference get(String salao) {
-    return _firestore
-        .collection('saloes')
-        .document(salao)
-        .collection('funcionamento');
+    return SalaoControle.get().document(salao).collection('funcionamento');
   }
 
   static void store(FuncionamentoDados dados, String salao,

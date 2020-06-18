@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Tiles/home_tile.dart';
 import 'package:agendacabelo/Util/haversine.dart';
@@ -13,7 +14,6 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  Firestore firestore = Firestore.instance;
   int cont = 0;
   PermissionStatus _permissionStatus = PermissionStatus.undetermined;
   int limite = 4;
@@ -140,14 +140,12 @@ class _HomeTabState extends State<HomeTab> {
     });
     QuerySnapshot querySnapshot;
     if (ultimoSalao == null) {
-      querySnapshot = await firestore
-          .collection('saloes')
+      querySnapshot = await SalaoControle.get()
           .orderBy('nome')
           .limit(limite)
           .getDocuments();
     } else {
-      querySnapshot = await firestore
-          .collection('saloes')
+      querySnapshot = await SalaoControle.get()
           .orderBy('nome')
           .startAfterDocument(ultimoSalao)
           .limit(limite)

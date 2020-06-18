@@ -33,4 +33,20 @@ class HorarioControle {
       onFail();
     });
   }
+
+  static delete(String id) {
+    _firestore.collection("horarios").document(id).delete();
+  }
+
+  static confirma(String id,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    await _firestore.collection("horarios").document(id).updateData({
+      "confirmado": true,
+    }).then((value) {
+      onSuccess();
+    }).catchError((e) {
+      print(e);
+      onFail();
+    });
+  }
 }

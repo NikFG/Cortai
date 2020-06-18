@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,27 +49,16 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
                 await Firestore.instance
                     .collection('horariosExcluidos')
                     .add(widget.dados.toMap());
-                await Firestore.instance
-                    .collection("horarios")
-                    .document(widget.dados.id)
-                    .delete()
-                    .then((value) async => await FlushbarHelper.createError(
+                await HorarioControle.delete(widget.dados.id).then(
+                    (value) async => await FlushbarHelper.createError(
                             message: "Horário cancelado com sucesso",
                             duration: Duration(seconds: 2))
                         .show(context));
 
                 break;
               case DismissDirection.startToEnd:
-
-                await Firestore.instance
-                    .collection("horarios")
-                    .document(widget.dados.id)
-                    .updateData({
-                  "confirmado": true,
-                }).then((value) async => FlushbarHelper.createSuccess(
-                            message: "Horário confirmado com sucesso",
-                            duration: Duration(seconds: 2))
-                        .show(context));
+                HorarioControle.confirma(widget.dados.id,
+                    onSuccess: onSuccess, onFail: onFail);
 
                 break;
               case DismissDirection.vertical:
@@ -90,5 +80,19 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
         );
       },
     );
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Horário confirmado com sucesso",
+            duration: Duration(seconds: 2))
+        .show(context);
+  }
+
+  void onFail() async {
+    await FlushbarHelper.createError(
+            message: "Houve algum erro ao confirmar o horário",
+            duration: Duration(seconds: 2))
+        .show(context);
   }
 }

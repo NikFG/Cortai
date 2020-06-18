@@ -10,9 +10,15 @@ class SalaoControle {
   }
 
   static void store(SalaoDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {@required String usuario,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
     await _firestore.collection('saloes').add(dados.toMap()).then((value) {
       print(value);
+      Firestore.instance
+          .collection('usuarios')
+          .document(usuario)
+          .updateData({'salao': value.documentID, 'cabeleireiro': true});
       onSuccess();
     }).catchError((e) {
       print(e);

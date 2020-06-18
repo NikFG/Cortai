@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -10,11 +11,10 @@ class Carousel extends StatefulWidget {
 class _CarouselState extends State<Carousel> {
   int _current = 0;
 
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(
-      future: Firestore.instance.collection('saloes').getDocuments(),
+      future: SalaoControle.get().orderBy('nome').getDocuments(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(

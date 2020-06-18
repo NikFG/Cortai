@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
 import 'package:agendacabelo/Dados/forma_pagamento_dados.dart';
 import 'package:agendacabelo/Tiles/forma_pagamento_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -14,10 +15,8 @@ class FormaPagamentoTela extends StatelessWidget {
         leading: Util.leadingScaffold(context),
       ),
       body: FutureBuilder<QuerySnapshot>(
-        future: Firestore.instance
-            .collection('formaPagamento')
-            .orderBy("descricao")
-            .getDocuments(),
+        future:
+            FormaPagamentoControle.get().orderBy("descricao").getDocuments(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -25,12 +24,12 @@ class FormaPagamentoTela extends StatelessWidget {
             );
           } else {
             var tiles = ListTile.divideTiles(
-                tiles: snapshot.data.documents
-                    .map((doc) => FormaPagamentoTile(
-                    FormaPagamentoDados.fromDocument(doc)))
-                    .toList(),
-                color: Colors.grey[500],
-                context: context)
+                    tiles: snapshot.data.documents
+                        .map((doc) => FormaPagamentoTile(
+                            FormaPagamentoDados.fromDocument(doc)))
+                        .toList(),
+                    color: Colors.grey[500],
+                    context: context)
                 .toList();
             return ListView(
               children: tiles,
