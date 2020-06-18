@@ -21,20 +21,24 @@ class EditarSalaoTela extends StatefulWidget {
 }
 
 class _EditarSalaoTelaState extends State<EditarSalaoTela> {
-  //TODO REFAZER VERIFICA SALÃO
+  
   final _formKey = GlobalKey<FormState>();
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();
   var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
   var latlng = LatLng(0, 0);
-  int cont = 0;
   SalaoDados dados;
   File _imagem;
   bool _botaoHabilitado = true;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     verificaSalao();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title:
@@ -56,7 +60,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MapsTela(
-                      endereco: widget.salao.endereco,
+                          endereco: widget.salao.endereco,
                           lat: widget.salao.latitude,
                           lng: widget.salao.longitude,
                           enderecoChanged: (value) {
@@ -104,9 +108,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                       onPressed: () {
                         getImagem(false);
                       },
-                      child: _imagem == null && widget.salao == null
-                          ? Text("Imagem de fundo para o salão")
-                          : Text("Altere a imagem caso necessário"),
+                      child: _verificaImagemNula(),
                     ),
                   ],
                 )),
@@ -139,9 +141,11 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           dados.endereco = _enderecoController.text;
                           dados.telefone = _telefoneController.text;
 
-                          if (dados.id == null) {
-                            dados.imagem =
-                                await Util.enviaImagem(widget.usuario, _imagem);
+                          if (widget.salao == null) {
+                            if (_imagem != null){
+                              dados.imagem = await Util.enviaImagem(
+                                  widget.usuario, _imagem);
+                            }
                             await Firestore.instance
                                 .collection('saloes')
                                 .add(dados.toMap())
@@ -212,24 +216,46 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   }
 
   verificaSalao() {
-    if (widget.salao != null && cont == 0) {
-      dados = widget.salao;
+    if (widget.salao != null) {
       _nomeController.text = dados.nome;
       _enderecoController.text = dados.endereco;
       _telefoneController.text = dados.telefone;
-      cont++;
     } else {
       dados = SalaoDados();
     }
   }
 
   Future<Null> getImagem(bool camera) async {
-    var imagem = await ImagePicker.pickImage(
+    var picker = ImagePicker();
+    var imagem = await picker.getImage(
         source: camera ? ImageSource.camera : ImageSource.gallery);
     setState(() {
       if (imagem != null) {
-        _imagem = imagem;
+        _imagem = File(imagem.path);
       }
     });
+  }
+
+  Widget _verificaImagemNula() {
+    String texto = '';
+
+    if (widget.salao == null) {
+      if (_imagem == null) {
+        texto = "Selecione uma imagem para o serviço";
+      } else {
+        texto = "Altere a imagem caso necessário";
+      }
+    } else {
+      if (widget.salao.imagem == null) {
+        if (_imagem == null) {
+          texto = "Selecione uma imagem para o serviço";
+        } else {
+          texto = "Altere a imagem caso necessário";
+        }
+      } else {
+        texto = "Altere a imagem caso necessário";
+      }
+    }
+    return Text(texto);
   }
 }
