@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
@@ -33,6 +35,7 @@ class _AgendaTelaState extends State<AgendaTela> {
   DateTime data;
   bool _botaoHabilitado = true;
   var _formKey = GlobalKey<FormState>();
+  StreamSubscription<QuerySnapshot> listener;
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +290,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                               builder: (context, child, model) {
                                 return FlatButton(
                                   onPressed: _botaoHabilitado
-                                      ? () {
+                                      ? () async {
                                           if (this.pagamento == null) {
                                             FlushbarHelper.createError(
                                                     message:
@@ -299,6 +302,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                           if (_formKey.currentState
                                                   .validate() &&
                                               this.pagamento != null) {
+                                            await listener.cancel();
                                             setState(() {
                                               _botaoHabilitado = false;
                                             });
@@ -417,7 +421,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                         return ListTile(
                           onTap: () {
                             horarioController.text = horarios[index];
-                            listenerHorario();
+                            listener = listenerHorario();
+
                             Navigator.of(context).pop();
                           },
                           title: Text(
@@ -568,13 +573,13 @@ class _AgendaTelaState extends State<AgendaTela> {
         .show(context);
   }
 
-  listenerHorario() {
-    HorarioControle.get()
+  StreamSubscription<QuerySnapshot> listenerHorario() {
+    var snapshots = HorarioControle.get()
         .where('cabeleireiro', isEqualTo: profissional)
         .where('data', isEqualTo: dataController.text)
         .where('horario', isEqualTo: horarioController.text)
-        .snapshots()
-        .listen((doc) async {
+        .snapshots();
+    var listener = snapshots.listen((doc) async {
       print("Escutando");
       if (doc.documentChanges.length > 0) {
         horarioController.text = "";
@@ -586,5 +591,6 @@ class _AgendaTelaState extends State<AgendaTela> {
             )).show(context);
       }
     });
+    return listener;
   }
 }
