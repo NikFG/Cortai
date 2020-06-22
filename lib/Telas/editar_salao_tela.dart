@@ -4,7 +4,6 @@ import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/maps_tela.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';

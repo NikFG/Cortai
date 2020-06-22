@@ -6,22 +6,18 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
-
 class Util {
-
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
   static DateFormat timeFormat = DateFormat("HH:mm");
 
-  static String TimestampToString(Timestamp timestamp) {
-
+  static String timestampToString(Timestamp timestamp) {
     var formatter = new DateFormat('dd/MM/yyyy, H:mm');
     String formatted = formatter
         .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
     return formatted;
   }
 
-  static Timestamp StringToTimestamp(String horario) {
+  static Timestamp stringToTimestamp(String horario) {
     horario = horario.substring(5);
     horario = horario.replaceAll("/", "-");
     horario = horario.replaceAll(",", "");
@@ -29,11 +25,11 @@ class Util {
     return Timestamp.fromDate(format.parse(horario));
   }
 
-  static DateTimeofDayToDateTime(DateTime dt, TimeOfDay time) {
+  static dateTimeofDayToDateTime(DateTime dt, TimeOfDay time) {
     return new DateTime(dt.year, dt.month, dt.day, time.hour, time.minute);
   }
 
-  static LigacaoTelefonica(String telefone) async {
+  static ligacaoTelefonica(String telefone) async {
     if (await canLaunch(telefone)) {
       await launch(telefone);
     } else {
@@ -85,6 +81,8 @@ class Util {
         return 5;
       case 'SAB':
         return 6;
+      default:
+        return null;
     }
   }
 
@@ -112,9 +110,9 @@ class Util {
           : Icon(Icons.arrow_back_ios),
     );
   }
-  static corPrimariaStatusBar(BuildContext context){
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Theme.of(context).primaryColor
-    ));
+
+  static corPrimariaStatusBar(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Theme.of(context).primaryColor));
   }
 }

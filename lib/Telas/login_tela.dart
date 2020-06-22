@@ -1,6 +1,5 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Util/util.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ class _LoginTelaState extends State<LoginTela> {
   final _formKey = GlobalKey<FormState>();
   final _emailControlador = TextEditingController();
   final _senhaControlador = TextEditingController();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
