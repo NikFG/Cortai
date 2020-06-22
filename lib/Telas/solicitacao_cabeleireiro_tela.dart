@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class SolicitacaoCabeleireiroTela extends StatelessWidget {
   final String salao;
-  var _emailControlador = TextEditingController();
-  var _formKey = GlobalKey<FormState>();
+  final _emailControlador = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   SolicitacaoCabeleireiroTela(this.salao);
 
