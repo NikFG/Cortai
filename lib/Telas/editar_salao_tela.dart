@@ -184,6 +184,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
 
   verificaSalao() {
     if (widget.salao != null) {
+      this.dados = widget.salao;
       _nomeController.text = dados.nome;
       _enderecoController.text = dados.endereco;
       _telefoneController.text = dados.telefone;
