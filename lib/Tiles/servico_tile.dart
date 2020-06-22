@@ -1,6 +1,5 @@
 import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Telas/agenda_tela.dart';
-import 'package:agendacabelo/Telas/forma_pagamento_tela.dart';
 import 'package:agendacabelo/Widgets/hero_custom.dart';
 import 'package:flutter/material.dart';
 

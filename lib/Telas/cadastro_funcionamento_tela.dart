@@ -1,7 +1,5 @@
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
-import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/funcionamento_dados.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +7,6 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class CadastroFuncionamentoTela extends StatefulWidget {
   final String salao;
