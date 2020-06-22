@@ -19,7 +19,7 @@ class ConfirmarTela extends StatelessWidget {
             child: StreamBuilder<QuerySnapshot>(
                 stream: HorarioControle.get()
                     .where('confirmado', isEqualTo: false)
-                    .where('cabeleireiro', isEqualTo: model.dados['uid'])
+                    .where('cabeleireiro', isEqualTo: model.dados.id)
                     .orderBy('data')
                     .orderBy('horario')
                     .snapshots(),

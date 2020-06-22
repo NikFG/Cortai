@@ -323,8 +323,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                                     HorarioDados();
                                                 dados.cabeleireiro =
                                                     profissional;
-                                                dados.cliente =
-                                                    model.dados['uid'];
+                                                dados.cliente = model.dados.id;
                                                 dados.confirmado = false;
                                                 dados.data =
                                                     dataController.text;

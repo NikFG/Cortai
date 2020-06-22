@@ -14,7 +14,7 @@ class GerenciarServicoTela extends StatelessWidget {
       builder: (context, child, model) {
         return FutureBuilder<QuerySnapshot>(
           future: ServicoControle.get()
-              .where('salao', isEqualTo: model.getSalao())
+              .where('salao', isEqualTo: model.dados.salao)
               .orderBy('descricao')
               .getDocuments(),
           builder: (context, snapshot) {

@@ -5,7 +5,6 @@ import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
 import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Telas/solicitacao_cabeleireiro_tela.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -24,7 +23,7 @@ class GerenciarSalaoTela extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          CadastroFuncionamentoTela(model.getSalao())));
+                          CadastroFuncionamentoTela(model.dados.salao)));
                 },
                 child: Text("Horário de funcionamento"),
               ),
@@ -34,16 +33,16 @@ class GerenciarSalaoTela extends StatelessWidget {
               FlatButton(
                 onPressed: () async {
                   var salaoDados = await SalaoControle.get()
-                      .document(model.getSalao())
+                      .document(model.dados.salao)
                       .get()
                       .then((doc) {
                     return SalaoDados.fromDocument(doc);
                   });
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => EditarSalaoTela(model.dados['uid'],
-                          salao: salaoDados)));
+                      builder: (context) =>
+                          EditarSalaoTela(model.dados.id, salao: salaoDados)));
                 },
-                child: model.getSalao() != null
+                child: model.dados.salao != null
                     ? Text("Editar salão")
                     : Text("Criar salão"),
               ),
@@ -61,7 +60,7 @@ class GerenciarSalaoTela extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          SolicitacaoCabeleireiroTela(model.getSalao())));
+                          SolicitacaoCabeleireiroTela(model.dados.salao)));
                 },
                 child: Text("Cadastrar cabeleireiros"),
               ),

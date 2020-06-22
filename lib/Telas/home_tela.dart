@@ -11,10 +11,10 @@ import 'marcado_tela.dart';
 import 'confirmar_tela.dart';
 
 class HomeTela extends StatefulWidget {
-  final String usuario_id;
+  final String usuarioId;
   final int paginaInicial;
 
-  HomeTela({this.usuario_id, this.paginaInicial});
+  HomeTela({this.usuarioId, this.paginaInicial});
 
   @override
   _HomeTelaState createState() => _HomeTelaState();
@@ -25,11 +25,12 @@ class _HomeTelaState extends State<HomeTela> {
 
   @override
   void initState() {
+    super.initState();
     if (widget.paginaInicial != null) {
       index = widget.paginaInicial;
     }
-    if (widget.usuario_id != null)
-      PushNotification.servico(widget.usuario_id, context);
+    if (widget.usuarioId != null)
+      PushNotification.servico(widget.usuarioId, context);
   }
 
   @override
@@ -37,6 +38,7 @@ class _HomeTelaState extends State<HomeTela> {
     final _pageController = PageController(initialPage: index);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
+        print(model.dados);
         return PageView(
           controller: _pageController,
           onPageChanged: (index) {
@@ -53,13 +55,13 @@ class _HomeTelaState extends State<HomeTela> {
               ),
               body: HomeTab(),
               bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.isCabeleireiro(), model.dados['uid']),
+                  model.dados.isCabeleireiro, model.dados.id),
             ),
             DefaultTabController(
               length: 2,
               child: Scaffold(
                 bottomNavigationBar: BottomCustom(_pageController, index,
-                    model.isCabeleireiro(), model.dados['uid']),
+                    model.dados.isCabeleireiro, model.dados.id),
                 body: MarcadoTela(),
                 appBar: AppBar(
                   backgroundColor: Theme.of(context).primaryColor,
@@ -78,7 +80,7 @@ class _HomeTelaState extends State<HomeTela> {
             ),
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.isCabeleireiro(), model.dados['uid']),
+                  model.dados.isCabeleireiro, model.dados.id),
               body: ConfirmarTela(),
               appBar: AppBar(
                 backgroundColor: Theme.of(context).primaryColor,
@@ -121,7 +123,7 @@ class _HomeTelaState extends State<HomeTela> {
             ),
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.isCabeleireiro(), model.dados['uid']),
+                  model.dados.isCabeleireiro, model.dados.id),
               body: GerenciarServicoTela(),
               appBar: AppBar(
                 backgroundColor: Theme.of(context).primaryColor,
@@ -131,7 +133,7 @@ class _HomeTelaState extends State<HomeTela> {
             ),
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.isCabeleireiro(), model.dados['uid']),
+                  model.dados.isCabeleireiro, model.dados.id),
               body: GerenciarSalaoTela(),
               appBar: AppBar(
                 backgroundColor: Theme.of(context).primaryColor,

@@ -94,7 +94,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                   onTap: () async {
                     var snapshots = await Firestore.instance
                         .collection('usuarios')
-                        .where('salao', isEqualTo: model.getSalao())
+                        .where('salao', isEqualTo: model.dados.salao)
                         .getDocuments();
                     List<CabeleireiroDados> dados = snapshots.documents
                         .map((e) => CabeleireiroDados.fromDocument(e))
@@ -202,7 +202,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                               ServicoDados dados = ServicoDados();
                               dados.descricao = _descricaoControlador.text;
                               dados.setValor(_precoControlador.text);
-                              dados.salao = model.getSalao();
+                              dados.salao = model.dados.salao;
                               dados.cabeleireiros =
                                   selecionados.map((e) => e.id).toList();
                               if (widget.dados != null) {
@@ -210,7 +210,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                   await Util.deletaImagem(
                                       widget.dados.imagemUrl);
                                   dados.imagemUrl = await Util.enviaImagem(
-                                      model.dados['uid'], _imagem);
+                                      model.dados.id, _imagem);
                                 } else {
                                   dados.imagemUrl = widget.dados.imagemUrl;
                                 }
@@ -220,7 +220,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                               } else {
                                 if (_imagem != null)
                                   dados.imagemUrl = await Util.enviaImagem(
-                                      model.dados['uid'], _imagem);
+                                      model.dados.id, _imagem);
                                 ServicoControle.store(dados,
                                     onSuccess: onSuccess, onFail: onFail);
                               }

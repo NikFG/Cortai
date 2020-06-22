@@ -7,11 +7,9 @@ import 'package:agendacabelo/Util/haversine.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Telas/servico_tela.dart';
 import 'package:agendacabelo/Widgets/hero_custom.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:getflutter/components/avatar/gf_avatar.dart';
 
 class HomeTile extends StatefulWidget {
   final SalaoDados dados;
@@ -195,7 +193,7 @@ class _HomeTileState extends State<HomeTile> {
               ),
               FlatButton(
                 onPressed: () {
-                  Util.LigacaoTelefonica("tel:" + widget.dados.telefone);
+                  Util.ligacaoTelefonica("tel:" + widget.dados.telefone);
                 },
                 child: Text("Ligar para salão"),
               ),
@@ -236,7 +234,7 @@ class _HomeTileState extends State<HomeTile> {
     }
   }
 
-  String _calculaDistancia() {
+  _calculaDistancia() {
     double distancia = Haversine.distancia(
         lat1: widget.currentLocation.latitude,
         lon1: widget.currentLocation.longitude,

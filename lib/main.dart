@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
               ),
               debugShowCheckedModeBanner: false,
               home: model.isLogado()
-                  ? model.dados['donoSalao'] != null && model.getSalao() == null
-                      ? EditarSalaoTela(model.dados['uid'])
+                  ? model.dados.isDonoSalao != null && model.dados.salao == null
+                      ? EditarSalaoTela(model.dados.id)
                       : HomeTela(
-                          usuario_id: model.dados['uid'],
+                          usuarioId: model.dados.id,
                         )
                   : LoginTela(),
               localizationsDelegates: [
