@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Haversine {
-  static final _R = 6372.8;
+  static const _R = 6372.8;
 
   static double distancia(
       {@required double lat1,
