@@ -1,6 +1,5 @@
 import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
 import 'package:agendacabelo/Dados/forma_pagamento_dados.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CustomRadio extends StatefulWidget {

@@ -54,7 +54,7 @@ class _MarcadoTileState extends State<MarcadoTile> {
     );
   }
 
-  _cancelarDialog(BuildContext context) {
+  /*_cancelarDialog(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -78,7 +78,7 @@ class _MarcadoTileState extends State<MarcadoTile> {
         ],
       ),
     );
-  }
+  }*/
 
   _avaliarDialog(BuildContext context) async {
     String salao = await getSalao();
