@@ -18,6 +18,7 @@ class _LoginTelaState extends State<LoginTela> {
   final _formKey = GlobalKey<FormState>();
   final _emailControlador = TextEditingController();
   final _senhaControlador = TextEditingController();
+  bool _botaoHabilitado = true;
 
   @override
   Widget build(BuildContext context) {
@@ -209,23 +210,33 @@ class _LoginTelaState extends State<LoginTela> {
                                       BorderRadius.all(Radius.circular(50))),
                               child: Center(
                                 child: FlatButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState.validate()) {
-                                      model.emailSignIn(
-                                          email: _emailControlador.text,
-                                          senha: _senhaControlador.text,
-                                          onSuccess: onSuccess,
-                                          onFail: onFail);
-                                    }
-                                  },
-                                  child: Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  onPressed: _botaoHabilitado
+                                      ? () {
+                                          if (_formKey.currentState
+                                              .validate()) {
+                                            setState(() {
+                                              _botaoHabilitado = false;
+                                            });
+                                            model.emailSignIn(
+                                                email: _emailControlador.text,
+                                                senha: _senhaControlador.text,
+                                                onSuccess: onSuccess,
+                                                onFail: onFail);
+                                          }
+                                        }
+                                      : null,
+                                  child: _botaoHabilitado
+                                      ? Text(
+                                          'Login',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      : Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
                                 ),
                               ),
                             ),
@@ -251,15 +262,20 @@ class _LoginTelaState extends State<LoginTela> {
                             GoogleSignInButton(
                               darkMode: false,
                               text: "Entre com o Google",
-                              onPressed: () {
-                                model
-                                    .googleSignIn()
-                                    .then((value) => onSuccess())
-                                    .catchError((e) {
-                                  print(e);
-                                  onFail();
-                                });
-                              },
+                              onPressed: _botaoHabilitado
+                                  ? () {
+                                      setState(() {
+                                        _botaoHabilitado = false;
+                                      });
+                                      model
+                                          .googleSignIn()
+                                          .then((value) => onSuccess())
+                                          .catchError((e) {
+                                        print(e);
+                                        onFail();
+                                      });
+                                    }
+                                  : null,
                               borderRadius: 50,
                             ),
                             Container(
@@ -305,5 +321,8 @@ class _LoginTelaState extends State<LoginTela> {
     await FlushbarHelper.createError(
             message: "Erro ao realizar o login, teste novamente!")
         .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
   }
 }
