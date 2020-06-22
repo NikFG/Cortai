@@ -38,7 +38,6 @@ class _HomeTelaState extends State<HomeTela> {
     final _pageController = PageController(initialPage: index);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
-        print(model.dados);
         return PageView(
           controller: _pageController,
           onPageChanged: (index) {
