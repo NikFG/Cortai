@@ -13,41 +13,44 @@ class MarcadoTela extends StatelessWidget {
       model: LoginModelo(),
       child: ScopedModelDescendant<LoginModelo>(
         builder: (context, child, model) {
-          return TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              StreamBuilder<QuerySnapshot>(
-                stream: HorarioControle.get()
-                    .where('cliente', isEqualTo: model.dados.id)
-                    .orderBy('data', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return lista(snapshot, context);
-                  }
-                },
-              ),
-              StreamBuilder<QuerySnapshot>(
-                stream: HorarioControle.get()
-                    .where('cabeleireiro', isEqualTo: model.dados.id)
-                    .orderBy('data', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return lista(snapshot, context);
-                  }
-                },
-              ),
-            ],
-          );
+          if (model.dados != null)
+            return TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                StreamBuilder<QuerySnapshot>(
+                  stream: HorarioControle.get()
+                      .where('cliente', isEqualTo: model.dados.id)
+                      .orderBy('data', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return lista(snapshot, context);
+                    }
+                  },
+                ),
+                StreamBuilder<QuerySnapshot>(
+                  stream: HorarioControle.get()
+                      .where('cabeleireiro', isEqualTo: model.dados.id)
+                      .orderBy('data', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return lista(snapshot, context);
+                    }
+                  },
+                ),
+              ],
+            );
+          else
+            return Center();
         },
       ),
     );
