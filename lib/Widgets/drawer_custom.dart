@@ -2,7 +2,6 @@ import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:badges/badges.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -57,7 +56,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "Olá, ${!model.isLogado() ? "" : model.dados['nome']}",
+                                  "Olá, ${!model.isLogado() ? "" : model.dados.nome}",
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
@@ -107,8 +106,8 @@ class _DrawerCustomState extends State<DrawerCustom> {
                   widget.pageController, 1),
               ScopedModelDescendant<LoginModelo>(
                   builder: (context, child, model) {
-                if (model.isCabeleireiro()) {
-                  return _cabeleireiroTiles(model.dados['uid']);
+                if (model.dados.isCabeleireiro) {
+                  return _cabeleireiroTiles(model.dados.id);
                 } else
                   return Container(
                     width: 0,

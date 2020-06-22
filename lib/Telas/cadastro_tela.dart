@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Dados/login_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -266,15 +267,18 @@ class _CadastroTelaState extends State<CadastroTela> {
                                 ? () {
                                     if (_formKey.currentState.validate()) {
                                       LoginModelo login = LoginModelo();
-                                      login.dados = {
-                                        'uid': '',
-                                        'email': _emailControlador.text,
-                                        'nome': _nomeControlador.text,
-                                        'telefone': _telefoneControlador.text,
-                                        'cabeleireiro': false,
-                                      };
+                                      var loginDados = LoginDados(
+                                          id: '',
+                                          email: _emailControlador.text,
+                                          nome: _nomeControlador.text,
+                                          telefone: _telefoneControlador.text,
+                                          isCabeleireiro: false,
+                                          salao: null,
+                                          imagemUrl: null,
+                                          isDonoSalao: false);
+
                                       login.signUp(
-                                          usuarioData: login.dados,
+                                          loginDados: loginDados,
                                           senha: _senhaControlador.text,
                                           onSuccess: onSuccess,
                                           onFail: onFail);

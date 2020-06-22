@@ -18,7 +18,7 @@ class MarcadoTela extends StatelessWidget {
             children: <Widget>[
               StreamBuilder<QuerySnapshot>(
                 stream: HorarioControle.get()
-                    .where('cliente', isEqualTo: model.dados['uid'])
+                    .where('cliente', isEqualTo: model.dados.id)
                     .orderBy('data', descending: true)
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -33,7 +33,7 @@ class MarcadoTela extends StatelessWidget {
               ),
               StreamBuilder<QuerySnapshot>(
                 stream: HorarioControle.get()
-                    .where('cabeleireiro', isEqualTo: model.dados['uid'])
+                    .where('cabeleireiro', isEqualTo: model.dados.id)
                     .orderBy('data', descending: true)
                     .snapshots(),
                 builder: (context, snapshot) {

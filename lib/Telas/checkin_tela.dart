@@ -27,7 +27,7 @@ class _CheckinTelaState extends State<CheckinTela> {
               ),
               body: FutureBuilder<QuerySnapshot>(
                 future: HorarioControle.get()
-                    .where('cabeleireiro', isEqualTo: model.dados['uid'])
+                    .where('cabeleireiro', isEqualTo: model.dados.id)
                     .where('confirmado', isEqualTo: true)
                     .where('pago', isEqualTo: false)
                     .orderBy('cliente')

@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Dados/login_dados.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,11 @@ import 'package:scoped_model/scoped_model.dart';
 class LoginModelo extends Model {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  static FirebaseUser firebaseUser;
-  Map<String, dynamic> dados = Map();
+  static FirebaseUser _firebaseUser;
+
+//  Map<String, dynamic> dados = Map();
   bool isCarregando = false;
+  LoginDados dados;
 
   static LoginModelo of(BuildContext context) =>
       ScopedModel.of<LoginModelo>(context);
@@ -22,18 +25,18 @@ class LoginModelo extends Model {
 
   //Criar conta com email e senha
   void signUp(
-      {@required Map<String, dynamic> usuarioData,
+      {@required LoginDados loginDados,
       @required String senha,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) {
     notifyListeners();
     _auth
         .createUserWithEmailAndPassword(
-            email: usuarioData["email"], password: senha)
+            email: loginDados.email, password: senha)
         .then((user) async {
       await _getUID();
-      usuarioData['uid'] = firebaseUser.uid;
-      this.dados = usuarioData;
+      loginDados.id = _firebaseUser.uid;
+      this.dados = loginDados;
       await _salvarDadosUsuarioEmail();
       notifyListeners();
     }).catchError((e) async {
@@ -46,8 +49,8 @@ class LoginModelo extends Model {
   Future<Null> _salvarDadosUsuarioEmail() async {
     await Firestore.instance
         .collection("usuarios")
-        .document(firebaseUser.uid)
-        .setData(this.dados);
+        .document(_firebaseUser.uid)
+        .setData(dados.toMap());
   }
 
   //Login no firebase via email/senha
@@ -94,30 +97,32 @@ class LoginModelo extends Model {
 
   //Dados salvos do usuário
   Future<Null> _salvarDadosUsuarioGoogle() async {
+    Map<String, dynamic> dados = Map();
     if (await _carregarUsuario() == false) {
-      this.dados = {
-        'uid': firebaseUser.uid,
-        'email': firebaseUser.email,
-        'fotoURL': firebaseUser.photoUrl,
-        'nome': firebaseUser.displayName,
+      dados = {
+        'uid': _firebaseUser.uid,
+        'email': _firebaseUser.email,
+        'fotoURL': _firebaseUser.photoUrl,
+        'nome': _firebaseUser.displayName,
         'vistoPorUltimo': DateTime.now(),
         'cabeleireiro': false,
       };
+      this.dados = LoginDados.fromDocument(dados);
     } else {
       await _carregarUsuario();
-      this.dados['vistoPorUltimo'] = DateTime.now();
+      dados['vistoPorUltimo'] = DateTime.now();
     }
     await Firestore.instance
         .collection("usuarios")
-        .document(firebaseUser.uid)
+        .document(_firebaseUser.uid)
         .setData(dados, merge: true);
     notifyListeners();
   }
 
   Future<Null> signOut() async {
     await _auth.signOut();
-    dados = Map();
-    firebaseUser = null;
+    dados = null;
+    _firebaseUser = null;
     notifyListeners();
   }
 
@@ -126,20 +131,20 @@ class LoginModelo extends Model {
   // ignore: missing_return
   Future<bool> _carregarUsuario() async {
     bool result;
-    if (firebaseUser == null) {
-      firebaseUser = await _auth.currentUser();
+    if (_firebaseUser == null) {
+      _firebaseUser = await _auth.currentUser();
     }
-    if (firebaseUser != null) {
-      if (this.dados["nome"] == null) {
+    if (_firebaseUser != null) {
+      if (dados == null) {
         DocumentSnapshot doc = await Firestore.instance
             .collection("usuarios")
-            .document(firebaseUser.uid)
+            .document(_firebaseUser.uid)
             .get();
         if (doc.data == null) {
           result = false;
         } else {
           result = true;
-          dados = doc.data;
+          dados = LoginDados.fromDocument(doc.data);
         }
         notifyListeners();
         return result;
@@ -147,26 +152,13 @@ class LoginModelo extends Model {
     }
   }
 
-  bool isCabeleireiro() {
-    if (isLogado()) {
-      bool result = dados['cabeleireiro'];
-      return result;
-    }
-    return false;
-  }
-
   //verifica se o usuário está ou não logado no sistema
   bool isLogado() {
-    return firebaseUser != null;
+    return _firebaseUser != null;
   }
 
   Future<dynamic> _getUID() async {
-    firebaseUser = await _auth.currentUser();
-  }
-
-  String getSalao() {
-    String salao = dados['salao'];
-    return salao;
+    _firebaseUser = await _auth.currentUser();
   }
 
   recuperarSenha(String email) async {
