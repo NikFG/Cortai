@@ -29,7 +29,7 @@ class SalaoControle {
   static void update(SalaoDados dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore
-        .collection('horarios')
+        .collection('saloes')
         .document(dados.id)
         .updateData(dados.toMap())
         .then((value) {
