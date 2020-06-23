@@ -29,6 +29,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   SalaoDados dados;
   File _imagem;
   bool _botaoHabilitado = true;
+  String _cidade;
 
   @override
   void initState() {
@@ -67,6 +68,11 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           },
                           latLngChanged: (value) {
                             latlng = value;
+                          },
+                          cidadeChanged: (value) {
+                            _cidade = value;
+                            print(value);
+                            print(_cidade);
                           },
                         )));
               },
@@ -139,7 +145,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           dados.nome = _nomeController.text;
                           dados.endereco = _enderecoController.text;
                           dados.telefone = _telefoneController.text;
-
+                          dados.cidade = _cidade;
                           if (widget.salao == null) {
                             if (_imagem != null) {
                               dados.imagem = await Util.enviaImagem(
@@ -255,5 +261,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
     FlushbarHelper.createError(
             message: 'Houve algum erro ao modificar o salão\nTente novamente!!')
         .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
   }
 }

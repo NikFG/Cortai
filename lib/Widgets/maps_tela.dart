@@ -12,6 +12,7 @@ const API_KEY = "AIzaSyBN_mWl_3BjJLCPkKzCKaCqu2Wv8pe0UFw";
 class MapsTela extends StatefulWidget {
   final ValueChanged<String> enderecoChanged;
   final ValueChanged<LatLng> latLngChanged;
+  final ValueChanged<String> cidadeChanged;
   final String endereco;
   final double lat;
   final double lng;
@@ -19,6 +20,7 @@ class MapsTela extends StatefulWidget {
   MapsTela(
       {@required this.enderecoChanged,
       @required this.latLngChanged,
+      @required this.cidadeChanged,
       this.endereco,
       this.lat,
       this.lng});
@@ -47,8 +49,6 @@ class _MapsTelaState extends State<MapsTela> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       floatingActionButton: IconButton(
         color: Theme.of(context).primaryColor,
@@ -144,7 +144,6 @@ class _MapsTelaState extends State<MapsTela> {
     procuraController.text = '';
     setState(() {
       _markers.clear();
-
     });
 
     var location = await Geolocator()
@@ -177,7 +176,11 @@ class _MapsTelaState extends State<MapsTela> {
           await _places.getDetailsByPlaceId(p.placeId);
       final lat = detail.result.geometry.location.lat;
       final lng = detail.result.geometry.location.lng;
+
       latLng = LatLng(lat, lng);
+      var geolocator = await Geolocator().placemarkFromCoordinates(lat, lng);
+      widget.cidadeChanged(geolocator.first.subAdministrativeArea);
+      print(geolocator.first.subAdministrativeArea);
       procuraController.text = p.description;
       _marcarMapaPrevisao();
     }
