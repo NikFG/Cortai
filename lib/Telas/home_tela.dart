@@ -1,7 +1,7 @@
 import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/home_tab.dart';
-import 'package:agendacabelo/Telas/gerenciar_salao_tela.dart';
+import 'package:agendacabelo/Telas/perfil_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
 import 'package:agendacabelo/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +48,10 @@ class _HomeTelaState extends State<HomeTela> {
           children: <Widget>[
             Scaffold(
               appBar: AppBar(
+                leading: Container(
+                  width: 0,
+                  height: 0,
+                ),
                 title: Text("Home"),
                 backgroundColor: Theme.of(context).primaryColor,
                 centerTitle: true,
@@ -63,6 +67,10 @@ class _HomeTelaState extends State<HomeTela> {
                     model.dados.isCabeleireiro, model.dados.id),
                 body: MarcadoTela(),
                 appBar: AppBar(
+                  leading: Container(
+                    width: 0,
+                    height: 0,
+                  ),
                   backgroundColor: Theme.of(context).primaryColor,
                   title: Text("Horários marcados"),
                   centerTitle: true,
@@ -82,6 +90,10 @@ class _HomeTelaState extends State<HomeTela> {
                   model.dados.isCabeleireiro, model.dados.id),
               body: ConfirmarTela(),
               appBar: AppBar(
+                leading: Container(
+                  width: 0,
+                  height: 0,
+                ),
                 backgroundColor: Theme.of(context).primaryColor,
                 title: Text("Confirmar horários"),
                 centerTitle: true,
@@ -125,6 +137,10 @@ class _HomeTelaState extends State<HomeTela> {
                   model.dados.isCabeleireiro, model.dados.id),
               body: GerenciarServicoTela(),
               appBar: AppBar(
+                leading: Container(
+                  width: 0,
+                  height: 0,
+                ),
                 backgroundColor: Theme.of(context).primaryColor,
                 title: Text("Gerenciar serviços"),
                 centerTitle: true,
@@ -133,10 +149,14 @@ class _HomeTelaState extends State<HomeTela> {
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id),
-              body: GerenciarSalaoTela(),
+              body: PerfilTela(),
               appBar: AppBar(
+                leading: Container(
+                  width: 0,
+                  height: 0,
+                ),
                 backgroundColor: Theme.of(context).primaryColor,
-                title: Text("Gerenciar salão"),
+                title: Text("Perfil"),
                 centerTitle: true,
               ),
             ),
