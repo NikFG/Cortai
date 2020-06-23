@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Tiles/home_tile.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
 
 class HomeTab extends StatefulWidget {
   @override
@@ -22,19 +25,21 @@ class _HomeTabState extends State<HomeTab> {
   DocumentSnapshot ultimoSalao;
   List<DocumentSnapshot> saloes = [];
   ScrollController _scrollController = ScrollController();
+  static const _link =
+      'https://us-central1-agendamento-cortes.cloudfunctions.net/calculaDistancia';
 
   @override
   void initState() {
     super.initState();
-    getSaloes();
-    _scrollController.addListener(() {
-      double maxScroll = _scrollController.position.maxScrollExtent;
-      double currentScroll = _scrollController.position.pixels;
-      double delta = MediaQuery.of(context).size.height * 0.25;
-      if (maxScroll - currentScroll <= delta) {
-        getSaloes();
-      }
-    });
+//    getSaloes();
+//    _scrollController.addListener(() {
+//      double maxScroll = _scrollController.position.maxScrollExtent;
+//      double currentScroll = _scrollController.position.pixels;
+//      double delta = MediaQuery.of(context).size.height * 0.25;
+//      if (maxScroll - currentScroll <= delta) {
+//        getSaloes();
+//      }
+//    });
   }
 
   @override
@@ -83,30 +88,56 @@ class _HomeTabState extends State<HomeTab> {
                     _permissionStatus.isDenied)
                   requestPermission(Permission.location);
                 var currentLocation = localizacao.data;
-                var lista = this.saloes;
-                lista.sort((a, b) {
-                  double distanciaA = Haversine.distancia(
-                      lat1: currentLocation.latitude,
-                      lon1: currentLocation.longitude,
-                      lat2: a.data['latitude'],
-                      lon2: a.data['longitude']);
-                  double distanciaB = Haversine.distancia(
-                      lat1: currentLocation.latitude,
-                      lon1: currentLocation.longitude,
-                      lat2: b.data['latitude'],
-                      lon2: b.data['longitude']);
+                var lat = currentLocation.latitude;
+                var lng = currentLocation.longitude;
 
-                  return distanciaA.compareTo(distanciaB);
-                });
+                return FutureBuilder<List<Placemark>>(
+                  future: Geolocator().placemarkFromPosition(currentLocation),
+                  builder: (context, placemark) {
+                    if (!placemark.hasData) {
+                      return Center();
+                    } else {
+                      String cidade =
+                          placemark.data.first.subAdministrativeArea;
+                      var url =
+                          "$_link?cidade=$cidade&lat=${lat.toString()}&lng=${lng.toString()}";
+                      return FutureBuilder<http.Response>(
+                        future: http.get(url),
+                        builder: (context, response) {
+                          if (!response.hasData) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+//                            if (response.data.statusCode == 200)
 
-                List<Widget> widgets = lista
-                    .map((doc) =>
-                        HomeTile(SalaoDados.fromDocument(doc), currentLocation))
-                    .toList();
+                            List<dynamic> dados =
+                                json.decode(response.data.body);
+                            List<Widget> widgets = dados
+                                .map((s) => HomeTile(SalaoDados.fromJson(s),
+                                    s['distancia'] as double))
+                                .toList();
 
-                return Column(
-                  children: widgets,
+//
+
+                            return Column(
+                              children: widgets,
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
                 );
+
+//                List<Widget> widgets = lista
+//                    .map((doc) =>
+//                        HomeTile(SalaoDados.fromDocument(doc), currentLocation))
+//                    .toList();
+
+//                return Column(
+//                  children: widgets,
+//                );
               }
             }),
         isLoading
@@ -141,11 +172,15 @@ class _HomeTabState extends State<HomeTab> {
     QuerySnapshot querySnapshot;
     if (ultimoSalao == null) {
       querySnapshot = await SalaoControle.get()
+          .where('cidade', isEqualTo: 'Divinópolis')
+          .orderBy('cidade')
           .orderBy('nome')
           .limit(limite)
           .getDocuments();
     } else {
       querySnapshot = await SalaoControle.get()
+          .where('cidade', isEqualTo: 'Divinópolis')
+          .orderBy('cidade')
           .orderBy('nome')
           .startAfterDocument(ultimoSalao)
           .limit(limite)
