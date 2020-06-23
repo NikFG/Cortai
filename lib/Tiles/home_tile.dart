@@ -13,9 +13,9 @@ import 'package:geolocator/geolocator.dart';
 
 class HomeTile extends StatefulWidget {
   final SalaoDados dados;
-  final Position currentLocation;
+  final double distancia;
 
-  HomeTile(this.dados, this.currentLocation);
+  HomeTile(this.dados, this.distancia);
 
   @override
   _HomeTileState createState() => _HomeTileState();
@@ -26,11 +26,12 @@ class _HomeTileState extends State<HomeTile> {
   int _quantidade = 0;
   double _menorValor = 0;
   double _maiorValor = 0;
-  String _distancia = "";
+
 
   @override
   Widget build(BuildContext context) {
-    _calculaDistancia();
+    String _distancia = '${widget.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
+//    _calculaDistancia();
     _mediaAvaliacoes();
     _minMaxPrecos();
     return Padding(
@@ -232,16 +233,5 @@ class _HomeTileState extends State<HomeTile> {
       _menorValor = lista.first.valor;
       _maiorValor = lista.last.valor;
     }
-  }
-
-  _calculaDistancia() {
-    double distancia = Haversine.distancia(
-        lat1: widget.currentLocation.latitude,
-        lon1: widget.currentLocation.longitude,
-        lat2: widget.dados.latitude,
-        lon2: widget.dados.longitude);
-
-    this._distancia =
-        "${(distancia / 1000.0).toStringAsFixed(1)}km".replaceAll(".", ",");
   }
 }
