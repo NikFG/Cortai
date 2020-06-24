@@ -4,6 +4,7 @@ import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'Controle/shared_preferences_controle.dart';
 import 'Telas/home_tela.dart';
 
 void main() => runApp(MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
         model: LoginModelo(),
         child: ScopedModelDescendant<LoginModelo>(
           builder: (context, child, model) {
+            SharedPreferencesControle();
             return MaterialApp(
               title: "Agendamento de corte",
               theme: ThemeData(
