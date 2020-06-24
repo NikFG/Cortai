@@ -25,15 +25,17 @@ class _HomeTabState extends State<HomeTab> {
   DocumentSnapshot ultimoSalao;
   List<DocumentSnapshot> saloes = [];
   ScrollController _scrollController = ScrollController();
+  var local = [];
+  var endereco = TextEditingController();
   static const _link =
       'https://us-central1-agendamento-cortes.cloudfunctions.net/calculaDistancia';
 
   @override
   void initState() {
     super.initState();
-//    getSaloes();
-//    _scrollController.addListener(() {
-//      double maxScroll = _scrollController.position.maxScrollExtent;
+    if (_permissionStatus.isUndetermined)
+      requestPermission(Permission.location);
+    getEndereco();
 //      double currentScroll = _scrollController.position.pixels;
 //      double delta = MediaQuery.of(context).size.height * 0.25;
 //      if (maxScroll - currentScroll <= delta) {
@@ -74,33 +76,57 @@ class _HomeTabState extends State<HomeTab> {
                   fontWeight: FontWeight.w500,
                   fontFamily: "Poppins"),
             )),
-        FutureBuilder<Position>(
-            future: Geolocator()
-                .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
-            builder: (context, localizacao) {
-              if (!localizacao.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
+        getPermissaoLocal()
+            ? Column(
+                children: <Widget>[
+                  TextField(
+                    controller: endereco,
+                  ),
+                  FlatButton(
+                    onPressed: () async {
+                      local = await Geolocator()
+                          .placemarkFromAddress(endereco.text);
+                      bool result = await SharedPreferencesControle.setEndereco(
+                          endereco.text);
+                      if (result) setState(() {});
+                    },
+                    child: Text("Ok"),
+                  )
+                ],
+              )
+            : FutureBuilder<Position>(
+                future: Geolocator()
+                    .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
+                builder: (context, localizacao) {
+                  if (!localizacao.hasData && local.isEmpty) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
                 //TODO Se permissão negada perguntar endereço de casa
                 if (_permissionStatus.isUndetermined ||
                     _permissionStatus.isDenied)
                   requestPermission(Permission.location);
-                var currentLocation = localizacao.data;
-                var lat = currentLocation.latitude;
-                var lng = currentLocation.longitude;
+                    var currentLocation = localizacao.data;
 
-                return FutureBuilder<List<Placemark>>(
-                  future: Geolocator().placemarkFromPosition(currentLocation),
-                  builder: (context, placemark) {
-                    if (!placemark.hasData) {
-                      return Center();
-                    } else {
-                      String cidade =
-                          placemark.data.first.subAdministrativeArea;
-                      var url =
-                          "$_link?cidade=$cidade&lat=${lat.toString()}&lng=${lng.toString()}";
+                    if (local.isNotEmpty)
+                      currentLocation = local.first.position;
+                    var lat = currentLocation.latitude;
+                    var lng = currentLocation.longitude;
+
+                    return FutureBuilder<List<Placemark>>(
+                      future:
+                          Geolocator().placemarkFromPosition(currentLocation),
+                      builder: (context, placemark) {
+                        if (!placemark.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          String cidade =
+                              placemark.data.first.subAdministrativeArea;
+                          var url =
+                              "$_link?cidade=$cidade&lat=${lat.toString()}&lng=${lng.toString()}";
                       return FutureBuilder<http.Response>(
                         future: http.get(url),
                         builder: (context, response) {
@@ -159,20 +185,22 @@ class _HomeTabState extends State<HomeTab> {
     });
   }
 
-  getSaloes() async {
-    if (!temMais) {
-      return;
+  getPermissaoLocal() {
+    if ((_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) &&
+        local.isEmpty &&
+        endereco.text.isEmpty) {
+      return true;
     }
-    if (isLoading) {
+    return false;
       return;
-    }
-    setState(() {
-      isLoading = true;
-    });
-    QuerySnapshot querySnapshot;
-    if (ultimoSalao == null) {
-      querySnapshot = await SalaoControle.get()
-          .where('cidade', isEqualTo: 'Divinópolis')
+  }
+
+  getEndereco() async {
+    if (_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) {
+      String endereco = SharedPreferencesControle.getEndereco();
+      if (endereco.isNotEmpty) {
+        this.endereco.text = endereco;
+        local = await Geolocator().placemarkFromAddress(endereco);
           .orderBy('cidade')
           .orderBy('nome')
           .limit(limite)
@@ -185,7 +213,7 @@ class _HomeTabState extends State<HomeTab> {
           .startAfterDocument(ultimoSalao)
           .limit(limite)
           .getDocuments();
-    }
+      }
     if (querySnapshot.documents.length < limite) {
       temMais = false;
     }
