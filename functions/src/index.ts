@@ -234,9 +234,8 @@ export const calculaDistancia = functions.https
 
 
     if (!cidade || lat == '' || lng == '') {
-      response.status(400).send('ERROR you must supply a city :(');
+      response.status(400).send('Erro ao enviar atributos');
     }
-
     const cidades = await db
       .collection('saloes')
       .where('cidade', '==', cidade)
@@ -254,7 +253,9 @@ export const calculaDistancia = functions.https
     json.sort((a, b) => {
       return a.distancia - b.distancia;
     })
-
-    response.json(json)
+    if (json.length == 0) {
+      response.status(404).send("Não há salões para sua cidade ainda\nEntre em contato conosco e sugira um salão ;)")
+    }
+    response.status(200).json(json)
   });
 
