@@ -11,48 +11,45 @@ class ConfirmarTela extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<LoginModelo>(
-      model: LoginModelo(),
-      child: ScopedModelDescendant<LoginModelo>(
-        builder: (context, child, model) {
-          if (model.dados != null)
-            return Material(
-              child: StreamBuilder<QuerySnapshot>(
-                  stream: HorarioControle.get()
-                      .where('confirmado', isEqualTo: false)
-                      .where('cabeleireiro', isEqualTo: model.dados.id)
-                      .orderBy('data')
-                      .orderBy('horario')
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
+    return ScopedModelDescendant<LoginModelo>(
+      builder: (context, child, model) {
+        if (model.dados != null)
+          return Material(
+            child: StreamBuilder<QuerySnapshot>(
+                stream: HorarioControle.get()
+                    .where('confirmado', isEqualTo: false)
+                    .where('cabeleireiro', isEqualTo: model.dados.id)
+                    .orderBy('data')
+                    .orderBy('horario')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    if (snapshot.data.documents.length == 0) {
                       return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      if (snapshot.data.documents.length == 0) {
-                        return Center(
-                          child: Text("Não há agendamentos para confirmar"),
-                        );
-                      }
-                      var dividedTiles = ListTile.divideTiles(
-                              tiles: snapshot.data.documents.map((doc) {
-                                return ConfirmarTile(
-                                    HorarioDados.fromDocument(doc));
-                              }).toList(),
-                              color: Colors.grey[500],
-                              context: context)
-                          .toList();
-                      return ListView(
-                        children: dividedTiles,
+                        child: Text("Não há agendamentos para confirmar"),
                       );
                     }
-                  }),
-            );
-          else
-            return Center();
-        },
-      ),
+                    var dividedTiles = ListTile.divideTiles(
+                            tiles: snapshot.data.documents.map((doc) {
+                              return ConfirmarTile(
+                                  HorarioDados.fromDocument(doc));
+                            }).toList(),
+                            color: Colors.grey[500],
+                            context: context)
+                        .toList();
+                    return ListView(
+                      children: dividedTiles,
+                    );
+                  }
+                }),
+          );
+        else
+          return Center();
+      },
     );
   }
 }

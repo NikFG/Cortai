@@ -15,43 +15,40 @@ class CheckinTela extends StatefulWidget {
 class _CheckinTelaState extends State<CheckinTela> {
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<LoginModelo>(
-      model: LoginModelo(),
-      child: ScopedModelDescendant<LoginModelo>(
-        builder: (context, child, model) {
-          return Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                title: Text("Checkin do cliente nomeLegal"),
-                leading: Util.leadingScaffold(context),
-              ),
-              body: FutureBuilder<QuerySnapshot>(
-                future: HorarioControle.get()
-                    .where('cabeleireiro', isEqualTo: model.dados.id)
-                    .where('confirmado', isEqualTo: true)
-                    .where('pago', isEqualTo: false)
-                    .orderBy('cliente')
-                    .getDocuments(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    var dividedTiles = ListTile.divideTiles(
-                            tiles: snapshot.data.documents.map((doc) {
-                              return CheckinTile(
-                                  HorarioDados.fromDocument(doc));
-                            }).toList(),
-                            color: Colors.grey[500],
-                            context: context)
-                        .toList();
-                    return ListView(
-                      children: dividedTiles,
-                    );
-                  }
-                },
-              ));
-        },
-      ),
+    return ScopedModelDescendant<LoginModelo>(
+      builder: (context, child, model) {
+        return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text("Checkin do cliente nomeLegal"),
+              leading: Util.leadingScaffold(context),
+            ),
+            body: FutureBuilder<QuerySnapshot>(
+              future: HorarioControle.get()
+                  .where('cabeleireiro', isEqualTo: model.dados.id)
+                  .where('confirmado', isEqualTo: true)
+                  .where('pago', isEqualTo: false)
+                  .orderBy('cliente')
+                  .getDocuments(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  var dividedTiles = ListTile.divideTiles(
+                          tiles: snapshot.data.documents.map((doc) {
+                            return CheckinTile(
+                                HorarioDados.fromDocument(doc));
+                          }).toList(),
+                          color: Colors.grey[500],
+                          context: context)
+                      .toList();
+                  return ListView(
+                    children: dividedTiles,
+                  );
+                }
+              },
+            ));
+      },
     );
   }
 }
