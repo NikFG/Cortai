@@ -20,16 +20,16 @@ class _CheckinTelaState extends State<CheckinTela> {
         return Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              title: Text("Checkin do cliente nomeLegal"),
+              title: Text("Checkin de cliente nomeLegal"),
               leading: Util.leadingScaffold(context),
             ),
-            body: FutureBuilder<QuerySnapshot>(
-              future: HorarioControle.get()
+            body: StreamBuilder<QuerySnapshot>(
+              stream: HorarioControle.get()
                   .where('cabeleireiro', isEqualTo: model.dados.id)
                   .where('confirmado', isEqualTo: true)
                   .where('pago', isEqualTo: false)
                   .orderBy('cliente')
-                  .getDocuments(),
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
