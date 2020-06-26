@@ -7,8 +7,9 @@ import 'package:photo_view/photo_view.dart';
 class HeroCustom extends StatelessWidget {
   final String imagemUrl;
   final File imagemFile;
+  final String descricao;
 
-  HeroCustom({this.imagemUrl, this.imagemFile});
+  HeroCustom({this.imagemUrl, this.imagemFile, this.descricao});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,17 @@ class HeroCustom extends StatelessWidget {
       appBar: AppBar(
         leading: Util.leadingScaffold(context),
         backgroundColor: Colors.transparent,
+        title: descricao != null
+            ? Text(
+                this.descricao,
+                style: TextStyle(
+                    fontFamily: 'Poppins', fontWeight: FontWeight.w600),
+              )
+            : Container(
+                height: 0,
+                width: 0,
+              ),
+        centerTitle: true,
       ),
       body: Center(
         child: PhotoView(

@@ -12,110 +12,49 @@ class ServicoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
-      child: GestureDetector(
-        onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => AgendaTela(this.dados))),
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.grey[300], width: 1.0),
+    return Container(
+      padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5),
+      height: 100,
+      child: Card(
+          shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.grey[300], width: 1.0),
               borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Row(
-            children: <Widget>[
-              GestureDetector(
+          child: Align(
+            alignment: Alignment.center,
+            child: ListTile(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AgendaTela(this.dados))),
+              leading: GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => HeroCustom(
-                          imagemUrl: dados.imagemUrl != null
-                              ? dados.imagemUrl
-                              : imgPadrao)));
+                            imagemUrl: dados.imagemUrl != null
+                                ? dados.imagemUrl
+                                : imgPadrao,
+                            descricao: dados.descricao,
+                          )));
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(4.7),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 32,
-                    backgroundImage: NetworkImage(
-                        dados.imagemUrl != null ? dados.imagemUrl : imgPadrao),
-                  ),
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 30,
+                  backgroundImage: NetworkImage(
+                      dados.imagemUrl != null ? dados.imagemUrl : imgPadrao,
+                      scale: 2.0),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    width: MediaQuery.of(context).size.width - 180,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          dados.descricao,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20.0,
-                              fontFamily: 'Poppins'),
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "breve descricao",
-                                  style: TextStyle(
-                                      fontSize: 16.0, color: Colors.black87),
-                                ),
-                                SizedBox(
-                                  width: 2.0,
-                                ),
-                                SizedBox(
-                                  width: 5.0,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: Text(
-                            dados.valor.toStringAsFixed(2),
-                            style:
-                                TextStyle(fontSize: 14, color: Colors.black87),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      IconButton(
-                        padding: EdgeInsets.only(bottom: 10),
-                        alignment: Alignment.bottomCenter,
-                        icon: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => AgendaTela(this.dados))),
-                      ),
-                    ],
-                  ),
-                ],
+              title: Text(
+                dados.descricao,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Colors.black, fontSize: 20.0, fontFamily: 'Poppins'),
               ),
-            ],
-          ),
-        ),
-      ),
+              subtitle: Text(
+                "R\$${dados.valor.toStringAsFixed(2).replaceAll('.', ',')}",
+                style: TextStyle(
+                    fontSize: 14, color: Colors.black87, fontFamily: 'Poppins'),
+              ),
+            ),
+          )),
     );
   }
 }

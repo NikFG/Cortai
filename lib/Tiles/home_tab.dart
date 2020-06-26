@@ -1,12 +1,12 @@
-import 'package:agendacabelo/Controle/salao_controle.dart';
+import 'dart:convert';
+import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Tiles/home_tile.dart';
-import 'package:agendacabelo/Util/haversine.dart';
 import 'package:agendacabelo/Widgets/carousel.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
 
 class HomeTab extends StatefulWidget {
   @override
@@ -14,27 +14,19 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  int cont = 0;
   PermissionStatus _permissionStatus = PermissionStatus.undetermined;
-  int limite = 4;
-  bool temMais = true;
-  bool isLoading = false;
-  DocumentSnapshot ultimoSalao;
-  List<DocumentSnapshot> saloes = [];
   ScrollController _scrollController = ScrollController();
+  var local = [];
+  var endereco = TextEditingController();
+  static const _link =
+      'https://us-central1-agendamento-cortes.cloudfunctions.net/calculaDistancia';
 
   @override
   void initState() {
     super.initState();
-    getSaloes();
-    _scrollController.addListener(() {
-      double maxScroll = _scrollController.position.maxScrollExtent;
-      double currentScroll = _scrollController.position.pixels;
-      double delta = MediaQuery.of(context).size.height * 0.25;
-      if (maxScroll - currentScroll <= delta) {
-        getSaloes();
-      }
-    });
+    if (_permissionStatus.isUndetermined)
+      requestPermission(Permission.location);
+    getEndereco();
   }
 
   @override
@@ -69,54 +61,84 @@ class _HomeTabState extends State<HomeTab> {
                   fontWeight: FontWeight.w500,
                   fontFamily: "Poppins"),
             )),
-        FutureBuilder<Position>(
-            future: Geolocator()
-                .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
-            builder: (context, localizacao) {
-              if (!localizacao.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                //TODO Se permissão negada perguntar endereço de casa
-                if (_permissionStatus.isUndetermined ||
-                    _permissionStatus.isDenied)
-                  requestPermission(Permission.location);
-                var currentLocation = localizacao.data;
-                var lista = this.saloes;
-                lista.sort((a, b) {
-                  double distanciaA = Haversine.distancia(
-                      lat1: currentLocation.latitude,
-                      lon1: currentLocation.longitude,
-                      lat2: a.data['latitude'],
-                      lon2: a.data['longitude']);
-                  double distanciaB = Haversine.distancia(
-                      lat1: currentLocation.latitude,
-                      lon1: currentLocation.longitude,
-                      lat2: b.data['latitude'],
-                      lon2: b.data['longitude']);
-
-                  return distanciaA.compareTo(distanciaB);
-                });
-
-                List<Widget> widgets = lista
-                    .map((doc) =>
-                        HomeTile(SalaoDados.fromDocument(doc), currentLocation))
-                    .toList();
-
-                return Column(
-                  children: widgets,
-                );
-              }
-            }),
-        isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
+        getPermissaoLocal()
+            ? Column(
+                children: <Widget>[
+                  TextField(
+                    controller: endereco,
+                  ),
+                  FlatButton(
+                    onPressed: () async {
+                      local = await Geolocator()
+                          .placemarkFromAddress(endereco.text);
+                      bool result = await SharedPreferencesControle.setEndereco(
+                          endereco.text);
+                      if (result) setState(() {});
+                    },
+                    child: Text("Ok"),
+                  )
+                ],
               )
-            : Container(
-                height: 0,
-                width: 0,
-              )
+            : FutureBuilder<Position>(
+                future: Geolocator()
+                    .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
+                builder: (context, localizacao) {
+                  if (!localizacao.hasData && local.isEmpty) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    var currentLocation = localizacao.data;
+
+                    if (local.isNotEmpty)
+                      currentLocation = local.first.position;
+                    var lat = currentLocation.latitude;
+                    var lng = currentLocation.longitude;
+
+                    return FutureBuilder<List<Placemark>>(
+                      future:
+                          Geolocator().placemarkFromPosition(currentLocation),
+                      builder: (context, placemark) {
+                        if (!placemark.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          String cidade =
+                              placemark.data.first.subAdministrativeArea;
+                          var url =
+                              "$_link?cidade=$cidade&lat=${lat.toString()}&lng=${lng.toString()}";
+
+                          return FutureBuilder<http.Response>(
+                            future: http.get(url),
+                            builder: (context, response) {
+                              if (!response.hasData) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                if (response.data.statusCode == 404) {
+                                  return Center(
+                                    child: Text(response.data.body),
+                                  );
+                                }
+                                List<dynamic> dados =
+                                    json.decode(response.data.body);
+                                List<Widget> widgets = dados
+                                    .map((s) => HomeTile(SalaoDados.fromJson(s),
+                                        s['distancia'] as double))
+                                    .toList();
+                                return Column(
+                                  children: widgets,
+                                );
+                              }
+                            },
+                          );
+                        }
+                      },
+                    );
+                  }
+                }),
       ],
     );
   }
@@ -128,36 +150,22 @@ class _HomeTabState extends State<HomeTab> {
     });
   }
 
-  getSaloes() async {
-    if (!temMais) {
-      return;
+  getPermissaoLocal() {
+    if ((_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) &&
+        local.isEmpty &&
+        endereco.text.isEmpty) {
+      return true;
     }
-    if (isLoading) {
-      return;
+    return false;
+  }
+
+  getEndereco() async {
+    if (_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) {
+      String endereco = SharedPreferencesControle.getEndereco();
+      if (endereco.isNotEmpty) {
+        this.endereco.text = endereco;
+        local = await Geolocator().placemarkFromAddress(endereco);
+      }
     }
-    setState(() {
-      isLoading = true;
-    });
-    QuerySnapshot querySnapshot;
-    if (ultimoSalao == null) {
-      querySnapshot = await SalaoControle.get()
-          .orderBy('nome')
-          .limit(limite)
-          .getDocuments();
-    } else {
-      querySnapshot = await SalaoControle.get()
-          .orderBy('nome')
-          .startAfterDocument(ultimoSalao)
-          .limit(limite)
-          .getDocuments();
-    }
-    if (querySnapshot.documents.length < limite) {
-      temMais = false;
-    }
-    ultimoSalao = querySnapshot.documents[querySnapshot.documents.length - 1];
-    saloes.addAll(querySnapshot.documents);
-    setState(() {
-      isLoading = false;
-    });
   }
 }

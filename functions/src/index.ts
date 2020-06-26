@@ -26,6 +26,21 @@ function decrypt(usuario: String) {
 }
 //////////////////////////////////////////////////////////////
 
+function distancia(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const haversine = require('haversine');
+  const start = {
+    latitude: lat1,
+    longitude: lon1
+  }
+
+  const end = {
+    latitude: lat2,
+    longitude: lon2
+  }
+  return haversine(start, end, { unit: 'meter' }) / 1000
+
+}
+
 
 //Funções de exportação do Firebase
 
@@ -210,3 +225,37 @@ export const horarioCancelado = functions.firestore
     };
     return fcm.sendToDevice(token, payload);
   });
+
+export const calculaDistancia = functions.https
+  .onRequest(async (request, response) => {
+    const cidade = request.query.cidade;
+    const lat = request.query.lat as string;
+    const lng = request.query.lng as string;
+
+
+    if (!cidade || lat == '' || lng == '') {
+      response.status(400).send('Erro ao enviar atributos');
+    }
+    const cidades = await db
+      .collection('saloes')
+      .where('cidade', '==', cidade)
+      .orderBy('nome')
+      .get()
+
+    let json = cidades.docs.map((doc) => {
+      return {
+        id: doc.id,
+        data: doc.data(),
+        distancia: distancia(doc.get('latitude'), doc.get('longitude'), parseFloat(lat), parseFloat(lng))
+      }
+    });
+
+    json.sort((a, b) => {
+      return a.distancia - b.distancia;
+    })
+    if (json.length == 0) {
+      response.status(404).send("Não há salões para sua cidade ainda\nEntre em contato conosco e sugira um salão ;)")
+    }
+    response.status(200).json(json)
+  });
+

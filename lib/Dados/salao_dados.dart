@@ -34,4 +34,20 @@ class SalaoDados {
       "cidade": cidade,
     };
   }
+
+  SalaoDados.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    nome = json['data']['nome'];
+    endereco = json['data']['endereco'];
+    telefone = json['data']['telefone'];
+    imagem = json['data']['imagem'];
+    latitude = json['data']['latitude'];
+    longitude = json['data']['longitude'];
+    cidade = json['data']['cidade'];
+  }
+
+  @override
+  String toString() {
+    return 'SalaoDados{id: $id, nome: $nome, endereco: $endereco, telefone: $telefone, imagem: $imagem, cidade: $cidade, latitude: $latitude, longitude: $longitude}';
+  }
 }

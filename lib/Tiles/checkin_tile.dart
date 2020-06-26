@@ -1,4 +1,6 @@
+import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
+import 'package:agendacabelo/Dados/forma_pagamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,8 +23,6 @@ class CheckinTile extends StatelessWidget {
                   message: "Confirmado o pagamento com sucesso!!",
                   duration: Duration(milliseconds: 1200))
               .show(context);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomeTela()));
         }).catchError((e) async {
           print(e);
           await FlushbarHelper.createError(
@@ -38,12 +38,32 @@ class CheckinTile extends StatelessWidget {
             .get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return LinearProgressIndicator();
+            return Center();
           } else {
-            return Text('${snapshot.data['nome']} às ${dados.horario}');
+            return Text(
+                '${snapshot.data['nome']} ${dados.data} às ${dados.horario}');
           }
         },
       ),
+      subtitle: dados.formaPagamento != null
+          ? FutureBuilder<DocumentSnapshot>(
+              future: FormaPagamentoControle.get()
+                  .document(dados.formaPagamento)
+                  .get(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center();
+                } else {
+                  var dados = FormaPagamentoDados.fromDocument(snapshot.data);
+                  return Text(
+                      "Será pago da seguinte forma: ${dados.descricao}");
+                }
+              },
+            )
+          : Container(
+              width: 0,
+              height: 0,
+            ),
     );
   }
 }
