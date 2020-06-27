@@ -38,13 +38,12 @@ class _HomeTabState extends State<HomeTab> {
         Row(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: 20, top: 10),
+              padding: EdgeInsets.only(left: 20, top: 10,bottom: 10),
               child: Text(
                 "Novidades",
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
+                    fontSize: 26,
+                    fontWeight: FontWeight.w700,
                     fontFamily: "Poppins"),
               ),
             ),
