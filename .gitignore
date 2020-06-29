@@ -90,3 +90,5 @@ lint/tmp/
 *.lock
 
 android/key.properties
+
+public/
