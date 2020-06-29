@@ -2,6 +2,7 @@ import 'package:agendacabelo/Dados/login_dados.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/custom_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,162 +83,75 @@ class _CadastroTelaState extends State<CadastroTela> {
                   padding: EdgeInsets.only(top: 30),
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 45,
-                        padding: EdgeInsets.only(
-                            top: 4, left: 16, right: 16, bottom: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 5)
-                            ]),
-                        child: TextFormField(
-                          controller: _nomeControlador,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.person_pin,
-                              color: Colors.grey,
-                            ),
-                            hintText: 'Nome Completo',
+                      CustomFormField(
+                          hint: "Nome completo",
+                          icon: Icon(
+                            Icons.person_pin,
+                            color: Colors.grey,
                           ),
+                          controller: _nomeControlador,
+                          isNome: true,
+                          inputType: TextInputType.text,
                           validator: (text) {
                             if (text.isEmpty) {
                               return "O nome não pode estar vazio";
                             }
                             return null;
-                          },
-                        ),
-                      ),
+                          }),
                       SizedBox(
                         height: 15,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 45,
-                        padding: EdgeInsets.only(
-                            top: 4, left: 16, right: 16, bottom: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 5)
-                            ]),
-                        child: TextFormField(
+                      CustomFormField(
+                          hint: "Email",
+                          inputType: TextInputType.emailAddress,
+                          icon: Icon(Icons.email, color: Colors.grey),
                           controller: _emailControlador,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.email,
-                              color: Colors.grey,
-                            ),
-                            hintText: 'Email',
-                          ),
                           validator: (text) {
                             if (text.isEmpty ||
                                 !EmailValidator.validate(text)) {
                               return "Email inválido";
                             }
                             return null;
-                          },
-                        ),
-                      ),
+                          }),
                       SizedBox(
                         height: 15,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 45,
-                        padding: EdgeInsets.only(
-                            top: 4, left: 16, right: 16, bottom: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 5)
-                            ]),
-                        child: TextFormField(
-                          controller: _telefoneControlador,
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.phone,
-                              color: Colors.grey,
-                            ),
-                            hintText: 'Telefone de Contato',
+                      CustomFormField(
+                          hint: "Telefone",
+                          icon: Icon(
+                            Icons.phone,
+                            color: Colors.grey,
                           ),
+                          controller: _telefoneControlador,
+                          inputType: TextInputType.phone,
                           validator: (text) {
                             if (text.isEmpty || text.length < 11) {
                               return "Numero invalido";
                             }
                             return null;
-                          },
-                        ),
-                      ),
+                          }),
                       SizedBox(
                         height: 15,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 45,
-                        padding: EdgeInsets.only(
-                            top: 4, left: 16, right: 16, bottom: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 5)
-                            ]),
-                        child: TextFormField(
+                      CustomFormField(
+                          hint: "Senha",
+                          icon: Icon(Icons.vpn_key, color: Colors.grey),
                           controller: _senhaControlador,
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.vpn_key,
-                              color: Colors.grey,
-                            ),
-                            hintText: 'Senha',
-                          ),
                           validator: (text) {
                             if (text.isEmpty || text.length < 6) {
                               return "Senha inválida";
                             }
                             return null;
                           },
-                        ),
-                      ),
+                          inputType: TextInputType.visiblePassword,
+                          isSenha: true),
                       SizedBox(
                         height: 15,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        height: 45,
-                        padding: EdgeInsets.only(
-                            top: 4, left: 16, right: 16, bottom: 4),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(color: Colors.black12, blurRadius: 5)
-                            ]),
-                        child: TextFormField(
-                          keyboardType: TextInputType.visiblePassword,
-                          obscureText: true,
+                      CustomFormField(
+                          hint: "Confirmar Senha",
+                          icon: Icon(Icons.vpn_key, color: Colors.grey),
                           controller: _senhaConfirmaControlador,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(
-                              Icons.lock,
-                              color: Colors.grey,
-                            ),
-                            hintText: 'Confirmar Senha',
-                          ),
                           validator: (text) {
                             if (text.isEmpty || text.length < 6) {
                               return "Senha inválida";
@@ -247,8 +161,8 @@ class _CadastroTelaState extends State<CadastroTela> {
                             }
                             return null;
                           },
-                        ),
-                      ),
+                          inputType: TextInputType.visiblePassword,
+                          isSenha: true),
                       SizedBox(
                         height: 15,
                       ),
@@ -338,4 +252,6 @@ class _CadastroTelaState extends State<CadastroTela> {
             message: "Erro ao realizar o cadastro, teste novamente!")
         .show(context);
   }
+
+  
 }
