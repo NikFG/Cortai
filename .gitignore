@@ -88,3 +88,5 @@ lint/tmp/
 .flutter-plugins-dependencies
 
 *.lock
+
+android/key.properties
