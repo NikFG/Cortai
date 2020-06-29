@@ -15,71 +15,113 @@ class PerfilTela extends StatelessWidget {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model.dados != null)
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          CadastroFuncionamentoTela(model.dados.salao)));
-                },
-                child: Text("Horário de funcionamento"),
-              ),
-              Divider(
-                color: Colors.black45,
-              ),
-              FlatButton(
-                onPressed: () async {
-                  var salaoDados = await SalaoControle.get()
-                      .document(model.dados.salao)
-                      .get()
-                      .then((doc) {
-                    return SalaoDados.fromDocument(doc);
-                  });
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => EditarSalaoTela(model.dados.id,
-                          salao: salaoDados)));
-                },
-                child: model.dados.salao != null
-                    ? Text("Editar salão")
-                    : Text("Criar salão"),
-              ),
-              Divider(
-                color: Colors.black45,
-              ),
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => CheckinTela()));
-                },
-                child: Text("Relatórios"),
-              ),
-              Divider(
-                color: Colors.black45,
-              ),
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          SolicitacaoCabeleireiroTela(model.dados.salao)));
-                },
-                child: Text("Cadastrar cabeleireiros"),
-              ),
-              Divider(
-                color: Colors.black45,
-              ),
-              FlatButton(
-                onPressed: () async {
-                  await model.signOut();
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginTela()));
-                },
-                child: Text("Logout"),
-              )
-            ],
-          );
+          return Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      "Fulano",
+                      style: TextStyle(fontSize: 26, fontFamily: 'Poppins',fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: InkWell(
+                      child: Text('Editar Perfil',
+                        style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),),
+                        onTap: () {}
+                    ),
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(
+                          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                      backgroundColor: Colors.transparent,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              CadastroFuncionamentoTela(model.dados.salao)));
+                    },
+                    child: Text(
+                      "Horário de funcionamento",
+                      style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black45,
+                  ),
+                  FlatButton(
+                    onPressed: () async {
+                      var salaoDados = await SalaoControle.get()
+                          .document(model.dados.salao)
+                          .get()
+                          .then((doc) {
+                        return SalaoDados.fromDocument(doc);
+                      });
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => EditarSalaoTela(model.dados.id,
+                              salao: salaoDados)));
+                    },
+                    child: model.dados.salao != null
+                        ? Text(
+                            "Editar salão",
+                            style:
+                                TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                          )
+                        : Text(
+                            "Criar salão",
+                            style:
+                                TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                          ),
+                  ),
+                  Divider(
+                    color: Colors.black45,
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CheckinTela()));
+                    },
+                    child: Text(
+                      "Relatórios",
+                      style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black45,
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              SolicitacaoCabeleireiroTela(model.dados.salao)));
+                    },
+                    child: Text(
+                      "Cadastrar cabeleireiros",
+                      style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.black45,
+                  ),
+                  FlatButton(
+                    onPressed: () async {
+                      await model.signOut();
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => LoginTela()));
+                    },
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                    ),
+                  )
+                ],
+              ));
         else
           return Center();
       },
