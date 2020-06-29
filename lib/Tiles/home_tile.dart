@@ -148,9 +148,10 @@ class _HomeTileState extends State<HomeTile> {
         media += lista[i].avaliacao;
       }
       media = media / lista.length;
-
-      _media = media;
-      _quantidade = lista.length;
+      setState(() {
+        _media = media;
+        _quantidade = lista.length;
+      });
     }
   }
 
@@ -162,8 +163,10 @@ class _HomeTileState extends State<HomeTile> {
             doc.documents.map((e) => ServicoDados.fromDocument(e)).toList());
     lista.sort((a, b) => a.valor.compareTo(b.valor));
     if (lista.length > 0) {
-      _menorValor = lista.first.valor;
-      _maiorValor = lista.last.valor;
+      setState(() {
+        _menorValor = lista.first.valor;
+        _maiorValor = lista.last.valor;
+      });
     }
   }
 }
