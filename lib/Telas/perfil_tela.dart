@@ -23,18 +23,25 @@ class PerfilTela extends StatelessWidget {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                      "Fulano",
-                      style: TextStyle(fontSize: 26, fontFamily: 'Poppins',fontWeight: FontWeight.w600),
+                      model.dados.nome,
+                      style: TextStyle(
+                          fontSize: 26,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600),
                     ),
                     subtitle: InkWell(
-                      child: Text('Editar Perfil',
-                        style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),),
-                        onTap: () {}
-                    ),
+                        child: Text(
+                          'Editar Perfil',
+                          style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                        ),
+                        onTap: () {}),
                     leading: CircleAvatar(
-                      radius: 30,
+                      radius: 32,
                       backgroundImage: NetworkImage(
-                          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                        model.dados.imagemUrl != null
+                            ? model.dados.imagemUrl
+                            : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                      ),
                       backgroundColor: Colors.transparent,
                     ),
                   ),
