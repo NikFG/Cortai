@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "agendamento-cortes"
+  },
+  "targets": {
+    "agendamento-cortes": {
+      "hosting": {
+        "cortaiweb": [
+          "cortai-site"
+        ]
+      }
+    }
   }
 }
