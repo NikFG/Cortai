@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -114,5 +116,15 @@ class Util {
   static corPrimariaStatusBar(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Theme.of(context).primaryColor));
+  }
+
+  static setLocalizacao() async {
+    var position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    String cidade = await Geolocator()
+        .placemarkFromPosition(position)
+        .then((value) => value.first.subAdministrativeArea);
+    await SharedPreferencesControle.setCidade(cidade);
+    await SharedPreferencesControle.setPosition(position);
   }
 }
