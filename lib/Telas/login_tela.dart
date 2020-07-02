@@ -282,6 +282,7 @@ class _LoginTelaState extends State<LoginTela> {
   void onSuccess() async {
     await FlushbarHelper.createSuccess(message: "Login realizado com sucesso")
         .show(context);
+    await Util.setLocalizacao();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeTela()));
   }
