@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesControle {
@@ -6,8 +8,7 @@ class SharedPreferencesControle {
   SharedPreferencesControle() {
     try {
       _getInstace();
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
     }
   }
@@ -21,7 +22,6 @@ class SharedPreferencesControle {
   }
 
   static String getEndereco() {
-    print(_prefs);
     String endereco;
     try {
       endereco = _prefs.getString('endereco');
@@ -29,6 +29,37 @@ class SharedPreferencesControle {
     } catch (e) {
       print(e);
       return '';
+    }
+  }
+
+  static Future<bool> setCidade(String cidade) async {
+    return await _prefs.setString('cidade', cidade);
+  }
+
+  static String getCidade() {
+    String cidade;
+    try {
+      cidade = _prefs.getString('cidade');
+      return cidade;
+    } catch (e) {
+      print(e);
+      return '';
+    }
+  }
+
+  static Future<bool> setPosition(Position position) async {
+    return (await _prefs.setDouble('latitude', position.latitude) &&
+        await _prefs.setDouble('longitude', position.longitude));
+  }
+
+  static LatLng getPosition() {
+    LatLng latLng;
+    try {
+      latLng = LatLng(_prefs.get('latitude'), _prefs.get('longitude'));
+      return latLng;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 }
