@@ -1,5 +1,6 @@
 import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Tiles/home_tab.dart';
 import 'package:agendacabelo/Telas/perfil_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
@@ -11,10 +12,9 @@ import 'marcado_tela.dart';
 import 'confirmar_tela.dart';
 
 class HomeTela extends StatefulWidget {
-  final String usuarioId;
   final int paginaInicial;
 
-  HomeTela({this.usuarioId, this.paginaInicial});
+  HomeTela({this.paginaInicial});
 
   @override
   _HomeTelaState createState() => _HomeTelaState();
@@ -29,8 +29,6 @@ class _HomeTelaState extends State<HomeTela> {
     if (widget.paginaInicial != null) {
       index = widget.paginaInicial;
     }
-    if (widget.usuarioId != null)
-      PushNotification.servico(widget.usuarioId, context);
   }
 
   @override
@@ -38,6 +36,10 @@ class _HomeTelaState extends State<HomeTela> {
     final _pageController = PageController(initialPage: index);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
+      if (model.dados.isDonoSalao != null && model.dados.salao == null) {
+        return EditarSalaoTela(model.dados.id);
+      }
+        PushNotification.servico(model.dados.id, context);
         return PageView(
           controller: _pageController,
           onPageChanged: (index) {
