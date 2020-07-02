@@ -18,15 +18,20 @@ class _HomeTabState extends State<HomeTab> {
   ScrollController _scrollController = ScrollController();
   var local = [];
   var endereco = TextEditingController();
-  static const _link =
+
+  String cidade = SharedPreferencesControle.getCidade();
+  var url =
       'https://us-central1-agendamento-cortes.cloudfunctions.net/calculaDistancia';
 
   @override
   void initState() {
     super.initState();
-    if (_permissionStatus.isUndetermined)
-      requestPermission(Permission.location);
     getEndereco();
+    String latitude =
+        SharedPreferencesControle.getPosition().latitude.toString();
+    String longitude =
+        SharedPreferencesControle.getPosition().longitude.toString();
+    url += "?cidade=$cidade&lat=$latitude&lng=$longitude";
   }
 
   @override
@@ -38,7 +43,7 @@ class _HomeTabState extends State<HomeTab> {
         Row(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: 20, top: 10,bottom: 10),
+              padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
               child: Text(
                 "Novidades",
                 style: TextStyle(
@@ -78,7 +83,30 @@ class _HomeTabState extends State<HomeTab> {
                   )
                 ],
               )
-            : FutureBuilder<Position>(
+            : FutureBuilder<http.Response>(
+                future: http.get(url),
+                builder: (context, response) {
+                  if (!response.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    if (response.data.statusCode == 404) {
+                      return Center(
+                        child: Text(response.data.body),
+                      );
+                    }
+                    List<dynamic> dados = json.decode(response.data.body);
+                    List<Widget> widgets = dados
+                        .map((s) => HomeTile(
+                            SalaoDados.fromJson(s), s['distancia'] as double))
+                        .toList();
+                    return Column(
+                      children: widgets,
+                    );
+                  }
+                },
+              ), /*FutureBuilder<Position>(
                 future: Geolocator()
                     .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
                 builder: (context, localizacao) {
@@ -108,36 +136,12 @@ class _HomeTabState extends State<HomeTab> {
                           var url =
                               "$_link?cidade=$cidade&lat=${lat.toString()}&lng=${lng.toString()}";
 
-                          return FutureBuilder<http.Response>(
-                            future: http.get(url),
-                            builder: (context, response) {
-                              if (!response.hasData) {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else {
-                                if (response.data.statusCode == 404) {
-                                  return Center(
-                                    child: Text(response.data.body),
-                                  );
-                                }
-                                List<dynamic> dados =
-                                    json.decode(response.data.body);
-                                List<Widget> widgets = dados
-                                    .map((s) => HomeTile(SalaoDados.fromJson(s),
-                                        s['distancia'] as double))
-                                    .toList();
-                                return Column(
-                                  children: widgets,
-                                );
-                              }
-                            },
-                          );
+                          return ;
                         }
                       },
                     );
                   }
-                }),
+                }),*/
       ],
     );
   }
@@ -151,7 +155,7 @@ class _HomeTabState extends State<HomeTab> {
 
   getPermissaoLocal() {
     if ((_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) &&
-        local.isEmpty &&
+        cidade.isEmpty &&
         endereco.text.isEmpty) {
       return true;
     }

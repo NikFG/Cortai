@@ -1,5 +1,6 @@
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/custom_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class _LoginTelaState extends State<LoginTela> {
                             Align(
                               alignment: Alignment.topCenter,
                               child: Text(
-                                'Agenda Hair',
+                                'Cortaí',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   color: Color(0xCCFFFFFF),
@@ -88,29 +89,14 @@ class _LoginTelaState extends State<LoginTela> {
                         padding: EdgeInsets.only(top: 62),
                         child: Column(
                           children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 45,
-                              padding: EdgeInsets.only(
-                                  top: 4, left: 16, right: 16, bottom: 4),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50)),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black12, blurRadius: 5)
-                                  ]),
-                              child: TextFormField(
-                                controller: _emailControlador,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  icon: Icon(
-                                    Icons.email,
-                                    color: Colors.grey,
-                                  ),
-                                  hintText: 'Email',
+                            CustomFormField(
+                                hint: "Email",
+                                icon: Icon(
+                                  Icons.email,
+                                  color: Colors.grey,
                                 ),
+                                inputType: TextInputType.emailAddress,
+                                controller: _emailControlador,
                                 validator: (text) {
                                   if (text.isEmpty) {
                                     return "O email não pode estar em branco";
@@ -119,42 +105,25 @@ class _LoginTelaState extends State<LoginTela> {
                                     return "O email digitado está incorreto";
                                   }
                                   return null;
-                                },
-                              ),
+                                }),
+                            SizedBox(
+                              height: 15,
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width / 1.2,
-                              height: 45,
-                              margin: EdgeInsets.only(top: 32),
-                              padding: EdgeInsets.only(
-                                  top: 4, left: 16, right: 16, bottom: 4),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50)),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black12, blurRadius: 5)
-                                  ]),
-                              child: TextFormField(
-                                keyboardType: TextInputType.visiblePassword,
-                                obscureText: true,
-                                controller: _senhaControlador,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  icon: Icon(
-                                    Icons.vpn_key,
-                                    color: Colors.grey,
-                                  ),
-                                  hintText: 'Senha',
-                                ),
-                                validator: (text) {
-                                  if (text.isEmpty || text.length < 6) {
-                                    return "Senha inválida";
-                                  }
-                                  return null;
-                                },
+                            CustomFormField(
+                              controller: _senhaControlador,
+                              inputType: TextInputType.visiblePassword,
+                              icon: Icon(
+                                Icons.vpn_key,
+                                color: Colors.grey,
                               ),
+                              hint: "Senha",
+                              isSenha: true,
+                              validator: (text) {
+                                if (text.isEmpty || text.length < 6) {
+                                  return "Senha inválida";
+                                }
+                                return null;
+                              },
                             ),
                             Align(
                               alignment: Alignment.centerRight,
@@ -313,6 +282,7 @@ class _LoginTelaState extends State<LoginTela> {
   void onSuccess() async {
     await FlushbarHelper.createSuccess(message: "Login realizado com sucesso")
         .show(context);
+    await Util.setLocalizacao();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeTela()));
   }
