@@ -7,6 +7,7 @@ class ServicoDados {
   String imagemUrl;
   List<String> cabeleireiros;
   String salao;
+  String observacao;
 
   void setValor(String valor) {
     valor = valor.replaceAll("R\$", "");
@@ -24,6 +25,8 @@ class ServicoDados {
     imagemUrl = snapshot.data["imagemUrl"];
     cabeleireiros = List.from(snapshot.data['cabeleireiros']);
     salao = snapshot.data['salao'];
+    observacao =
+        snapshot.data['observacao'] != null ? snapshot.data['observacao'] : '';
   }
 
   Map<String, dynamic> toMap() {
@@ -33,6 +36,7 @@ class ServicoDados {
       "imagemUrl": imagemUrl,
       'salao': salao,
       'cabeleireiros': cabeleireiros,
+      'observacao': observacao,
     };
   }
 }
