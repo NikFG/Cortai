@@ -32,6 +32,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
           color: Colors.white,
           boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
       child: TextFormField(
+
           controller: widget.controller,
           obscureText: widget.isSenha,
           autocorrect: !widget.isSenha,
@@ -44,8 +45,9 @@ class _CustomFormFieldState extends State<CustomFormField> {
             border: InputBorder.none,
             prefixIcon: widget.icon,
             hintText: widget.hint,
+
             contentPadding:
-                EdgeInsets.only(left: 45, top: 12, bottom: 0, right: 0),
+                EdgeInsets.only(left: 20, top: 12, bottom: 0, right: 0),
           ),
           validator: widget.validator),
     );
