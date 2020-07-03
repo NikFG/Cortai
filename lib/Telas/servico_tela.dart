@@ -63,7 +63,7 @@ class ServicoTela extends StatelessWidget {
                   } else {
                     var widgets = snapshot.data.documents
                         .map((doc) =>
-                            ServicoTile(ServicoDados.fromDocument(doc)))
+                            ServicoTile(ServicoDados.fromDocument(doc), dados.nome))
                         .toList();
                     return Column(
                       children: widgets,

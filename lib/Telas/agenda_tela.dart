@@ -19,8 +19,8 @@ import 'home_tela.dart';
 
 class AgendaTela extends StatefulWidget {
   final ServicoDados servicoDados;
-
-  AgendaTela(this.servicoDados);
+  final String nomeSalao;
+  AgendaTela(this.servicoDados, this.nomeSalao);
 
   @override
   _AgendaTelaState createState() => _AgendaTelaState();
@@ -41,7 +41,7 @@ class _AgendaTelaState extends State<AgendaTela> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(widget.servicoDados.descricao),
+          title: Text(widget.nomeSalao),
           centerTitle: true,
           leading: Util.leadingScaffold(context)),
       body: Form(

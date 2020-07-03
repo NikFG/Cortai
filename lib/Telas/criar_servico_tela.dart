@@ -25,9 +25,10 @@ class CriarServicoTela extends StatefulWidget {
 
 class _CriarServicoTelaState extends State<CriarServicoTela> {
   final _formKey = GlobalKey<FormState>();
-  final _descricaoControlador = TextEditingController();
-  final _cabeleireirosControlador = TextEditingController();
-  final _precoControlador = MoneyMaskedTextController(
+  var _nomeControlador = TextEditingController();
+  var _cabeleireirosControlador = TextEditingController();
+  var _observacaoControlador = TextEditingController();
+  var _precoControlador = MoneyMaskedTextController(
       decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   File _imagem;
   List<CabeleireiroDados> selecionados = [];
@@ -49,15 +50,15 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         centerTitle: true,
         leading: Util.leadingScaffold(context),
       ),
-      body: ScopedModelDescendant<LoginModelo>(
-          builder: (context, child, model) {
+      body:
+          ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
         return Form(
           key: _formKey,
           child: ListView(
             padding: EdgeInsets.all(16),
             children: <Widget>[
               TextFormField(
-                controller: _descricaoControlador,
+                controller: _nomeControlador,
                 keyboardType: TextInputType.text,
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(hintText: "Nome do serviço"),
@@ -126,6 +127,16 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                   ),
                 ),
               ),
+              SizedBox(height: 10,),
+              TextFormField(
+                controller: _observacaoControlador,
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 2,
+                decoration: InputDecoration(
+                  hintText: "Breve descrição sobre o serviço",
+                ),
+              ),
               SizedBox(height: 25),
               Container(
                   alignment: Alignment.centerLeft,
@@ -145,6 +156,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                       ),
                     ],
                   )),
+
               _imagem != null
                   ? GestureDetector(
                       onTap: () {
@@ -198,15 +210,15 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                               _botaoHabilitado = false;
                             });
                             ServicoDados dados = ServicoDados();
-                            dados.descricao = _descricaoControlador.text;
+                            dados.descricao = _nomeControlador.text;
                             dados.setValor(_precoControlador.text);
                             dados.salao = model.dados.salao;
+                            dados.observacao = _observacaoControlador.text;
                             dados.cabeleireiros =
                                 selecionados.map((e) => e.id).toList();
                             if (widget.dados != null) {
                               if (_imagem != null) {
-                                await Util.deletaImagem(
-                                    widget.dados.imagemUrl);
+                                await Util.deletaImagem(widget.dados.imagemUrl);
                                 dados.imagemUrl = await Util.enviaImagem(
                                     model.dados.id, _imagem);
                               } else {
@@ -247,9 +259,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   }
 
   Future<Null> _verificaEditar() async {
-    _descricaoControlador.text = widget.dados.descricao;
+    _nomeControlador.text = widget.dados.descricao;
     _precoControlador.text = widget.dados.valor.toStringAsFixed(2);
-
+    _observacaoControlador.text = widget.dados.observacao;
     var documents = await Firestore.instance
         .collection('usuarios')
         .where('uid', whereIn: widget.dados.cabeleireiros)
