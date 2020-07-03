@@ -22,7 +22,7 @@ class LoginDados {
   }
 
   LoginDados(
-      {@required this.id,
+      {
       @required this.nome,
       @required this.salao,
       @required this.telefone,
