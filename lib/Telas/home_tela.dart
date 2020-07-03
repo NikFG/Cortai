@@ -36,7 +36,7 @@ class _HomeTelaState extends State<HomeTela> {
     final _pageController = PageController(initialPage: index);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
-      if (model.dados.isDonoSalao != null && model.dados.salao == null) {
+      if (model.dados.isDonoSalao && model.dados.salao == null) {
         return EditarSalaoTela(model.dados.id);
       }
         PushNotification.servico(model.dados.id, context);
