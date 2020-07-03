@@ -39,10 +39,12 @@ class LoginModelo extends Model {
       this.dados = loginDados;
       await _salvarDadosUsuarioEmail();
       notifyListeners();
+      onSuccess();
     }).catchError((e) async {
       print(e);
       isCarregando = false;
       notifyListeners();
+      onFail();
     });
   }
 
