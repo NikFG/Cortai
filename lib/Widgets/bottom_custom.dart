@@ -26,6 +26,10 @@ class _BottomCustomState extends State<BottomCustom> {
     itensUsuario();
     if (widget.isCabeleireiro) {
       itensCabeleireiro(widget.usuario);
+      this.itens.add(BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        title: Text("Perfil"),
+      ),);
     }
   }
 
@@ -94,10 +98,7 @@ class _BottomCustomState extends State<BottomCustom> {
         icon: Icon(Icons.content_cut),
         title: Text("Serviços"),
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        title: Text("Perfil"),
-      ),
+
     ];
     this.itens.addAll(itens);
   }
