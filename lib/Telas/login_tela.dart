@@ -168,45 +168,36 @@ class _LoginTelaState extends State<LoginTela> {
                             Container(
                               height: 45,
                               width: MediaQuery.of(context).size.width / 1.2,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Color(0xFFf45d27),
-                                      Color(0xFFf5851f)
-                                    ],
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                              child: Center(
-                                child: FlatButton(
-                                  onPressed: _botaoHabilitado
-                                      ? () {
-                                          if (_formKey.currentState
-                                              .validate()) {
-                                            setState(() {
-                                              _botaoHabilitado = false;
-                                            });
-                                            model.emailSignIn(
-                                                email: _emailControlador.text,
-                                                senha: _senhaControlador.text,
-                                                onSuccess: onSuccess,
-                                                onFail: onFail);
-                                          }
+                              child: RaisedButton(
+                                onPressed: _botaoHabilitado
+                                    ? () {
+                                        if (_formKey.currentState.validate()) {
+                                          setState(() {
+                                            _botaoHabilitado = false;
+                                          });
+                                          model.emailSignIn(
+                                              email: _emailControlador.text,
+                                              senha: _senhaControlador.text,
+                                              onSuccess: onSuccess,
+                                              onFail: onFail);
                                         }
-                                      : null,
-                                  child: _botaoHabilitado
-                                      ? Text(
-                                          'Login',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      : Center(
-                                          child: CircularProgressIndicator(),
+                                      }
+                                    : null,
+                                child: _botaoHabilitado
+                                    ? Text(
+                                        'Login',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                ),
+                                      )
+                                    : Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50)),
+                                color: Color(0xFFf45d27),
                               ),
                             ),
                             SizedBox(
@@ -289,7 +280,8 @@ class _LoginTelaState extends State<LoginTela> {
 
   void onFail() async {
     await FlushbarHelper.createError(
-            message: "Erro ao realizar o login, teste novamente!")
+        message: "Erro ao realizar o cadastro, teste novamente!",
+        title: "Verifique os dados digitados")
         .show(context);
     setState(() {
       _botaoHabilitado = true;
