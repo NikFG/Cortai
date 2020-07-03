@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:password_strength/password_strength.dart';
 
 class CadastroTela extends StatefulWidget {
   @override
@@ -26,6 +27,8 @@ class _CadastroTelaState extends State<CadastroTela> {
 
   @override
   Widget build(BuildContext context) {
+
+
     Util.corPrimariaStatusBar(context);
     return Scaffold(
         body: Form(
@@ -138,8 +141,12 @@ class _CadastroTelaState extends State<CadastroTela> {
                           icon: Icon(Icons.vpn_key, color: Colors.grey),
                           controller: _senhaControlador,
                           validator: (text) {
-                            if (text.isEmpty || text.length < 6) {
-                              return "Senha inválida";
+                            double forcaSenha = estimatePasswordStrength(_senhaControlador.text);
+                            if (text.length < 6) {
+                              return "A senha deve conter pelo menos 6 caracteres";
+                            }
+                            if (forcaSenha < 0.3) {
+                              return "Senha fraca, digite uma senha mais forte";
                             }
                             return null;
                           },
@@ -153,9 +160,6 @@ class _CadastroTelaState extends State<CadastroTela> {
                           icon: Icon(Icons.vpn_key, color: Colors.grey),
                           controller: _senhaConfirmaControlador,
                           validator: (text) {
-                            if (text.isEmpty || text.length < 6) {
-                              return "Senha inválida";
-                            }
                             if (text != _senhaControlador.text) {
                               return "As senhas estão diferentes";
                             }
@@ -169,47 +173,41 @@ class _CadastroTelaState extends State<CadastroTela> {
                       Container(
                         height: 45,
                         width: MediaQuery.of(context).size.width / 1.2,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xFFf45d27), Color(0xFFf5851f)],
-                            ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(50))),
-                        child: Center(
-                          child: FlatButton(
-                            onPressed: _botaoHabilitado
-                                ? () {
-                                    if (_formKey.currentState.validate()) {
-                                      LoginModelo login = LoginModelo();
-                                      var loginDados = LoginDados(
-                                          id: '',
-                                          email: _emailControlador.text,
-                                          nome: _nomeControlador.text,
-                                          telefone: _telefoneControlador.text,
-                                          isCabeleireiro: false,
-                                          salao: null,
-                                          imagemUrl: null,
-                                          isDonoSalao: false);
+                        child: RaisedButton(
+                          color: Color(0xFFf45d27),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          onPressed: _botaoHabilitado
+                              ? () {
+                                  if (_formKey.currentState.validate()) {
+                                    LoginModelo login = LoginModelo();
+                                    var loginDados = LoginDados(
+                                        email: _emailControlador.text,
+                                        nome: _nomeControlador.text,
+                                        telefone: _telefoneControlador.text,
+                                        isCabeleireiro: false,
+                                        salao: null,
+                                        imagemUrl: null,
+                                        isDonoSalao: false);
 
-                                      login.signUp(
-                                          loginDados: loginDados,
-                                          senha: _senhaControlador.text,
-                                          onSuccess: onSuccess,
-                                          onFail: onFail);
-                                    }
+                                    login.signUp(
+                                        loginDados: loginDados,
+                                        senha: _senhaControlador.text,
+                                        onSuccess: onSuccess,
+                                        onFail: onFail);
                                   }
-                                : null,
-                            child: _botaoHabilitado
-                                ? Text(
-                                    'Confirmar',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                : CircularProgressIndicator(),
-                          ),
+                                }
+                              : null,
+                          child: _botaoHabilitado
+                              ? Text(
+                                  'Confirmar',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              : CircularProgressIndicator(),
                         ),
                       ),
                       Container(
@@ -252,6 +250,4 @@ class _CadastroTelaState extends State<CadastroTela> {
             message: "Erro ao realizar o cadastro, teste novamente!")
         .show(context);
   }
-
-  
 }
