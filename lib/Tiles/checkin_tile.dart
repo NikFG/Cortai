@@ -2,7 +2,6 @@ import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Dados/forma_pagamento_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -16,20 +15,8 @@ class CheckinTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        await HorarioControle.get()
-            .document(dados.id)
-            .updateData({'pago': true}).then((value) async {
-          await FlushbarHelper.createSuccess(
-                  message: "Confirmado o pagamento com sucesso!!",
-                  duration: Duration(milliseconds: 1200))
-              .show(context);
-        }).catchError((e) async {
-          print(e);
-          await FlushbarHelper.createError(
-                  message: "Houve algum erro ao confirmar",
-                  duration: Duration(milliseconds: 1200))
-              .show(context);
-        });
+        await HorarioControle.confirmaPagamento(dados.id,
+            onSuccess: onSuccess, onFail: onFail, context: context);
       },
       title: FutureBuilder<DocumentSnapshot>(
         future: Firestore.instance
@@ -65,5 +52,19 @@ class CheckinTile extends StatelessWidget {
               height: 0,
             ),
     );
+  }
+
+  void onSuccess(context) async {
+    await FlushbarHelper.createSuccess(
+            message: "Confirmado o pagamento com sucesso!!",
+            duration: Duration(milliseconds: 1200))
+        .show(context);
+  }
+
+  void onFail(context) async {
+    await FlushbarHelper.createError(
+            message: "Houve algum erro ao confirmar",
+            duration: Duration(milliseconds: 1200))
+        .show(context);
   }
 }

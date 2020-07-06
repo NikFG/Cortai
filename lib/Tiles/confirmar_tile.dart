@@ -75,7 +75,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
 
                       break;
                     case DismissDirection.startToEnd:
-                      HorarioControle.confirma(widget.dados.id,
+                      HorarioControle.confirmaAgendamento(widget.dados.id,
                           onSuccess: onSuccess, onFail: onFail);
 
                       break;
