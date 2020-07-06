@@ -92,3 +92,5 @@ lint/tmp/
 android/key.properties
 
 public/
+
+.idea/

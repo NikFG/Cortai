@@ -1,28 +1,29 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 admin.initializeApp();
-const crypto = require('crypto');
-const segredo = 'a2e3f5t9w0c7v34tx321ve05morbtiex';
-
 const db = admin.firestore();
 const fcm = admin.messaging();
 
 //Criptografia dos dados
-function encrypt(usuario: String) {
+const crypto = require('crypto');
+const criptografia = 'aes-256-cbc';
+const segredo = 'd07e0fc6981b4f9041cf35030e05d286';
+const tipo = 'hex';
+
+async function encrypt(usuario: String) {
   const iv = Buffer.from(crypto.randomBytes(16));
-  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(segredo), iv);
-  let encrypted = cipher.update(usuario);
+  let cipher = crypto.createCipheriv(criptografia, Buffer.from(segredo), iv);
+  let encrypted = cipher.update(usuario)
   encrypted = Buffer.concat([encrypted, cipher.final()])
-  return `${iv.toString('hex')}:${encrypted.toString('hex')} `;
+  return `${encrypted.toString(tipo)}:${iv.toString(tipo)}`;
 }
 
-function decrypt(usuario: String) {
-  const [iv, encrypted] = usuario.split(':');
-  const ivBuffer = Buffer.from(iv, 'hex');
-  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(segredo), ivBuffer);
-  let content = decipher.update(Buffer.from(encrypted, 'hex'));
-  content = Buffer.concat([content, decipher.final()]);
-  return content.toString();
+async function decrypt(usuario: String) {
+  const [id, iv] = usuario.split(':')
+  const ivBuffer = Buffer.from(iv, tipo);
+  let decipher = crypto.createDecipheriv(criptografia, Buffer.from(segredo), ivBuffer)
+  const idReal = Buffer.concat([decipher.update(Buffer.from(id, tipo)), decipher.final()]);
+  return idReal.toString()
 }
 //////////////////////////////////////////////////////////////
 
@@ -135,7 +136,7 @@ export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
   .onUpdate(async (change, context) => {
     const usuario_id = context.params.usuarioID;
 
-    if (change.before.get('salao') != change.after.get('salao')) {
+    if (change.before.get('salaoTemp') != change.after.get('salaoTemp') && change.after.get('salaoTemp') != null) {
       const usuario = await db
         .collection('usuarios')
         .doc(usuario_id)
@@ -143,7 +144,7 @@ export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
 
       const salao = await db
         .collection('saloes')
-        .doc(usuario.get('salao'))
+        .doc(change.after.get('salaoTemp'))
         .get();
 
       const nodemailer = require('nodemailer');
@@ -156,13 +157,13 @@ export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
           pass: 'niks1111'
         }
       });
-      const criptado = encrypt(usuario_id);
+      const criptado = await (encrypt(usuario_id));
 
       const mailOptions = {
         from: `App hair`,
         to: usuario.get('email'),
         subject: 'Email de confirmação',
-        html: `<h1>Parabéns!!</h1>
+        html: `<h1>Olá ${usuario.get('nome')}!</h1>
                <p>
                 Agora você é um cabeleireiro do salão ${salao.get('nome')}
                </p><br>
@@ -178,25 +179,32 @@ export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
           return
         }
         console.log(`Enviado!`)
+
       });
     }
 
   });
 
+
+
+
 export const confirmaCabeleireiroEmail = functions.https
   .onRequest(async (request, response) => {
-    const usuario = decrypt(`${request.query.usuario}`);
-    if (!usuario) {
+    const usuarioId = await decrypt(`${request.query.usuario}`);
+    console.log(usuarioId);
+    if (!usuarioId) {
       response.status(400).send("ERRO AO ENCONTRAR USUÁRIO")
     }
+    const usuario = await db.collection('usuarios').doc(`${usuarioId}`).get()
+    const salaoTemp = usuario.get('salaoTemp')
+    await db.collection('usuarios').doc(`${usuarioId}`)
+      .update({
+        salao: salaoTemp,
+        cabeleireiro: true,
+        salaoTemp: admin.firestore.FieldValue.delete()
+      });
 
-
-    await db.collection('usuarios').doc(`${usuario}`).update({ cabeleireiro: true })
-    const query = await db
-      .collection('usuarios')
-      .doc(`${usuario}`)
-      .get();
-    response.send(`<h1>Olá ${query.get('nome')}!</h1><br><b>Reinicie seu app para utilizar todas as funcionalidades</b>`)
+    return response.status(200).send(`<h1>Olá ${usuario.get('nome')}!</h1><br><b>Reinicie seu app para utilizar todas as funcionalidades</b>`)
   });
 
 export const horarioCancelado = functions.firestore
