@@ -21,16 +21,18 @@ class HorarioControle {
   }
 
   static void update(HorarioDados dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {@required VoidCallback onSuccess(context),
+      @required VoidCallback onFail(context),
+      @required context}) async {
     await _firestore
         .collection('horarios')
         .document(dados.id)
         .updateData(dados.toMap())
         .then((value) {
-      onSuccess();
+      onSuccess(context);
     }).catchError((e) {
       print(e);
-      onFail();
+      onFail(context);
     });
   }
 
@@ -38,7 +40,7 @@ class HorarioControle {
     _firestore.collection("horarios").document(id).delete();
   }
 
-  static confirma(String id,
+  static confirmaAgendamento(String id,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore.collection("horarios").document(id).updateData({
       "confirmado": true,
@@ -47,6 +49,20 @@ class HorarioControle {
     }).catchError((e) {
       print(e);
       onFail();
+    });
+  }
+
+  static confirmaPagamento(String id,
+      {@required VoidCallback onSuccess(context),
+      @required VoidCallback onFail(context),
+      @required BuildContext context}) async {
+    await _firestore.collection("horarios").document(id).updateData({
+      "pago": true,
+    }).then((value) {
+      onSuccess(context);
+    }).catchError((e) {
+      print(e);
+      onFail(context);
     });
   }
 }
