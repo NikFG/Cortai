@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/custom_form_field.dart';
@@ -5,6 +6,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'home_tela.dart';
@@ -273,15 +275,16 @@ class _LoginTelaState extends State<LoginTela> {
   void onSuccess() async {
     await FlushbarHelper.createSuccess(message: "Login realizado com sucesso")
         .show(context);
-    await Util.setLocalizacao();
+    if (SharedPreferencesControle.getPermissionStatus() ==
+        PermissionStatus.granted) await Util.setLocalizacao();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeTela()));
   }
 
   void onFail() async {
     await FlushbarHelper.createError(
-        message: "Erro ao realizar o cadastro, teste novamente!",
-        title: "Verifique os dados digitados")
+            message: "Erro ao realizar o cadastro, teste novamente!",
+            title: "Verifique os dados digitados")
         .show(context);
     setState(() {
       _botaoHabilitado = true;
