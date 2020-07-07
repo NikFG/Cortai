@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesControle {
@@ -37,9 +38,13 @@ class SharedPreferencesControle {
   }
 
   static String getCidade() {
+    print(_prefs.getKeys());
+    print(_prefs.getString('cidade'));
     String cidade;
     try {
       cidade = _prefs.getString('cidade');
+      if (cidade == null)
+        return '';
       return cidade;
     } catch (e) {
       print(e);
@@ -59,7 +64,21 @@ class SharedPreferencesControle {
       return latLng;
     } catch (e) {
       print(e);
-      return null;
+      return LatLng(0, 0);
+    }
+  }
+
+  static setPermissionStatus(int status) async {
+    return await _prefs.setInt('status', status);
+  }
+
+  static getPermissionStatus() {
+    PermissionStatus status;
+    try {
+      status = PermissionStatus.values[_prefs.getInt('status')];
+      return status;
+    } catch (e) {
+      return -1;
     }
   }
 }
