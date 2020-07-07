@@ -14,24 +14,27 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  PermissionStatus _permissionStatus = PermissionStatus.undetermined;
+  PermissionStatus _permissionStatus;
   ScrollController _scrollController = ScrollController();
-  var local = [];
+  List<Placemark> local;
   var endereco = TextEditingController();
 
   String cidade = SharedPreferencesControle.getCidade();
-  var url =
+  var _link =
       'https://us-central1-agendamento-cortes.cloudfunctions.net/calculaDistancia';
+  var url = '';
 
   @override
   void initState() {
     super.initState();
+    _permissionStatus = SharedPreferencesControle.getPermissionStatus();
     getEndereco();
+
     String latitude =
         SharedPreferencesControle.getPosition().latitude.toString();
     String longitude =
         SharedPreferencesControle.getPosition().longitude.toString();
-    url += "?cidade=$cidade&lat=$latitude&lng=$longitude";
+    url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
   }
 
   @override
@@ -75,9 +78,16 @@ class _HomeTabState extends State<HomeTab> {
                     onPressed: () async {
                       local = await Geolocator()
                           .placemarkFromAddress(endereco.text);
-                      bool result = await SharedPreferencesControle.setEndereco(
+                      await SharedPreferencesControle.setEndereco(
                           endereco.text);
-                      if (result) setState(() {});
+                      cidade = local.first.subAdministrativeArea;
+                      SharedPreferencesControle.setCidade(cidade);
+                      await SharedPreferencesControle.setPosition(
+                          local.first.position);
+                      var latLng = SharedPreferencesControle.getPosition();
+                      url =
+                          "$_link?cidade=$cidade&lat=${latLng.latitude.toString()}&lng=${latLng.longitude.toString()}";
+                      setState(() {});
                     },
                     child: Text("Ok"),
                   )
@@ -146,13 +156,6 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Future<Null> requestPermission(Permission permission) async {
-    final status = await permission.request();
-    setState(() {
-      _permissionStatus = status;
-    });
-  }
-
   getPermissaoLocal() {
     if ((_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) &&
         cidade.isEmpty &&
@@ -165,7 +168,7 @@ class _HomeTabState extends State<HomeTab> {
   getEndereco() async {
     if (_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) {
       String endereco = SharedPreferencesControle.getEndereco();
-      if (endereco.isNotEmpty) {
+      if (endereco != null) if (endereco.isNotEmpty) {
         this.endereco.text = endereco;
         local = await Geolocator().placemarkFromAddress(endereco);
       }
