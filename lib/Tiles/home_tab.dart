@@ -116,42 +116,7 @@ class _HomeTabState extends State<HomeTab> {
                     );
                   }
                 },
-              ), /*FutureBuilder<Position>(
-                future: Geolocator()
-                    .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
-                builder: (context, localizacao) {
-                  if (!localizacao.hasData && local.isEmpty) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    var currentLocation = localizacao.data;
-
-                    if (local.isNotEmpty)
-                      currentLocation = local.first.position;
-                    var lat = currentLocation.latitude;
-                    var lng = currentLocation.longitude;
-
-                    return FutureBuilder<List<Placemark>>(
-                      future:
-                          Geolocator().placemarkFromPosition(currentLocation),
-                      builder: (context, placemark) {
-                        if (!placemark.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else {
-                          String cidade =
-                              placemark.data.first.subAdministrativeArea;
-                          var url =
-                              "$_link?cidade=$cidade&lat=${lat.toString()}&lng=${lng.toString()}";
-
-                          return ;
-                        }
-                      },
-                    );
-                  }
-                }),*/
+              ),
       ],
     );
   }
