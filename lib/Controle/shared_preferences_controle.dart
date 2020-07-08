@@ -38,13 +38,10 @@ class SharedPreferencesControle {
   }
 
   static String getCidade() {
-    print(_prefs.getKeys());
-    print(_prefs.getString('cidade'));
     String cidade;
     try {
       cidade = _prefs.getString('cidade');
-      if (cidade == null)
-        return '';
+      if (cidade == null) return '';
       return cidade;
     } catch (e) {
       print(e);
