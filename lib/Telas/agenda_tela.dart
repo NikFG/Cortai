@@ -20,6 +20,7 @@ import 'home_tela.dart';
 class AgendaTela extends StatefulWidget {
   final ServicoDados servicoDados;
   final String nomeSalao;
+
   AgendaTela(this.servicoDados, this.nomeSalao);
 
   @override
@@ -272,104 +273,86 @@ class _AgendaTelaState extends State<AgendaTela> {
                       this.pagamento = value;
                     }),
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: Container(
-                          alignment: Alignment.topRight,
-                          width: MediaQuery.of(context).size.width,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Theme.of(context).accentColor),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: ScopedModelDescendant<LoginModelo>(
-                              builder: (context, child, model) {
-                                return FlatButton(
-                                  onPressed: _botaoHabilitado
-                                      ? () async {
-                                          if (this.pagamento == null) {
-                                            FlushbarHelper.createError(
-                                                    message:
-                                                        "Selecione uma forma de pagamento",
-                                                    duration:
-                                                        Duration(seconds: 2))
-                                                .show(context);
-                                          }
-                                          if (_formKey.currentState
-                                                  .validate() &&
-                                              this.pagamento != null) {
-                                            await listener.cancel();
-                                            setState(() {
-                                              _botaoHabilitado = false;
-                                            });
+                  Container(
+                      alignment: Alignment.topRight,
+                      width: MediaQuery.of(context).size.width - 20,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Theme.of(context).accentColor),
+                      child: ScopedModelDescendant<LoginModelo>(
+                        builder: (context, child, model) {
+                          return FlatButton(
+                            onPressed: _botaoHabilitado
+                                ? () async {
+                                    if (this.pagamento == null) {
+                                      FlushbarHelper.createError(
+                                              message:
+                                                  "Selecione uma forma de pagamento",
+                                              duration: Duration(seconds: 2))
+                                          .show(context);
+                                    }
+                                    if (_formKey.currentState.validate() &&
+                                        this.pagamento != null) {
+                                      await listener.cancel();
+                                      setState(() {
+                                        _botaoHabilitado = false;
+                                      });
 
-                                            HorarioControle.get()
-                                                .where('cabeleireiro',
-                                                    isEqualTo: profissional)
-                                                .where('data',
-                                                    isEqualTo:
-                                                        dataController.text)
-                                                .where('horario',
-                                                    isEqualTo:
-                                                        horarioController.text)
-                                                .getDocuments()
-                                                .then((value) {
-                                              if (value.documents.length == 0) {
-                                                HorarioDados dados =
-                                                    HorarioDados();
-                                                dados.cabeleireiro =
-                                                    profissional;
-                                                dados.cliente = model.dados.id;
-                                                dados.confirmado = false;
-                                                dados.data =
-                                                    dataController.text;
-                                                dados.formaPagamento =
-                                                    this.pagamento;
-                                                dados.horario =
-                                                    horarioController.text;
-                                                dados.pago = false;
-                                                dados.servico =
-                                                    widget.servicoDados.id;
+                                      HorarioControle.get()
+                                          .where('cabeleireiro',
+                                              isEqualTo: profissional)
+                                          .where('data',
+                                              isEqualTo: dataController.text)
+                                          .where('horario',
+                                              isEqualTo: horarioController.text)
+                                          .getDocuments()
+                                          .then((value) {
+                                        if (value.documents.length == 0) {
+                                          HorarioDados dados = HorarioDados();
+                                          dados.cabeleireiro = profissional;
+                                          dados.cliente = model.dados.id;
+                                          dados.confirmado = false;
+                                          dados.data = dataController.text;
+                                          dados.formaPagamento = this.pagamento;
+                                          dados.horario =
+                                              horarioController.text;
+                                          dados.pago = false;
+                                          dados.servico =
+                                              widget.servicoDados.id;
 
-                                                HorarioControle.store(dados,
-                                                    onSuccess: onSuccess,
-                                                    onFail: onFail);
-                                              } else {
-                                                FlushbarHelper.createInformation(
-                                                        title: "Nos desculpe",
-                                                        message:
-                                                            "Houve um agendamento neste horário")
-                                                    .show(context);
-                                                setState(() {
-                                                  _botaoHabilitado = true;
-                                                });
-                                                horarioController.text = "";
-                                              }
-                                            });
-                                          }
+                                          HorarioControle.store(dados,
+                                              onSuccess: onSuccess,
+                                              onFail: onFail);
+                                        } else {
+                                          FlushbarHelper.createInformation(
+                                                  title: "Nos desculpe",
+                                                  message:
+                                                      "Houve um agendamento neste horário")
+                                              .show(context);
+                                          setState(() {
+                                            _botaoHabilitado = true;
+                                          });
+                                          horarioController.text = "";
                                         }
-                                      : null,
-                                  child: Center(
-                                      child: _botaoHabilitado
-                                          ? Text(
-                                              'Confirmar',
-                                              style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                              ),
-                                            )
-                                          : CircularProgressIndicator()),
-                                );
-                              },
-                            ),
-                          )),
-                    ),
-                  )
+                                      });
+                                    }
+                                  }
+                                : null,
+                            child: Center(
+                                child: _botaoHabilitado
+                                    ? Text(
+                                        'Confirmar',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : CircularProgressIndicator()),
+                          );
+                        },
+                      ))
                 ],
               ),
             ),

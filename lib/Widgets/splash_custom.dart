@@ -1,19 +1,15 @@
 import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Tiles/start_screen.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 class SplashCustom extends StatefulWidget {
-
-
   @override
   _SplashCustomState createState() => _SplashCustomState();
 }
@@ -41,7 +37,6 @@ class _SplashCustomState extends State<SplashCustom> {
     if (_permissionStatus.isUndetermined)
       requestPermission(Permission.location);
     if (model.isLogado()) {
-      Util.setLocalizacao();
       return HomeTela();
     }
     return StartScreen();
@@ -49,8 +44,9 @@ class _SplashCustomState extends State<SplashCustom> {
 
   Future<Null> requestPermission(Permission permission) async {
     final status = await permission.request();
-    setState(() {
-      _permissionStatus = status;
-    });
+    _permissionStatus = status;
+    if (_permissionStatus == PermissionStatus.granted)
+      await Util.setLocalizacao();
+    SharedPreferencesControle.setPermissionStatus(status.index);
   }
 }

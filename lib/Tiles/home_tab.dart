@@ -14,24 +14,27 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  PermissionStatus _permissionStatus = PermissionStatus.undetermined;
+  PermissionStatus _permissionStatus;
   ScrollController _scrollController = ScrollController();
-  var local = [];
+  List<Placemark> local;
   var endereco = TextEditingController();
 
   String cidade = SharedPreferencesControle.getCidade();
-  var url =
+  var _link =
       'https://us-central1-agendamento-cortes.cloudfunctions.net/calculaDistancia';
+  var url = '';
 
   @override
   void initState() {
     super.initState();
+    _permissionStatus = SharedPreferencesControle.getPermissionStatus();
     getEndereco();
+
     String latitude =
         SharedPreferencesControle.getPosition().latitude.toString();
     String longitude =
         SharedPreferencesControle.getPosition().longitude.toString();
-    url += "?cidade=$cidade&lat=$latitude&lng=$longitude";
+    url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
   }
 
   @override
@@ -75,9 +78,16 @@ class _HomeTabState extends State<HomeTab> {
                     onPressed: () async {
                       local = await Geolocator()
                           .placemarkFromAddress(endereco.text);
-                      bool result = await SharedPreferencesControle.setEndereco(
+                      await SharedPreferencesControle.setEndereco(
                           endereco.text);
-                      if (result) setState(() {});
+                      cidade = local.first.subAdministrativeArea;
+                      SharedPreferencesControle.setCidade(cidade);
+                      await SharedPreferencesControle.setPosition(
+                          local.first.position);
+                      var latLng = SharedPreferencesControle.getPosition();
+                      url =
+                          "$_link?cidade=$cidade&lat=${latLng.latitude.toString()}&lng=${latLng.longitude.toString()}";
+                      setState(() {});
                     },
                     child: Text("Ok"),
                   )
@@ -106,51 +116,9 @@ class _HomeTabState extends State<HomeTab> {
                     );
                   }
                 },
-              ), /*FutureBuilder<Position>(
-                future: Geolocator()
-                    .getCurrentPosition(desiredAccuracy: LocationAccuracy.best),
-                builder: (context, localizacao) {
-                  if (!localizacao.hasData && local.isEmpty) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    var currentLocation = localizacao.data;
-
-                    if (local.isNotEmpty)
-                      currentLocation = local.first.position;
-                    var lat = currentLocation.latitude;
-                    var lng = currentLocation.longitude;
-
-                    return FutureBuilder<List<Placemark>>(
-                      future:
-                          Geolocator().placemarkFromPosition(currentLocation),
-                      builder: (context, placemark) {
-                        if (!placemark.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else {
-                          String cidade =
-                              placemark.data.first.subAdministrativeArea;
-                          var url =
-                              "$_link?cidade=$cidade&lat=${lat.toString()}&lng=${lng.toString()}";
-
-                          return ;
-                        }
-                      },
-                    );
-                  }
-                }),*/
+              ),
       ],
     );
-  }
-
-  Future<Null> requestPermission(Permission permission) async {
-    final status = await permission.request();
-    setState(() {
-      _permissionStatus = status;
-    });
   }
 
   getPermissaoLocal() {
@@ -165,7 +133,7 @@ class _HomeTabState extends State<HomeTab> {
   getEndereco() async {
     if (_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) {
       String endereco = SharedPreferencesControle.getEndereco();
-      if (endereco.isNotEmpty) {
+      if (endereco != null) if (endereco.isNotEmpty) {
         this.endereco.text = endereco;
         local = await Geolocator().placemarkFromAddress(endereco);
       }
