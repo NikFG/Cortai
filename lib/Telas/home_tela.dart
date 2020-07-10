@@ -49,16 +49,11 @@ class _HomeTelaState extends State<HomeTela> {
           },
           children: <Widget>[
             Scaffold(
-              appBar: AppBar(
-                leading: Container(
-                  width: 0,
-                  height: 0,
-                ),
-                title: Text("Home"),
-                backgroundColor: Theme.of(context).primaryColor,
-                centerTitle: true,
+              body: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 20),
+                child: HomeTab(),
               ),
-              body: HomeTab(),
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id),
             ),
@@ -74,7 +69,7 @@ class _HomeTelaState extends State<HomeTela> {
                     height: 0,
                   ),
                   backgroundColor: Theme.of(context).primaryColor,
-                  title: Text("Horários marcados"),
+                  //title: Text("Horários marcados"),
                   centerTitle: true,
                   bottom: TabBar(
                     tabs: <Widget>[
@@ -137,29 +132,19 @@ class _HomeTelaState extends State<HomeTela> {
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id),
-              body: GerenciarServicoTela(),
-              appBar: AppBar(
-                leading: Container(
-                  width: 0,
-                  height: 0,
-                ),
-                backgroundColor: Theme.of(context).primaryColor,
-                title: Text("Gerenciar serviços"),
-                centerTitle: true,
+              body: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 20),
+                child: GerenciarServicoTela(),
               ),
             ),
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id),
-              body: PerfilTela(),
-              appBar: AppBar(
-                leading: Container(
-                  width: 0,
-                  height: 0,
-                ),
-                backgroundColor: Theme.of(context).primaryColor,
-                title: Text("Perfil"),
-                centerTitle: true,
+              body: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 10),
+                child: PerfilTela(),
               ),
             ),
           ],
