@@ -3,6 +3,7 @@ import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
+import 'package:agendacabelo/Tiles/start_screen.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -43,7 +44,7 @@ class _SplashCustomState extends State<SplashCustom> {
       Util.setLocalizacao();
       return HomeTela();
     }
-    return LoginTela();
+    return StartScreen();
   }
 
   Future<Null> requestPermission(Permission permission) async {
