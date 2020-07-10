@@ -2,6 +2,7 @@ import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
+import 'package:agendacabelo/Tiles/start_screen.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -38,7 +39,7 @@ class _SplashCustomState extends State<SplashCustom> {
     if (model.isLogado()) {
       return HomeTela();
     }
-    return LoginTela();
+    return StartScreen();
   }
 
   Future<Null> requestPermission(Permission permission) async {
