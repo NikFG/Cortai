@@ -56,11 +56,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-assets:
-  - assets/icones/corte.svg
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
+
   fonts:
     - family: Poppins
       fonts:
