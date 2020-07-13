@@ -21,6 +21,8 @@ class _SplashCustomState extends State<SplashCustom> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
       builder: (BuildContext context, Widget child, LoginModelo model) {
+        if (_permissionStatus.isUndetermined)
+          requestPermission(Permission.location);
         return SplashScreen(
           seconds: 4,
           navigateAfterSeconds: _telaInicial(model),
@@ -34,12 +36,11 @@ class _SplashCustomState extends State<SplashCustom> {
   }
 
   Widget _telaInicial(LoginModelo model) {
-    if (_permissionStatus.isUndetermined)
-      requestPermission(Permission.location);
     if (model.isLogado()) {
       return HomeTela();
+    } else {
+      return StartScreen();
     }
-    return StartScreen();
   }
 
   Future<Null> requestPermission(Permission permission) async {
