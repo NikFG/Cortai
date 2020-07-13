@@ -5,6 +5,7 @@ import 'package:agendacabelo/Dados/servico_dados.dart';
 import 'package:agendacabelo/Dados/salao_dados.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Telas/servico_tela.dart';
+import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:agendacabelo/Widgets/hero_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,72 +41,67 @@ class _HomeTileState extends State<HomeTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: Card(
-        shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.grey[300], width: 1.0),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: ListTile(
-          onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ServicoTela(
-                  dados: widget.dados,
-                  menorValor: _menorValor,
-                  maiorValor: _maiorValor,
-                  distancia: _distancia))),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      HeroCustom(imagemUrl: widget.dados.imagem)));
-            },
-            child: GFAvatar(
-              shape: GFAvatarShape.circle,
-              radius: 30,
-              backgroundColor: Colors.transparent,
-              backgroundImage: NetworkImage(widget.dados.imagem),
-            ),
-          ),
-          title: Text(
-            widget.dados.nome,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.left,
-            softWrap: false,
-            style: TextStyle(
-                color: Colors.black, fontSize: 20.0, fontFamily: 'Poppins'),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return CustomListTile(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ServicoTela(
+              dados: widget.dados,
+              menorValor: _menorValor,
+              maiorValor: _maiorValor,
+              distancia: _distancia))),
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  HeroCustom(imagemUrl: widget.dados.imagem)));
+        },
+        child: GFAvatar(
+          shape: GFAvatarShape.circle,
+          radius: 30,
+          backgroundColor: Colors.transparent,
+          backgroundImage: NetworkImage(widget.dados.imagem),
+        ),
+      ),
+      title: Text(
+        widget.dados.nome,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.left,
+        softWrap: false,
+        style: TextStyle(
+          fontSize: 20.0,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w100,
+        ),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Text(
-                    _media.toStringAsFixed(1),
-                    style: TextStyle(fontSize: 14.0, color: Colors.black38),
-                  ),
-                  SizedBox(width: 2.0),
-                  Icon(Icons.star, color: Colors.amber, size: 10.0),
-                  SizedBox(width: 5.0),
-                  Text(
-                    "(${_quantidade.toString()})",
-                    style: TextStyle(fontSize: 14.0, color: Colors.black38),
-                  ),
-                  SizedBox(width: 5.0),
-                  Text(
-                    _distancia,
-                    style: TextStyle(fontSize: 14.0, color: Colors.black38),
-                  ),
-                ],
+              Text(
+                _media.toStringAsFixed(1),
+                style: TextStyle(fontSize: 15.0),
               ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Text(
-                    "Entre R\$${_menorValor.toStringAsFixed(2)} ~ R\$${_maiorValor.toStringAsFixed(2)} ",
-                    style: TextStyle(fontSize: 11, color: Colors.black38),
-                  )),
+              SizedBox(width: 2.0),
+              Icon(Icons.star, color: Colors.amber, size: 12.0),
+              SizedBox(width: 5.0),
+              Text(
+                "(${_quantidade.toString()})",
+                style: TextStyle(fontSize: 15.0),
+              ),
+              SizedBox(width: 3.0),
+              Text(
+                _distancia,
+                style: TextStyle(fontSize: 15.0),
+              ),
             ],
           ),
-        ),
+          Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                "Entre R\$${_menorValor.toStringAsFixed(2)} ~ R\$${_maiorValor.toStringAsFixed(2)} ",
+                style: TextStyle(fontSize: 15),
+              )),
+        ],
       ),
     );
   }
