@@ -9,51 +9,33 @@ import 'package:scoped_model/scoped_model.dart';
 class MarcadoTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<LoginModelo>(
-      builder: (context, child, model) {
-        if (model.dados != null)
-          return TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              StreamBuilder<QuerySnapshot>(
-                stream: HorarioControle.get()
-                    .where('cliente', isEqualTo: model.dados.id)
-                    .orderBy('data', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return lista(snapshot, context);
-                  }
-                },
-              ),
-              StreamBuilder<QuerySnapshot>(
-                stream: HorarioControle.get()
-                    .where('cabeleireiro', isEqualTo: model.dados.id)
-                    .orderBy('data', descending: true)
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return lista(snapshot, context);
-                  }
-                },
-              ),
-            ],
-          );
-        else
-          return Center();
-      },
-    );
+    return ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
+      if (model.dados != null) {
+        return FutureBuilder<QuerySnapshot>(
+          future: HorarioControle.get()
+              .where('cliente', isEqualTo: model.dados.id)
+              .orderBy('data', descending: true)
+              .getDocuments(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              var tiles = snapshot.data.documents.map((doc) {
+                return MarcadoTile(HorarioDados.fromDocument(doc));
+              }).toList();
+              return ListView(children: tiles);
+            }
+          },
+        );
+      } else {
+        return Center();
+      }
+    });
   }
 
-  ListView lista(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
+/*ListView lista(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
     var dividedTiles = ListTile.divideTiles(
             tiles: snapshot.data.documents.map((doc) {
               return MarcadoTile(HorarioDados.fromDocument(doc));
@@ -62,5 +44,5 @@ class MarcadoTela extends StatelessWidget {
             context: context)
         .toList();
     return ListView(children: dividedTiles);
-  }
+  }*/
 }

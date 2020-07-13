@@ -234,6 +234,16 @@ export const horarioCancelado = functions.firestore
     return fcm.sendToDevice(token, payload);
   });
 
+/*async function getResumoSalao(id: string) {
+  return await db
+    .collection('saloes')
+    .doc(id)
+    .collection('resumo')
+    .doc('resumo')
+    .get().then((doc) => { return { teste: doc.get('menorValorServico') } }).catch((e) => { return e })
+
+}*/
+
 export const calculaDistancia = functions.https
   .onRequest(async (request, response) => {
     const cidade = request.query.cidade;
@@ -244,18 +254,18 @@ export const calculaDistancia = functions.https
     if (!cidade || lat == '' || lng == '') {
       response.status(400).send('Erro ao enviar atributos');
     }
-    const cidades = await db
+    const saloes = await db
       .collection('saloes')
       .where('cidade', '==', cidade)
       .orderBy('nome')
       .get()
 
-    let json = cidades.docs.map((doc) => {
+    let json = saloes.docs.map((doc) => {
       return {
         id: doc.id,
         data: doc.data(),
-        distancia: distancia(doc.get('latitude'), doc.get('longitude'), parseFloat(lat), parseFloat(lng))
-      }
+        distancia: distancia(doc.get('latitude'), doc.get('longitude'), parseFloat(lat), parseFloat(lng)),
+      };
     });
 
     json.sort((a, b) => {
@@ -267,3 +277,60 @@ export const calculaDistancia = functions.https
     response.status(200).json(json)
   });
 
+export const calculaValoresResumo = functions.firestore
+  .document('servicos/{servicoID}')
+  .onCreate(async snapshot => {
+    const resumo = await db
+      .collection('saloes')
+      .doc(snapshot.get('salao'))
+      .collection('resumo')
+      .doc('resumo')
+      .get()
+    if (resumo.data.length > 0) {
+      let mudou = false;
+      let menor = resumo.get('menorValorServico');
+      let maior = resumo.get('maiorValorServico');
+      if (snapshot.get('valor') < menor) {
+        menor = snapshot.get('valor')
+        mudou = true;
+      }
+      if (snapshot.get('valor') > maior) {
+        maior = snapshot.get('valor')
+        mudou = true;
+      }
+      if (mudou)
+        await db
+          .collection('saloes')
+          .doc(snapshot.get('salao'))
+          .collection('resumo')
+          .doc('resumo')
+          .update({
+            'menorValorServico': menor,
+            'maiorValorServico': maior
+          });
+    }
+  });
+
+export const calculaAvaliacaoResumo = functions.firestore
+  .document('avaliacoes/{avaliacaoID}')
+  .onCreate(async snapshot => {
+    const resumo = await db
+      .collection('saloes')
+      .doc(snapshot.get('salao'))
+      .collection('resumo')
+      .doc('resumo')
+      .get()
+    if (resumo.data.length > 0) {
+
+      const total = resumo.get('mediaAvaliacao') + snapshot.get('avaliacao');
+      await db
+        .collection('saloes')
+        .doc(snapshot.get('salao'))
+        .collection('resumo')
+        .doc('resumo')
+        .update({
+          'quantidadeAvaliacao': admin.firestore.FieldValue.increment,
+          'totalAvaliacao': total
+        });
+    }
+  });
