@@ -109,7 +109,7 @@ class LoginModelo extends Model {
         'vistoPorUltimo': DateTime.now(),
         'cabeleireiro': false,
       };
-      this.dados = LoginDados.fromDocument(dados);
+      this.dados = LoginDados.fromMap(dados);
     } else {
       await _carregarUsuario();
       dados['vistoPorUltimo'] = DateTime.now();
@@ -146,7 +146,7 @@ class LoginModelo extends Model {
           result = false;
         } else {
           result = true;
-          dados = LoginDados.fromDocument(doc.data);
+          dados = LoginDados.fromMap(doc.data);
         }
         notifyListeners();
         return result;

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class LoginDados {
@@ -10,7 +11,17 @@ class LoginDados {
   bool isCabeleireiro;
   bool isDonoSalao;
 
-  LoginDados.fromDocument(Map<String, dynamic> dados) {
+  LoginDados.fromMap(Map<String, dynamic> dados) {
+    id = dados['uid'];
+    nome = dados['nome'];
+    salao = dados['salao'];
+    telefone = dados['telefone'];
+    email = dados['email'];
+    imagemUrl = dados['fotoURL'];
+    isCabeleireiro = dados['cabeleireiro'];
+    isDonoSalao = dados['donoSalao'];
+  }
+  LoginDados.fromDocument(DocumentSnapshot dados) {
     id = dados['uid'];
     nome = dados['nome'];
     salao = dados['salao'];
