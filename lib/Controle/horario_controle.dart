@@ -36,12 +36,20 @@ class HorarioControle {
     });
   }
 
-  static delete(String id) {
-    _firestore.collection("horarios").document(id).delete();
+  static delete(String id,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) {
+    _firestore.collection("horarios").document(id).delete().then((value) {
+      onSuccess();
+    }).catchError((e) {
+      print(e);
+      onFail();
+    });
   }
 
   static confirmaAgendamento(String id,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {@required VoidCallback onSuccess,
+      @required VoidCallback onFail,
+      @required BuildContext context}) async {
     await _firestore.collection("horarios").document(id).updateData({
       "confirmado": true,
     }).then((value) {
@@ -50,6 +58,18 @@ class HorarioControle {
       print(e);
       onFail();
     });
+  }
+
+  static cancelaAgendamento(HorarioDados dados,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    await Firestore.instance
+        .collection('horariosExcluidos')
+        .add(dados.toMap())
+        .catchError((e) {
+      print(e);
+      onFail();
+    });
+    await delete(dados.id, onSuccess: onSuccess, onFail: onFail);
   }
 
   static confirmaPagamento(String id,
