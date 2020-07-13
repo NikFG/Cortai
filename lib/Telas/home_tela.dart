@@ -57,30 +57,11 @@ class _HomeTelaState extends State<HomeTela> {
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id),
             ),
-            DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                bottomNavigationBar: BottomCustom(_pageController, index,
-                    model.dados.isCabeleireiro, model.dados.id),
-                body: MarcadoTela(),
-                appBar: AppBar(
-                  leading: Container(
-                    width: 0,
-                    height: 0,
-                  ),
-                  backgroundColor: Theme.of(context).primaryColor,
-                  //title: Text("Horários marcados"),
-                  centerTitle: true,
-                  bottom: TabBar(
-                    tabs: <Widget>[
-                      Tab(
-                        icon: Icon(Icons.content_cut),
-                      ),
-                      Tab(icon: Icon(Icons.person))
-                    ],
-                  ),
-                ),
-              ),
+            Scaffold(
+              bottomNavigationBar: BottomCustom(_pageController, index,
+                  model.dados.isCabeleireiro, model.dados.id),
+              body: MarcadoTela(),
+
             ),
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
