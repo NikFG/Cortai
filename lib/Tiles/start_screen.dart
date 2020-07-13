@@ -72,7 +72,8 @@ class _StartScreenState extends State<StartScreen> {
                 Container(
                   alignment: Alignment.centerRight,
                   child: FlatButton(
-                    onPressed: () => print('Pular'),
+                    onPressed: () => Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => LoginTela())),
                     child: Text(
                       'Pular',
                       style: TextStyle(
