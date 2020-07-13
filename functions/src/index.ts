@@ -234,6 +234,16 @@ export const horarioCancelado = functions.firestore
     return fcm.sendToDevice(token, payload);
   });
 
+/*async function getResumoSalao(id: string) {
+  return await db
+    .collection('saloes')
+    .doc(id)
+    .collection('resumo')
+    .doc('resumo')
+    .get().then((doc) => { return { teste: doc.get('menorValorServico') } }).catch((e) => { return e })
+
+}*/
+
 export const calculaDistancia = functions.https
   .onRequest(async (request, response) => {
     const cidade = request.query.cidade;
@@ -298,5 +308,29 @@ export const calculaValoresResumo = functions.firestore
             'menorValorServico': menor,
             'maiorValorServico': maior
           });
+    }
+  });
+
+export const calculaAvaliacaoResumo = functions.firestore
+  .document('avaliacoes/{avaliacaoID}')
+  .onCreate(async snapshot => {
+    const resumo = await db
+      .collection('saloes')
+      .doc(snapshot.get('salao'))
+      .collection('resumo')
+      .doc('resumo')
+      .get()
+    if (resumo.data.length > 0) {
+
+      const total = resumo.get('mediaAvaliacao') + snapshot.get('avaliacao');
+      await db
+        .collection('saloes')
+        .doc(snapshot.get('salao'))
+        .collection('resumo')
+        .doc('resumo')
+        .update({
+          'quantidadeAvaliacao': admin.firestore.FieldValue.increment,
+          'totalAvaliacao': total
+        });
     }
   });
