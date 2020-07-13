@@ -2,6 +2,7 @@ import 'package:agendacabelo/Controle/avaliacao_controle.dart';
 import 'package:agendacabelo/Dados/avaliacao_dados.dart';
 import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
 import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +22,13 @@ class _MarcadoTileState extends State<MarcadoTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return CustomListTile(
       onTap: () {
-        // _cancelarDialog(context);
-        _avaliarDialog(context);
+
+        if (widget.horario.confirmado)
+          _avaliarDialog(context);
+        else
+          _cancelarDialog(context);
       },
       title: FutureBuilder<DocumentSnapshot>(
         future: Firestore.instance
@@ -33,15 +37,15 @@ class _MarcadoTileState extends State<MarcadoTile> {
             .get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return Center();
           } else {
             CabeleireiroDados dados =
                 CabeleireiroDados.fromDocument(snapshot.data);
-            return Text(dados.nome);
+            return Text("Serviço com ${dados.nome}");
           }
         },
       ),
-      subtitle: Text(widget.horario.horario),
+      subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.horario}"),
       leading: widget.horario.confirmado
           ? Icon(
               Icons.check_circle,
@@ -54,7 +58,7 @@ class _MarcadoTileState extends State<MarcadoTile> {
     );
   }
 
-  /*_cancelarDialog(BuildContext context) {
+  _cancelarDialog(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -78,7 +82,7 @@ class _MarcadoTileState extends State<MarcadoTile> {
         ],
       ),
     );
-  }*/
+  }
 
   _avaliarDialog(BuildContext context) async {
     String salao = await getSalao();
