@@ -66,6 +66,15 @@ class _HomeTelaState extends State<HomeTela> {
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id),
+              body: Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 10),
+                child: PerfilTela(),
+              ),
+            ),
+            Scaffold(
+              bottomNavigationBar: BottomCustom(_pageController, index,
+                  model.dados.isCabeleireiro, model.dados.id),
               body: ConfirmarTela(),
               appBar: AppBar(
                 leading: Container(
@@ -119,15 +128,7 @@ class _HomeTelaState extends State<HomeTela> {
                 child: GerenciarServicoTela(),
               ),
             ),
-            Scaffold(
-              bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.dados.isCabeleireiro, model.dados.id),
-              body: Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 10),
-                child: PerfilTela(),
-              ),
-            ),
+
           ],
         );
       },
