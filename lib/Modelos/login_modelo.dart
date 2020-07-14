@@ -100,6 +100,7 @@ class LoginModelo extends Model {
   //Dados salvos do usuário
   Future<Null> _salvarDadosUsuarioGoogle() async {
     Map<String, dynamic> dados = Map();
+
     if (await _carregarUsuario() == false) {
       dados = {
         'uid': _firebaseUser.uid,
@@ -108,6 +109,7 @@ class LoginModelo extends Model {
         'nome': _firebaseUser.displayName,
         'vistoPorUltimo': DateTime.now(),
         'cabeleireiro': false,
+        'isDonoSalao': false
       };
       this.dados = LoginDados.fromMap(dados);
     } else {
