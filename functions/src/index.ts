@@ -256,15 +256,17 @@ export const calculaDistancia = functions.https
     }
     const saloes = await db
       .collection('saloes')
-      .where('cidade', '==', cidade)
+      //.where('cidade', '==', cidade)
       .orderBy('nome')
       .get()
 
-    let json = saloes.docs.map((doc) => {
+
+
+    let json = saloes.docs.map((salao) => {
       return {
-        id: doc.id,
-        data: doc.data(),
-        distancia: distancia(doc.get('latitude'), doc.get('longitude'), parseFloat(lat), parseFloat(lng)),
+        id: salao.id,
+        data: salao.data(),
+        distancia: distancia(salao.get('latitude'), salao.get('longitude'), parseFloat(lat), parseFloat(lng)),
       };
     });
 
@@ -283,8 +285,6 @@ export const calculaValoresResumo = functions.firestore
     const resumo = await db
       .collection('saloes')
       .doc(snapshot.get('salao'))
-      .collection('resumo')
-      .doc('resumo')
       .get()
     if (resumo.data.length > 0) {
       let mudou = false;
@@ -302,8 +302,6 @@ export const calculaValoresResumo = functions.firestore
         await db
           .collection('saloes')
           .doc(snapshot.get('salao'))
-          .collection('resumo')
-          .doc('resumo')
           .update({
             'menorValorServico': menor,
             'maiorValorServico': maior
@@ -317,8 +315,6 @@ export const calculaAvaliacaoResumo = functions.firestore
     const resumo = await db
       .collection('saloes')
       .doc(snapshot.get('salao'))
-      .collection('resumo')
-      .doc('resumo')
       .get()
     if (resumo.data.length > 0) {
 
@@ -326,8 +322,6 @@ export const calculaAvaliacaoResumo = functions.firestore
       await db
         .collection('saloes')
         .doc(snapshot.get('salao'))
-        .collection('resumo')
-        .doc('resumo')
         .update({
           'quantidadeAvaliacao': admin.firestore.FieldValue.increment,
           'totalAvaliacao': total
