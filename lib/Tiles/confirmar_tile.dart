@@ -13,8 +13,9 @@ import 'package:flutter/material.dart';
 
 class ConfirmarTile extends StatefulWidget {
   final HorarioDados horarioDados;
+  final bool aConfirmar;
 
-  ConfirmarTile(this.horarioDados);
+  ConfirmarTile(this.horarioDados, this.aConfirmar);
 
   @override
   _ConfirmarTileState createState() => _ConfirmarTileState();
@@ -31,7 +32,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
   @override
   Widget build(BuildContext context) {
     return CustomListTile(
-      onTap: () => _bottomSheetOpcoes(context),
+      onTap: () => widget.aConfirmar ? _bottomSheetOpcoes(context) : null,
       leading: null,
       title: FutureBuilder(
         future: CabeleireiroControle.get()
@@ -53,16 +54,16 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
       ),
       subtitle: FutureBuilder(
         future:
-        ServicoControle.get().document(widget.horarioDados.servico).get(),
+            ServicoControle.get().document(widget.horarioDados.servico).get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center();
           } else {
             ServicoDados servicoDados =
-            ServicoDados.fromDocument(snapshot.data);
+                ServicoDados.fromDocument(snapshot.data);
             return Text(
               "${servicoDados.descricao}\n"
-                  "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",
+              "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",
               style: TextStyle(fontSize: 15, fontFamily: 'Poppins'),
             );
           }
@@ -127,29 +128,29 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
 
   void onSuccess() async {
     await FlushbarHelper.createSuccess(
-        message: "Horário confirmado com sucesso",
-        duration: Duration(seconds: 2))
+            message: "Horário confirmado com sucesso",
+            duration: Duration(seconds: 2))
         .show(context);
   }
 
   void onFail() async {
     await FlushbarHelper.createError(
-        message: "Houve algum erro ao confirmar o horário",
-        duration: Duration(seconds: 2))
+            message: "Houve algum erro ao confirmar o horário",
+            duration: Duration(seconds: 2))
         .show(Scaffold.of(context).context);
   }
 
   void onSuccessCancelar() async {
     await FlushbarHelper.createError(
-        message: "Horário cancelado com sucesso",
-        duration: Duration(seconds: 2))
+            message: "Horário cancelado com sucesso",
+            duration: Duration(seconds: 2))
         .show(Scaffold.of(context).context);
   }
 
   void onFailCancelar() async {
     await FlushbarHelper.createError(
-        message: "Houve algum erro ao cancelar o horário",
-        duration: Duration(seconds: 2))
+            message: "Houve algum erro ao cancelar o horário",
+            duration: Duration(seconds: 2))
         .show(Scaffold.of(context).context);
   }
 }
