@@ -7,6 +7,7 @@ import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Telas/servico_tela.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:agendacabelo/Widgets/hero_custom.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -25,9 +26,7 @@ class HomeTile extends StatefulWidget {
 
 class _HomeTileState extends State<HomeTile> {
   double _media = 0;
-  int _quantidade = 0;
-  double _menorValor = 0;
-  double _maiorValor = 0;
+
   String _distancia;
 
   @override
@@ -35,19 +34,16 @@ class _HomeTileState extends State<HomeTile> {
     super.initState();
     _distancia =
         '${widget.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
-    _mediaAvaliacoes();
-    _minMaxPrecos();
+    if (widget.dados.quantidadeAvaliacao > 0)
+      _media = widget.dados.totalAvaliacao / widget.dados.quantidadeAvaliacao;
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomListTile(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ServicoTela(
-              dados: widget.dados,
-              menorValor: _menorValor,
-              maiorValor: _maiorValor,
-              distancia: _distancia))),
+          builder: (context) =>
+              ServicoTela(dados: widget.dados, distancia: _distancia))),
       leading: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
@@ -85,7 +81,7 @@ class _HomeTileState extends State<HomeTile> {
               Icon(Icons.star, color: Colors.amber, size: 12.0),
               SizedBox(width: 5.0),
               Text(
-                "(${_quantidade.toString()})",
+                "(${widget.dados.quantidadeAvaliacao.toString()})",
                 style: TextStyle(fontSize: 15.0),
               ),
               SizedBox(width: 3.0),
@@ -98,7 +94,7 @@ class _HomeTileState extends State<HomeTile> {
           Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(
-                "Entre R\$${_menorValor.toStringAsFixed(2)} ~ R\$${_maiorValor.toStringAsFixed(2)} ",
+                "Entre R\$${widget.dados.menorValorServico.toStringAsFixed(2)} ~ R\$${widget.dados.maiorValorServico.toStringAsFixed(2)} ",
                 style: TextStyle(fontSize: 15),
               )),
         ],
@@ -131,38 +127,5 @@ class _HomeTileState extends State<HomeTile> {
         });
   }
 
-  _mediaAvaliacoes() async {
-    var lista = await AvaliacaoControle.get()
-        .where('salao', isEqualTo: widget.dados.id)
-        .getDocuments()
-        .then((doc) =>
-            doc.documents.map((e) => AvaliacaoDados.fromDocument(e)).toList());
-    _quantidade = lista.length;
-    if (_quantidade > 0) {
-      double media = 0;
-      for (int i = 0; i < _quantidade; i++) {
-        media += lista[i].avaliacao;
-      }
-      media = media / lista.length;
-      setState(() {
-        _media = media;
-        _quantidade = lista.length;
-      });
-    }
-  }
 
-  _minMaxPrecos() async {
-    var lista = await ServicoControle.get()
-        .where('salao', isEqualTo: widget.dados.id)
-        .getDocuments()
-        .then((doc) =>
-            doc.documents.map((e) => ServicoDados.fromDocument(e)).toList());
-    lista.sort((a, b) => a.valor.compareTo(b.valor));
-    if (lista.length > 0) {
-      setState(() {
-        _menorValor = lista.first.valor;
-        _maiorValor = lista.last.valor;
-      });
-    }
-  }
 }

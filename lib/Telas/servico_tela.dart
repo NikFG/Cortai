@@ -9,14 +9,10 @@ import 'package:agendacabelo/Widgets/servico_flexible_appbar.dart';
 
 class ServicoTela extends StatelessWidget {
   final SalaoDados dados;
-  final double menorValor;
-  final double maiorValor;
   final String distancia;
 
   ServicoTela(
       {@required this.dados,
-      @required this.menorValor,
-      @required this.maiorValor,
       @required this.distancia});
 
   @override
@@ -44,8 +40,8 @@ class ServicoTela extends StatelessWidget {
                 background: ServicoFlexibleAppBar(
                     nomeSalao: dados.nome,
                     enderecoSalao: dados.endereco,
-                    menorValor: menorValor,
-                    maiorValor: maiorValor,
+                    menorValor: dados.menorValorServico,
+                    maiorValor: dados.maiorValorServico,
                     distancia: distancia),
               )),
           SliverList(
