@@ -124,6 +124,9 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
       else
         onSuccessCancelar();
     });
+    setState(() {
+
+    });
   }
 
   void onSuccess() async {
