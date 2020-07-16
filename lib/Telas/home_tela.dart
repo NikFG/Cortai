@@ -57,10 +57,80 @@ class _HomeTelaState extends State<HomeTela> {
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id),
             ),
-            Scaffold(
-              bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.dados.isCabeleireiro, model.dados.id),
-              body: MarcadoTela(),
+            DefaultTabController(
+              length: 2,
+              child: Scaffold(
+                bottomNavigationBar: BottomCustom(_pageController, index,
+                    model.dados.isCabeleireiro, model.dados.id),
+                body: MarcadoTela(),
+                extendBodyBehindAppBar: true,
+                appBar: AppBar(
+                  leading: Container(
+                    width: 0,
+                    height: 0,
+                  ),
+                  backgroundColor: Colors.white,
+                  elevation: 0,
+                  bottom: TabBar(
+                    indicatorColor: Theme.of(context).primaryColor,
+                    tabs: <Widget>[
+                      Tab(
+                        child: Text(
+                          "Em andamento",
+                          style: TextStyle(
+                              color: Colors.black, fontFamily: 'Poppins'),
+                        ),
+                      ),
+                      Tab(
+                          child: Text(
+                        "Finalizados",
+                        style: TextStyle(
+                            color: Colors.black, fontFamily: 'Poppins'),
+                      ))
+                    ],
+                  ),
+                  title: Text(
+                    "Marcados",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                  centerTitle: true,
+                  actions: <Widget>[
+                    PopupMenuButton(
+                      itemBuilder: (context) => [
+                        PopupMenuItem(
+                          value: 1,
+                          child: FlatButton(
+                            onPressed: () async {
+                              var snapshots =
+                                  await ServicoControle.get().getDocuments();
+
+                              for (int i = 0;
+                                  i < snapshots.documents.length;
+                                  i++) {
+                                ServicoControle.get()
+                                    .document(snapshots.documents[i].documentID)
+                                    .updateData({
+                                  "confirmado": true,
+                                });
+                              }
+                            },
+                            child: Text("Confirmar todos"),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 2,
+                          child: FlatButton(
+                            onPressed: () {},
+                            child: Text("Cancelar todos"),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
             ),
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
