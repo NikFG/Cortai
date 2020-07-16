@@ -129,9 +129,10 @@ class LoginModelo extends Model {
     notifyListeners();
   }
 
-  //Carregar os dados do firebase caso o usuário esteja logando no sistema,
-  // ou então necessite dos dados para atulizar alguma informação
-  // ignore: missing_return
+  /*Carregar os dados do firebase caso o usuário esteja logando no sistema,
+  * ou então necessite dos dados para atulizar alguma informação
+  * ignore: missing_return
+  */
   Future<bool> _carregarUsuario() async {
     bool result;
     if (_firebaseUser == null) {
@@ -147,7 +148,7 @@ class LoginModelo extends Model {
           result = false;
         } else {
           result = true;
-          dados = Login.fromMap(doc.data);
+          dados = Login.fromDocument(doc);
         }
         notifyListeners();
         return result;
