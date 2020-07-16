@@ -65,8 +65,8 @@ class _SolicitacaoCabeleireiroTelaState
                               .where('email', isEqualTo: _emailControlador.text)
                               .getDocuments()
                               .then((value) async {
-                            Login dados = Login.fromMap(
-                                value.documents[0].data);
+                            Login dados = Login.fromDocument(
+                                value.documents[0]);
 
                             await Firestore.instance
                                 .collection('usuarios')

@@ -2,19 +2,19 @@ import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
+import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:agendacabelo/Widgets/servico_fixed_appbar.dart';
-import 'package:agendacabelo/Widgets/servico_flexible_appbar.dart';
+import 'package:agendacabelo/Widgets/custom_appbar.dart';
+import 'package:agendacabelo/Widgets/custom_appbar_expandida.dart';
 
 class ServicoTela extends StatelessWidget {
   final Salao dados;
   final String distancia;
 
-  ServicoTela(
-      {@required this.dados,
-      @required this.distancia});
+  ServicoTela({@required this.dados, @required this.distancia});
 
+//TODO: mudar tela para não ficar tão fixa
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,22 +22,24 @@ class ServicoTela extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-              title: ServicoFixedAppbar(
+              backgroundColor: Colors.white,
+              leading: Util.leadingScaffold(context),
+              title: CustomAppbar(
                   child: Text(
                 dados.nome,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontFamily: 'Poppins',
                   fontSize: 20.0,
                 ),
                 overflow: TextOverflow.fade,
               )),
-              stretch: true,
+              stretch: false,
               pinned: true,
               centerTitle: true,
-              expandedHeight: 200.0,
+              expandedHeight: 75.0,
               flexibleSpace: FlexibleSpaceBar(
-                background: ServicoFlexibleAppBar(
+                background: CustomAppbarExpandida(
                     nomeSalao: dados.nome,
                     enderecoSalao: dados.endereco,
                     menorValor: dados.menorValorServico,
@@ -46,6 +48,7 @@ class ServicoTela extends StatelessWidget {
               )),
           SliverList(
             delegate: SliverChildListDelegate([
+              Container(color: Colors.green,height: 100,),
               FutureBuilder<QuerySnapshot>(
                 future: ServicoControle.get()
                     .where('salao', isEqualTo: dados.id)
