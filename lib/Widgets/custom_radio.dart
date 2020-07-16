@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
-import 'package:agendacabelo/Dados/forma_pagamento_dados.dart';
+import 'package:agendacabelo/Dados/forma_pagamento.dart';
 import 'package:flutter/material.dart';
 
 class CustomRadio extends StatefulWidget {
@@ -23,7 +23,7 @@ class _CustomRadioState extends State<CustomRadio> {
   teste() async {
     var query = await FormaPagamentoControle.get().getDocuments();
     lista = query.documents
-        .map((doc) => RadioModel(FormaPagamentoDados.fromDocument(doc), false))
+        .map((doc) => RadioModel(FormaPagamento.fromDocument(doc), false))
         .toList();
   }
 
@@ -82,7 +82,7 @@ class RadioItem extends StatelessWidget {
 }
 
 class RadioModel {
-  final FormaPagamentoDados dados;
+  final FormaPagamento dados;
   bool isSelected;
 
   RadioModel(this.dados, this.isSelected);

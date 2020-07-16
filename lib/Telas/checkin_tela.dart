@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/horario_controle.dart';
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/checkin_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -37,7 +37,7 @@ class _CheckinTelaState extends State<CheckinTela> {
                   var dividedTiles = ListTile.divideTiles(
                           tiles: snapshot.data.documents.map((doc) {
                             return CheckinTile(
-                                HorarioDados.fromDocument(doc));
+                                Horario.fromDocument(doc));
                           }).toList(),
                           color: Colors.grey[500],
                           context: context)

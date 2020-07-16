@@ -1,18 +1,21 @@
-import 'package:agendacabelo/Dados/login_dados.dart';
+import 'package:agendacabelo/Dados/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+/*
+* Classe modelo para ScopedModel.
+* Gravar as sessões e os dados de login para serem usados em qualquer parte do código.
+* */
 class LoginModelo extends Model {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static FirebaseUser _firebaseUser;
 
-//  Map<String, dynamic> dados = Map();
   bool isCarregando = false;
-  LoginDados dados;
+  Login dados;
 
   static LoginModelo of(BuildContext context) =>
       ScopedModel.of<LoginModelo>(context);
@@ -24,19 +27,19 @@ class LoginModelo extends Model {
   }
 
   //Criar conta com email e senha
-  void signUp(
-      {@required LoginDados loginDados,
+  void criarContaEmail(
+      {@required Login login,
       @required String senha,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) {
     notifyListeners();
     _auth
         .createUserWithEmailAndPassword(
-            email: loginDados.email, password: senha)
+            email: login.email, password: senha)
         .then((user) async {
       await _getUID();
-      loginDados.id = _firebaseUser.uid;
-      this.dados = loginDados;
+      login.id = _firebaseUser.uid;
+      this.dados = login;
       await _salvarDadosUsuarioEmail();
       notifyListeners();
       onSuccess();
@@ -56,7 +59,7 @@ class LoginModelo extends Model {
   }
 
   //Login no firebase via email/senha
-  void emailSignIn(
+  void logarEmail(
       {@required String email,
       @required String senha,
       @required VoidCallback onSuccess,
@@ -78,7 +81,7 @@ class LoginModelo extends Model {
   }
 
   //Login no firebase via Google
-  Future<Null> googleSignIn() async {
+  Future<Null> logarGoogle() async {
     notifyListeners();
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
 
@@ -97,29 +100,25 @@ class LoginModelo extends Model {
     });
   }
 
-  //Dados salvos do usuário
-  Future<Null> _salvarDadosUsuarioGoogle() async {
-    Map<String, dynamic> dados = Map();
 
+  Future<Null> _salvarDadosUsuarioGoogle() async {
     if (await _carregarUsuario() == false) {
-      dados = {
-        'uid': _firebaseUser.uid,
-        'email': _firebaseUser.email,
-        'fotoURL': _firebaseUser.photoUrl,
-        'nome': _firebaseUser.displayName,
-        'vistoPorUltimo': DateTime.now(),
-        'cabeleireiro': false,
-        'isDonoSalao': false
-      };
-      this.dados = LoginDados.fromMap(dados);
+      this.dados = Login(
+          id: _firebaseUser.uid,
+          email: _firebaseUser.email,
+          imagemUrl: _firebaseUser.photoUrl,
+          nome: _firebaseUser.displayName,
+          isCabeleireiro: false,
+          isDonoSalao: false,
+          salao: null,
+          telefone: null);
     } else {
       await _carregarUsuario();
-      dados['vistoPorUltimo'] = DateTime.now();
     }
     await Firestore.instance
         .collection("usuarios")
         .document(_firebaseUser.uid)
-        .setData(dados, merge: true);
+        .setData(this.dados.toMap(), merge: true);
     notifyListeners();
   }
 
@@ -148,7 +147,7 @@ class LoginModelo extends Model {
           result = false;
         } else {
           result = true;
-          dados = LoginDados.fromMap(doc.data);
+          dados = Login.fromMap(doc.data);
         }
         notifyListeners();
         return result;
@@ -156,7 +155,7 @@ class LoginModelo extends Model {
     }
   }
 
-  //verifica se o usuário está ou não logado no sistema
+
   bool isLogado() {
     return _firebaseUser != null;
   }

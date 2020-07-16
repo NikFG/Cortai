@@ -1,9 +1,9 @@
-import 'package:agendacabelo/Dados/servico_dados.dart';
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Telas/criar_servico_tela.dart';
 import 'package:flutter/material.dart';
 
 class GerenciaServicoTile extends StatelessWidget {
-  final ServicoDados dados;
+  final Servico dados;
 
   GerenciaServicoTile(this.dados);
 

@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/horario_controle.dart';
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/confirmar_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,7 +40,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                       var dividedTiles = ListTile.divideTiles(
                               tiles: snapshot.data.documents.map((doc) {
                                 return ConfirmarTile(
-                                    HorarioDados.fromDocument(doc), true);
+                                    Horario.fromDocument(doc), true);
                               }).toList(),
                               color: Colors.grey[500],
                               context: context)
@@ -71,7 +71,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                       var dividedTiles = ListTile.divideTiles(
                               tiles: snapshot.data.documents.map((doc) {
                                 return ConfirmarTile(
-                                    HorarioDados.fromDocument(doc), false);
+                                    Horario.fromDocument(doc), false);
                               }).toList(),
                               color: Colors.grey[500],
                               context: context)
