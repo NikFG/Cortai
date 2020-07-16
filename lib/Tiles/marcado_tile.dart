@@ -24,11 +24,12 @@ class _MarcadoTileState extends State<MarcadoTile> {
   Widget build(BuildContext context) {
     return CustomListTile(
       onTap: () {
-
+        _detalhesDialog(context);
+        /*
         if (widget.horario.confirmado)
           _avaliarDialog(context);
         else
-          _cancelarDialog(context);
+          _cancelarDialog(context);*/
       },
       title: FutureBuilder<DocumentSnapshot>(
         future: Firestore.instance
@@ -48,13 +49,21 @@ class _MarcadoTileState extends State<MarcadoTile> {
       subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.horario}"),
       leading: widget.horario.confirmado
           ? Icon(
-              Icons.check_circle,
+              Icons.check,
               color: Colors.green,
+              size: 48,
             )
           : Icon(
               Icons.clear,
               color: Colors.red,
+              size: 48,
             ),
+      trailing: FlatButton(
+        child: Icon(Icons.star_border,color: Colors.amber,size: 32),
+        onPressed:()=>{
+          _avaliarDialog(context)
+        }
+      ),
     );
   }
 
@@ -76,6 +85,79 @@ class _MarcadoTileState extends State<MarcadoTile> {
             child: Text("Confirmar"),
             onPressed: () {
               print("CANCELEI HAHA 20MIL PRA EUU");
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  _detalhesDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Detalhes"),
+        content: Container(
+          padding: EdgeInsets.only(top: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Seu zé Barber",
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700)),
+              Text("Realizado às 12:28 - 16/07/2020",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 13,
+                  )),
+              ListTile(
+                  leading: Icon(Icons.check_circle, color: Colors.green),
+                  title: Text("Confirmado",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 13,
+                      ))),
+              Text("Agendamento 12",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey[500],
+                  )),
+              ListTile(
+                leading: Icon(Icons.looks_one),
+                title: Text("Corte Massa",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 13,
+                    )),
+                trailing: Text("R\$19,90",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 13,
+                    )),
+              ),
+              Text("Endereço: \n Rua da cobiça 117, Bairro inferno",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                  )),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Fechar"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Text("Ligar para salão"),
+            onPressed: () {
               Navigator.of(context).pop();
             },
           ),
