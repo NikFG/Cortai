@@ -11,12 +11,14 @@ class MarcadoTela extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
       if (model.dados != null) {
-        return FutureBuilder<QuerySnapshot>(
+        return TabBarView(
+          children: <Widget>[
+            FutureBuilder<QuerySnapshot>(
           future: HorarioControle.get()
               .where('cliente', isEqualTo: model.dados.id)
               .orderBy('data', descending: true)
               .getDocuments(),
-          builder: (context, snapshot) {
+          builder: (context, snapshot) {  
             if (!snapshot.hasData) {
               return Center(
                 child: CircularProgressIndicator(),
@@ -28,6 +30,26 @@ class MarcadoTela extends StatelessWidget {
               return ListView(children: tiles);
             }
           },
+        ),
+         FutureBuilder<QuerySnapshot>(
+          future: HorarioControle.get()
+              .where('cliente', isEqualTo: model.dados.id)
+              .orderBy('data', descending: true)
+              .getDocuments(),
+          builder: (context, snapshot) {  
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              var tiles = snapshot.data.documents.map((doc) {
+                return MarcadoTile(HorarioDados.fromDocument(doc));
+              }).toList();
+              return ListView(children: tiles);
+            }
+          },
+        ),
+          ],
         );
       } else {
         return Center();
