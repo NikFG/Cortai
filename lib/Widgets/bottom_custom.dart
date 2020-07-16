@@ -49,15 +49,15 @@ class _BottomCustomState extends State<BottomCustom> {
   itensUsuario() {
     var itens = [
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
+        icon: Icon(FontAwesome.home),
         title: Text("Início"),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.schedule),
-        title: Text("Marcados"),
+        icon: Icon(FontAwesome.calendar_o),
+        title: Text("Agendados"),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.person),
+        icon: Icon(FontAwesome.user_circle_o),
         title: Text("Perfil"),
       ),
     ];
@@ -95,7 +95,7 @@ class _BottomCustomState extends State<BottomCustom> {
         title: Text("Confirmar"),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.content_cut),
+        icon: Icon(FontAwesome.scissors),
         title: Text("Serviços"),
       ),
     ];
