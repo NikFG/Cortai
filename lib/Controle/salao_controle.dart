@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/salao_dados.dart';
+import 'package:agendacabelo/Dados/salao.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class SalaoControle {
     return _firestore.collection('saloes');
   }
 
-  static void store(SalaoDados dados,
+  static void store(Salao dados,
       {@required String usuario,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
@@ -26,7 +26,7 @@ class SalaoControle {
     });
   }
 
-  static void update(SalaoDados dados,
+  static void update(Salao dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore
         .collection('saloes')

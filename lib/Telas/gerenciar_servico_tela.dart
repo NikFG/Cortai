@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/gerencia_servico_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,7 +38,7 @@ class GerenciarServicoTela extends StatelessWidget {
 
               lista.addAll(ListTile.divideTiles(
                   tiles: snapshot.data.documents.map((doc) {
-                    return GerenciaServicoTile(ServicoDados.fromDocument(doc));
+                    return GerenciaServicoTile(Servico.fromDocument(doc));
                   }).toList(),
                   color: Colors.grey[500],
                   context: context));

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
+import 'package:agendacabelo/Dados/cabeleireiro.dart';
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
@@ -14,7 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CriarServicoTela extends StatefulWidget {
-  final ServicoDados dados;
+  final Servico dados;
   final String titulo;
 
   CriarServicoTela({this.dados, @required this.titulo});
@@ -31,7 +31,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   var _precoControlador = MoneyMaskedTextController(
       decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   File _imagem;
-  List<CabeleireiroDados> selecionados = [];
+  List<Cabeleireiro> selecionados = [];
   bool _botaoHabilitado = true;
 
   @override
@@ -95,8 +95,8 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                       .collection('usuarios')
                       .where('salao', isEqualTo: model.dados.salao)
                       .getDocuments();
-                  List<CabeleireiroDados> dados = snapshots.documents
-                      .map((e) => CabeleireiroDados.fromDocument(e))
+                  List<Cabeleireiro> dados = snapshots.documents
+                      .map((e) => Cabeleireiro.fromDocument(e))
                       .toList();
 
                   showDialog(
@@ -209,7 +209,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                             setState(() {
                               _botaoHabilitado = false;
                             });
-                            ServicoDados dados = ServicoDados();
+                            Servico dados = Servico();
                             dados.descricao = _nomeControlador.text;
                             dados.setValor(_precoControlador.text);
                             dados.salao = model.dados.salao;
@@ -267,7 +267,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         .where('uid', whereIn: widget.dados.cabeleireiros)
         .getDocuments();
     selecionados = documents.documents
-        .map((e) => CabeleireiroDados.fromDocument(e))
+        .map((e) => Cabeleireiro.fromDocument(e))
         .toList();
     _cabeleireirosControlador.text = "";
     for (int i = 0; i < selecionados.length; i++) {
@@ -330,9 +330,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
 }
 
 class _MyDialog extends StatefulWidget {
-  final List<CabeleireiroDados> dados;
-  final List<CabeleireiroDados> selecionados;
-  final ValueChanged<List<CabeleireiroDados>> onSelectedDadosChanged;
+  final List<Cabeleireiro> dados;
+  final List<Cabeleireiro> selecionados;
+  final ValueChanged<List<Cabeleireiro>> onSelectedDadosChanged;
 
   const _MyDialog(
       {@required this.dados,
@@ -346,7 +346,7 @@ class _MyDialog extends StatefulWidget {
 class _MyDialogState extends State<_MyDialog> {
   @override
   Widget build(BuildContext context) {
-    List<CabeleireiroDados> _tempSelecionados = widget.selecionados;
+    List<Cabeleireiro> _tempSelecionados = widget.selecionados;
     return Dialog(
       child: Column(
         children: <Widget>[

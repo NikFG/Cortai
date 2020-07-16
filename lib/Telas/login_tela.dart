@@ -179,7 +179,7 @@ class _LoginTelaState extends State<LoginTela> {
                                       setState(() {
                                         _botaoHabilitado = false;
                                       });
-                                      model.emailSignIn(
+                                      model.logarEmail(
                                           email: _emailControlador.text,
                                           senha: _senhaControlador.text,
                                           onSuccess: onSuccess,
@@ -232,7 +232,7 @@ class _LoginTelaState extends State<LoginTela> {
                                     _botaoHabilitado = false;
                                   });
                                   model
-                                      .googleSignIn()
+                                      .logarGoogle()
                                       .then((value) => onSuccess())
                                       .catchError((e) {
                                     print(e);

@@ -1,13 +1,13 @@
 import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
-import 'package:agendacabelo/Dados/forma_pagamento_dados.dart';
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/forma_pagamento.dart';
+import 'package:agendacabelo/Dados/horario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 
 class CheckinTile extends StatelessWidget {
-  final HorarioDados dados;
+  final Horario dados;
 
   CheckinTile(this.dados);
 
@@ -41,7 +41,7 @@ class CheckinTile extends StatelessWidget {
                 if (!snapshot.hasData) {
                   return Center();
                 } else {
-                  var dados = FormaPagamentoDados.fromDocument(snapshot.data);
+                  var dados = FormaPagamento.fromDocument(snapshot.data);
                   return Text(
                       "Será pago da seguinte forma: ${dados.descricao}");
                 }

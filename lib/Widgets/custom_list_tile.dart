@@ -6,13 +6,14 @@ class CustomListTile extends StatelessWidget {
   final Widget title;
   final Widget subtitle;
   final Widget trailing;
-
+  final GestureLongPressCallback onLongPress;
   CustomListTile(
       {@required this.leading,
       @required this.title,
       @required this.onTap,
       this.subtitle,
-      this.trailing});
+      this.trailing,
+      this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class CustomListTile extends StatelessWidget {
             alignment: Alignment.center,
             child: ListTile(
               onTap: onTap,
+              onLongPress: onLongPress,
               leading: leading,
               title: title,
               subtitle: subtitle,

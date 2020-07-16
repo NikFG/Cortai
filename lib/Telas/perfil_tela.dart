@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:agendacabelo/Dados/salao_dados.dart';
+import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
 import 'package:agendacabelo/Telas/checkin_tela.dart';
@@ -68,7 +68,7 @@ class PerfilTela extends StatelessWidget {
                           .document(model.dados.salao)
                           .get()
                           .then((doc) {
-                        return SalaoDados.fromDocument(doc);
+                        return Salao.fromDocument(doc);
                       });
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => EditarSalaoTela(model.dados.id,

@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/horario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class HorarioControle {
     return _firestore.collection('horarios');
   }
 
-  static void store(HorarioDados dados,
+  static void store(Horario dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore.collection('horarios').add(dados.toMap()).then((value) {
       print(value);
@@ -20,7 +20,7 @@ class HorarioControle {
     });
   }
 
-  static void update(HorarioDados dados,
+  static void update(Horario dados,
       {@required VoidCallback onSuccess(context),
       @required VoidCallback onFail(context),
       @required context}) async {
@@ -60,7 +60,12 @@ class HorarioControle {
     });
   }
 
-  static cancelaAgendamento(HorarioDados dados,
+  /*
+  * Recria o horário na coleção de horários excluídos para depois deletar.
+  * Feito para armazenar os dados e ter controle futuro após o cancelamento
+  * */
+
+  static cancelaAgendamento(Horario dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await Firestore.instance
         .collection('horariosExcluidos')

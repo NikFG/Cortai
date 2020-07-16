@@ -1,7 +1,7 @@
 import 'package:agendacabelo/Controle/avaliacao_controle.dart';
-import 'package:agendacabelo/Dados/avaliacao_dados.dart';
-import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/avaliacao.dart';
+import 'package:agendacabelo/Dados/cabeleireiro.dart';
+import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class MarcadoTile extends StatefulWidget {
-  final HorarioDados horario;
+  final Horario horario;
 
   MarcadoTile(this.horario);
 
@@ -39,8 +39,8 @@ class _MarcadoTileState extends State<MarcadoTile> {
           if (!snapshot.hasData) {
             return Center();
           } else {
-            CabeleireiroDados dados =
-                CabeleireiroDados.fromDocument(snapshot.data);
+            Cabeleireiro dados =
+                Cabeleireiro.fromDocument(snapshot.data);
             return Text("Serviço com ${dados.nome}");
           }
         },
@@ -125,7 +125,7 @@ class _MarcadoTileState extends State<MarcadoTile> {
                     child: Text("Confirmar"),
                     onPressed: () {
                       if (_avaliacao > 1) {
-                        AvaliacaoDados dados = AvaliacaoDados();
+                        Avaliacao dados = Avaliacao();
                         dados.cabeleireiro = widget.horario.cabeleireiro;
                         dados.avaliacao = _avaliacao;
                         dados.salao = salao;

@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/horario_controle.dart';
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/marcado_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,7 +23,7 @@ class MarcadoTela extends StatelessWidget {
               );
             } else {
               var tiles = snapshot.data.documents.map((doc) {
-                return MarcadoTile(HorarioDados.fromDocument(doc));
+                return MarcadoTile(Horario.fromDocument(doc));
               }).toList();
               return ListView(children: tiles);
             }

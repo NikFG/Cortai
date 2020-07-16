@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
-import 'package:agendacabelo/Dados/funcionamento_dados.dart';
+import 'package:agendacabelo/Dados/funcionamento.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -60,8 +60,8 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                       Util.ordenarDiasSemana(a.documentID)
                           .compareTo(Util.ordenarDiasSemana(b.documentID)));
                   var listaRows = listaDocuments.map((doc) {
-                    FuncionamentoDados dados =
-                        FuncionamentoDados.fromDocument(doc);
+                    Funcionamento dados =
+                        Funcionamento.fromDocument(doc);
                     return Row(
                       children: <Widget>[
                         Text(
@@ -244,7 +244,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                 onPressed: _botaoHabilitado
                     ? () async {
                         if (_formKey.currentState.validate()) {
-                          FuncionamentoDados dados = FuncionamentoDados();
+                          Funcionamento dados = Funcionamento();
                           dados.horarioAbertura = _aberturaController.text;
                           dados.horarioFechamento = _fechamentoController.text;
                           dados.intervalo =

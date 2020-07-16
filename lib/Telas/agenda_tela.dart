@@ -4,10 +4,10 @@ import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
-import 'package:agendacabelo/Dados/funcionamento_dados.dart';
-import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
+import 'package:agendacabelo/Dados/cabeleireiro.dart';
+import 'package:agendacabelo/Dados/funcionamento.dart';
+import 'package:agendacabelo/Dados/horario.dart';
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Widgets/custom_radio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,7 +18,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'home_tela.dart';
 
 class AgendaTela extends StatefulWidget {
-  final ServicoDados servicoDados;
+  final Servico servicoDados;
   final String nomeSalao;
 
   AgendaTela(this.servicoDados, this.nomeSalao);
@@ -96,7 +96,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             .orderBy('nome')
                             .getDocuments();
                         var cabeleireiros = profissionais.documents
-                            .map((doc) => CabeleireiroDados.fromDocument(doc))
+                            .map((doc) => Cabeleireiro.fromDocument(doc))
                             .toList();
                         _profissionalBottomSheet(context, cabeleireiros);
                       },
@@ -139,9 +139,9 @@ class _AgendaTelaState extends State<AgendaTela> {
                             .document(widget.servicoDados.salao)
                             .collection('funcionamento')
                             .getDocuments();
-                        List<FuncionamentoDados> funcionamento = snapshots
+                        List<Funcionamento> funcionamento = snapshots
                             .documents
-                            .map((doc) => FuncionamentoDados.fromDocument(doc))
+                            .map((doc) => Funcionamento.fromDocument(doc))
                             .toList();
                         var diasSemana = _verificaDiasSemana(funcionamento);
                         _calendario(context, diasSemana);
@@ -186,8 +186,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   widget.servicoDados.salao)
                               .document(Util.weekdayToString(this.data))
                               .get();
-                          FuncionamentoDados funcionamento =
-                              FuncionamentoDados.fromDocument(snapshot);
+                          Funcionamento funcionamento =
+                              Funcionamento.fromDocument(snapshot);
 
                           _horarioBottomSheet(context, funcionamento);
                         } else {
@@ -309,7 +309,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                           .getDocuments()
                                           .then((value) {
                                         if (value.documents.length == 0) {
-                                          HorarioDados dados = HorarioDados();
+                                          Horario dados = Horario();
                                           dados.cabeleireiro = profissional;
                                           dados.cliente = model.dados.id;
                                           dados.confirmado = false;
@@ -362,7 +362,7 @@ class _AgendaTelaState extends State<AgendaTela> {
     );
   }
 
-  _horarioBottomSheet(context, FuncionamentoDados funcionamento) {
+  _horarioBottomSheet(context, Funcionamento funcionamento) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -378,8 +378,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<HorarioDados> horarioDados = snapshot.data.documents
-                      .map((doc) => HorarioDados.fromDocument(doc))
+                  List<Horario> horarioDados = snapshot.data.documents
+                      .map((doc) => Horario.fromDocument(doc))
                       .toList();
                   DateTime dataAgora = DateTime.now();
                   DateTime horarioAtual;
@@ -424,7 +424,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         });
   }
 
-  _profissionalBottomSheet(context, List<CabeleireiroDados> cabeleireiros) {
+  _profissionalBottomSheet(context, List<Cabeleireiro> cabeleireiros) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -453,7 +453,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         });
   }
 
-  _verificaDiasSemana(List<FuncionamentoDados> funcionamento) {
+  _verificaDiasSemana(List<Funcionamento> funcionamento) {
     List<bool> diasSemana = [false, false, false, false, false, false, false];
     for (int i = 0; i < funcionamento.length; i++) {
       switch (funcionamento[i].diaSemana) {
@@ -515,7 +515,7 @@ class _AgendaTelaState extends State<AgendaTela> {
       {@required String abertura,
       @required String fechamento,
       @required int intervalo,
-      @required List<HorarioDados> horarios,
+      @required List<Horario> horarios,
       @required DateTime horarioAtual}) {
     DateTime inicial = Util.timeFormat.parse(abertura);
     DateTime atual = Util.timeFormat.parse(abertura);

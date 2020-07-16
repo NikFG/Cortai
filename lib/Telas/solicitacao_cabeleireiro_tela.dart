@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/login_dados.dart';
+import 'package:agendacabelo/Dados/login.dart';
 import 'package:agendacabelo/Widgets/custom_form_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
@@ -65,7 +65,7 @@ class _SolicitacaoCabeleireiroTelaState
                               .where('email', isEqualTo: _emailControlador.text)
                               .getDocuments()
                               .then((value) async {
-                            LoginDados dados = LoginDados.fromMap(
+                            Login dados = Login.fromMap(
                                 value.documents[0].data);
 
                             await Firestore.instance

@@ -1,6 +1,6 @@
 import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
-import 'package:agendacabelo/Dados/salao_dados.dart';
+import 'package:agendacabelo/Dados/servico.dart';
+import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:agendacabelo/Widgets/servico_fixed_appbar.dart';
 import 'package:agendacabelo/Widgets/servico_flexible_appbar.dart';
 
 class ServicoTela extends StatelessWidget {
-  final SalaoDados dados;
+  final Salao dados;
   final String distancia;
 
   ServicoTela(
@@ -59,7 +59,7 @@ class ServicoTela extends StatelessWidget {
                   } else {
                     var widgets = snapshot.data.documents
                         .map((doc) =>
-                            ServicoTile(ServicoDados.fromDocument(doc), dados.nome))
+                            ServicoTile(Servico.fromDocument(doc), dados.nome))
                         .toList();
                     return Column(
                       children: widgets,
