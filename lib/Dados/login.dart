@@ -11,16 +11,7 @@ class Login {
   bool isCabeleireiro;
   bool isDonoSalao;
 
-  Login.fromMap(Map<String, dynamic> dados) {
-    id = dados['uid'];
-    nome = dados['nome'];
-    salao = dados['salao'];
-    telefone = dados['telefone'];
-    email = dados['email'];
-    imagemUrl = dados['fotoURL'];
-    isCabeleireiro = dados['cabeleireiro'];
-    isDonoSalao = dados['donoSalao'];
-  }
+
   Login.fromDocument(DocumentSnapshot dados) {
     id = dados['uid'];
     nome = dados['nome'];
