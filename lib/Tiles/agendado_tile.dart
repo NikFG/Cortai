@@ -6,18 +6,19 @@ import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class MarcadoTile extends StatefulWidget {
+class AgendadoTile extends StatefulWidget {
   final Horario horario;
 
-  MarcadoTile(this.horario);
+  AgendadoTile(this.horario);
 
   @override
-  _MarcadoTileState createState() => _MarcadoTileState();
+  _AgendadoTileState createState() => _AgendadoTileState();
 }
 
-class _MarcadoTileState extends State<MarcadoTile> {
+class _AgendadoTileState extends State<AgendadoTile> {
   double _avaliacao;
 
   @override
@@ -40,8 +41,7 @@ class _MarcadoTileState extends State<MarcadoTile> {
           if (!snapshot.hasData) {
             return Center();
           } else {
-            Cabeleireiro dados =
-                Cabeleireiro.fromDocument(snapshot.data);
+            Cabeleireiro dados = Cabeleireiro.fromDocument(snapshot.data);
             return Text("Serviço com ${dados.nome}");
           }
         },
@@ -59,11 +59,16 @@ class _MarcadoTileState extends State<MarcadoTile> {
               size: 48,
             ),
       trailing: FlatButton(
-        child: Icon(Icons.star_border,color: Colors.amber,size: 32),
-        onPressed:()=>{
-          _avaliarDialog(context)
-        }
-      ),
+          child: Column(
+            children: <Widget>[
+              Icon(
+                FontAwesome.star_o,
+                color: Colors.amberAccent,
+              ),
+              Text("Avaliar"),
+            ],
+          ),
+          onPressed: () => {_avaliarDialog(context)}),
     );
   }
 
@@ -99,7 +104,7 @@ class _MarcadoTileState extends State<MarcadoTile> {
       builder: (context) => AlertDialog(
         title: Text("Detalhes"),
         content: Container(
-          padding: EdgeInsets.only(top: 5),
+//          padding: EdgeInsets.only(top: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

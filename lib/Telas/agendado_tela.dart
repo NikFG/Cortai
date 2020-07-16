@@ -1,12 +1,12 @@
 import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Tiles/marcado_tile.dart';
+import 'package:agendacabelo/Tiles/agendado_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class MarcadoTela extends StatelessWidget {
+class AgendadoTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
@@ -25,7 +25,7 @@ class MarcadoTela extends StatelessWidget {
               );
             } else {
               var tiles = snapshot.data.documents.map((doc) {
-                return MarcadoTile(Horario.fromDocument(doc));
+                return AgendadoTile(Horario.fromDocument(doc));
               }).toList();
               return ListView(children: tiles);
             }
@@ -43,7 +43,7 @@ class MarcadoTela extends StatelessWidget {
               );
             } else {
               var tiles = snapshot.data.documents.map((doc) {
-                return MarcadoTile(HorarioDados.fromDocument(doc));
+                return AgendadoTile(Horario.fromDocument(doc));
               }).toList();
               return ListView(children: tiles);
             }
