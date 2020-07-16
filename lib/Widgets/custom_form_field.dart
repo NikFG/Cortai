@@ -26,9 +26,10 @@ class _CustomFormFieldState extends State<CustomFormField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width / 1.2,
+      width: MediaQuery.of(context).size.width / 1.1,
+
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(50)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Colors.white,
           boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
       child: TextFormField(
