@@ -190,9 +190,10 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
               SizedBox(
                 height: 25,
               ),
-              SizedBox(
+              SizedBox(//TODO: botão padrão
                 height: 44,
                 child: RaisedButton(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                   child: _botaoHabilitado
                       ? Text(
                           "Confirmar",

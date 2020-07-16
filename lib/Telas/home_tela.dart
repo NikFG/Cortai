@@ -8,7 +8,7 @@ import 'package:agendacabelo/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'gerenciar_servico_tela.dart';
-import 'marcado_tela.dart';
+import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
 
 class HomeTela extends StatefulWidget {
@@ -62,7 +62,7 @@ class _HomeTelaState extends State<HomeTela> {
               child: Scaffold(
                 bottomNavigationBar: BottomCustom(_pageController, index,
                     model.dados.isCabeleireiro, model.dados.id),
-                body: MarcadoTela(),
+                body: AgendadoTela(),
                 extendBodyBehindAppBar: true,
                 appBar: AppBar(
                   leading: Container(

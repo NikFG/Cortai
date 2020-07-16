@@ -19,6 +19,7 @@ class CadastroFuncionamentoTela extends StatefulWidget {
 }
 
 class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
+  //TODO: estilizar
   var _formKey = GlobalKey<FormState>();
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay selectedTime2 = TimeOfDay.now();
