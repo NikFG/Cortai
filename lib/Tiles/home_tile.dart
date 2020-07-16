@@ -1,8 +1,8 @@
 import 'package:agendacabelo/Controle/avaliacao_controle.dart';
 import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/avaliacao_dados.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
-import 'package:agendacabelo/Dados/salao_dados.dart';
+import 'package:agendacabelo/Dados/avaliacao.dart';
+import 'package:agendacabelo/Dados/servico.dart';
+import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Telas/servico_tela.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
@@ -13,9 +13,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/shape/gf_avatar_shape.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class HomeTile extends StatefulWidget {
-  final SalaoDados dados;
+  final Salao dados;
   final double distancia;
 
   HomeTile(this.dados, this.distancia);
@@ -47,8 +48,10 @@ class _HomeTileState extends State<HomeTile> {
       leading: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  HeroCustom(imagemUrl: widget.dados.imagem)));
+              builder: (context) => HeroCustom(
+                    imagemUrl: widget.dados.imagem,
+                    descricao: widget.dados.nome,
+                  )));
         },
         child: GFAvatar(
           shape: GFAvatarShape.circle,
@@ -57,6 +60,9 @@ class _HomeTileState extends State<HomeTile> {
           backgroundImage: NetworkImage(widget.dados.imagem),
         ),
       ),
+      onLongPress: () {
+        _dialogDados(context);
+      },
       title: Text(
         widget.dados.nome,
         overflow: TextOverflow.ellipsis,
@@ -108,7 +114,13 @@ class _HomeTileState extends State<HomeTile> {
         builder: (context) {
           return AlertDialog(
             title: Text("Mais informações"),
-            content: Text("${widget.dados.endereco}"),
+            content: FlatButton(
+              onPressed: () {
+                MapsLauncher.launchCoordinates(widget.dados.latitude,
+                    widget.dados.longitude, widget.dados.nome);
+              },
+              child: Text("${widget.dados.endereco}"),
+            ),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
@@ -126,6 +138,4 @@ class _HomeTileState extends State<HomeTile> {
           );
         });
   }
-
-
 }
