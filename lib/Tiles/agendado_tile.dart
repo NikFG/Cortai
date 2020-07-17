@@ -1,7 +1,10 @@
 import 'package:agendacabelo/Controle/avaliacao_controle.dart';
+import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Dados/avaliacao.dart';
 import 'package:agendacabelo/Dados/cabeleireiro.dart';
 import 'package:agendacabelo/Dados/horario.dart';
+import 'package:agendacabelo/Dados/login.dart';
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -11,8 +14,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class AgendadoTile extends StatefulWidget {
   final Horario horario;
+  final bool pago;
+  final Login cabeleireiro;
+  final Servico servico;
 
-  AgendadoTile(this.horario);
+  AgendadoTile(
+      {@required this.horario, this.servico, this.cabeleireiro, @required this.pago});
 
   @override
   _AgendadoTileState createState() => _AgendadoTileState();
@@ -26,49 +33,23 @@ class _AgendadoTileState extends State<AgendadoTile> {
     return CustomListTile(
       onTap: () {
         _detalhesDialog(context);
-        /*
-        if (widget.horario.confirmado)
-          _avaliarDialog(context);
-        else
-          _cancelarDialog(context);*/
       },
-      title: FutureBuilder<DocumentSnapshot>(
-        future: Firestore.instance
-            .collection('usuarios')
-            .document(widget.horario.cabeleireiro)
-            .get(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center();
-          } else {
-            Cabeleireiro dados = Cabeleireiro.fromDocument(snapshot.data);
-            return Text("Serviço com ${dados.nome}");
-          }
-        },
-      ),
+      title: Text("${widget.servico.descricao} com ${widget.cabeleireiro.nome}"),
       subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.horario}"),
-      leading: widget.horario.confirmado
-          ? Icon(
-              Icons.check,
-              color: Colors.green,
-              size: 48,
-            )
-          : Icon(
-              Icons.clear,
-              color: Colors.red,
-              size: 48,
-            ),
-      trailing: FlatButton(
-          child: Column(
-            children: <Widget>[
-              Icon(
-                FontAwesome.star_o,
-                color: Colors.amberAccent,
+      trailing: widget.pago
+          ? FlatButton(
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    FontAwesome.star_o,
+                    color: Colors.amberAccent,
+                  ),
+                  Text("Avaliar"),
+                ],
               ),
-              Text("Avaliar"),
-            ],
-          ),
-          onPressed: () => {_avaliarDialog(context)}),
+              onPressed: () => {_avaliarDialog(context)})
+          : confirmado(),
+      leading: null,
     );
   }
 
@@ -171,14 +152,20 @@ class _AgendadoTileState extends State<AgendadoTile> {
     );
   }
 
-  _avaliarDialog(BuildContext context) async {
-    String salao = await getSalao();
+  isAvaliado(String salao) async {
     bool avaliado = await AvaliacaoControle.get()
         .where('horario', isEqualTo: widget.horario.id)
         .where('cabeleireiro', isEqualTo: widget.horario.cabeleireiro)
         .where('salao', isEqualTo: salao)
         .getDocuments()
         .then((value) => value.documents.length > 0);
+    return avaliado;
+  }
+
+  _avaliarDialog(BuildContext context) async {
+    String salao = await getSalao();
+    bool avaliado = await isAvaliado(salao);
+   
     if (!avaliado) {
       return showDialog(
           context: context,
@@ -240,6 +227,25 @@ class _AgendadoTileState extends State<AgendadoTile> {
         .get();
     String salao = snapshot.data['salao'];
     return salao;
+  }
+
+  Widget confirmado() {
+    return Column(
+      children: <Widget>[
+        Text("Status:"),
+        widget.horario.confirmado
+            ? Icon(
+                FontAwesome.check_circle_o,
+                color: Colors.green,
+                size: 35,
+              )
+            : Icon(
+                FontAwesome.times_circle_o,
+                color: Colors.red,
+                size: 35,
+              ),
+      ],
+    );
   }
 
   void onSuccess() async {
