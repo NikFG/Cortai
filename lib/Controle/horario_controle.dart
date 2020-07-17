@@ -66,10 +66,14 @@ class HorarioControle {
   * */
 
   static cancelaAgendamento(Horario dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {@required VoidCallback onSuccess,
+      @required VoidCallback onFail,
+      clienteCancelou = false}) async {
+    Map<String,dynamic> horario = dados.toMap();
+    horario['clienteCancelou'] = clienteCancelou;
     await Firestore.instance
         .collection('horariosExcluidos')
-        .add(dados.toMap())
+        .add(horario)
         .catchError((e) {
       print(e);
       onFail();
