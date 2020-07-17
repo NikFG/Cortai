@@ -31,6 +31,18 @@ class Servico {
         snapshot.data['observacao'] != null ? snapshot.data['observacao'] : '';
   }
 
+  Servico.fromHorarioJson(Map<String, dynamic> json) {
+    id = json['data']['servico'];
+    descricao = json['servico']["descricao"];
+    _valor = (json['servico']["valor"] as num).toDouble();
+    imagemUrl = json['servico']["imagemUrl"];
+    cabeleireiros = List.from(json['servico']['cabeleireiros']);
+    salao = json['servico']['salao'];
+    observacao = json['servico']['observacao'] != null
+        ? json['servico']['observacao']
+        : '';
+  }
+
   Map<String, dynamic> toMap() {
     return {
       "descricao": descricao,

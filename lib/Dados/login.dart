@@ -11,7 +11,6 @@ class Login {
   bool isCabeleireiro;
   bool isDonoSalao;
 
-
   Login.fromDocument(DocumentSnapshot dados) {
     id = dados['uid'];
     nome = dados['nome'];
@@ -23,19 +22,27 @@ class Login {
     isDonoSalao = dados['donoSalao'];
   }
 
-  Login(
-      {
-      @required this.nome,
-      @required this.salao,
-      @required this.telefone,
-      @required this.email,
-      @required this.imagemUrl,
-      @required this.isCabeleireiro,
-      @required this.isDonoSalao,
-      this.id,
-      }
+  Login.fromHorarioJson(Map<String, dynamic> json) {
+    id = json['data']['usuario'];
+    nome = json['cabeleireiro']['nome'];
+    salao = json['cabeleireiro']['salao'];
+    telefone = json['cabeleireiro']['telefone'];
+    email = json['cabeleireiro']['email'];
+    imagemUrl = json['cabeleireiro']['fotoURL'];
+    isCabeleireiro = json['cabeleireiro']['cabeleireiro'];
+    isDonoSalao = json['cabeleireiro']['donoSalao'];
+  }
 
-      );
+  Login({
+    @required this.nome,
+    @required this.salao,
+    @required this.telefone,
+    @required this.email,
+    @required this.imagemUrl,
+    @required this.isCabeleireiro,
+    @required this.isDonoSalao,
+    this.id,
+  });
 
   @override
   String toString() {

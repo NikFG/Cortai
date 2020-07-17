@@ -25,6 +25,18 @@ class Horario {
     formaPagamento = snapshot.data['formaPagamento'];
   }
 
+  Horario.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    horario = json['data']['horario'];
+    data = json['data']['data'];
+    cabeleireiro = json['data']['cabeleireiro'];
+    cliente = json['data']['cliente'];
+    confirmado = json['data']['confirmado'];
+    servico = json['data']['servico'];
+    pago = json['data']['pago'];
+    formaPagamento = json['data']['formaPagamento'];
+  }
+
   Map<String, dynamic> toMap() {
     return {
       "cabeleireiro": cabeleireiro,
