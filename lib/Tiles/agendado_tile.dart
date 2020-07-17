@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-
 class AgendadoTile extends StatefulWidget {
   final Horario horario;
   final bool pago;
@@ -21,7 +20,10 @@ class AgendadoTile extends StatefulWidget {
   final Servico servico;
 
   AgendadoTile(
-      {@required this.horario, this.servico, this.cabeleireiro, @required this.pago});
+      {@required this.horario,
+      this.servico,
+      this.cabeleireiro,
+      @required this.pago});
 
   @override
   _AgendadoTileState createState() => _AgendadoTileState();
@@ -34,16 +36,16 @@ class _AgendadoTileState extends State<AgendadoTile> {
   Widget build(BuildContext context) {
     return CustomListTile(
       onTap: () {
-       Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => DetalhesTela()));
-       // _detalhesDialog(context);
-        /*
-        if (widget.horario.confirmado)
-          _avaliarDialog(context);
-        else
-          _cancelarDialog(context);*/
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => DetalhesTela(
+                  horario: widget.horario,
+                  servico: widget.servico,
+                  cabeleireiro: widget.cabeleireiro,
+                  pago: widget.pago,
+                )));
       },
-      title: Text("${widget.servico.descricao} com ${widget.cabeleireiro.nome}"),
+      title:
+          Text("${widget.servico.descricao} com ${widget.cabeleireiro.nome}"),
       subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.horario}"),
       trailing: widget.pago
           ? FlatButton(
@@ -54,7 +56,7 @@ class _AgendadoTileState extends State<AgendadoTile> {
                     color: Colors.amberAccent,
                   ),
                   SizedBox(
-                      height: 5,
+                    height: 5,
                   ),
                   Text("Avaliar"),
                 ],
@@ -64,8 +66,6 @@ class _AgendadoTileState extends State<AgendadoTile> {
       leading: null,
     );
   }
-
-  
 
   _detalhesDialog(BuildContext context) {
     return showDialog(
@@ -153,7 +153,7 @@ class _AgendadoTileState extends State<AgendadoTile> {
   _avaliarDialog(BuildContext context) async {
     String salao = await getSalao();
     bool avaliado = await isAvaliado(salao);
-   
+
     if (!avaliado) {
       return showDialog(
           context: context,
