@@ -2,12 +2,14 @@ import 'package:agendacabelo/Controle/avaliacao_controle.dart';
 import 'package:agendacabelo/Dados/avaliacao.dart';
 import 'package:agendacabelo/Dados/cabeleireiro.dart';
 import 'package:agendacabelo/Dados/horario.dart';
+import 'package:agendacabelo/Telas/detalhes_tela.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 
 class AgendadoTile extends StatefulWidget {
   final Horario horario;
@@ -25,7 +27,9 @@ class _AgendadoTileState extends State<AgendadoTile> {
   Widget build(BuildContext context) {
     return CustomListTile(
       onTap: () {
-        _detalhesDialog(context);
+       Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => DetalhesTela()));
+       // _detalhesDialog(context);
         /*
         if (widget.horario.confirmado)
           _avaliarDialog(context);
@@ -65,6 +69,9 @@ class _AgendadoTileState extends State<AgendadoTile> {
                 FontAwesome.star_o,
                 color: Colors.amberAccent,
               ),
+              SizedBox(
+                height: 5,
+              ),
               Text("Avaliar"),
             ],
           ),
@@ -72,31 +79,7 @@ class _AgendadoTileState extends State<AgendadoTile> {
     );
   }
 
-  _cancelarDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Deseja mesmo cancelar este agendamento?"),
-        content: Text(
-            "Caso cancele o agendamento, poderão ser cobradas taxas extras"),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("Cancelar"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          FlatButton(
-            child: Text("Confirmar"),
-            onPressed: () {
-              print("CANCELEI HAHA 20MIL PRA EUU");
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-    );
-  }
+  
 
   _detalhesDialog(BuildContext context) {
     return showDialog(
