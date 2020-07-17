@@ -32,6 +32,7 @@ class Util {
   }
 
   static ligacaoTelefonica(String telefone) async {
+    telefone = "tel:" + telefone;
     if (await canLaunch(telefone)) {
       await launch(telefone);
     } else {
