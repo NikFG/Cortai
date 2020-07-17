@@ -24,11 +24,11 @@ class _SplashCustomState extends State<SplashCustom> {
         if (_permissionStatus.isUndetermined)
           requestPermission(Permission.location);
         return SplashScreen(
-          seconds: 4,
+          seconds: 5,
           navigateAfterSeconds: _telaInicial(model),
-          title: Text("CortaÍ"),
-          image: Image.network(
-              'https://cdn2.iconfinder.com/data/icons/mosaicon-11/512/cut-512.png'),
+          //   title: Text("CortaÍ"),
+          image: Image.asset('assets/icons/icon_transparent.png'),
+          photoSize: 100.0,
           backgroundColor: Theme.of(context).primaryColor,
         );
       },
