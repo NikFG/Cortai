@@ -90,7 +90,7 @@ class _HomeTelaState extends State<HomeTela> {
                     ],
                   ),
                   title: Text(
-                    "Marcados",
+                    "Agendados",
                     style: TextStyle(
                       color: Colors.black,
                     ),
