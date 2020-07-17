@@ -38,7 +38,7 @@ class PerfilTela extends StatelessWidget {
                         ),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditarPerfilTela()));
+                              builder: (context) => EditarPerfilTela(model.dados)));
                         }),
                     leading: CircleAvatar(
                       radius: 32,
