@@ -223,17 +223,31 @@ export const horarioCancelado = functions.firestore
       .doc(event.get('cabeleireiro'))
       .get()
 
-    const token = queryCliente.get('token')
-    const cabeleireiro = queryCabeleireiro.get('nome')
+    if (event.get('clienteCancelou') == true) {
+      const token = queryCabeleireiro.get('token')
+      const cliente = queryCliente.get('nome')
+      const payload: admin.messaging.MessagingPayload = {
+        notification: {
+          title: `Seu agendamento foi cancelado pelo cliente`,
+          body: `Seu horário com ${cliente} foi cancelado`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+        }
+      };
+      return fcm.sendToDevice(token, payload);
+    } else {
+      const token = queryCliente.get('token')
+      const cabeleireiro = queryCabeleireiro.get('nome')
+      const payload: admin.messaging.MessagingPayload = {
+        notification: {
+          title: `Seu agendamento foi cancelado pelo cabeleireiro`,
+          body: `Seu horário com ${cabeleireiro} foi cancelado`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+        }
+      };
+      return fcm.sendToDevice(token, payload);
+    }
 
-    const payload: admin.messaging.MessagingPayload = {
-      notification: {
-        title: `Seu agendamento foi cancelado pelo cabeleireiro`,
-        body: `Seu horário com ${cabeleireiro} foi cancelado`,
-        click_action: 'FLUTTER_NOTIFICATION_CLICK',
-      }
-    };
-    return fcm.sendToDevice(token, payload);
+
   });
 
 export const calculaDistancia = functions
