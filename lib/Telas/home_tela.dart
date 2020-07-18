@@ -41,6 +41,7 @@ class _HomeTelaState extends State<HomeTela> {
         }
         PushNotification.servico(model.dados.id, context);
         return PageView(
+          physics: NeverScrollableScrollPhysics(),
           controller: _pageController,
           onPageChanged: (index) {
             setState(() {
