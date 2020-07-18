@@ -147,7 +147,9 @@ class _AgendaTelaState extends State<AgendaTela> {
                         _calendario(context, diasSemana);
                       },
                       child: AbsorbPointer(
-                        child: TextFormField(
+                        child: CustomFormField(
+                          icon: Icon(FontAwesome.credit_card),
+                          hint: 'dd/mm/yyyy',
                           controller: dataController,
                           validator: (value) {
                             if (value.isEmpty) {
@@ -155,10 +157,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(FontAwesome.credit_card),
-                            hintText: 'dd/mm/yyyy',
-                          ),
+                          inputType: TextInputType.datetime,
                         ),
                       ),
                     ),
@@ -199,7 +198,9 @@ class _AgendaTelaState extends State<AgendaTela> {
                         }
                       },
                       child: AbsorbPointer(
-                        child: TextFormField(
+                        child: CustomFormField(
+                          icon: Icon(Icons.access_time),
+                          hint: 'hh:mm',
                           controller: horarioController,
                           validator: (value) {
                             if (value.isEmpty) {
@@ -207,10 +208,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.access_time),
-                            hintText: 'hh:mm',
-                          ),
+                          inputType: TextInputType.text,
                         ),
                       ),
                     ),
