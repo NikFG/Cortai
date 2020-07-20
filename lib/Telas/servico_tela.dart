@@ -33,7 +33,6 @@ class ServicoTela extends StatelessWidget {
                 dados.nome,
                 style: TextStyle(
                   color: Colors.black,
-                  fontFamily: 'Poppins',
                   fontSize: 20.0,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -73,9 +72,7 @@ class ServicoTela extends StatelessWidget {
                               dados.nome,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 22),
+                                  fontWeight: FontWeight.w500, fontSize: 22),
                               maxLines: 3,
                             ),
                           ],
@@ -112,7 +109,6 @@ class ServicoTela extends StatelessWidget {
                                                 "$distancia",
                                                 style: TextStyle(
                                                   color: Colors.black,
-                                                  fontFamily: 'Poppins',
                                                   fontSize: 18,
                                                 ),
                                               ),
@@ -130,7 +126,6 @@ class ServicoTela extends StatelessWidget {
                                       "~ R\$119",
                                       style: TextStyle(
                                         color: Colors.black,
-                                        fontFamily: 'Poppins',
                                         fontSize: 18.0,
                                       ),
                                     ),

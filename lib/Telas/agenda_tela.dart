@@ -54,11 +54,11 @@ class _AgendaTelaState extends State<AgendaTela> {
             ListTile(
               title: Text(
                 widget.servicoDados.descricao,
-                style: TextStyle(fontSize: 22, fontFamily: 'Poppins'),
+                style: TextStyle(fontSize: 22),
               ),
               subtitle: Text(
                   'R\$${widget.servicoDados.valor.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 16, fontFamily: 'Poppins')),
+                  style: TextStyle(fontSize: 16)),
               leading: CircleAvatar(
                 radius: 30,
                 backgroundImage: widget.servicoDados.imagemUrl != null
@@ -81,7 +81,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                           "Selecione o Profissional :",
                           style: TextStyle(
                             fontSize: 18,
-                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -126,7 +125,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                         "Quando seria melhor para você ?",
                         style: TextStyle(
                           fontSize: 18,
-                          fontFamily: 'Poppins',
                           fontWeight: FontWeight.w900,
                         ),
                       ),
@@ -169,7 +167,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                       child: Text(
                         'Qual horario?',
                         style: TextStyle(
-                          fontFamily: 'Poppins',
                           fontSize: 18,
                           fontWeight: FontWeight.w900,
                         ),
@@ -222,9 +219,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                           child: Text(
                             'Você tem um código de desconto?',
                             style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700),
+                                fontSize: 18, fontWeight: FontWeight.w700),
                           ),
                         ),
                       ],
@@ -258,7 +253,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                       child: Text(
                         'Como você gostaria de pagar?',
                         style: TextStyle(
-                          fontFamily: 'Poppins',
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                         ),
@@ -342,7 +336,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                                     ? Text(
                                         'Confirmar',
                                         style: TextStyle(
-                                          fontFamily: 'Poppins',
                                           fontSize: 18,
                                           color: Colors.white,
                                         ),
@@ -410,7 +403,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 22,
-                              fontFamily: 'Poppins',
                             ),
                           ),
                         );
@@ -439,7 +431,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 22,
-                  fontFamily: 'Poppins',
                 ),
               ),
             ));
