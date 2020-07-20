@@ -23,7 +23,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                   stream: HorarioControle.get()
                       .where('confirmado', isEqualTo: false)
                       .where('cabeleireiro', isEqualTo: model.dados.id)
-                      .orderBy('data')
+                      .orderBy('data',descending: true)
                       .orderBy('horario')
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -54,7 +54,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                   future: HorarioControle.get()
                       .where('confirmado', isEqualTo: true)
                       .where('cabeleireiro', isEqualTo: model.dados.id)
-                      .orderBy('data')
+                      .orderBy('data', descending: true)
                       .orderBy('horario')
                       .getDocuments(),
                   builder: (context, snapshot) {
