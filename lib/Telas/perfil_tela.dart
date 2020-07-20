@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Controle/salao_controle.dart';
+import 'package:agendacabelo/Dados/login.dart';
 import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
@@ -80,79 +81,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                   SizedBox(
                     height: 20,
                   ),
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              CadastroFuncionamentoTela(model.dados.salao)));
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          FontAwesome.clock_o,
-                          color: Colors.black54,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          "Horário de funcionamento",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.black45,
-                  ),
-                  FlatButton(
-                      onPressed: () async {
-                        var salaoDados = await SalaoControle.get()
-                            .document(model.dados.salao)
-                            .get()
-                            .then((doc) {
-                          return Salao.fromDocument(doc);
-                        });
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => EditarSalaoTela(
-                                model.dados.id,
-                                salao: salaoDados)));
-                      },
-                      child: model.dados.salao != null
-                          ? Row(
-                              children: <Widget>[
-                                Icon(
-                                  FontAwesome.address_book_o,
-                                  color: Colors.black54,
-                                ),
-                                SizedBox(width: 10),
-                                Text(
-                                  "Editar salão",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Row(
-                              children: <Widget>[
-                                Icon(
-                                  FontAwesome.address_book_o,
-                                  color: Colors.black54,
-                                ),
-                                SizedBox(width: 10),
-                                Text(
-                                  "Criar salão",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            )),
-                  Divider(
-                    color: Colors.black45,
-                  ),
-                  FlatButton(
+
+                  /*       FlatButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => CheckinTela()));
@@ -171,28 +101,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                             ),
                           ),
                         ],
-                      )),
-                  Divider(
-                    color: Colors.black45,
-                  ),
-                  FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SolicitacaoCabeleireiroTela(
-                                model.dados.salao)));
-                      },
-                      child: Row(children: <Widget>[
-                        Icon(
-                          FontAwesome.users,
-                          color: Colors.black54,
-                        ),
-                        SizedBox(width: 10),
-                        Text("Cadastrar cabeleireiros",
-                            style: TextStyle(fontSize: 18))
-                      ])),
-                  Divider(
-                    color: Colors.black45,
-                  ),
+                      )),*/
+                  _widgetsDonoSalao(model.dados),
                   FlatButton(
                       onPressed: () {
                         showAboutDialog(
@@ -223,7 +133,6 @@ class _PerfilTelaState extends State<PerfilTela> {
                   Divider(
                     color: Colors.black45,
                   ),
-             
                   FlatButton(
                       onPressed: () async {
                         await model.signOut();
@@ -263,5 +172,107 @@ class _PerfilTelaState extends State<PerfilTela> {
         _imagem = File(imagem.path);
       }
     });
+  }
+
+  Widget _widgetsDonoSalao(Login model) {
+    if (model.isDonoSalao) {
+      return Column(
+        children: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      CadastroFuncionamentoTela(model.salao)));
+            },
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  FontAwesome.clock_o,
+                  color: Colors.black54,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "Horário de funcionamento",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            color: Colors.black45,
+          ),
+          FlatButton(
+              onPressed: () async {
+                var salaoDados = await SalaoControle.get()
+                    .document(model.salao)
+                    .get()
+                    .then((doc) {
+                  return Salao.fromDocument(doc);
+                });
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        EditarSalaoTela(model.id, salao: salaoDados)));
+              },
+              child: model.salao != null
+                  ? Row(
+                      children: <Widget>[
+                        Icon(
+                          FontAwesome.address_book_o,
+                          color: Colors.black54,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Editar salão",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Row(
+                      children: <Widget>[
+                        Icon(
+                          FontAwesome.address_book_o,
+                          color: Colors.black54,
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Criar salão",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    )),
+          Divider(
+            color: Colors.black45,
+          ),
+          FlatButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        SolicitacaoCabeleireiroTela(model.salao)));
+              },
+              child: Row(children: <Widget>[
+                Icon(
+                  FontAwesome.users,
+                  color: Colors.black54,
+                ),
+                SizedBox(width: 10),
+                Text("Cadastrar cabeleireiros", style: TextStyle(fontSize: 18))
+              ])),
+          Divider(
+            color: Colors.black45,
+          ),
+        ],
+      );
+    } else {
+      return Container(
+        height: 0,
+        width: 0,
+      );
+    }
   }
 }
