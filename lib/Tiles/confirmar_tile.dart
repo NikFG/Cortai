@@ -36,7 +36,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
       leading: null,
       title: FutureBuilder(
         future: CabeleireiroControle.get()
-            .document(widget.horarioDados.cabeleireiro)
+            .document(widget.horarioDados.cliente)
             .get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
