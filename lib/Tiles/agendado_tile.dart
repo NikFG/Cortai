@@ -6,9 +6,12 @@ import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Telas/detalhes_tela.dart';
 import 'package:agendacabelo/Dados/login.dart';
 import 'package:agendacabelo/Dados/servico.dart';
+import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/custom_form_field.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -61,82 +64,11 @@ class _AgendadoTileState extends State<AgendadoTile> {
                   Text("Avaliar"),
                 ],
               ),
-              onPressed: () => {_avaliarDialog(context)})
+              onPressed: () {
+                _avaliarDialog(context);
+              })
           : confirmado(),
       leading: null,
-    );
-  }
-
-  _detalhesDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Detalhes"),
-        content: Container(
-//          padding: EdgeInsets.only(top: 5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text("Seu zé Barber",
-                  style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700)),
-              Text("Realizado às 12:28 - 16/07/2020",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 13,
-                  )),
-              ListTile(
-                  leading: Icon(Icons.check_circle, color: Colors.green),
-                  title: Text("Confirmado",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 13,
-                      ))),
-              Text("Agendamento 12",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.grey[500],
-                  )),
-              ListTile(
-                leading: Icon(Icons.looks_one),
-                title: Text("Corte Massa",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 13,
-                    )),
-                trailing: Text("R\$19,90",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 13,
-                    )),
-              ),
-              Text("Endereço: \n Rua da cobiça 117, Bairro inferno",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                  )),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("Fechar"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          FlatButton(
-            child: Text("Ligar para salão"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
     );
   }
 
@@ -153,28 +85,46 @@ class _AgendadoTileState extends State<AgendadoTile> {
   _avaliarDialog(BuildContext context) async {
     String salao = await getSalao();
     bool avaliado = await isAvaliado(salao);
-
-    if (!avaliado) {
+    var _descricaoControlador = TextEditingController();
+    if (avaliado) {
       return showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (context) => AlertDialog(
                 title: Text(
                     "Qual a avaliação que deseja dar ao seu cabeleireiro?"),
-                content: RatingBar(
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (double value) {
-                    setState(() {
-                      _avaliacao = value;
-                    });
-                  },
+                content: Wrap(
+                  children: <Widget>[
+                    RatingBar(
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (double value) {
+                        setState(() {
+                          _avaliacao = value;
+                        });
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: CustomFormField(
+                        validator: (value) {
+                          return null;
+                        },
+                        hint: "Descrição",
+                        controller: _descricaoControlador,
+                        icon: null,
+                        inputType: TextInputType.text,
+                        isNome: true,
+                      ),
+                    )
+                  ],
                 ),
                 actions: <Widget>[
                   FlatButton(
@@ -187,10 +137,14 @@ class _AgendadoTileState extends State<AgendadoTile> {
                     child: Text("Confirmar"),
                     onPressed: () {
                       if (_avaliacao > 1) {
+                        var dataHora = DateTime.now();
                         Avaliacao dados = Avaliacao();
                         dados.cabeleireiro = widget.horario.cabeleireiro;
                         dados.avaliacao = _avaliacao;
+                        dados.descricao = _descricaoControlador.text;
                         dados.salao = salao;
+                        dados.data = Util.dateFormat.format(dataHora);
+                        dados.hora = Util.timeFormat.format(dataHora);
                         dados.horario = widget.horario.id;
                         AvaliacaoControle.store(dados,
                             onSuccess: onSuccess, onFail: onFail);
