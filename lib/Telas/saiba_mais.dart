@@ -23,7 +23,9 @@ class SaibaMaisTela extends StatelessWidget {
             backgroundColor: Colors.white,
             title: Text(
               "Saiba Mais",
-              style: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
             centerTitle: true,
             leading: Util.leadingScaffold(context, color: Colors.black),
@@ -32,14 +34,17 @@ class SaibaMaisTela extends StatelessWidget {
                 Tab(
                   child: Text(
                     "Salão",
-                    style:
-                        TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 Tab(
                     child: Text(
                   "Avaliações",
-                  style: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                 ))
               ],
             ),
@@ -55,12 +60,9 @@ class SaibaMaisTela extends StatelessWidget {
                       children: <Widget>[
                         Text(salao.nome,
                             style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 32,
-                                fontWeight: FontWeight.w700)),
+                                fontSize: 32, fontWeight: FontWeight.w700)),
                         Text("Horário de Funcionamento:",
                             style: TextStyle(
-                              fontFamily: 'Poppins',
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                             )),
@@ -85,7 +87,6 @@ class SaibaMaisTela extends StatelessWidget {
                                 return Text(
                                     "${dados.diaSemana}: ${dados.horarioAbertura} as ${dados.horarioFechamento}",
                                     style: TextStyle(
-                                      fontFamily: 'Poppins',
                                       fontSize: 16,
                                     ));
                               }).toList();
@@ -97,7 +98,6 @@ class SaibaMaisTela extends StatelessWidget {
                         ),
                         Text("Endereço:",
                             style: TextStyle(
-                              fontFamily: 'Poppins',
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                             )),
@@ -108,7 +108,6 @@ class SaibaMaisTela extends StatelessWidget {
                           },
                           child: Text("${salao.endereco}",
                               style: TextStyle(
-                                fontFamily: 'Poppins',
                                 fontSize: 16,
                                 color: Theme.of(context).primaryColor,
                               )),

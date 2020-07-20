@@ -27,8 +27,6 @@ class _CadastroTelaState extends State<CadastroTela> {
 
   @override
   Widget build(BuildContext context) {
-
-
     Util.corPrimariaStatusBar(context);
     return Scaffold(
         body: Form(
@@ -72,7 +70,6 @@ class _CadastroTelaState extends State<CadastroTela> {
                           style: TextStyle(
                             fontWeight: FontWeight.w900,
                             color: Color(0xCCFFFFFF),
-                            fontFamily: 'Poppins',
                             fontSize: 38,
                           ),
                         ),
@@ -141,7 +138,8 @@ class _CadastroTelaState extends State<CadastroTela> {
                           icon: Icon(Icons.vpn_key, color: Colors.grey),
                           controller: _senhaControlador,
                           validator: (text) {
-                            double forcaSenha = estimatePasswordStrength(_senhaControlador.text);
+                            double forcaSenha = estimatePasswordStrength(
+                                _senhaControlador.text);
                             if (text.length < 6) {
                               return "A senha deve conter pelo menos 6 caracteres";
                             }

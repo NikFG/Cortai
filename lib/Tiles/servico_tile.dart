@@ -17,15 +17,13 @@ class ServicoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomListTile(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-              AgendaTela(this.dados, this.nomeSalao))),
+          builder: (context) => AgendaTela(this.dados, this.nomeSalao))),
       leading: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => HeroCustom(
-                    imagemUrl: dados.imagemUrl != null
-                        ? dados.imagemUrl
-                        : imgPadrao,
+                    imagemUrl:
+                        dados.imagemUrl != null ? dados.imagemUrl : imgPadrao,
                     descricao: dados.descricao,
                   )));
         },
@@ -41,19 +39,21 @@ class ServicoTile extends StatelessWidget {
         dados.descricao,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            color: Colors.black, fontSize: 20.0, fontFamily: 'Poppins'),
+          color: Colors.black,
+          fontSize: 20.0,
+        ),
       ),
       subtitle: Text(
         dados.observacao,
-        style: TextStyle(
-          fontFamily: 'Poppins',
-        ),
+        style: TextStyle(),
         maxLines: 3,
       ),
       trailing: Text(
         "R\$${dados.valor.toStringAsFixed(2).replaceAll('.', ',')}",
         style: TextStyle(
-            fontSize: 14, color: Colors.black87, fontFamily: 'Poppins'),
+          fontSize: 14,
+          color: Colors.black87,
+        ),
       ),
     );
   }

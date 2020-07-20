@@ -62,7 +62,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                         children: <Widget>[
                           Text("Nome completo",
                               style: TextStyle(
-                                fontFamily: 'Poppins',
+                               
                                 fontSize: 16,
                                 color: Colors.grey,
                               )),
@@ -81,7 +81,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                           SizedBox(height: 5),
                           Text("Telefone",
                               style: TextStyle(
-                                fontFamily: 'Poppins',
+                               
                                 fontSize: 16,
                                 color: Colors.grey,
                               )),
@@ -111,7 +111,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                             },
                             child: Text("Mudar senha",
                                 style: TextStyle(
-                                  fontFamily: 'Poppins',
+                                 
                                   fontSize: 16,
                                   color: Theme.of(context).primaryColor,
                                 )),

@@ -47,7 +47,9 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
               cliente.nome,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  color: Colors.black, fontSize: 20.0, fontFamily: 'Poppins'),
+                color: Colors.black,
+                fontSize: 20.0,
+              ),
             );
           }
         },
@@ -59,12 +61,13 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
           if (!snapshot.hasData) {
             return Center();
           } else {
-            Servico servicoDados =
-                Servico.fromDocument(snapshot.data);
+            Servico servicoDados = Servico.fromDocument(snapshot.data);
             return Text(
               "${servicoDados.descricao}\n"
               "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",
-              style: TextStyle(fontSize: 15, fontFamily: 'Poppins'),
+              style: TextStyle(
+                fontSize: 15,
+              ),
             );
           }
         },
@@ -124,9 +127,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
       else
         onSuccessCancelar();
     });
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void onSuccess() async {

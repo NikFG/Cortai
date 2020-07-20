@@ -54,13 +54,10 @@ class DetalhesTela extends StatelessWidget {
                     children: <Widget>[
                       Text(salao.nome,
                           style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 32,
-                              fontWeight: FontWeight.w700)),
+                              fontSize: 32, fontWeight: FontWeight.w700)),
                       pago
                           ? Text("Realizado às 12:28 - 16/07/2020",
                               style: TextStyle(
-                                fontFamily: 'Poppins',
                                 fontSize: 14,
                               ))
                           : Container(
@@ -69,7 +66,6 @@ class DetalhesTela extends StatelessWidget {
                             ),
                       Text("Agendamento ${horario.id}",
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                           )),
@@ -91,20 +87,17 @@ class DetalhesTela extends StatelessWidget {
                                   ? "Confirmado"
                                   : "Não confirmado",
                               style: TextStyle(
-                                fontFamily: 'Poppins',
                                 fontSize: 14,
                               ))),
                       ListTile(
                         leading: Icon(FontAwesome.tag),
                         title: Text(servico.descricao,
                             style: TextStyle(
-                              fontFamily: 'Poppins',
                               fontSize: 14,
                             )),
                         trailing: Text(
                             "R\$${servico.valor.toStringAsFixed(2).replaceAll('.', ',')}",
                             style: TextStyle(
-                              fontFamily: 'Poppins',
                               fontSize: 14,
                             )),
                       ),
@@ -116,7 +109,6 @@ class DetalhesTela extends StatelessWidget {
                             padding: EdgeInsets.only(left: 15),
                             child: Text("Endereço",
                                 style: TextStyle(
-                                  fontFamily: 'Poppins',
                                   fontSize: 16,
                                 )),
                           ),
@@ -127,7 +119,6 @@ class DetalhesTela extends StatelessWidget {
                             },
                             child: Text("${salao.endereco}",
                                 style: TextStyle(
-                                  fontFamily: 'Poppins',
                                   fontSize: 16,
                                   color: Theme.of(context).primaryColor,
                                 )),
