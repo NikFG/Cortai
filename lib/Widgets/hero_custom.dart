@@ -21,8 +21,7 @@ class HeroCustom extends StatelessWidget {
         title: descricao != null
             ? Text(
                 this.descricao,
-                style: TextStyle(
-                    fontFamily: 'Poppins', fontWeight: FontWeight.w600),
+                style: TextStyle(fontWeight: FontWeight.w600),
               )
             : Container(
                 height: 0,
@@ -31,7 +30,8 @@ class HeroCustom extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: PhotoView(minScale:  PhotoViewComputedScale.contained,
+        child: PhotoView(
+          minScale: PhotoViewComputedScale.contained,
           heroAttributes: PhotoViewHeroAttributes(
             tag: 'Foto',
             transitionOnUserGestures: true,

@@ -78,15 +78,13 @@ class _HomeTelaState extends State<HomeTela> {
                       Tab(
                         child: Text(
                           "Em andamento",
-                          style: TextStyle(
-                              color: Colors.black, fontFamily: 'Poppins'),
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                       Tab(
                           child: Text(
                         "Finalizados",
-                        style: TextStyle(
-                            color: Colors.black, fontFamily: 'Poppins'),
+                        style: TextStyle(color: Colors.black),
                       ))
                     ],
                   ),
@@ -163,14 +161,16 @@ class _HomeTelaState extends State<HomeTela> {
                         child: Text(
                           "A confirmar",
                           style: TextStyle(
-                              color: Colors.black, fontFamily: 'Poppins'),
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                       Tab(
                           child: Text(
                         "Confirmados",
                         style: TextStyle(
-                            color: Colors.black, fontFamily: 'Poppins'),
+                          color: Colors.black,
+                        ),
                       ))
                     ],
                   ),

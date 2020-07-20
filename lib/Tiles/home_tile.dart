@@ -70,7 +70,6 @@ class _HomeTileState extends State<HomeTile> {
         softWrap: false,
         style: TextStyle(
           fontSize: 20.0,
-          fontFamily: 'Poppins',
           fontWeight: FontWeight.w100,
         ),
       ),

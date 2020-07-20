@@ -68,7 +68,7 @@ class _LoginTelaState extends State<LoginTela> {
                                 alignment: Alignment.center,
                                 child: Image(
                                   image: AssetImage(
-                                    'assets/images/cortaíiconeEscrita.png',
+                                    'assets/icons/icon_white_transparent.png',
                                   ),
                                   height: 200.0,
                                   width: 200.0,

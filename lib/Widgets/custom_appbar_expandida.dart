@@ -46,7 +46,6 @@ class CustomAppbarExpandida extends StatelessWidget {
                           nomeSalao,
                           style: TextStyle(
                             color: Color(0xFFFFFFFF),
-                            fontFamily: 'Poppins',
                             fontSize: 25,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -66,7 +65,6 @@ class CustomAppbarExpandida extends StatelessWidget {
                               "~ R\$${maiorValor.toStringAsFixed(2).replaceAll('.', ',')}",
                               style: TextStyle(
                                 color: Color(0xB6FFFFFF),
-                                fontFamily: 'Poppins',
                                 fontSize: 16.0,
                               ),
                             ),
@@ -89,7 +87,6 @@ class CustomAppbarExpandida extends StatelessWidget {
                                         "$distancia",
                                         style: TextStyle(
                                           color: Color(0xFFFFFFFF),
-                                          fontFamily: 'Poppins',
                                           fontSize: 16,
                                         ),
                                       ),

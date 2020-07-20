@@ -37,15 +37,15 @@ class _PerfilTelaState extends State<PerfilTela> {
                   ListTile(
                     title: Text(
                       model.dados.nome,
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                     ),
                     subtitle: InkWell(
                         child: Text(
                           'Editar Perfil',
-                          style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
@@ -95,7 +95,9 @@ class _PerfilTelaState extends State<PerfilTela> {
                         SizedBox(width: 10),
                         Text(
                           "Horário de funcionamento",
-                          style: TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ],
                     ),
@@ -127,7 +129,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                                 Text(
                                   "Editar salão",
                                   style: TextStyle(
-                                      fontSize: 18, fontFamily: 'Poppins'),
+                                    fontSize: 18,
+                                  ),
                                 ),
                               ],
                             )
@@ -141,7 +144,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                                 Text(
                                   "Criar salão",
                                   style: TextStyle(
-                                      fontSize: 18, fontFamily: 'Poppins'),
+                                    fontSize: 18,
+                                  ),
                                 ),
                               ],
                             )),
@@ -162,8 +166,9 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Relatórios",
-                            style:
-                                TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
                           ),
                         ],
                       )),
@@ -221,6 +226,29 @@ class _PerfilTelaState extends State<PerfilTela> {
                     color: Colors.black45,
                   ),
                   FlatButton(
+                      onPressed: () {
+                        showAboutDialog(
+                            context: context,
+                            applicationName: "Cortaí",
+                            applicationVersion: "1.0",
+                            applicationIcon: Image.asset(
+                              "assets/icons/icon_white.png",
+                              width: 100,
+                              height: 100,
+                            ));
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            FontAwesome.info_circle,
+                            color: Colors.black54,
+                          ),
+                        ],
+                      )),
+                  Divider(
+                    color: Colors.black45,
+                  ),
+                  FlatButton(
                       onPressed: () async {
                         await model.signOut();
                         Navigator.pushReplacement(
@@ -237,8 +265,9 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Logout",
-                            style:
-                                TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
                           ),
                         ],
                       ))

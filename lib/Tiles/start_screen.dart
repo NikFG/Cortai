@@ -14,7 +14,6 @@ class _StartScreenState extends State<StartScreen> {
 
   final tituloStyle = TextStyle(
     color: Colors.white,
-    fontFamily: 'Poppins',
     fontSize: 26.0,
     height: 1.5,
   );
@@ -115,7 +114,7 @@ class _StartScreenState extends State<StartScreen> {
                             ),
                             SizedBox(height: 15.0),
                             Text(
-                              "Os melhores profissionais estão a alguns click's de distância.",
+                              "Os melhores profissionais estão a alguns toques de distância.",
                               style: subTituloStyle,
                             ),
                           ],
