@@ -47,10 +47,10 @@ class ServicoFlexibleAppBar extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFFFFFFFF),
                             fontFamily: 'Poppins',
-                            fontSize: 36,
+                            fontSize: 25,
                           ),
-                          overflow: TextOverflow.fade,
-                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           textAlign: TextAlign.center,
                         ),
                       ),
