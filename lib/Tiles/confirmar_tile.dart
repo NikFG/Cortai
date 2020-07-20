@@ -122,7 +122,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
             ),
           );
         }).then((value) {
-      if (confirmado)
+      if (confirmado != null) if (confirmado)
         onSuccess();
       else
         onSuccessCancelar();
