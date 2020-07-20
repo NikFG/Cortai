@@ -137,6 +137,7 @@ class DetalhesTela extends StatelessWidget {
                               },
                             ),
                             FlatButton(
+                              padding: EdgeInsets.only(right: 10),
                               child: Text(
                                 "Ligar para salão",
                               ),
