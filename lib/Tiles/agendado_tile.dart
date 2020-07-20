@@ -86,7 +86,7 @@ class _AgendadoTileState extends State<AgendadoTile> {
     String salao = await getSalao();
     bool avaliado = await isAvaliado(salao);
     var _descricaoControlador = TextEditingController();
-    if (avaliado) {
+    if (!avaliado) {
       return showDialog(
           context: context,
           barrierDismissible: false,
