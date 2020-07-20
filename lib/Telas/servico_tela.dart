@@ -37,6 +37,7 @@ class ServicoTela extends StatelessWidget {
                   fontSize: 20.0,
                 ),
                 overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               )),
               stretch: false,
               pinned: true,
@@ -55,7 +56,6 @@ class ServicoTela extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
-                  
                 ),
                 padding: EdgeInsets.all(10),
                 child: Column(
@@ -63,21 +63,21 @@ class ServicoTela extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       child: GestureDetector(
-                        onTap: (){
-                           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => SaibaMaisTela()));
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SaibaMaisTela(dados)));
                         },
                         child: Column(
                           children: <Widget>[
                             Text(
-                          dados.nome,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 22),
-                        ),
-                        
+                              dados.nome,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 22),
+                              maxLines: 3,
+                            ),
                           ],
                         ),
                       ),
@@ -85,73 +85,76 @@ class ServicoTela extends StatelessWidget {
                     SizedBox(height: 10),
                     Container(
                         child: GestureDetector(
-                        onTap: (){
-                          print('to aqui');
-                           Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => SaibaMaisTela()));
-                        },
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                          Container(
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 8.0, right: 8.0),
-                              child: Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                        // child: Icon(),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => SaibaMaisTela(dados)));
+                            },
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Container(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: 8.0, right: 8.0),
+                                      child: Container(
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                                // child: Icon(),
 
-                                        ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        "$distancia",
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'Poppins',
-                                          fontSize: 18,
+                                                ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                "$distancia",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: 'Poppins',
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(bottom: 8.0, left: 8.0),
-                            child: Text(
-                              "R\$19 "
-                              "~ R\$119",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Poppins',
-                                fontSize: 18.0,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(width: 2.0),
-                                Icon(Icons.star,
-                                    color: Colors.amberAccent, size: 16.0),
-                                SizedBox(width: 5.0),
-                                Text(
-                                  '4,5',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    color: Colors.amber,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        Icon(FontAwesome.angle_right),
-                        ])))
+                                  Container(
+                                    padding:
+                                        EdgeInsets.only(bottom: 8.0, left: 8.0),
+                                    child: Text(
+                                      "R\$19 "
+                                      "~ R\$119",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'Poppins',
+                                        fontSize: 18.0,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Row(
+                                      children: <Widget>[
+                                        SizedBox(width: 2.0),
+                                        Icon(Icons.star,
+                                            color: Colors.amberAccent,
+                                            size: 16.0),
+                                        SizedBox(width: 5.0),
+                                        Text(
+                                          '4,5',
+                                          style: TextStyle(
+                                            fontSize: 18.0,
+                                            color: Colors.amber,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Icon(FontAwesome.angle_right),
+                                ])))
                   ],
                 ),
               ),
