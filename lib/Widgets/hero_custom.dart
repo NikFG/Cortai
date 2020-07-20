@@ -31,7 +31,7 @@ class HeroCustom extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: PhotoView(
+        child: PhotoView(minScale:  PhotoViewComputedScale.contained,
           heroAttributes: PhotoViewHeroAttributes(
             tag: 'Foto',
             transitionOnUserGestures: true,

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
-import 'package:agendacabelo/Dados/salao_dados.dart';
+import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Tiles/home_tile.dart';
 import 'package:agendacabelo/Widgets/carousel.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +109,7 @@ class _HomeTabState extends State<HomeTab> {
                     List<dynamic> dados = json.decode(response.data.body);
                     List<Widget> widgets = dados
                         .map((s) => HomeTile(
-                            SalaoDados.fromJson(s), s['distancia'] as double))
+                            Salao.fromJson(s), s['distancia'] as double))
                         .toList();
                     return Column(
                       children: widgets,

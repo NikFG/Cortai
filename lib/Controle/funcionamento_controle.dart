@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:agendacabelo/Dados/funcionamento_dados.dart';
+import 'package:agendacabelo/Dados/funcionamento.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ class FuncionamentoControle {
     return SalaoControle.get().document(salao).collection('funcionamento');
   }
 
-  static void store(FuncionamentoDados dados, String salao,
+  static void store(Funcionamento dados, String salao,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore
         .collection('saloes')
@@ -26,7 +26,7 @@ class FuncionamentoControle {
     });
   }
 
-  static void update(FuncionamentoDados dados, String salao,
+  static void update(Funcionamento dados, String salao,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore
         .collection('saloes')

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SalaoDados {
+class Salao {
   String id;
   String nome;
   String endereco;
@@ -14,9 +14,9 @@ class SalaoDados {
   int quantidadeAvaliacao;
   double totalAvaliacao;
 
-  SalaoDados();
+  Salao();
 
-  SalaoDados.fromDocument(DocumentSnapshot snapshot) {
+  Salao.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     nome = snapshot.data['nome'];
     endereco = snapshot.data['endereco'];
@@ -47,7 +47,7 @@ class SalaoDados {
     };
   }
 
-  SalaoDados.fromJson(Map<String, dynamic> json) {
+  Salao.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['data']['nome'];
     endereco = json['data']['endereco'];

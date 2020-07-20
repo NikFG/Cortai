@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ServicoFlexibleAppBar extends StatelessWidget {
+class CustomAppbarExpandida extends StatelessWidget {
   final double appBarHeight = 66.0;
   final double menorValor;
   final double maiorValor;
@@ -9,7 +9,7 @@ class ServicoFlexibleAppBar extends StatelessWidget {
   final String nomeSalao;
   final String enderecoSalao;
 
-  ServicoFlexibleAppBar(
+  CustomAppbarExpandida(
       {@required this.nomeSalao,
       @required this.enderecoSalao,
       @required this.menorValor,

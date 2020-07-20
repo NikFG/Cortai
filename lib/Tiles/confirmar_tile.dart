@@ -2,9 +2,9 @@ import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Controle/servico_controle.dart';
 
-import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Dados/login_dados.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
+import 'package:agendacabelo/Dados/horario.dart';
+import 'package:agendacabelo/Dados/login.dart';
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -12,7 +12,7 @@ import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 
 class ConfirmarTile extends StatefulWidget {
-  final HorarioDados horarioDados;
+  final Horario horarioDados;
   final bool aConfirmar;
 
   ConfirmarTile(this.horarioDados, this.aConfirmar);
@@ -42,7 +42,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
           if (!snapshot.hasData) {
             return Center();
           } else {
-            LoginDados cliente = LoginDados.fromDocument(snapshot.data);
+            Login cliente = Login.fromDocument(snapshot.data);
             return Text(
               cliente.nome,
               overflow: TextOverflow.ellipsis,
@@ -59,8 +59,8 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
           if (!snapshot.hasData) {
             return Center();
           } else {
-            ServicoDados servicoDados =
-                ServicoDados.fromDocument(snapshot.data);
+            Servico servicoDados =
+                Servico.fromDocument(snapshot.data);
             return Text(
               "${servicoDados.descricao}\n"
               "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",

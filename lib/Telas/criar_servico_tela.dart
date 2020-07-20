@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
+import 'package:agendacabelo/Dados/cabeleireiro.dart';
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/custom_form_field.dart';
 import 'package:agendacabelo/Widgets/hero_custom.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -14,7 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CriarServicoTela extends StatefulWidget {
-  final ServicoDados dados;
+  final Servico dados;
   final String titulo;
 
   CriarServicoTela({this.dados, @required this.titulo});
@@ -31,7 +32,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   var _precoControlador = MoneyMaskedTextController(
       decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   File _imagem;
-  List<CabeleireiroDados> selecionados = [];
+  List<Cabeleireiro> selecionados = [];
   bool _botaoHabilitado = true;
 
   @override
@@ -54,192 +55,208 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
           ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
         return Form(
           key: _formKey,
-          child: ListView(
-            padding: EdgeInsets.all(16),
-            children: <Widget>[
-              TextFormField(
-                controller: _nomeControlador,
-                keyboardType: TextInputType.text,
-                textCapitalization: TextCapitalization.sentences,
-                decoration: InputDecoration(hintText: "Nome do serviço"),
-                validator: (text) {
-                  if (text.isEmpty) {
-                    return "Nome inválido";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              TextFormField(
-                controller: _precoControlador,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(hintText: "Preço do serviço"),
-                validator: (text) {
-                  if (text.isEmpty) {
-                    return "Preço inválido";
-                  }
-                  if (text == "R\$0,00") {
-                    return "Preço não pode ser zero";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () async {
-                  var snapshots = await Firestore.instance
-                      .collection('usuarios')
-                      .where('salao', isEqualTo: model.dados.salao)
-                      .getDocuments();
-                  List<CabeleireiroDados> dados = snapshots.documents
-                      .map((e) => CabeleireiroDados.fromDocument(e))
-                      .toList();
+          child: IgnorePointer(
+            ignoring: !_botaoHabilitado,
+            child: ListView(
+              padding: EdgeInsets.all(16),
+              children: <Widget>[
+                CustomFormField(
+                  controller: _nomeControlador,
+                  inputType: TextInputType.text,
+                  isNome: true,
+                  hint: "Nome do serviço",
+                  validator: (text) {
+                    if (text.isEmpty) {
+                      return "Nome inválido";
+                    }
+                    return null;
+                  },
+                  icon: null,
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                CustomFormField(
+                  controller: _precoControlador,
+                  inputType: TextInputType.number,
+                  hint: "Preço do serviço",
+                  validator: (text) {
+                    if (text.isEmpty) {
+                      return "Preço inválido";
+                    }
+                    if (text == "R\$0,00") {
+                      return "Preço não pode ser zero";
+                    }
+                    return null;
+                  },
+                  icon: null,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    var snapshots = await Firestore.instance
+                        .collection('usuarios')
+                        .where('salao', isEqualTo: model.dados.salao)
+                        .getDocuments();
+                    List<Cabeleireiro> dados = snapshots.documents
+                        .map((e) => Cabeleireiro.fromDocument(e))
+                        .toList();
 
-                  showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) => _MyDialog(
-                            dados: dados,
-                            selecionados: selecionados,
-                            onSelectedDadosChanged: (dados) {
-                              selecionados = dados;
-                              _cabeleireirosControlador.text = "";
-                              for (int i = 0; i < selecionados.length; i++) {
-                                i != selecionados.length - 1
-                                    ? _cabeleireirosControlador.text +=
-                                        selecionados[i].nome + ", "
-                                    : _cabeleireirosControlador.text +=
-                                        selecionados[i].nome;
-                              }
-                            },
-                          ));
-                },
-                child: AbsorbPointer(
-                  child: TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    controller: _cabeleireirosControlador,
-                    decoration: InputDecoration(hintText: "Cabeleireiros"),
+                    showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) => _MyDialog(
+                              dados: dados,
+                              selecionados: selecionados,
+                              onSelectedDadosChanged: (dados) {
+                                selecionados = dados;
+                                _cabeleireirosControlador.text = "";
+                                for (int i = 0; i < selecionados.length; i++) {
+                                  i != selecionados.length - 1
+                                      ? _cabeleireirosControlador.text +=
+                                          selecionados[i].nome + ", "
+                                      : _cabeleireirosControlador.text +=
+                                          selecionados[i].nome;
+                                }
+                              },
+                            ));
+                  },
+                  child: AbsorbPointer(
+                    child: CustomFormField(
+                      icon: null,
+                      validator: (value) {
+                        return null;
+                      },
+                      inputType: TextInputType.multiline,
+                      maxLines: null,
+                      controller: _cabeleireirosControlador,
+                      hint: "Cabeleireiros",
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 10,),
-              TextFormField(
-                controller: _observacaoControlador,
-                keyboardType: TextInputType.multiline,
-                minLines: 1,
-                maxLines: 2,
-                decoration: InputDecoration(
-                  hintText: "Breve descrição sobre o serviço",
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(height: 25),
-              Container(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.photo_camera),
-                        onPressed: () {
-                          getImagem(true);
-                        },
-                      ),
-                      FlatButton(
-                        onPressed: () {
-                          getImagem(false);
-                        },
-                        child: _verificaImagemNula(),
-                      ),
-                    ],
-                  )),
-
-              _imagem != null
-                  ? GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HeroCustom(imagemFile: _imagem)));
-                      },
-                      child: Image.file(_imagem))
-                  : widget.dados != null
-                      ? widget.dados.imagemUrl == null
-                          ? Container(
-                              width: 0,
-                              height: 0,
-                            )
-                          : GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HeroCustom(
-                                            imagemUrl:
-                                                widget.dados.imagemUrl)));
-                              },
-                              child: Image.network(widget.dados.imagemUrl))
-                      : Container(
-                          width: 0,
-                          height: 0,
+                CustomFormField(
+                  controller: _observacaoControlador,
+                  inputType: TextInputType.multiline,
+                  minLines: 1,
+                  maxLines: 2,
+                  hint: "Breve descrição sobre o serviço",
+                  icon: null,
+                  validator: (value) {
+                    return null;
+                  },
+                ),
+                SizedBox(height: 25),
+                Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.photo_camera),
+                          onPressed: () {
+                            getImagem(true);
+                          },
                         ),
-              SizedBox(
-                height: 25,
-              ),
-              SizedBox(
-                height: 44,
-                child: RaisedButton(
-                  child: _botaoHabilitado
-                      ? Text(
-                          "Confirmar",
-                          style: TextStyle(fontSize: 18),
-                        )
-                      : CircularProgressIndicator(
-                          backgroundColor: Colors.white70,
+                        FlatButton(
+                          onPressed: () {
+                            getImagem(false);
+                          },
+                          child: _verificaImagemNula(),
                         ),
-                  textColor: Colors.white,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: _botaoHabilitado
-                      ? () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() {
-                              _botaoHabilitado = false;
-                            });
-                            ServicoDados dados = ServicoDados();
-                            dados.descricao = _nomeControlador.text;
-                            dados.setValor(_precoControlador.text);
-                            dados.salao = model.dados.salao;
-                            dados.observacao = _observacaoControlador.text;
-                            dados.cabeleireiros =
-                                selecionados.map((e) => e.id).toList();
-                            if (widget.dados != null) {
-                              if (_imagem != null) {
-                                await Util.deletaImagem(widget.dados.imagemUrl);
-                                dados.imagemUrl = await Util.enviaImagem(
-                                    model.dados.id, _imagem);
+                      ],
+                    )),
+                _imagem != null
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      HeroCustom(imagemFile: _imagem)));
+                        },
+                        child: Image.file(_imagem))
+                    : widget.dados != null
+                        ? widget.dados.imagemUrl == null
+                            ? Container(
+                                width: 0,
+                                height: 0,
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HeroCustom(
+                                              imagemUrl:
+                                                  widget.dados.imagemUrl)));
+                                },
+                                child: Image.network(widget.dados.imagemUrl))
+                        : Container(
+                            width: 0,
+                            height: 0,
+                          ),
+                SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                  //TODO: botão padrão
+                  height: 44,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    child: _botaoHabilitado
+                        ? Text(
+                            "Confirmar",
+                            style: TextStyle(fontSize: 18),
+                          )
+                        : CircularProgressIndicator(
+                            backgroundColor: Colors.white70,
+                          ),
+                    textColor: Colors.white,
+                    color: Theme.of(context).primaryColor,
+                    onPressed: _botaoHabilitado
+                        ? () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                _botaoHabilitado = false;
+                              });
+                              Servico dados = Servico();
+                              dados.descricao = _nomeControlador.text;
+                              dados.setValor(_precoControlador.text);
+                              dados.salao = model.dados.salao;
+                              dados.observacao = _observacaoControlador.text;
+                              dados.cabeleireiros =
+                                  selecionados.map((e) => e.id).toList();
+                              if (widget.dados != null) {
+                                if (_imagem != null) {
+                                  await Util.deletaImagem(
+                                      widget.dados.imagemUrl);
+                                  dados.imagemUrl = await Util.enviaImagem(
+                                      model.dados.id, _imagem);
+                                } else {
+                                  dados.imagemUrl = widget.dados.imagemUrl;
+                                }
+                                dados.id = widget.dados.id;
+                                ServicoControle.update(dados,
+                                    onSuccess: onUpdateSuccess, onFail: onFail);
                               } else {
-                                dados.imagemUrl = widget.dados.imagemUrl;
+                                if (_imagem != null)
+                                  dados.imagemUrl = await Util.enviaImagem(
+                                      model.dados.id, _imagem);
+                                ServicoControle.store(dados,
+                                    onSuccess: onSuccess, onFail: onFail);
                               }
-                              dados.id = widget.dados.id;
-                              ServicoControle.update(dados,
-                                  onSuccess: onUpdateSuccess, onFail: onFail);
-                            } else {
-                              if (_imagem != null)
-                                dados.imagemUrl = await Util.enviaImagem(
-                                    model.dados.id, _imagem);
-                              ServicoControle.store(dados,
-                                  onSuccess: onSuccess, onFail: onFail);
                             }
                           }
-                        }
-                      : null,
-                ),
-              )
-            ],
+                        : null,
+                  ),
+                )
+              ],
+            ),
           ),
         );
       }),
@@ -266,9 +283,8 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         .collection('usuarios')
         .where('uid', whereIn: widget.dados.cabeleireiros)
         .getDocuments();
-    selecionados = documents.documents
-        .map((e) => CabeleireiroDados.fromDocument(e))
-        .toList();
+    selecionados =
+        documents.documents.map((e) => Cabeleireiro.fromDocument(e)).toList();
     _cabeleireirosControlador.text = "";
     for (int i = 0; i < selecionados.length; i++) {
       if (i != selecionados.length - 1)
@@ -330,9 +346,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
 }
 
 class _MyDialog extends StatefulWidget {
-  final List<CabeleireiroDados> dados;
-  final List<CabeleireiroDados> selecionados;
-  final ValueChanged<List<CabeleireiroDados>> onSelectedDadosChanged;
+  final List<Cabeleireiro> dados;
+  final List<Cabeleireiro> selecionados;
+  final ValueChanged<List<Cabeleireiro>> onSelectedDadosChanged;
 
   const _MyDialog(
       {@required this.dados,
@@ -346,7 +362,7 @@ class _MyDialog extends StatefulWidget {
 class _MyDialogState extends State<_MyDialog> {
   @override
   Widget build(BuildContext context) {
-    List<CabeleireiroDados> _tempSelecionados = widget.selecionados;
+    List<Cabeleireiro> _tempSelecionados = widget.selecionados;
     return Dialog(
       child: Column(
         children: <Widget>[

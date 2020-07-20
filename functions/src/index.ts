@@ -1,5 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import Flatted = require('flatted');
+
 admin.initializeApp();
 const db = admin.firestore();
 const fcm = admin.messaging();
@@ -221,31 +223,36 @@ export const horarioCancelado = functions.firestore
       .doc(event.get('cabeleireiro'))
       .get()
 
-    const token = queryCliente.get('token')
-    const cabeleireiro = queryCabeleireiro.get('nome')
+    if (event.get('clienteCancelou') == true) {
+      const token = queryCabeleireiro.get('token')
+      const cliente = queryCliente.get('nome')
+      const payload: admin.messaging.MessagingPayload = {
+        notification: {
+          title: `Seu agendamento foi cancelado pelo cliente`,
+          body: `Seu horário com ${cliente} foi cancelado`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+        }
+      };
+      return fcm.sendToDevice(token, payload);
+    } else {
+      const token = queryCliente.get('token')
+      const cabeleireiro = queryCabeleireiro.get('nome')
+      const payload: admin.messaging.MessagingPayload = {
+        notification: {
+          title: `Seu agendamento foi cancelado pelo cabeleireiro`,
+          body: `Seu horário com ${cabeleireiro} foi cancelado`,
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+        }
+      };
+      return fcm.sendToDevice(token, payload);
+    }
 
-    const payload: admin.messaging.MessagingPayload = {
-      notification: {
-        title: `Seu agendamento foi cancelado pelo cabeleireiro`,
-        body: `Seu horário com ${cabeleireiro} foi cancelado`,
-        click_action: 'FLUTTER_NOTIFICATION_CLICK',
-      }
-    };
-    return fcm.sendToDevice(token, payload);
+
   });
 
-/*async function getResumoSalao(id: string) {
-  return await db
-    .collection('saloes')
-    .doc(id)
-    .collection('resumo')
-    .doc('resumo')
-    .get().then((doc) => { return { teste: doc.get('menorValorServico') } }).catch((e) => { return e })
-
-}*/
-
-export const calculaDistancia = functions.https
-  .onRequest(async (request, response) => {
+export const calculaDistancia = functions
+  .runWith({ memory: '1GB', timeoutSeconds: 300 })
+  .https.onRequest(async (request, response) => {
     const cidade = request.query.cidade;
     const lat = request.query.lat as string;
     const lng = request.query.lng as string;
@@ -328,3 +335,35 @@ export const calculaAvaliacaoResumo = functions.firestore
         });
     }
   });
+
+export const getAgendados = functions
+  .runWith({ memory: '1GB', timeoutSeconds: 120 })
+  .https.onRequest(async (request, response) => {
+    const cliente = request.query.clienteId as string;
+    const pago = (request.query.pago as string === 'true');
+    const horarios = await db
+      .collection('horarios')
+      .where('cliente', '==', cliente)
+      .where('pago', '==', pago)
+      .orderBy('data', 'desc')
+      .get()
+    let stringJson = []
+    for (let i = 0; i < horarios.docs.length; i++) {
+      const servicoId = horarios.docs[i].get('servico') as string
+      const cabeleireiroId = horarios.docs[i].get('cabeleireiro') as string
+      const servico = await db.collection('servicos').doc(servicoId).get()
+      const cabeleireiro = await db.collection('usuarios').doc(cabeleireiroId).get()
+      stringJson.push(Flatted.stringify({
+        'id': horarios.docs[i].id,
+        'data': horarios.docs[i].data(),
+        'servico': servico.data(),
+        'cabeleireiro': cabeleireiro.data(),
+      }))
+    }
+
+    const json = stringJson.map((value) => {
+      return Flatted.parse(value)
+    })
+
+    return response.status(200).json(json);
+  })

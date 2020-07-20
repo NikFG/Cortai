@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HorarioDados {
+class Horario {
   String id;
   String horario;
   String data;
@@ -11,9 +11,9 @@ class HorarioDados {
   bool pago;
   String formaPagamento;
 
-  HorarioDados();
+  Horario();
 
-  HorarioDados.fromDocument(DocumentSnapshot snapshot) {
+  Horario.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     horario = snapshot.data['horario'];
     data = snapshot.data['data'];
@@ -23,6 +23,18 @@ class HorarioDados {
     servico = snapshot.data['servico'];
     pago = snapshot.data['pago'];
     formaPagamento = snapshot.data['formaPagamento'];
+  }
+
+  Horario.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    horario = json['data']['horario'];
+    data = json['data']['data'];
+    cabeleireiro = json['data']['cabeleireiro'];
+    cliente = json['data']['cliente'];
+    confirmado = json['data']['confirmado'];
+    servico = json['data']['servico'];
+    pago = json['data']['pago'];
+    formaPagamento = json['data']['formaPagamento'];
   }
 
   Map<String, dynamic> toMap() {

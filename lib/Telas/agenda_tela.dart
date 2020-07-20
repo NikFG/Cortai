@@ -4,21 +4,23 @@ import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:agendacabelo/Dados/cabeleireiro_dados.dart';
-import 'package:agendacabelo/Dados/funcionamento_dados.dart';
-import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
+import 'package:agendacabelo/Dados/cabeleireiro.dart';
+import 'package:agendacabelo/Dados/funcionamento.dart';
+import 'package:agendacabelo/Dados/horario.dart';
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
+import 'package:agendacabelo/Widgets/custom_form_field.dart';
 import 'package:agendacabelo/Widgets/custom_radio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'home_tela.dart';
 
 class AgendaTela extends StatefulWidget {
-  final ServicoDados servicoDados;
+  final Servico servicoDados;
   final String nomeSalao;
 
   AgendaTela(this.servicoDados, this.nomeSalao);
@@ -61,7 +63,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                 radius: 30,
                 backgroundImage: widget.servicoDados.imagemUrl != null
                     ? NetworkImage(widget.servicoDados.imagemUrl)
-                    : null,
+                    : null, //definir imagem padrão
                 backgroundColor: Colors.transparent,
               ),
             ),
@@ -96,12 +98,14 @@ class _AgendaTelaState extends State<AgendaTela> {
                             .orderBy('nome')
                             .getDocuments();
                         var cabeleireiros = profissionais.documents
-                            .map((doc) => CabeleireiroDados.fromDocument(doc))
+                            .map((doc) => Cabeleireiro.fromDocument(doc))
                             .toList();
                         _profissionalBottomSheet(context, cabeleireiros);
                       },
                       child: AbsorbPointer(
-                        child: TextFormField(
+                        child: CustomFormField(
+                          hint: 'Profissional',
+                          icon: Icon(Icons.content_cut),
                           controller: profissionalController,
                           validator: (value) {
                             if (value.isEmpty) {
@@ -109,10 +113,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.content_cut),
-                            hintText: 'Profissional',
-                          ),
+                          inputType: TextInputType.text,
                         ),
                       ),
                     ),
@@ -139,15 +140,16 @@ class _AgendaTelaState extends State<AgendaTela> {
                             .document(widget.servicoDados.salao)
                             .collection('funcionamento')
                             .getDocuments();
-                        List<FuncionamentoDados> funcionamento = snapshots
-                            .documents
-                            .map((doc) => FuncionamentoDados.fromDocument(doc))
+                        List<Funcionamento> funcionamento = snapshots.documents
+                            .map((doc) => Funcionamento.fromDocument(doc))
                             .toList();
                         var diasSemana = _verificaDiasSemana(funcionamento);
                         _calendario(context, diasSemana);
                       },
                       child: AbsorbPointer(
-                        child: TextFormField(
+                        child: CustomFormField(
+                          icon: Icon(FontAwesome.credit_card),
+                          hint: 'dd/mm/yyyy',
                           controller: dataController,
                           validator: (value) {
                             if (value.isEmpty) {
@@ -155,10 +157,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.calendar_today),
-                            hintText: 'dd/mm/yyyy',
-                          ),
+                          inputType: TextInputType.datetime,
                         ),
                       ),
                     ),
@@ -186,8 +185,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   widget.servicoDados.salao)
                               .document(Util.weekdayToString(this.data))
                               .get();
-                          FuncionamentoDados funcionamento =
-                              FuncionamentoDados.fromDocument(snapshot);
+                          Funcionamento funcionamento =
+                              Funcionamento.fromDocument(snapshot);
 
                           _horarioBottomSheet(context, funcionamento);
                         } else {
@@ -199,7 +198,9 @@ class _AgendaTelaState extends State<AgendaTela> {
                         }
                       },
                       child: AbsorbPointer(
-                        child: TextFormField(
+                        child: CustomFormField(
+                          icon: Icon(Icons.access_time),
+                          hint: 'hh:mm',
                           controller: horarioController,
                           validator: (value) {
                             if (value.isEmpty) {
@@ -207,10 +208,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             }
                             return null;
                           },
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.access_time),
-                            hintText: 'hh:mm',
-                          ),
+                          inputType: TextInputType.text,
                         ),
                       ),
                     ),
@@ -309,7 +307,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                           .getDocuments()
                                           .then((value) {
                                         if (value.documents.length == 0) {
-                                          HorarioDados dados = HorarioDados();
+                                          Horario dados = Horario();
                                           dados.cabeleireiro = profissional;
                                           dados.cliente = model.dados.id;
                                           dados.confirmado = false;
@@ -362,7 +360,7 @@ class _AgendaTelaState extends State<AgendaTela> {
     );
   }
 
-  _horarioBottomSheet(context, FuncionamentoDados funcionamento) {
+  _horarioBottomSheet(context, Funcionamento funcionamento) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -378,8 +376,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<HorarioDados> horarioDados = snapshot.data.documents
-                      .map((doc) => HorarioDados.fromDocument(doc))
+                  List<Horario> horarioDados = snapshot.data.documents
+                      .map((doc) => Horario.fromDocument(doc))
                       .toList();
                   DateTime dataAgora = DateTime.now();
                   DateTime horarioAtual;
@@ -424,7 +422,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         });
   }
 
-  _profissionalBottomSheet(context, List<CabeleireiroDados> cabeleireiros) {
+  _profissionalBottomSheet(context, List<Cabeleireiro> cabeleireiros) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -453,7 +451,11 @@ class _AgendaTelaState extends State<AgendaTela> {
         });
   }
 
-  _verificaDiasSemana(List<FuncionamentoDados> funcionamento) {
+  /*
+  * Verifica quais didas da semana estão disponíveis para agendamento.
+  * Passa os dados para o calendário
+  * */
+  _verificaDiasSemana(List<Funcionamento> funcionamento) {
     List<bool> diasSemana = [false, false, false, false, false, false, false];
     for (int i = 0; i < funcionamento.length; i++) {
       switch (funcionamento[i].diaSemana) {
@@ -495,6 +497,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         context: context,
         selectableDayPredicate: (DateTime val) =>
             diasSemana[val.weekday - 1] ? true : false,
+        //verifica quais dos dias da semana podem estar clicáveis, dado o vetor de dias da semana
         initialDate: dataAgora,
         firstDate: dataAgora,
         lastDate: dataAgora.add(Duration(days: 365)),
@@ -511,22 +514,27 @@ class _AgendaTelaState extends State<AgendaTela> {
     }
   }
 
+  /*
+  * Cria o vetor de itens de horários disponíveis
+  * */
   List<String> _itensHorario(
       {@required String abertura,
       @required String fechamento,
       @required int intervalo,
-      @required List<HorarioDados> horarios,
+      @required List<Horario> horarios,
       @required DateTime horarioAtual}) {
     DateTime inicial = Util.timeFormat.parse(abertura);
     DateTime atual = Util.timeFormat.parse(abertura);
     DateTime fecha = Util.timeFormat.parse(fechamento);
     List<String> listaHorarios = [];
     while (atual.isBefore(fecha)) {
+      //cria com todos horários possíveis
       listaHorarios.add(Util.timeFormat.format(atual));
       atual = atual.add(Duration(minutes: intervalo));
     }
     if (horarioAtual != null)
       while (horarioAtual.isAfter(inicial)) {
+        //remove os horários que já existem no dia
         listaHorarios.remove(Util.timeFormat.format(inicial));
         inicial = inicial.add(Duration(minutes: intervalo));
       }
@@ -562,7 +570,6 @@ class _AgendaTelaState extends State<AgendaTela> {
         .where('horario', isEqualTo: horarioController.text)
         .snapshots();
     var listener = snapshots.listen((doc) async {
-      print("Escutando");
       if (doc.documentChanges.length > 0) {
         horarioController.text = "";
         await FlushbarHelper.createInformation(

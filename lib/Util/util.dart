@@ -32,6 +32,7 @@ class Util {
   }
 
   static ligacaoTelefonica(String telefone) async {
+    telefone = "tel:" + telefone;
     if (await canLaunch(telefone)) {
       await launch(telefone);
     } else {
@@ -104,12 +105,14 @@ class Util {
         .then((value) => value.delete());
   }
 
-  static Widget leadingScaffold(BuildContext context) {
+  static Widget leadingScaffold(BuildContext context,
+      {Color color = Colors.white}) {
     return IconButton(
       onPressed: () => Navigator.of(context).pop(),
       icon: Platform.isAndroid
           ? Icon(Icons.arrow_back)
           : Icon(Icons.arrow_back_ios),
+      color: color,
     );
   }
 

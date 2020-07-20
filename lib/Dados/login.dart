@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class LoginDados {
+class Login {
   String id;
   String nome;
   String salao;
@@ -11,17 +11,7 @@ class LoginDados {
   bool isCabeleireiro;
   bool isDonoSalao;
 
-  LoginDados.fromMap(Map<String, dynamic> dados) {
-    id = dados['uid'];
-    nome = dados['nome'];
-    salao = dados['salao'];
-    telefone = dados['telefone'];
-    email = dados['email'];
-    imagemUrl = dados['fotoURL'];
-    isCabeleireiro = dados['cabeleireiro'];
-    isDonoSalao = dados['donoSalao'];
-  }
-  LoginDados.fromDocument(DocumentSnapshot dados) {
+  Login.fromDocument(DocumentSnapshot dados) {
     id = dados['uid'];
     nome = dados['nome'];
     salao = dados['salao'];
@@ -32,15 +22,27 @@ class LoginDados {
     isDonoSalao = dados['donoSalao'];
   }
 
-  LoginDados(
-      {
-      @required this.nome,
-      @required this.salao,
-      @required this.telefone,
-      @required this.email,
-      @required this.imagemUrl,
-      @required this.isCabeleireiro,
-      @required this.isDonoSalao});
+  Login.fromHorarioJson(Map<String, dynamic> json) {
+    id = json['data']['usuario'];
+    nome = json['cabeleireiro']['nome'];
+    salao = json['cabeleireiro']['salao'];
+    telefone = json['cabeleireiro']['telefone'];
+    email = json['cabeleireiro']['email'];
+    imagemUrl = json['cabeleireiro']['fotoURL'];
+    isCabeleireiro = json['cabeleireiro']['cabeleireiro'];
+    isDonoSalao = json['cabeleireiro']['donoSalao'];
+  }
+
+  Login({
+    @required this.nome,
+    @required this.salao,
+    @required this.telefone,
+    @required this.email,
+    @required this.imagemUrl,
+    @required this.isCabeleireiro,
+    @required this.isDonoSalao,
+    this.id,
+  });
 
   @override
   String toString() {

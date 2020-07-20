@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:agendacabelo/Dados/salao_dados.dart';
+import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/maps_tela.dart';
@@ -11,7 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditarSalaoTela extends StatefulWidget {
-  final SalaoDados salao;
+  final Salao salao;
   final String usuario;
 
   EditarSalaoTela(this.usuario, {this.salao});
@@ -26,7 +26,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   var _enderecoController = TextEditingController();
   var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
   var latlng = LatLng(0, 0);
-  SalaoDados dados;
+  Salao dados;
   File _imagem;
   bool _botaoHabilitado = true;
   String _cidade;
@@ -195,7 +195,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
       _enderecoController.text = dados.endereco;
       _telefoneController.text = dados.telefone;
     } else {
-      dados = SalaoDados();
+      dados = Salao();
     }
   }
 

@@ -1,5 +1,5 @@
 import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
-import 'package:agendacabelo/Dados/forma_pagamento_dados.dart';
+import 'package:agendacabelo/Dados/forma_pagamento.dart';
 import 'package:flutter/material.dart';
 
 class CustomRadio extends StatefulWidget {
@@ -17,13 +17,13 @@ class _CustomRadioState extends State<CustomRadio> {
   @override
   void initState() {
     super.initState();
-    teste();
+    _carregaDados();
   }
 
-  teste() async {
+  _carregaDados() async {
     var query = await FormaPagamentoControle.get().getDocuments();
     lista = query.documents
-        .map((doc) => RadioModel(FormaPagamentoDados.fromDocument(doc), false))
+        .map((doc) => RadioModel(FormaPagamento.fromDocument(doc), false))
         .toList();
   }
 
@@ -40,8 +40,7 @@ class _CustomRadioState extends State<CustomRadio> {
               maxHeight: 60,
               maxWidth: 60,
             ),
-            child: InkWell(
-              splashColor: Colors.orange,
+            child: GestureDetector(
               onTap: () {
                 setState(() {
                   lista.forEach((e) => e.isSelected = false);
@@ -66,14 +65,12 @@ class RadioItem extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          color: radioModel.isSelected
-              ? Theme.of(context).accentColor
-              : Colors.transparent,
-          child: Image.network(
-            radioModel.dados.icone,
-            width: 50,
-            height: 50,
-          ),
+          child: Image.network(radioModel.dados.icone,
+              width: 50,
+              height: 50,
+              color: radioModel.isSelected
+                  ? Theme.of(context).accentColor
+                  : Colors.black),
         ),
         Text(radioModel.dados.descricao)
       ],
@@ -82,7 +79,7 @@ class RadioItem extends StatelessWidget {
 }
 
 class RadioModel {
-  final FormaPagamentoDados dados;
+  final FormaPagamento dados;
   bool isSelected;
 
   RadioModel(this.dados, this.isSelected);

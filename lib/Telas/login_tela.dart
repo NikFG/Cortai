@@ -66,24 +66,15 @@ class _LoginTelaState extends State<LoginTela> {
                               Spacer(),
                               Align(
                                 alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.assignment,
-                                  size: 70,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.topCenter,
-                                child: Text(
-                                  'Cortaí',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    color: Color(0xCCFFFFFF),
-                                    fontFamily: 'Poppins',
-                                    fontSize: 38,
+                                child: Image(
+                                  image: AssetImage(
+                                    'assets/images/cortaíiconeEscrita.png',
                                   ),
+                                  height: 200.0,
+                                  width: 200.0,
                                 ),
                               ),
+                             
                               Spacer(),
                             ],
                           ),
@@ -133,11 +124,11 @@ class _LoginTelaState extends State<LoginTela> {
                                 alignment: Alignment.centerRight,
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.only(top: 16, right: 32),
+                                      const EdgeInsets.only(top: 16, right: 32),
                                   child: ButtonTheme(
                                     padding: EdgeInsets.zero,
                                     materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
+                                        MaterialTapTargetSize.shrinkWrap,
                                     minWidth: 0,
                                     height: 0,
                                     child: FlatButton(
@@ -145,17 +136,17 @@ class _LoginTelaState extends State<LoginTela> {
                                       onPressed: () async {
                                         if (_emailControlador.text.isNotEmpty) {
                                           bool result =
-                                          await model.recuperarSenha(
-                                              _emailControlador.text);
+                                              await model.recuperarSenha(
+                                                  _emailControlador.text);
                                           if (result) {
                                             await FlushbarHelper.createInformation(
-                                                message:
-                                                "Verifique seu email para recuperar a senha!")
+                                                    message:
+                                                        "Verifique seu email para recuperar a senha!")
                                                 .show(context);
                                           } else {
                                             await FlushbarHelper.createError(
-                                                message:
-                                                "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
+                                                    message:
+                                                        "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
                                                 .show(context);
                                           }
                                         }
@@ -175,30 +166,31 @@ class _LoginTelaState extends State<LoginTela> {
                                 child: RaisedButton(
                                   onPressed: _botaoHabilitado
                                       ? () {
-                                    if (_formKey.currentState.validate()) {
-                                      setState(() {
-                                        _botaoHabilitado = false;
-                                      });
-                                      model.emailSignIn(
-                                          email: _emailControlador.text,
-                                          senha: _senhaControlador.text,
-                                          onSuccess: onSuccess,
-                                          onFail: onFail);
-                                    }
-                                  }
+                                          if (_formKey.currentState
+                                              .validate()) {
+                                            setState(() {
+                                              _botaoHabilitado = false;
+                                            });
+                                            model.logarEmail(
+                                                email: _emailControlador.text,
+                                                senha: _senhaControlador.text,
+                                                onSuccess: onSuccess,
+                                                onFail: onFail);
+                                          }
+                                        }
                                       : null,
                                   child: _botaoHabilitado
                                       ? Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
+                                          'Login',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
                                       : Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
+                                          child: CircularProgressIndicator(),
+                                        ),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50)),
                                   color: Color(0xFFf45d27),
@@ -228,17 +220,17 @@ class _LoginTelaState extends State<LoginTela> {
                                 text: "Entre com o Google",
                                 onPressed: _botaoHabilitado
                                     ? () {
-                                  setState(() {
-                                    _botaoHabilitado = false;
-                                  });
-                                  model
-                                      .googleSignIn()
-                                      .then((value) => onSuccess())
-                                      .catchError((e) {
-                                    print(e);
-                                    onFail();
-                                  });
-                                }
+                                        setState(() {
+                                          _botaoHabilitado = false;
+                                        });
+                                        model
+                                            .logarGoogle()
+                                            .then((value) => onSuccess())
+                                            .catchError((e) {
+                                          print(e);
+                                          onFail();
+                                        });
+                                      }
                                     : null,
                                 borderRadius: 50,
                               ),

@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FuncionamentoDados {
+class Funcionamento {
   String diaSemana;
   String horarioAbertura;
   String horarioFechamento;
   int intervalo;
 
-  FuncionamentoDados();
+  Funcionamento();
 
-  FuncionamentoDados.fromDocument(DocumentSnapshot snapshot) {
+  Funcionamento.fromDocument(DocumentSnapshot snapshot) {
     diaSemana = snapshot.documentID;
     horarioAbertura = snapshot.data['horarioAbertura'];
     horarioFechamento = snapshot.data['horarioFechamento'];
