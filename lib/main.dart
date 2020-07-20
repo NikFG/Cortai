@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.orange,
           primaryColor: Color(0xFFf45d27),
           accentColor: Color(0xFFf5851f),
+          fontFamily: 'Poppins'
         ),
         debugShowCheckedModeBanner: false,
         home: SplashCustom(),
