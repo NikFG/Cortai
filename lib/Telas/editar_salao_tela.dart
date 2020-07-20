@@ -215,14 +215,14 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
 
     if (widget.salao == null) {
       if (_imagem == null) {
-        texto = "Selecione uma imagem para o serviço";
+        texto = "Selecione uma imagem";
       } else {
         texto = "Altere a imagem caso necessário";
       }
     } else {
       if (widget.salao.imagem == null) {
         if (_imagem == null) {
-          texto = "Selecione uma imagem para o serviço";
+          texto = "Selecione uma imagem";
         } else {
           texto = "Altere a imagem caso necessário";
         }
@@ -230,7 +230,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
         texto = "Altere a imagem caso necessário";
       }
     }
-    return Text(texto);
+    return Text(texto,style: TextStyle(fontSize: 13),);
   }
 
   void onSuccess() async {

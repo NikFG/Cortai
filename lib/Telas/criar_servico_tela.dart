@@ -152,23 +152,23 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 ),
                 SizedBox(height: 25),
                 Container(
-                    alignment: Alignment.centerLeft,
                     child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.photo_camera),
-                          onPressed: () {
-                            getImagem(true);
-                          },
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            getImagem(false);
-                          },
-                          child: _verificaImagemNula(),
-                        ),
-                      ],
-                    )),
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.photo_camera),
+                      onPressed: () {
+                        getImagem(true);
+                      },
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        getImagem(false);
+                      },
+                      child: _verificaImagemNula(),
+                    ),
+                  ],
+                )),
                 _imagem != null
                     ? GestureDetector(
                         onTap: () {
@@ -326,14 +326,14 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
 
     if (widget.dados == null) {
       if (_imagem == null) {
-        texto = "Selecione uma imagem para o serviço";
+        texto = "Selecione uma imagem";
       } else {
         texto = "Altere a imagem caso necessário";
       }
     } else {
       if (widget.dados.imagemUrl == null) {
         if (_imagem == null) {
-          texto = "Selecione uma imagem para o serviço";
+          texto = "Selecione uma imagem";
         } else {
           texto = "Altere a imagem caso necessário";
         }
