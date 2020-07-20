@@ -1,166 +1,152 @@
+import 'package:agendacabelo/Controle/avaliacao_controle.dart';
+import 'package:agendacabelo/Controle/funcionamento_controle.dart';
+import 'package:agendacabelo/Dados/avaliacao.dart';
+import 'package:agendacabelo/Dados/funcionamento.dart';
+import 'package:agendacabelo/Dados/salao.dart';
+import 'package:agendacabelo/Widgets/custom_list_tile.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:agendacabelo/Util/util.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class SaibaMaisTela extends StatelessWidget {
+  final Salao salao;
+
+  SaibaMaisTela(this.salao);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(
-            "Saiba Mais",
-          ),
-          centerTitle: true,
-          leading: Util.leadingScaffold(context)),
-      body: ListView(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Seu zé Barber",
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700)),
-                Text("Horário de Funcionamento:",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                    )),
-                Wrap(
-                  spacing: 15.0, // gap between adjacent chips
-                  runSpacing: 10.0,
-                  children: <Widget>[
-                    Text("Domingo",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("11:00 as 17:30,",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("Segunda",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("11:00 as 17:30,",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("Terça",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("11:00 as 17:30,",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("Quarta",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("11:00 as 17:30,",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                          Text("Quinta",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("11:00 as 17:30,",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                          Text("Sexta",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("11:00 as 17:30,",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                          Text("Sábado",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                    Text("11:00 as 17:30,",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                        )),
-                  ],
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Text(
+              "Saiba Mais",
+              style: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+            ),
+            centerTitle: true,
+            leading: Util.leadingScaffold(context, color: Colors.black),
+            bottom: TabBar(
+              tabs: <Widget>[
+                Tab(
+                  child: Text(
+                    "Salão",
+                    style:
+                        TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+                  ),
                 ),
-                Text("Endereço:",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                    )),
-                Text("Rua da Cobiça 129, Bairro Jacuí",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                    )),
+                Tab(
+                    child: Text(
+                  "Avaliações",
+                  style: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+                ))
               ],
             ),
           ),
-         Container(
-                  child: Row(
-                    children: <Widget>[
-                      FlatButton(
-                        child: Text("Ligar para salão"),
-                        onPressed: () {
-                          print("CANCELEI HAHA 20MIL PRA EUU");
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
+          body: TabBarView(
+            children: <Widget>[
+              ListView(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(salao.nome,
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700)),
+                        Text("Horário de Funcionamento:",
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                            )),
+                        FutureBuilder<QuerySnapshot>(
+                          future: FuncionamentoControle.get(salao.id)
+                              .getDocuments(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              var listaFuncionamento =
+                                  snapshot.data.documents.map((doc) {
+                                return Funcionamento.fromDocument(doc);
+                              }).toList();
+                              listaFuncionamento.sort((a, b) =>
+                                  Util.ordenarDiasSemana(a.diaSemana).compareTo(
+                                      Util.ordenarDiasSemana(b.diaSemana)));
+                              var listaWidgets =
+                                  listaFuncionamento.map((dados) {
+                                return Text(
+                                    "${dados.diaSemana}: ${dados.horarioAbertura} as ${dados.horarioFechamento}",
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                    ));
+                              }).toList();
+                              return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: listaWidgets);
+                            }
+                          },
+                        ),
+                        Text("Endereço:",
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                            )),
+                        FlatButton(
+                          onPressed: () async {
+                            await MapsLauncher.launchCoordinates(
+                                salao.latitude, salao.longitude);
+                          },
+                          child: Text("${salao.endereco}",
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 16,
+                                color: Theme.of(context).primaryColor,
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-        ],
-      ),
+                ],
+              ),
+              FutureBuilder<QuerySnapshot>(
+                future: AvaliacaoControle.get()
+                    .where('salao', isEqualTo: salao.id)
+                    .orderBy('data', descending: true)
+                    .orderBy('hora')
+                    .getDocuments(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        Avaliacao avaliacao = Avaliacao.fromDocument(
+                            snapshot.data.documents[index]);
+                        return CustomListTile(
+                          onTap: () {},
+                          leading: Text(avaliacao.avaliacao.toStringAsFixed(2)),
+                          title: Text(avaliacao.descricao),
+                        );
+                      },
+                    );
+                  }
+                },
+              )
+            ],
+          )),
     );
   }
-}
-
-_cancelarDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: Text("Deseja mesmo cancelar este agendamento?"),
-      content:
-          Text("Caso cancele o agendamento, poderão ser cobradas taxas extras"),
-      actions: <Widget>[
-        FlatButton(
-          child: Text("Voltar"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        FlatButton(
-          child: Text("Confirmar"),
-          onPressed: () {
-            print("CANCELEI HAHA 20MIL PRA EUU");
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    ),
-  );
 }
