@@ -181,17 +181,15 @@ class _PerfilTelaState extends State<PerfilTela> {
                             builder: (context) => SolicitacaoCabeleireiroTela(
                                 model.dados.salao)));
                       },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            FontAwesome.users,
-                            color: Colors.black54,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            "Cadastrar cabeleireiros",
-                            style:
-                                TextStyle(fontSize: 18, fontFamily: 'Poppins'),
+                      child: Row(children: <Widget>[
+                        Icon(
+                          FontAwesome.users,
+                          color: Colors.black54,
+                        ),
+                        SizedBox(width: 10),
+                        Text("Cadastrar cabeleireiros",
+                            style: TextStyle(fontSize: 18))
+                      ])),
                   Divider(
                     color: Colors.black45,
                   ),
