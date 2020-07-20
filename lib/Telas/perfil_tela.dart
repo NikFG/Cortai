@@ -7,11 +7,22 @@ import 'package:agendacabelo/Telas/editar_perfil.dart';
 import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Telas/solicitacao_cabeleireiro_tela.dart';
+import 'package:agendacabelo/Util/util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'dart:io';
 
-class PerfilTela extends StatelessWidget {
+class PerfilTela extends StatefulWidget {
+  @override
+  _PerfilTelaState createState() => _PerfilTelaState();
+}
+
+class _PerfilTelaState extends State<PerfilTela> {
+  File _imagem;
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
@@ -38,16 +49,32 @@ class PerfilTela extends StatelessWidget {
                         ),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => EditarPerfilTela(model.dados)));
+                              builder: (context) =>
+                                  EditarPerfilTela(model.dados)));
                         }),
-                    leading: CircleAvatar(
-                      radius: 32,
-                      backgroundImage: NetworkImage(
-                        model.dados.imagemUrl != null
-                            ? model.dados.imagemUrl
-                            : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                    leading: GestureDetector(
+                      onTap: () async {
+                        await getImagem();
+                        if (_imagem != null) {
+                          String url =
+                              await Util.enviaImagem(model.dados.id, _imagem);
+                          Firestore.instance
+                              .collection('usuarios')
+                              .document(model.dados.id)
+                              .updateData({'fotoURL': url});
+                          model.dados.imagemUrl = url;
+                          setState(() {});
+                        }
+                      },
+                      child: CircleAvatar(
+                        radius: 32,
+                        backgroundImage: NetworkImage(
+                          model.dados.imagemUrl != null
+                              ? model.dados.imagemUrl
+                              : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                        ),
+                        backgroundColor: Colors.transparent,
                       ),
-                      backgroundColor: Colors.transparent,
                     ),
                   ),
                   SizedBox(
@@ -194,5 +221,15 @@ class PerfilTela extends StatelessWidget {
           return Center();
       },
     );
+  }
+
+  Future<Null> getImagem() async {
+    var picker = ImagePicker();
+    var imagem = await picker.getImage(source: ImageSource.gallery);
+    setState(() {
+      if (imagem != null) {
+        _imagem = File(imagem.path);
+      }
+    });
   }
 }
