@@ -66,13 +66,16 @@ class RadioItem extends StatelessWidget {
       children: <Widget>[
         Container(
           child: Image.network(radioModel.dados.icone,
-              width: 50,
-              height: 50,
+              width: 45,
+              height: 45,
               color: radioModel.isSelected
                   ? Theme.of(context).accentColor
                   : Colors.black),
         ),
-        Text(radioModel.dados.descricao)
+        Text(
+          radioModel.dados.descricao,
+          style: TextStyle(fontSize: 12),
+        )
       ],
     );
   }

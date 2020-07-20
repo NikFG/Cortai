@@ -46,19 +46,32 @@ class _BottomCustomState extends State<BottomCustom> {
     });
   }
 
+  TextStyle stylePadrao() {
+    return TextStyle(fontSize: 12);
+  }
+
   itensUsuario() {
     var itens = [
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.home),
-        title: Text("Início"),
+        title: Text(
+          "Início",
+          style: stylePadrao(),
+        ),
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.calendar_o),
-        title: Text("Agendados"),
+        title: Text(
+          "Agendados",
+          style: stylePadrao(),
+        ),
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.user_circle_o),
-        title: Text("Perfil"),
+        title: Text(
+          "Perfil",
+          style: stylePadrao(),
+        ),
       ),
     ];
     this.itens.addAll(itens);
@@ -92,11 +105,17 @@ class _BottomCustomState extends State<BottomCustom> {
                   );
               }
             }),
-        title: Text("Confirmar"),
+        title: Text(
+          "Confirmar",
+          style: stylePadrao(),
+        ),
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.scissors),
-        title: Text("Serviços"),
+        title: Text(
+          "Serviços",
+          style: stylePadrao(),
+        ),
       ),
     ];
     this.itens.addAll(itens);
