@@ -223,29 +223,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   Divider(
                     color: Colors.black45,
                   ),
-                  FlatButton(
-                      onPressed: () {
-                        showAboutDialog(
-                            context: context,
-                            applicationName: "Cortaí",
-                            applicationVersion: "1.0",
-                            applicationIcon: Image.asset(
-                              "assets/icons/icon_white.png",
-                              width: 100,
-                              height: 100,
-                            ));
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            FontAwesome.info_circle,
-                            color: Colors.black54,
-                          ),
-                        ],
-                      )),
-                  Divider(
-                    color: Colors.black45,
-                  ),
+             
                   FlatButton(
                       onPressed: () async {
                         await model.signOut();
