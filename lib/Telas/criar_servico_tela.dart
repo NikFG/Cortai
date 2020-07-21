@@ -63,7 +63,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 CustomFormField(
                   controller: _nomeControlador,
                   inputType: TextInputType.text,
-                  isNome: true,
+                  isFrase: true,
                   hint: "Nome do serviço",
                   validator: (text) {
                     if (text.isEmpty) {
@@ -98,6 +98,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                   onTap: () async {
                     var snapshots = await Firestore.instance
                         .collection('usuarios')
+                        .orderBy('nome')
                         .where('salao', isEqualTo: model.dados.salao)
                         .getDocuments();
                     List<Cabeleireiro> dados = snapshots.documents
@@ -112,6 +113,8 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                               selecionados: selecionados,
                               onSelectedDadosChanged: (dados) {
                                 selecionados = dados;
+                                selecionados
+                                    .sort((a, b) => a.nome.compareTo(b.nome));
                                 _cabeleireirosControlador.text = "";
                                 for (int i = 0; i < selecionados.length; i++) {
                                   i != selecionados.length - 1
@@ -146,6 +149,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                   maxLines: 2,
                   hint: "Breve descrição sobre o serviço",
                   icon: null,
+                  isFrase: true,
                   validator: (value) {
                     return null;
                   },
@@ -220,36 +224,43 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                     color: Theme.of(context).primaryColor,
                     onPressed: _botaoHabilitado
                         ? () async {
-                            if (_formKey.currentState.validate()) {
-                              setState(() {
-                                _botaoHabilitado = false;
-                              });
-                              Servico dados = Servico();
-                              dados.descricao = _nomeControlador.text;
-                              dados.setValor(_precoControlador.text);
-                              dados.salao = model.dados.salao;
-                              dados.observacao = _observacaoControlador.text;
-                              dados.cabeleireiros =
-                                  selecionados.map((e) => e.id).toList();
-                              if (widget.dados != null) {
-                                if (_imagem != null) {
-                                  await Util.deletaImagem(
-                                      widget.dados.imagemUrl);
-                                  dados.imagemUrl = await Util.enviaImagem(
-                                      model.dados.id, _imagem);
+                            try {
+                              if (_formKey.currentState.validate()) {
+                                setState(() {
+                                  _botaoHabilitado = false;
+                                });
+                                Servico dados = Servico();
+                                dados.descricao = _nomeControlador.text;
+                                dados.setValor(_precoControlador.text);
+                                dados.salao = model.dados.salao;
+                                dados.observacao = _observacaoControlador.text;
+                                dados.cabeleireiros =
+                                    selecionados.map((e) => e.id).toList();
+                                if (widget.dados != null) {
+                                  if (_imagem != null) {
+                                    if (widget.dados.imagemUrl != null)
+                                      await Util.deletaImagem(
+                                          widget.dados.imagemUrl);
+                                    dados.imagemUrl = await Util.enviaImagem(
+                                        model.dados.id, _imagem);
+                                  } else {
+                                    dados.imagemUrl = widget.dados.imagemUrl;
+                                  }
+                                  dados.id = widget.dados.id;
+                                  ServicoControle.update(dados,
+                                      onSuccess: onUpdateSuccess,
+                                      onFail: onFail);
                                 } else {
-                                  dados.imagemUrl = widget.dados.imagemUrl;
+                                  if (_imagem != null)
+                                    dados.imagemUrl = await Util.enviaImagem(
+                                        model.dados.id, _imagem);
+                                  ServicoControle.store(dados,
+                                      onSuccess: onSuccess, onFail: onFail);
                                 }
-                                dados.id = widget.dados.id;
-                                ServicoControle.update(dados,
-                                    onSuccess: onUpdateSuccess, onFail: onFail);
-                              } else {
-                                if (_imagem != null)
-                                  dados.imagemUrl = await Util.enviaImagem(
-                                      model.dados.id, _imagem);
-                                ServicoControle.store(dados,
-                                    onSuccess: onSuccess, onFail: onFail);
                               }
+                            } catch (e) {
+                              print(e);
+                              onFail();
                             }
                           }
                         : null,
@@ -281,10 +292,12 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
     _observacaoControlador.text = widget.dados.observacao;
     var documents = await Firestore.instance
         .collection('usuarios')
+        .orderBy('nome')
         .where('uid', whereIn: widget.dados.cabeleireiros)
         .getDocuments();
     selecionados =
         documents.documents.map((e) => Cabeleireiro.fromDocument(e)).toList();
+
     _cabeleireirosControlador.text = "";
     for (int i = 0; i < selecionados.length; i++) {
       if (i != selecionados.length - 1)
@@ -363,6 +376,7 @@ class _MyDialogState extends State<_MyDialog> {
   @override
   Widget build(BuildContext context) {
     List<Cabeleireiro> _tempSelecionados = widget.selecionados;
+
     return Dialog(
       child: Column(
         children: <Widget>[
