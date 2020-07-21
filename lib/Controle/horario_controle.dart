@@ -69,7 +69,7 @@ class HorarioControle {
       {@required VoidCallback onSuccess,
       @required VoidCallback onFail,
       clienteCancelou = false}) async {
-    Map<String,dynamic> horario = dados.toMap();
+    Map<String, dynamic> horario = dados.toMap();
     horario['clienteCancelou'] = clienteCancelou;
     await Firestore.instance
         .collection('horariosExcluidos')
@@ -82,16 +82,16 @@ class HorarioControle {
   }
 
   static confirmaPagamento(String id,
-      {@required VoidCallback onSuccess(context),
-      @required VoidCallback onFail(context),
-      @required BuildContext context}) async {
+      {@required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
     await _firestore.collection("horarios").document(id).updateData({
       "pago": true,
     }).then((value) {
-      onSuccess(context);
+      print("Ok");
+      onSuccess();
     }).catchError((e) {
       print(e);
-      onFail(context);
+      onFail();
     });
   }
 }

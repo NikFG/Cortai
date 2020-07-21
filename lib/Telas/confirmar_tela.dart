@@ -23,7 +23,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                   stream: HorarioControle.get()
                       .where('confirmado', isEqualTo: false)
                       .where('cabeleireiro', isEqualTo: model.dados.id)
-                      .orderBy('data',descending: true)
+                      .orderBy('data', descending: true)
                       .orderBy('horario')
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -37,26 +37,24 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                           child: Text("Não há agendamentos para confirmar"),
                         );
                       }
-                      var dividedTiles = ListTile.divideTiles(
-                              tiles: snapshot.data.documents.map((doc) {
-                                return ConfirmarTile(
-                                    Horario.fromDocument(doc), true);
-                              }).toList(),
-                              color: Colors.grey[500],
-                              context: context)
-                          .toList();
-                      return ListView(
-                        children: dividedTiles,
+
+                      return ListView.builder(
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          Horario horario = Horario.fromDocument(
+                              snapshot.data.documents[index]);
+                          return ConfirmarTile(horario, false);
+                        },
                       );
                     }
                   }),
-              FutureBuilder<QuerySnapshot>(
-                  future: HorarioControle.get()
+              StreamBuilder<QuerySnapshot>(
+                  stream: HorarioControle.get()
                       .where('confirmado', isEqualTo: true)
                       .where('cabeleireiro', isEqualTo: model.dados.id)
                       .orderBy('data', descending: true)
                       .orderBy('horario')
-                      .getDocuments(),
+                      .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
@@ -68,16 +66,14 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                           child: Text("Não há agendamentos para confirmar"),
                         );
                       }
-                      var dividedTiles = ListTile.divideTiles(
-                              tiles: snapshot.data.documents.map((doc) {
-                                return ConfirmarTile(
-                                    Horario.fromDocument(doc), false);
-                              }).toList(),
-                              color: Colors.grey[500],
-                              context: context)
-                          .toList();
-                      return ListView(
-                        children: dividedTiles,
+
+                      return ListView.builder(
+                        itemCount: snapshot.data.documents.length,
+                        itemBuilder: (context, index) {
+                          Horario horario = Horario.fromDocument(
+                              snapshot.data.documents[index]);
+                          return ConfirmarTile(horario, false);
+                        },
                       );
                     }
                   }),

@@ -6,7 +6,7 @@ class CustomFormField extends StatefulWidget {
   final TextEditingController controller;
   final FormFieldValidator validator;
   final TextInputType inputType;
-  final bool isNome;
+  final bool isFrase;
   final bool isSenha;
   final int minLines;
   final int maxLines;
@@ -17,7 +17,7 @@ class CustomFormField extends StatefulWidget {
     @required this.controller,
     @required this.validator,
     @required this.inputType,
-    this.isNome = false,
+    this.isFrase = false,
     this.isSenha = false,
     this.minLines = 1,
     this.maxLines = 1,
@@ -41,7 +41,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
         obscureText: widget.isSenha,
         autocorrect: !widget.isSenha,
         autovalidate: widget.controller.text.isNotEmpty,
-        textCapitalization: widget.isNome
+        textCapitalization: widget.isFrase
             ? TextCapitalization.sentences
             : TextCapitalization.none,
         keyboardType: widget.inputType,
