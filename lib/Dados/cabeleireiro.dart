@@ -18,4 +18,12 @@ class Cabeleireiro {
       "salao": salao,
     };
   }
+
+  @override
+  bool operator ==(dados) {
+    return dados is Cabeleireiro && dados.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }
