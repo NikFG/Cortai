@@ -1,7 +1,6 @@
 import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
-import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Tiles/start_screen.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:flutter/material.dart';

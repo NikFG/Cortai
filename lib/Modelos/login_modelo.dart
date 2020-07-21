@@ -131,8 +131,8 @@ class LoginModelo extends Model {
 
   /*Carregar os dados do firebase caso o usuário esteja logando no sistema,
   * ou então necessite dos dados para atulizar alguma informação
-  * ignore: missing_return
   */
+  //ignore: missing_return
   Future<bool> _carregarUsuario() async {
     bool result;
     if (_firebaseUser == null) {
