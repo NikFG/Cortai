@@ -3,7 +3,6 @@ import 'package:agendacabelo/Dados/login.dart';
 import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
-import 'package:agendacabelo/Telas/checkin_tela.dart';
 import 'package:agendacabelo/Telas/editar_perfil.dart';
 import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
