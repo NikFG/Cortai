@@ -13,6 +13,10 @@ class Servico {
 
   double get valor => _valor;
 
+  String valorFormatado() {
+    return "R\$${valor.toStringAsFixed(2).replaceAll('.', ',')}";
+  }
+
   void setValor(String valor) {
     valor = valor.replaceAll("R\$", "");
     valor = valor.replaceAll(".", "");
@@ -32,15 +36,17 @@ class Servico {
   }
 
   Servico.fromHorarioJson(Map<String, dynamic> json) {
-    id = json['data']['servico'];
-    descricao = json['servico']["descricao"];
-    _valor = (json['servico']["valor"] as num).toDouble();
-    imagemUrl = json['servico']["imagemUrl"];
-    cabeleireiros = List.from(json['servico']['cabeleireiros']);
-    salao = json['servico']['salao'];
-    observacao = json['servico']['observacao'] != null
-        ? json['servico']['observacao']
-        : '';
+    if (json['servico'] != null) {
+      id = json['data']['servico'];
+      descricao = json['servico']["descricao"];
+      _valor = (json['servico']["valor"] as num).toDouble();
+      imagemUrl = json['servico']["imagemUrl"];
+      cabeleireiros = List.from(json['servico']['cabeleireiros']);
+      salao = json['servico']['salao'];
+      observacao = json['servico']['observacao'] != null
+          ? json['servico']['observacao']
+          : '';
+    }
   }
 
   Map<String, dynamic> toMap() {
