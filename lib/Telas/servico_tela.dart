@@ -10,7 +10,6 @@ import 'package:agendacabelo/Widgets/custom_appbar.dart';
 import 'package:agendacabelo/Widgets/custom_appbar_expandida.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-import 'home_tela.dart';
 
 class ServicoTela extends StatelessWidget {
   final Salao dados;

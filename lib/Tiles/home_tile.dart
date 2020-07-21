@@ -1,13 +1,8 @@
-import 'package:agendacabelo/Controle/avaliacao_controle.dart';
-import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/avaliacao.dart';
-import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Telas/servico_tela.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:agendacabelo/Widgets/hero_custom.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
