@@ -1,7 +1,5 @@
 import 'package:agendacabelo/Controle/avaliacao_controle.dart';
-import 'package:agendacabelo/Controle/servico_controle.dart';
 import 'package:agendacabelo/Dados/avaliacao.dart';
-import 'package:agendacabelo/Dados/cabeleireiro.dart';
 import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Telas/detalhes_tela.dart';
 import 'package:agendacabelo/Dados/login.dart';
@@ -121,7 +119,7 @@ class _AgendadoTileState extends State<AgendadoTile> {
                         controller: _descricaoControlador,
                         icon: null,
                         inputType: TextInputType.text,
-                        isNome: true,
+                        isFrase: true,
                       ),
                     )
                   ],

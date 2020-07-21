@@ -90,7 +90,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                             color: Colors.grey,
                           ),
                           controller: _nomeControlador,
-                          isNome: true,
+                          isFrase: true,
                           inputType: TextInputType.text,
                           validator: (text) {
                             if (text.isEmpty) {
