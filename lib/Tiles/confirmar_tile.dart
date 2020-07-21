@@ -6,10 +6,9 @@ import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Dados/login.dart';
 import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flushbar/flushbar_helper.dart';
-import 'package:flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class ConfirmarTile extends StatefulWidget {
   final Horario horarioDados;
@@ -23,6 +22,7 @@ class ConfirmarTile extends StatefulWidget {
 
 class _ConfirmarTileState extends State<ConfirmarTile> {
   bool confirmado;
+  String valor;
 
   @override
   void initState() {
@@ -32,7 +32,9 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
   @override
   Widget build(BuildContext context) {
     return CustomListTile(
-      onTap: () => widget.aConfirmar ? _bottomSheetOpcoes(context) : null,
+      onTap: () => widget.aConfirmar
+          ? _bottomSheetOpcoes(context)
+          : !widget.horarioDados.pago ? _dialogPago(context) : null,
       leading: null,
       title: FutureBuilder(
         future: CabeleireiroControle.get()
@@ -62,8 +64,9 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
             return Center();
           } else {
             Servico servicoDados = Servico.fromDocument(snapshot.data);
+            valor = servicoDados.valorFormatado();
             return Text(
-              "${servicoDados.descricao}\n"
+              "${servicoDados.descricao} $valor\n"
               "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",
               style: TextStyle(
                 fontSize: 15,
@@ -72,6 +75,26 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
           }
         },
       ),
+      trailing: _pago(),
+    );
+  }
+
+  Widget _pago() {
+    return Column(
+      children: <Widget>[
+        Text("Pago:"),
+        widget.horarioDados.pago
+            ? Icon(
+                FontAwesome.check_circle_o,
+                color: Colors.green,
+                size: 35,
+              )
+            : Icon(
+                FontAwesome.times_circle_o,
+                color: Colors.red,
+                size: 35,
+              ),
+      ],
     );
   }
 
@@ -130,6 +153,33 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
     setState(() {});
   }
 
+  _dialogPago(context) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+              title: Text("Confirma pagamento?"),
+              content: Text(
+                  "${widget.horarioDados.data}:${widget.horarioDados.horario}\nValor: $valor"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cancelar"),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    HorarioControle.confirmaPagamento(widget.horarioDados.id,
+                        onSuccess: onSuccessPago, onFail: onFailPago);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Confirmar"),
+                )
+              ],
+            ));
+  }
+
   void onSuccess() async {
     await FlushbarHelper.createSuccess(
             message: "Horário confirmado com sucesso",
@@ -141,7 +191,21 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
     await FlushbarHelper.createError(
             message: "Houve algum erro ao confirmar o horário",
             duration: Duration(seconds: 2))
-        .show(Scaffold.of(context).context);
+        .show(context);
+  }
+
+  void onSuccessPago() async {
+    await FlushbarHelper.createSuccess(
+            message: "Pagamento confirmado com sucesso",
+            duration: Duration(seconds: 2))
+        .show(context);
+  }
+
+  void onFailPago() async {
+    await FlushbarHelper.createError(
+            message: "Houve algum erro ao confirmar pagamento",
+            duration: Duration(seconds: 2))
+        .show(context);
   }
 
   void onSuccessCancelar() async {
