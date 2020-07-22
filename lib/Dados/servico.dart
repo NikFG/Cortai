@@ -8,6 +8,7 @@ class Servico {
   List<String> cabeleireiros;
   String salao;
   String observacao;
+  bool ativo;
 
   Servico();
 
@@ -33,6 +34,7 @@ class Servico {
     salao = snapshot.data['salao'];
     observacao =
         snapshot.data['observacao'] != null ? snapshot.data['observacao'] : '';
+    ativo = snapshot.data['ativo'];
   }
 
   Servico.fromHorarioJson(Map<String, dynamic> json) {
@@ -46,6 +48,7 @@ class Servico {
       observacao = json['servico']['observacao'] != null
           ? json['servico']['observacao']
           : '';
+      ativo = json['servico']['ativo'];
     }
   }
 
@@ -57,6 +60,7 @@ class Servico {
       'salao': salao,
       'cabeleireiros': cabeleireiros,
       'observacao': observacao,
+      'ativo': ativo,
     };
   }
 }
