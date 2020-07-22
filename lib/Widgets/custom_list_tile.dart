@@ -7,13 +7,16 @@ class CustomListTile extends StatelessWidget {
   final Widget subtitle;
   final Widget trailing;
   final GestureLongPressCallback onLongPress;
+  final Color color;
+
   CustomListTile(
       {@required this.leading,
       @required this.title,
       @required this.onTap,
       this.subtitle,
       this.trailing,
-      this.onLongPress});
+      this.onLongPress,
+      this.color = Colors.white});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +24,7 @@ class CustomListTile extends StatelessWidget {
       padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5),
       height: 120,
       child: Card(
+          color: color,
           shape: RoundedRectangleBorder(
               side: BorderSide(color: Colors.grey[300], width: 1.0),
               borderRadius: BorderRadius.all(Radius.circular(10))),
