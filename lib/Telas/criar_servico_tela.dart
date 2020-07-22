@@ -31,6 +31,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   var _observacaoControlador = TextEditingController();
   var _precoControlador = MoneyMaskedTextController(
       decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
+  var ativo = true;
   File _imagem;
   List<Cabeleireiro> selecionados = [];
   bool _botaoHabilitado = true;
@@ -60,6 +61,20 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
             child: ListView(
               padding: EdgeInsets.all(16),
               children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text("Ativo"),
+                    Switch(
+                      value: ativo,
+                      onChanged: (value) {
+                        setState(() {
+                          ativo = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
                 CustomFormField(
                   controller: _nomeControlador,
                   inputType: TextInputType.text,
@@ -234,6 +249,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 dados.setValor(_precoControlador.text);
                                 dados.salao = model.dados.salao;
                                 dados.observacao = _observacaoControlador.text;
+                                dados.ativo = ativo;
                                 dados.cabeleireiros =
                                     selecionados.map((e) => e.id).toList();
                                 if (widget.dados != null) {
@@ -290,6 +306,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
     _nomeControlador.text = widget.dados.descricao;
     _precoControlador.text = widget.dados.valor.toStringAsFixed(2);
     _observacaoControlador.text = widget.dados.observacao;
+    ativo = widget.dados.ativo;
     var documents = await Firestore.instance
         .collection('usuarios')
         .orderBy('nome')
@@ -297,7 +314,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         .getDocuments();
     selecionados =
         documents.documents.map((e) => Cabeleireiro.fromDocument(e)).toList();
-
     _cabeleireirosControlador.text = "";
     for (int i = 0; i < selecionados.length; i++) {
       if (i != selecionados.length - 1)
