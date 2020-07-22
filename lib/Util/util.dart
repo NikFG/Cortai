@@ -3,6 +3,7 @@ import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -127,7 +128,13 @@ class Util {
     String cidade = await Geolocator()
         .placemarkFromPosition(position)
         .then((value) => value.first.subAdministrativeArea);
+
+    String endereco = await Geocoder.local
+        .findAddressesFromCoordinates(
+            Coordinates(position.latitude, position.longitude))
+        .then((value) => value.first.addressLine);
     await SharedPreferencesControle.setCidade(cidade);
     await SharedPreferencesControle.setPosition(position);
+    await SharedPreferencesControle.setEndereco(endereco);
   }
 }
