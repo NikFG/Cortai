@@ -11,6 +11,7 @@ class GerenciaServicoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomListTile(
+      color: dados.ativo?Theme.of(context).cardColor:Colors.grey[300],
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => CriarServicoTela(
                 dados: dados,
