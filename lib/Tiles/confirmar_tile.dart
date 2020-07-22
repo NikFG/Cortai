@@ -12,9 +12,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class ConfirmarTile extends StatefulWidget {
   final Horario horarioDados;
-  final bool aConfirmar;
 
-  ConfirmarTile(this.horarioDados, this.aConfirmar);
+  ConfirmarTile(this.horarioDados);
 
   @override
   _ConfirmarTileState createState() => _ConfirmarTileState();
@@ -32,7 +31,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
   @override
   Widget build(BuildContext context) {
     return CustomListTile(
-      onTap: () => widget.aConfirmar
+      onTap: () => !widget.horarioDados.confirmado
           ? _bottomSheetOpcoes(context)
           : !widget.horarioDados.pago ? _dialogPago(context) : null,
       leading: null,
@@ -75,7 +74,7 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
           }
         },
       ),
-      trailing: _pago(),
+      trailing: widget.horarioDados.confirmado ? _pago() : null,
     );
   }
 
@@ -85,14 +84,14 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
         Text("Pago:"),
         widget.horarioDados.pago
             ? Icon(
-                FontAwesome.check_circle_o,
+                FontAwesome.check,
                 color: Colors.green,
-                size: 35,
+                size: 32,
               )
             : Icon(
-                FontAwesome.times_circle_o,
+                FontAwesome.times,
                 color: Colors.red,
-                size: 35,
+                size: 32,
               ),
       ],
     );

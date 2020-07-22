@@ -43,7 +43,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                         itemBuilder: (context, index) {
                           Horario horario = Horario.fromDocument(
                               snapshot.data.documents[index]);
-                          return ConfirmarTile(horario, false);
+                          return ConfirmarTile(horario);
                         },
                       );
                     }
@@ -54,6 +54,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                       .where('cabeleireiro', isEqualTo: model.dados.id)
                       .orderBy('data', descending: true)
                       .orderBy('horario')
+                      //.orderBy('pago',descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
@@ -72,7 +73,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                         itemBuilder: (context, index) {
                           Horario horario = Horario.fromDocument(
                               snapshot.data.documents[index]);
-                          return ConfirmarTile(horario, false);
+                          return ConfirmarTile(horario);
                         },
                       );
                     }
