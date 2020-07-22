@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
@@ -11,7 +10,6 @@ import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Widgets/custom_form_field.dart';
 import 'package:agendacabelo/Widgets/custom_radio.dart';
-import 'package:agendacabelo/Widgets/custom_radio_pagamento.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -401,7 +399,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                           onTap: () {
                             horarioController.text = horarios[index];
                             listener = listenerHorario();
-
                             Navigator.of(context).pop();
                           },
                           title: Text(

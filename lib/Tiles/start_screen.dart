@@ -115,13 +115,14 @@ class _StartScreenState extends State<StartScreen> {
                             SizedBox(height: 15.0),
                             Text(
                               "Os melhores profissionais estão a alguns toques de distância.",
+                              textAlign: TextAlign.justify,
                               style: subTituloStyle,
                             ),
                           ],
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: EdgeInsets.only(left: 20, right: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -142,7 +143,9 @@ class _StartScreenState extends State<StartScreen> {
                             SizedBox(height: 15.0),
                             Text(
                               'Os profissionais cadastrados recebem qualificações por seus serviços, não se esqueça de deixar a sua avaliação!',
+                              textAlign: TextAlign.justify,
                               style: subTituloStyle,
+
                             ),
                           ],
                         ),
@@ -169,6 +172,7 @@ class _StartScreenState extends State<StartScreen> {
                             SizedBox(height: 15.0),
                             Text(
                               'Recomendamos a todos os profissionais e clientes a seguirem sempre as normas de saúde divulgadas pela OMS',
+                              textAlign: TextAlign.justify,
                               style: subTituloStyle,
                             ),
                           ],

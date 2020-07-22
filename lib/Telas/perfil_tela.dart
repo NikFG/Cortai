@@ -134,6 +134,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                             FontAwesome.map,
                             color: Colors.black54,
                           ),
+                          SizedBox(width: 10),
                           Text(
                             "Mudar endereço",
                             style: TextStyle(fontSize: 18),
