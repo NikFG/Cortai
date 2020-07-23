@@ -11,7 +11,7 @@ class HorarioControle {
 
   static void store(Horario dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await _firestore.collection('horarios').add(dados.toMap()).then((value) {
+    await get().add(dados.toMap()).then((value) {
       print(value);
       onSuccess();
     }).catchError((e) {
@@ -24,8 +24,7 @@ class HorarioControle {
       {@required VoidCallback onSuccess(context),
       @required VoidCallback onFail(context),
       @required context}) async {
-    await _firestore
-        .collection('horarios')
+    await get()
         .document(dados.id)
         .updateData(dados.toMap())
         .then((value) {

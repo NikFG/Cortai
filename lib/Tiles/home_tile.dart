@@ -52,7 +52,10 @@ class _HomeTileState extends State<HomeTile> {
           shape: GFAvatarShape.circle,
           radius: 30,
           backgroundColor: Colors.transparent,
-          backgroundImage: NetworkImage(widget.dados.imagem),
+          backgroundImage: widget.dados.imagem != null
+              ? NetworkImage(widget.dados.imagem)
+              : NetworkImage(
+                  "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"),
         ),
       ),
       onLongPress: () {

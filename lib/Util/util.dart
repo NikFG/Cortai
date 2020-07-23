@@ -90,9 +90,9 @@ class Util {
     }
   }
 
-  static Future<String> enviaImagem(String uid, File imagem) async {
+  static Future<String> enviaImagem(String uid, File imagem, String pasta) async {
     StorageUploadTask task = FirebaseStorage.instance
-        .ref()
+        .ref().child(pasta)
         .child(uid + DateTime.now().millisecondsSinceEpoch.toString())
         .putFile(imagem);
     StorageTaskSnapshot taskSnapshot = await task.onComplete;

@@ -35,7 +35,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   File _imagem;
   List<Cabeleireiro> selecionados = [];
   bool _botaoHabilitado = true;
-
+  final pasta = 'Imagens servicos';
   @override
   void initState() {
     super.initState();
@@ -105,6 +105,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                     return null;
                   },
                   icon: null,
+                  isPreco: true,
                 ),
                 SizedBox(
                   height: 20,
@@ -258,7 +259,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                       await Util.deletaImagem(
                                           widget.dados.imagemUrl);
                                     dados.imagemUrl = await Util.enviaImagem(
-                                        model.dados.id, _imagem);
+                                        model.dados.id, _imagem, pasta);
                                   } else {
                                     dados.imagemUrl = widget.dados.imagemUrl;
                                   }
@@ -269,7 +270,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 } else {
                                   if (_imagem != null)
                                     dados.imagemUrl = await Util.enviaImagem(
-                                        model.dados.id, _imagem);
+                                        model.dados.id, _imagem, pasta);
                                   ServicoControle.store(dados,
                                       onSuccess: onSuccess, onFail: onFail);
                                 }

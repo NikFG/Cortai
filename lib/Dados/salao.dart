@@ -25,10 +25,10 @@ class Salao {
     latitude = snapshot.data['latitude'];
     longitude = snapshot.data['longitude'];
     cidade = snapshot.data['cidade'];
-    menorValorServico = snapshot.data['menorValorServico'];
-    maiorValorServico = snapshot.data['maiorValorServico'];
-    quantidadeAvaliacao = snapshot.data['quantidadeAvaliacao'];
-    totalAvaliacao = snapshot.data['totalAvaliacao'];
+    menorValorServico = (snapshot.data['menorValorServico'] as num).toDouble();
+    maiorValorServico = (snapshot.data['maiorValorServico'] as num).toDouble();
+    quantidadeAvaliacao = snapshot.data['quantidadeAvaliacao'] as num;
+    totalAvaliacao = (snapshot.data['totalAvaliacao'] as num).toDouble();
   }
 
   Map<String, dynamic> toMap() {
@@ -58,10 +58,8 @@ class Salao {
     cidade = json['data']['cidade'];
     menorValorServico = (json['data']['menorValorServico'] as num).toDouble();
     maiorValorServico = (json['data']['maiorValorServico'] as num).toDouble();
-    quantidadeAvaliacao = json['data']['quantidadeAvaliacao'];
-    totalAvaliacao = json['data']['totalAvaliacao'] != null
-        ? (json['data']['totalAvaliacao'] as num).toDouble()
-        : 0;
+    quantidadeAvaliacao = json['data']['quantidadeAvaliacao'] as num;
+    totalAvaliacao = (json['data']['totalAvaliacao'] as num).toDouble();
   }
 
   @override

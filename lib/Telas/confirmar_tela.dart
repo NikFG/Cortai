@@ -54,7 +54,6 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                       .where('cabeleireiro', isEqualTo: model.dados.id)
                       .orderBy('data', descending: true)
                       .orderBy('horario')
-                      //.orderBy('pago',descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {

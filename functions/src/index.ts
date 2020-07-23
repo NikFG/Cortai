@@ -251,7 +251,7 @@ export const horarioCancelado = functions.firestore
   });
 
 export const calculaDistancia = functions
-  .runWith({ memory: '1GB', timeoutSeconds: 300 })
+  .runWith({ memory: '2GB', timeoutSeconds: 300 })
   .https.onRequest(async (request, response) => {
     const cidade = request.query.cidade;
     const lat = request.query.lat as string;
@@ -263,7 +263,7 @@ export const calculaDistancia = functions
     }
     const saloes = await db
       .collection('saloes')
-      //.where('cidade', '==', cidade)
+      .where('cidade', '==', cidade)
       .orderBy('nome')
       .get()
 
@@ -289,31 +289,34 @@ export const calculaDistancia = functions
 export const calculaValoresResumo = functions.firestore
   .document('servicos/{servicoID}')
   .onCreate(async snapshot => {
+    console.log(snapshot.data())
+    console.log(snapshot.get('valor'))
+
     const resumo = await db
       .collection('saloes')
       .doc(snapshot.get('salao'))
       .get()
-    if (resumo.data.length > 0) {
-      let mudou = false;
-      let menor = resumo.get('menorValorServico');
-      let maior = resumo.get('maiorValorServico');
-      if (snapshot.get('valor') < menor) {
-        menor = snapshot.get('valor')
-        mudou = true;
-      }
-      if (snapshot.get('valor') > maior) {
-        maior = snapshot.get('valor')
-        mudou = true;
-      }
-      if (mudou)
-        await db
-          .collection('saloes')
-          .doc(snapshot.get('salao'))
-          .update({
-            'menorValorServico': menor,
-            'maiorValorServico': maior
-          });
+
+    let mudou = false;
+    let menor = resumo.get('menorValorServico');
+    let maior = resumo.get('maiorValorServico');
+    if (snapshot.get('valor') < menor || menor == 0) {
+      menor = snapshot.get('valor')
+      mudou = true;
     }
+    if (snapshot.get('valor') > maior) {
+      maior = snapshot.get('valor')
+      mudou = true;
+    }
+    if (mudou)
+      await db
+        .collection('saloes')
+        .doc(snapshot.get('salao'))
+        .update({
+          'menorValorServico': menor,
+          'maiorValorServico': maior
+        });
+
   });
 
 export const calculaAvaliacaoResumo = functions.firestore
@@ -323,17 +326,17 @@ export const calculaAvaliacaoResumo = functions.firestore
       .collection('saloes')
       .doc(snapshot.get('salao'))
       .get()
-    if (resumo.data.length > 0) {
 
-      const total = resumo.get('mediaAvaliacao') + snapshot.get('avaliacao');
-      await db
-        .collection('saloes')
-        .doc(snapshot.get('salao'))
-        .update({
-          'quantidadeAvaliacao': admin.firestore.FieldValue.increment,
-          'totalAvaliacao': total
-        });
-    }
+
+    const total = resumo.get('mediaAvaliacao') + snapshot.get('avaliacao');
+    await db
+      .collection('saloes')
+      .doc(snapshot.get('salao'))
+      .update({
+        'quantidadeAvaliacao': admin.firestore.FieldValue.increment,
+        'totalAvaliacao': total
+      });
+
   });
 
 export const getAgendados = functions
@@ -347,16 +350,15 @@ export const getAgendados = functions
       .where('pago', '==', pago)
       .orderBy('data', 'desc')
       .get()
+
     let stringJson = []
+
     for (let i = 0; i < horarios.docs.length; i++) {
-      const servicoId = horarios.docs[i].get('servico') as string
       const cabeleireiroId = horarios.docs[i].get('cabeleireiro') as string
-      const servico = await db.collection('servicos').doc(servicoId).get()
       const cabeleireiro = await db.collection('usuarios').doc(cabeleireiroId).get()
       stringJson.push(Flatted.stringify({
         'id': horarios.docs[i].id,
         'data': horarios.docs[i].data(),
-        'servico': servico.data(),
         'cabeleireiro': cabeleireiro.data(),
       }))
     }
