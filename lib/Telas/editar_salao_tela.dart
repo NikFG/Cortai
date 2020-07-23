@@ -24,6 +24,7 @@ class EditarSalaoTela extends StatefulWidget {
 
 class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   final _formKey = GlobalKey<FormState>();
+  final pasta = 'Imagens saloes';
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();
   var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
@@ -48,8 +49,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
         leading: Util.leadingScaffold(context),
       ),
       body: ScopedModelDescendant<LoginModelo>(
-        builder: (context,child,model){
-          if(model!=null){
+        builder: (context, child, model) {
+          if (model != null) {
             return Form(
               key: _formKey,
               child: IgnorePointer(
@@ -68,36 +69,34 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                         if (widget.salao != null) {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => MapsTela(
-                                endereco: widget.salao.endereco,
-                                lat: widget.salao.latitude,
-                                lng: widget.salao.longitude,
-                                enderecoChanged: (value) {
-                                  _enderecoController.text = value;
-                                },
-                                latLngChanged: (value) {
-                                  latlng = value;
-                                },
-                                cidadeChanged: (value) {
-                                  _cidade = value;
-                                  print(value);
-                                  print(_cidade);
-                                },
-                              )));
+                                    endereco: widget.salao.endereco,
+                                    lat: widget.salao.latitude,
+                                    lng: widget.salao.longitude,
+                                    enderecoChanged: (value) {
+                                      _enderecoController.text = value;
+                                    },
+                                    latLngChanged: (value) {
+                                      latlng = value;
+                                    },
+                                    cidadeChanged: (value) {
+                                      _cidade = value;
+                                    },
+                                  )));
                         } else {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => MapsTela(
-                                enderecoChanged: (value) {
-                                  _enderecoController.text = value;
-                                },
-                                latLngChanged: (value) {
-                                  latlng = value;
-                                },
-                                cidadeChanged: (value) {
-                                  _cidade = value;
-                                  print(value);
-                                  print(_cidade);
-                                },
-                              )));
+                                    enderecoChanged: (value) {
+                                      _enderecoController.text = value;
+                                    },
+                                    latLngChanged: (value) {
+                                      latlng = value;
+                                    },
+                                    cidadeChanged: (value) {
+                                      _cidade = value;
+                                      print(value);
+                                      print(_cidade);
+                                    },
+                                  )));
                         }
                       },
                       child: AbsorbPointer(
@@ -118,7 +117,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                       controller: _telefoneController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                          hintText: 'Telefone', hintStyle: TextStyle(fontSize: 12)),
+                          hintText: 'Telefone',
+                          hintStyle: TextStyle(fontSize: 12)),
                     ),
                     SizedBox(
                       height: 20,
@@ -144,16 +144,16 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                     _imagem != null
                         ? Image.file(_imagem)
                         : widget.salao == null
-                        ? Container(
-                      width: 0,
-                      height: 0,
-                    )
-                        : widget.salao.imagem != null
-                        ? Image.network(widget.salao.imagem)
-                        : Container(
-                      width: 0,
-                      height: 0,
-                    ),
+                            ? Container(
+                                width: 0,
+                                height: 0,
+                              )
+                            : widget.salao.imagem != null
+                                ? Image.network(widget.salao.imagem)
+                                : Container(
+                                    width: 0,
+                                    height: 0,
+                                  ),
                     SizedBox(
                       height: 20,
                     ),
@@ -164,51 +164,50 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                         padding: EdgeInsets.all(8),
                         onPressed: _botaoHabilitado
                             ? () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() {
-                              _botaoHabilitado = false;
-                            });
+                                if (_formKey.currentState.validate()) {
+                                  setState(() {
+                                    _botaoHabilitado = false;
+                                  });
 
-                            dados.latitude = latlng.latitude;
-                            dados.longitude = latlng.longitude;
-                            dados.nome = _nomeController.text;
-                            dados.endereco = _enderecoController.text;
-                            dados.telefone = _telefoneController.text;
-                            dados.cidade = _cidade;
-                            if (widget.salao == null) {
-                              dados.menorValorServico = 0;
-                              dados.maiorValorServico = 0;
-                              dados.quantidadeAvaliacao = 0;
-                              dados.totalAvaliacao = 0;
+                                  dados.latitude = latlng.latitude;
+                                  dados.longitude = latlng.longitude;
+                                  dados.nome = _nomeController.text;
+                                  dados.endereco = _enderecoController.text;
+                                  dados.telefone = _telefoneController.text;
+                                  dados.cidade = _cidade;
+                                  if (widget.salao == null) {
+                                    dados.menorValorServico = 0;
+                                    dados.maiorValorServico = 0;
+                                    dados.quantidadeAvaliacao = 0;
+                                    dados.totalAvaliacao = 0;
 
-
-                              if (_imagem != null) {
-                                dados.imagem = await Util.enviaImagem(
-                                    widget.usuario, _imagem);
+                                    if (_imagem != null) {
+                                      dados.imagem = await Util.enviaImagem(
+                                          widget.usuario, _imagem, pasta);
+                                    }
+                                    SalaoControle.store(dados,
+                                        usuario: model.dados,
+                                        onSuccess: onSuccess,
+                                        onFail: onFail);
+                                  } else {
+                                    if (_imagem != null) {
+                                      if (dados.imagem != null)
+                                        await Util.deletaImagem(dados.imagem);
+                                      dados.imagem = await Util.enviaImagem(
+                                          widget.usuario, _imagem, pasta);
+                                    }
+                                    SalaoControle.update(dados,
+                                        onSuccess: onSuccessEditar,
+                                        onFail: onFailEditar);
+                                  }
+                                }
                               }
-                              SalaoControle.store(dados,
-                                  usuario: model.dados,
-                                  onSuccess: onSuccess,
-                                  onFail: onFail);
-
-                            } else {
-                              if (_imagem != null) {
-                                await Util.deletaImagem(dados.imagem);
-                                dados.imagem = await Util.enviaImagem(
-                                    widget.usuario, _imagem);
-                              }
-                              SalaoControle.update(dados,
-                                  onSuccess: onSuccessEditar,
-                                  onFail: onFailEditar);
-                            }
-                          }
-                        }
                             : null,
                         child: _botaoHabilitado
                             ? Text(
-                          "Confirmar",
-                          style: TextStyle(fontSize: 18),
-                        )
+                                "Confirmar",
+                                style: TextStyle(fontSize: 18),
+                              )
                             : CircularProgressIndicator(),
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
@@ -222,7 +221,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                 ),
               ),
             );
-          }else{
+          } else {
             return Center();
           }
         },
@@ -236,6 +235,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
       _nomeController.text = dados.nome;
       _enderecoController.text = dados.endereco;
       _telefoneController.text = dados.telefone;
+      latlng = LatLng(this.dados.latitude, this.dados.longitude);
+      _cidade = this.dados.cidade;
     } else {
       dados = Salao();
     }
