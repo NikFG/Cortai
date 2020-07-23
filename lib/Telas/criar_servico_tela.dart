@@ -105,6 +105,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                     return null;
                   },
                   icon: null,
+                  isPreco: true,
                 ),
                 SizedBox(
                   height: 20,
