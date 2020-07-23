@@ -281,7 +281,7 @@ export const calculaDistancia = functions
       return a.distancia - b.distancia;
     })
     if (json.length == 0) {
-      response.status(404).send("Não há salões para sua cidade ainda\nEntre em contato conosco e sugira um salão ;)")
+      response.status(404).send("Não há salões para sua cidade ainda. Entre em contato conosco preenchendo o formulário abaixo e sugira um salão.")
     }
     response.status(200).json(json)
   });
