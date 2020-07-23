@@ -43,7 +43,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                         itemBuilder: (context, index) {
                           Horario horario = Horario.fromDocument(
                               snapshot.data.documents[index]);
-                          return ConfirmarTile(horario, false);
+                          return ConfirmarTile(horario);
                         },
                       );
                     }
@@ -72,7 +72,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                         itemBuilder: (context, index) {
                           Horario horario = Horario.fromDocument(
                               snapshot.data.documents[index]);
-                          return ConfirmarTile(horario, false);
+                          return ConfirmarTile(horario);
                         },
                       );
                     }

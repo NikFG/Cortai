@@ -13,7 +13,7 @@ class PushNotification {
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         await showDialog(
-            barrierDismissible: false,
+            barrierDismissible: true,
             context: context,
             builder: (context) => AlertDialog(
                   title: Text("${message['notification']['title']}"),

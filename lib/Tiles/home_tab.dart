@@ -3,8 +3,12 @@ import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Tiles/home_tile.dart';
 import 'package:agendacabelo/Widgets/carousel.dart';
+import 'package:agendacabelo/Widgets/custom_form_field.dart';
+import 'package:agendacabelo/Widgets/maps_tela.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 

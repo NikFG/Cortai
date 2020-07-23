@@ -1,4 +1,5 @@
 import 'package:agendacabelo/Controle/salao_controle.dart';
+import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Dados/login.dart';
 import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
@@ -8,9 +9,12 @@ import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/maps_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'dart:io';
@@ -101,6 +105,45 @@ class _PerfilTelaState extends State<PerfilTela> {
                           ),
                         ],
                       )),*/
+                  FlatButton(
+                      onPressed: () {
+
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MapsTela(
+                                  enderecoChanged: (value) {
+                                    SharedPreferencesControle.setEndereco(
+                                        value);
+                                  },
+                                  latLngChanged: (LatLng value) {
+                                    SharedPreferencesControle.setPosition(
+                                        Position(
+                                            latitude: value.latitude,
+                                            longitude: value.longitude));
+                                  },
+                                  cidadeChanged: (String value) {
+                                    SharedPreferencesControle.setCidade(value);
+                                  },
+                              endereco: SharedPreferencesControle.getEndereco(),
+                              lat: SharedPreferencesControle.getPosition().latitude,
+                              lng: SharedPreferencesControle.getPosition().longitude,
+                                )));
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            FontAwesome.map,
+                            color: Colors.black54,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            "Mudar endereço",
+                            style: TextStyle(fontSize: 18),
+                          )
+                        ],
+                      )),
+                  Divider(
+                    color: Colors.black87,
+                  ),
                   _widgetsDonoSalao(model.dados),
                   FlatButton(
                       onPressed: () {

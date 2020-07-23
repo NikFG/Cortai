@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 const API_KEY = "AIzaSyBN_mWl_3BjJLCPkKzCKaCqu2Wv8pe0UFw";
 
@@ -21,9 +23,9 @@ class MapsTela extends StatefulWidget {
       {@required this.enderecoChanged,
       @required this.latLngChanged,
       @required this.cidadeChanged,
-      this.endereco,
-      this.lat,
-      this.lng});
+      this.endereco = "",
+      this.lat = 0,
+      this.lng = 0});
 
   @override
   _MapsTelaState createState() => _MapsTelaState();
@@ -34,17 +36,13 @@ class _MapsTelaState extends State<MapsTela> {
   GoogleMapController mapController;
   final Set<Marker> _markers = {};
   var procuraController = TextEditingController();
-  var latLng = LatLng(0, 0);
+  var latLng;
 
   @override
   void initState() {
     super.initState();
-    if (widget.lat != null &&
-        widget.lng != null &&
-        procuraController.text.isEmpty) {
-      latLng = LatLng(widget.lat, widget.lng);
-      procuraController.text = widget.endereco;
-    }
+    latLng = LatLng(widget.lat, widget.lng);
+    procuraController.text = widget.endereco;
   }
 
   @override
@@ -149,9 +147,13 @@ class _MapsTelaState extends State<MapsTela> {
       _markers.clear();
     });
 
-    var location = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    var latlng = LatLng(location.latitude, location.longitude);
+    PermissionStatus status = SharedPreferencesControle.getPermissionStatus();
+    var latlng;
+    if (status.isGranted) {
+      var location = await Geolocator()
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      latlng = LatLng(location.latitude, location.longitude);
+    }
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: latlng == null ? LatLng(0, 0) : latlng, zoom: 20.0)));
   }

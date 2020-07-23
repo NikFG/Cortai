@@ -10,6 +10,7 @@ class CustomFormField extends StatefulWidget {
   final bool isSenha;
   final int minLines;
   final int maxLines;
+  final bool isPreco;
 
   CustomFormField({
     @required this.hint,
@@ -21,6 +22,7 @@ class CustomFormField extends StatefulWidget {
     this.isSenha = false,
     this.minLines = 1,
     this.maxLines = 1,
+    this.isPreco = false,
   });
 
   @override
@@ -40,7 +42,10 @@ class _CustomFormFieldState extends State<CustomFormField> {
         controller: widget.controller,
         obscureText: widget.isSenha,
         autocorrect: !widget.isSenha,
-        autovalidate: widget.controller.text.isNotEmpty,
+        autovalidate: widget.isPreco
+            ? (widget.controller.text.isNotEmpty &&
+                widget.controller.text != 'R\$0,00')
+            : widget.controller.text.isNotEmpty,
         textCapitalization: widget.isFrase
             ? TextCapitalization.sentences
             : TextCapitalization.none,

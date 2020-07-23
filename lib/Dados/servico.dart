@@ -8,6 +8,7 @@ class Servico {
   List<String> cabeleireiros;
   String salao;
   String observacao;
+  bool ativo;
 
   Servico();
 
@@ -33,20 +34,33 @@ class Servico {
     salao = snapshot.data['salao'];
     observacao =
         snapshot.data['observacao'] != null ? snapshot.data['observacao'] : '';
+    ativo = snapshot.data['ativo'];
   }
 
   Servico.fromHorarioJson(Map<String, dynamic> json) {
-    if (json['servico'] != null) {
+    if (json['data']['servico'] != null &&
+        json['data']['servico_map'] != null) {
       id = json['data']['servico'];
-      descricao = json['servico']["descricao"];
-      _valor = (json['servico']["valor"] as num).toDouble();
-      imagemUrl = json['servico']["imagemUrl"];
-      cabeleireiros = List.from(json['servico']['cabeleireiros']);
-      salao = json['servico']['salao'];
-      observacao = json['servico']['observacao'] != null
-          ? json['servico']['observacao']
+      descricao = json['data']['servico_map']["descricao"];
+      _valor = (json['data']['servico_map']["valor"] as num).toDouble();
+      imagemUrl = json['data']['servico_map']["imagemUrl"];
+      cabeleireiros = List.from(json['data']['servico_map']['cabeleireiros']);
+      salao = json['data']['servico_map']['salao'];
+      observacao = json['data']['servico_map']['observacao'] != null
+          ? json['data']['servico_map']['observacao']
           : '';
+      ativo = json['data']['servico_map']['ativo'];
     }
+  }
+
+  Servico.fromMap(Map<String, dynamic> map, String id) {
+    this.id = id;
+    descricao = map["descricao"];
+    _valor = map["valor"];
+    imagemUrl = map["imagemUrl"];
+    salao = map['salao'];
+    observacao = map['observacao'] != null ? map['observacao'] : '';
+    ativo = map['ativo'];
   }
 
   Map<String, dynamic> toMap() {
@@ -57,6 +71,7 @@ class Servico {
       'salao': salao,
       'cabeleireiros': cabeleireiros,
       'observacao': observacao,
+      'ativo': ativo,
     };
   }
 }

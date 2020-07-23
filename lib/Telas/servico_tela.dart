@@ -10,7 +10,6 @@ import 'package:agendacabelo/Widgets/custom_appbar.dart';
 import 'package:agendacabelo/Widgets/custom_appbar_expandida.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-
 class ServicoTela extends StatelessWidget {
   final Salao dados;
   final String distancia;
@@ -155,6 +154,7 @@ class ServicoTela extends StatelessWidget {
               FutureBuilder<QuerySnapshot>(
                 future: ServicoControle.get()
                     .where('salao', isEqualTo: dados.id)
+                    .where('ativo', isEqualTo: true)
                     .orderBy('descricao')
                     .getDocuments(),
                 builder: (context, snapshot) {
