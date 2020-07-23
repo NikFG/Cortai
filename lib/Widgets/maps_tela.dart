@@ -86,15 +86,18 @@ class _MapsTelaState extends State<MapsTela> {
             zoomControlsEnabled: false,
             mapType: MapType.normal,
             onTap: (latLng) async {
-              setState(() {
-                _markers.add(marker(latLng));
-              });
 
+              setState(() {
+                this.latLng = latLng;
+              });
+              _marcarMapaPrevisao();
+              widget.cidadeChanged("");
               var coordinates =
                   new Coordinates(latLng.latitude, latLng.longitude);
               var endereco = await Geocoder.local
                   .findAddressesFromCoordinates(coordinates);
               procuraController.text = endereco.first.addressLine;
+              widget.cidadeChanged(endereco.first.subAdminArea);
             },
             initialCameraPosition: CameraPosition(target: latLng, zoom: 1),
             markers: _markers,

@@ -61,7 +61,7 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ],
         ),
-        Carousel(),
+       // Carousel(),
         Padding(
             padding: EdgeInsets.only(left: 20, top: 10),
             child: Text(
@@ -92,11 +92,8 @@ class _HomeTabState extends State<HomeTab> {
                                 enderecoChanged: (String value) async {
                                   await SharedPreferencesControle.setEndereco(
                                       endereco.text);
-                                    await getEndereco();
-                                    setState(() {
-
-                                    });
-
+                                  await getEndereco();
+                                  setState(() {});
                                 },
                               )));
                     },
@@ -112,26 +109,6 @@ class _HomeTabState extends State<HomeTab> {
                       ),
                     ),
                   ),
-                  /*   TextField(
-                    controller: endereco,
-                  ),
-                  FlatButton(
-                    onPressed: () async {
-                      local = await Geolocator()
-                          .placemarkFromAddress(endereco.text);
-                      await SharedPreferencesControle.setEndereco(
-                          endereco.text);
-                      cidade = local.first.subAdministrativeArea;
-                      SharedPreferencesControle.setCidade(cidade);
-                      await SharedPreferencesControle.setPosition(
-                          local.first.position);
-                      var latLng = SharedPreferencesControle.getPosition();
-                      url =
-                          "$_link?cidade=$cidade&lat=${latLng.latitude.toString()}&lng=${latLng.longitude.toString()}";
-                      setState(() {});
-                    },
-                    child: Text("Ok"),
-                  )*/
                 ],
               )
             : FutureBuilder<http.Response>(
