@@ -8,6 +8,7 @@ import 'package:agendacabelo/Telas/editar_perfil.dart';
 import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Telas/solicitacao_cabeleireiro_tela.dart';
+import 'package:agendacabelo/Telas/sugerir_salao_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/maps_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,6 +28,7 @@ class PerfilTela extends StatefulWidget {
 class _PerfilTelaState extends State<PerfilTela> {
   File _imagem;
   final pasta = 'Imagens perfis';
+
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
@@ -34,9 +36,7 @@ class _PerfilTelaState extends State<PerfilTela> {
         if (model.dados != null)
           return Padding(
               padding: EdgeInsets.all(10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
                 children: <Widget>[
                   ListTile(
                     title: Text(
@@ -60,8 +60,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                       onTap: () async {
                         await getImagem();
                         if (_imagem != null) {
-                          String url =
-                              await Util.enviaImagem(model.dados.id, _imagem,pasta);
+                          String url = await Util.enviaImagem(
+                              model.dados.id, _imagem, pasta);
                           Firestore.instance
                               .collection('usuarios')
                               .document(model.dados.id)
@@ -107,7 +107,6 @@ class _PerfilTelaState extends State<PerfilTela> {
                       )),*/
                   FlatButton(
                       onPressed: () {
-
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => MapsTela(
                                   enderecoChanged: (value) {
@@ -123,15 +122,18 @@ class _PerfilTelaState extends State<PerfilTela> {
                                   cidadeChanged: (String value) {
                                     SharedPreferencesControle.setCidade(value);
                                   },
-                              endereco: SharedPreferencesControle.getEndereco(),
-                              lat: SharedPreferencesControle.getPosition().latitude,
-                              lng: SharedPreferencesControle.getPosition().longitude,
+                                  endereco:
+                                      SharedPreferencesControle.getEndereco(),
+                                  lat: SharedPreferencesControle.getPosition()
+                                      .latitude,
+                                  lng: SharedPreferencesControle.getPosition()
+                                      .longitude,
                                 )));
                       },
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            FontAwesome.map,
+                            FontAwesome.map_o,
                             color: Colors.black54,
                           ),
                           SizedBox(width: 10),
@@ -139,6 +141,29 @@ class _PerfilTelaState extends State<PerfilTela> {
                             "Mudar endereço",
                             style: TextStyle(fontSize: 18),
                           )
+                        ],
+                      )),
+                  Divider(
+                    color: Colors.black87,
+                  ),
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SugerirSalaoTela()));
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            FontAwesome.lightbulb_o,
+                            color: Colors.black54,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            "Sugerir novo salão",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
                         ],
                       )),
                   Divider(
