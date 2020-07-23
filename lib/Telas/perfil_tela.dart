@@ -26,7 +26,7 @@ class PerfilTela extends StatefulWidget {
 
 class _PerfilTelaState extends State<PerfilTela> {
   File _imagem;
-
+  final pasta = 'Imagens perfis';
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
@@ -61,7 +61,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                         await getImagem();
                         if (_imagem != null) {
                           String url =
-                              await Util.enviaImagem(model.dados.id, _imagem);
+                              await Util.enviaImagem(model.dados.id, _imagem,pasta);
                           Firestore.instance
                               .collection('usuarios')
                               .document(model.dados.id)
