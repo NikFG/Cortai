@@ -76,7 +76,7 @@ class _MapsTelaState extends State<MapsTela> {
               if (widget.lat != null) {
                 mapController.animateCamera(CameraUpdate.newCameraPosition(
                     CameraPosition(
-                        target: LatLng(widget.lat, widget.lng), zoom: 20.0)));
+                        target: latLng, zoom: 20.0)));
                 setState(() {
                   _markers.add(marker(LatLng(widget.lat, widget.lng)));
                 });
@@ -185,7 +185,7 @@ class _MapsTelaState extends State<MapsTela> {
       latLng = LatLng(lat, lng);
       var geolocator = await Geolocator().placemarkFromCoordinates(lat, lng);
       widget.cidadeChanged(geolocator.first.subAdministrativeArea);
-      print(geolocator.first.subAdministrativeArea);
+
       procuraController.text = p.description;
       _marcarMapaPrevisao();
     }
