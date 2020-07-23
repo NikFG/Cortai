@@ -22,10 +22,10 @@ class ConfirmarTile extends StatefulWidget {
 class _ConfirmarTileState extends State<ConfirmarTile> {
   bool confirmado;
   String valor;
-
   @override
   void initState() {
     super.initState();
+    valor = widget.horarioDados.servicoDados.valorFormatado();
   }
 
   @override
@@ -55,24 +55,12 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
           }
         },
       ),
-      subtitle: FutureBuilder(
-        future:
-            ServicoControle.get().document(widget.horarioDados.servico).get(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center();
-          } else {
-            Servico servicoDados = Servico.fromDocument(snapshot.data);
-            valor = servicoDados.valorFormatado();
-            return Text(
-              "${servicoDados.descricao} $valor\n"
-              "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            );
-          }
-        },
+      subtitle: Text(
+        "${widget.horarioDados.servicoDados.descricao} $valor\n"
+        "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",
+        style: TextStyle(
+          fontSize: 15,
+        ),
       ),
       trailing: widget.horarioDados.confirmado ? _pago() : null,
     );
