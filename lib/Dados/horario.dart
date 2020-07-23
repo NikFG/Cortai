@@ -1,3 +1,4 @@
+import 'package:agendacabelo/Dados/servico.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Horario {
@@ -10,6 +11,7 @@ class Horario {
   String servico;
   bool pago;
   String formaPagamento;
+  Servico servicoDados;
 
   Horario();
 
@@ -23,6 +25,8 @@ class Horario {
     servico = snapshot.data['servico'];
     pago = snapshot.data['pago'];
     formaPagamento = snapshot.data['formaPagamento'];
+
+    servicoDados = Servico.fromMap(snapshot.data['servico_map'],servico);
   }
 
   Horario.fromJson(Map<String, dynamic> json) {
@@ -47,6 +51,7 @@ class Horario {
       "horario": horario,
       "pago": pago,
       "servico": servico,
+      'servico_map': servicoDados.toMap(),
     };
   }
 
