@@ -251,7 +251,7 @@ export const horarioCancelado = functions.firestore
   });
 
 export const calculaDistancia = functions
-  .runWith({ memory: '1GB', timeoutSeconds: 300 })
+  .runWith({ memory: '2GB', timeoutSeconds: 300 })
   .https.onRequest(async (request, response) => {
     const cidade = request.query.cidade;
     const lat = request.query.lat as string;
@@ -263,7 +263,7 @@ export const calculaDistancia = functions
     }
     const saloes = await db
       .collection('saloes')
-      //.where('cidade', '==', cidade)
+      .where('cidade', '==', cidade)
       .orderBy('nome')
       .get()
 
