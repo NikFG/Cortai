@@ -42,20 +42,8 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(5),
           children: <Widget>[
-            Align(  
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon:Icon(FontAwesome.gear),
-                onPressed: (){
-                  //criar uma pagina aqui para editar 
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => EditarFuncionamentoTela()));
-                },
-              ),
-            ),
-            
             FutureBuilder<QuerySnapshot>(
               future: FuncionamentoControle.get(widget.salao).getDocuments(),
               builder: (context, snapshot) {
@@ -76,24 +64,31 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                           .compareTo(Util.ordenarDiasSemana(b.documentID)));
                   var listaRows = listaDocuments.map((doc) {
                     Funcionamento dados = Funcionamento.fromDocument(doc);
-                    return Column(
+                    return Row(
                       children: <Widget>[
                         Text(
-                            "${dados.diaSemana}: ${dados.horarioAbertura} - ${dados.horarioFechamento}",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500))
+                            "${dados.diaSemana}:  ",
+                            style: TextStyle(
+                                fontSize: 22, fontWeight: FontWeight.w700)),
+                                SizedBox(
+                                  height: 50,
+                                ),
+                        Text(
+                            "${dados.horarioAbertura} - ${dados.horarioFechamento}",
+                            style: TextStyle(
+                                fontSize: 18,))
                       ],
                     );
                   }).toList();
-                  return Wrap(
-                    direction: Axis.horizontal,
-                    alignment: WrapAlignment.center,
-                    spacing: 20,
-                    runSpacing:20,
+                  return Column(
+                    
                     children: listaRows,
                   );
                 }
               },
             ),
-/*
+
+            /*
             GestureDetector(
               onTap: () => _selectTime(context, _aberturaController),
               child: AbsorbPointer(
@@ -253,65 +248,35 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                   ],
                 ),
               ],
-            ),
-            
-
-
-            
-
+            ),*/
+            Padding(
+              padding:EdgeInsets.only(top: 100),
+              child:
             SizedBox(
-              height: 44,
+              height: 46,
+              width: MediaQuery.of(context).size.width / 1.1,
               child: RaisedButton(
-                onPressed: _botaoHabilitado
-                    ? () async {
-                        if (_formKey.currentState.validate()) {
-                          Funcionamento dados = Funcionamento();
-                          dados.horarioAbertura = _aberturaController.text;
-                          dados.horarioFechamento = _fechamentoController.text;
-                          dados.intervalo =
-                              int.parse(_intervaloController.text);
-                          if (!_switchMarcado) {
-                            await FuncionamentoControle.get(widget.salao)
-                                .getDocuments()
-                                .then((value) {
-                              for (var doc in value.documents) {
-                                doc.reference.delete();
-                              }
-                            });
-                          }
-                          for (int i = 0; i < 7; i++) {
-                            if (_diasSemana[i]) {
-                              await FuncionamentoControle.get(widget.salao)
-                                  .document(_diaSemanaIndex(i))
-                                  .setData(dados.toMap(), merge: true);
-                            }
-                          }
-
-                          await FlushbarHelper.createSuccess(
-                                  message:
-                                      "Horário de funcionamento alterado com sucesso",
-                                  duration: Duration(milliseconds: 1200))
-                              .show(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeTela()));
-                        }
-                      }
-                    : null,
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditarFuncionamentoTela()));
+                },
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                     side: BorderSide(color: Colors.red)),
                 child: _botaoHabilitado
                     ? Text(
-                        "Confirmar",
+                        "Editar",
                         style: TextStyle(fontSize: 18),
                       )
                     : CircularProgressIndicator(),
                 textColor: Colors.white,
                 color: Theme.of(context).primaryColor,
               ),
-            ),*/
+            ),
+
+            ),
           ],
         ),
       ),
