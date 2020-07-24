@@ -22,6 +22,7 @@ class ConfirmarTile extends StatefulWidget {
 class _ConfirmarTileState extends State<ConfirmarTile> {
   bool confirmado;
   String valor;
+
   @override
   void initState() {
     super.initState();
@@ -111,14 +112,43 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
                 ListTile(
                   leading: Icon(Icons.remove_circle, color: Colors.red),
                   title: Text('Cancelar Horário'),
-                  onTap: () {
-                    confirmado = false;
-                    Navigator.of(context).pop();
-                    HorarioControle.cancelaAgendamento(
-                      widget.horarioDados,
-                      onSuccess: () {},
-                      onFail: () {},
-                    );
+                  onTap: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              content:
+                                  Text("Deseja realmente cancelar o horário?"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "Não",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    confirmado = false;
+                                    HorarioControle.cancelaAgendamento(
+                                      widget.horarioDados,
+                                      onSuccess: () {},
+                                      onFail: () {},
+                                    );
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Sim"),
+                                ),
+                              ],
+                            )).then((value) => Navigator.of(context).pop());
+//                    confirmado = false;
+
+//                    HorarioControle.cancelaAgendamento(
+//                      widget.horarioDados,
+//                      onSuccess: () {},
+//                      onFail: () {},
+//                    );
                   },
                 ),
                 ListTile(
