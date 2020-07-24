@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
+import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/cabeleireiro.dart';
+import 'package:agendacabelo/Dados/forma_pagamento.dart';
 import 'package:agendacabelo/Dados/funcionamento.dart';
 import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Dados/servico.dart';
@@ -32,12 +34,19 @@ class _AgendaTelaState extends State<AgendaTela> {
   var dataController = TextEditingController();
   var horarioController = TextEditingController();
   var profissionalController = TextEditingController();
+  var pagamentoController = TextEditingController();
   String profissional;
   String pagamento;
   DateTime data;
   bool _botaoHabilitado = true;
   var _formKey = GlobalKey<FormState>();
   StreamSubscription<QuerySnapshot> listener;
+  int indexPagamento;
+  final List<Icon> listaIcons = [
+    Icon(FontAwesome.credit_card),
+    Icon(FontAwesome.credit_card_alt),
+    Icon(FontAwesome.money),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -233,9 +242,11 @@ class _AgendaTelaState extends State<AgendaTela> {
                         },
                         child: AbsorbPointer(
                           child: CustomFormField(
-                            icon: Icon(FontAwesome.credit_card),
+                            icon: pagamento == null
+                                ? null
+                                : listaIcons[indexPagamento],
                             hint: 'Selecione o método de pagamento',
-                            controller: horarioController,
+                            controller: pagamentoController,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Selecione o método de pagamento";
@@ -304,15 +315,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             return FlatButton(
                               onPressed: _botaoHabilitado
                                   ? () async {
-                                      if (this.pagamento == null) {
-                                        FlushbarHelper.createError(
-                                                message:
-                                                    "Selecione uma forma de pagamento",
-                                                duration: Duration(seconds: 2))
-                                            .show(context);
-                                      }
-                                      if (_formKey.currentState.validate() &&
-                                          this.pagamento != null) {
+                                      if (_formKey.currentState.validate()) {
                                         await listener.cancel();
                                         setState(() {
                                           _botaoHabilitado = false;
@@ -341,7 +344,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                             dados.pago = false;
                                             dados.servico =
                                                 widget.servicoDados.id;
-
+                                            dados.servicoDados = widget.servicoDados;
                                             HorarioControle.store(dados,
                                                 onSuccess: onSuccess,
                                                 onFail: onFail);
@@ -475,33 +478,35 @@ class _AgendaTelaState extends State<AgendaTela> {
         isDismissible: true,
         context: context,
         builder: (bc) {
-          return Container(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                    leading: Icon(
-                      FontAwesome.money,
-                    ),
-                    title: Text('Dinheiro'),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    }),
-                ListTile(
-                    leading: Icon(
-                      FontAwesome.credit_card,
-                    ),
-                    title: Text('Cartão Crédito'),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    }),
-                ListTile(
-                    leading: Icon(FontAwesome.credit_card_alt),
-                    title: Text('Cartão Débito'),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    }),
-              ],
-            ),
+          return FutureBuilder<QuerySnapshot>(
+            future: FormaPagamentoControle.get()
+                .orderBy('descricao')
+                .getDocuments(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return ListView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) {
+                      FormaPagamento formaPagamento =
+                          FormaPagamento.fromDocument(
+                              snapshot.data.documents[index]);
+                      return ListTile(
+                        onTap: () {
+                          this.pagamento = formaPagamento.id;
+                          indexPagamento = index;
+                          pagamentoController.text = formaPagamento.descricao;
+                          Navigator.of(context).pop();
+                        },
+                        leading: listaIcons[index],
+                        title: Text(formaPagamento.descricao),
+                      );
+                    });
+              }
+            },
           );
         }).then((value) {});
     setState(() {});
