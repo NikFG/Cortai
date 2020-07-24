@@ -8,7 +8,7 @@ import 'package:agendacabelo/Telas/editar_perfil.dart';
 import 'package:agendacabelo/Telas/editar_salao_tela.dart';
 import 'package:agendacabelo/Telas/login_tela.dart';
 import 'package:agendacabelo/Telas/solicitacao_cabeleireiro_tela.dart';
-import 'package:agendacabelo/Telas/sugerir_salao_tela.dart';
+import 'package:agendacabelo/Telas/web_view_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/maps_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -149,7 +149,9 @@ class _PerfilTelaState extends State<PerfilTela> {
                   FlatButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SugerirSalaoTela()));
+                            builder: (context) => WebViewTela(
+                                'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link',
+                                "Sugerir novo salão")));
                       },
                       child: Row(
                         children: <Widget>[
@@ -176,6 +178,38 @@ class _PerfilTelaState extends State<PerfilTela> {
                             context: context,
                             applicationName: "Cortaí",
                             applicationVersion: "1.0",
+                            children: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => WebViewTela(
+                                          'https://br.freepik.com/fotos-vetores-gratis/cabelo',
+                                          "Licença")));
+                                },
+                                child: Text(
+                                    "Vetores criados por stories - br.freepik.com"),
+                              ),
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => WebViewTela(
+                                          'https://stories.freepik.com/?utm_source=Stories&utm_medium=referral&utm_campaign=web-attribution&utm_term=copy%20and%20attribute&utm_content=donwload-pop-up',
+                                          "Licença")));
+                                },
+                                child:
+                                    Text("Illustration by Stories by Freepik"),
+                              ),
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => WebViewTela(
+                                          'https://stories.freepik.com/coronavirus?utm_source=Stories&utm_medium=referral&utm_campaign=web-attribution&utm_term=copy%20and%20attribute&utm_content=donwload-pop-up',
+                                          "Licença")));
+                                },
+                                child:
+                                    Text("Illustration by Stories by Freepik"),
+                              ),
+                            ],
                             applicationIcon: Image.asset(
                               "assets/icons/icon_white.png",
                               width: 100,
