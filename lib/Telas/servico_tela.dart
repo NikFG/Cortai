@@ -16,9 +16,11 @@ class ServicoTela extends StatelessWidget {
 
   ServicoTela({@required this.dados, @required this.distancia});
 
-//TODO: mudar tela para não ficar tão fixa
   @override
   Widget build(BuildContext context) {
+    String media = dados.quantidadeAvaliacao > 0
+        ? (dados.totalAvaliacao / dados.quantidadeAvaliacao).toStringAsFixed(1)
+        : '0.0';
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -120,8 +122,8 @@ class ServicoTela extends StatelessWidget {
                                     padding:
                                         EdgeInsets.only(bottom: 8.0, left: 8.0),
                                     child: Text(
-                                      "R\$19 "
-                                      "~ R\$119",
+                                      "R\$${dados.menorValorServico.toStringAsFixed(2)}"
+                                      "~ R\$${dados.maiorValorServico.toStringAsFixed(2)}",
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 18.0,
@@ -137,7 +139,7 @@ class ServicoTela extends StatelessWidget {
                                             size: 16.0),
                                         SizedBox(width: 5.0),
                                         Text(
-                                          '4,5',
+                                          media,
                                           style: TextStyle(
                                             fontSize: 18.0,
                                             color: Colors.amber,
