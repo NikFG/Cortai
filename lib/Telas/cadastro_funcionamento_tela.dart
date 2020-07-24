@@ -1,11 +1,13 @@
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Dados/funcionamento.dart';
+import 'package:agendacabelo/Telas/dia_funcionamento_tela.dart';
 import 'package:agendacabelo/Telas/editar_horario_funcionamento.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/custom_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class CadastroFuncionamentoTela extends StatefulWidget {
   final String salao;
@@ -29,6 +31,33 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
       appBar: AppBar(
         title: Text('Horário de funcionamento'),
         centerTitle: true,
+        actions: <Widget>[
+          PopupMenuButton(
+            icon: Icon(FontAwesome.ellipsis_v),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 1,
+                child: FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditarFuncionamentoTela(widget.salao)));
+                  },
+                  child: Text("Editar todos"),
+                ),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: FlatButton(
+                  onPressed: () {},
+                  child: Text("Remover todos"),
+                ),
+              )
+            ],
+          )
+        ],
       ),
       body: Form(
         key: _formKey,
@@ -56,18 +85,38 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                   var listaRows = listaDocuments.map((doc) {
                     Funcionamento dados = Funcionamento.fromDocument(doc);
                     return Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("${dados.diaSemana}:  ",
+                        Text("${dados.diaSemana}:",
                             style: TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.w700)),
-                        SizedBox(
-                          height: 50,
-                        ),
                         Text(
                             "${dados.horarioAbertura} - ${dados.horarioFechamento}",
                             style: TextStyle(
                               fontSize: 18,
-                            ))
+                            )),
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DiaFuncionamentoTela(widget.salao)));
+                          },
+                          child: Text(
+                            "Editar",
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18),
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Remover",
+                            style: TextStyle(color: Colors.red, fontSize: 18),
+                          ),
+                        ),
                       ],
                     );
                   }).toList();
@@ -77,28 +126,9 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                 }
               },
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: SizedBox(
-                height: 46,
-                width: MediaQuery.of(context).size.width / 1.1,
-                child: CustomButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                EditarFuncionamentoTela(widget.salao)));
-                  },
-                  textoBotao: "Editar",
-                  botaoHabilitado: true,
-                ),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
-
 }
