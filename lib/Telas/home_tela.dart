@@ -134,11 +134,7 @@ class _HomeTelaState extends State<HomeTela> {
             Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id),
-              body: Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 10),
-                child: PerfilTela(),
-              ),
+              body: PerfilTela(),
             ),
             DefaultTabController(
               length: 2,

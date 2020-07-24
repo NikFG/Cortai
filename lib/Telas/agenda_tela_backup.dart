@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
-import 'package:agendacabelo/Controle/forma_pagamento_controle.dart';
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Controle/salao_controle.dart';
 import 'package:agendacabelo/Dados/cabeleireiro.dart';
-import 'package:agendacabelo/Dados/forma_pagamento.dart';
 import 'package:agendacabelo/Dados/funcionamento.dart';
 import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Dados/servico.dart';
@@ -34,19 +32,12 @@ class _AgendaTelaState extends State<AgendaTela> {
   var dataController = TextEditingController();
   var horarioController = TextEditingController();
   var profissionalController = TextEditingController();
-  var pagamentoController = TextEditingController();
   String profissional;
   String pagamento;
   DateTime data;
   bool _botaoHabilitado = true;
   var _formKey = GlobalKey<FormState>();
   StreamSubscription<QuerySnapshot> listener;
-  int indexPagamento;
-  final List<Icon> listaIcons = [
-    Icon(FontAwesome.credit_card),
-    Icon(FontAwesome.credit_card_alt),
-    Icon(FontAwesome.money),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +104,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                         },
                         child: AbsorbPointer(
                           child: CustomFormField(
-                            hint: 'Selecione o Profissional',
+                            hint: 'Profissional',
                             icon: Icon(Icons.content_cut),
                             controller: profissionalController,
                             validator: (value) {
@@ -157,12 +148,12 @@ class _AgendaTelaState extends State<AgendaTela> {
                         },
                         child: AbsorbPointer(
                           child: CustomFormField(
-                            icon: Icon(FontAwesome.calendar),
-                            hint: 'Selecione a data',
+                            icon: Icon(FontAwesome.credit_card),
+                            hint: 'dd/mm/yyyy',
                             controller: dataController,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Selecione a data";
+                                return "Selecione o dia";
                               }
                               return null;
                             },
@@ -208,48 +199,11 @@ class _AgendaTelaState extends State<AgendaTela> {
                         child: AbsorbPointer(
                           child: CustomFormField(
                             icon: Icon(Icons.access_time),
-                            hint: 'Selecione o horário',
+                            hint: 'hh:mm',
                             controller: horarioController,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Selecione o horário";
-                              }
-                              return null;
-                            },
-                            inputType: TextInputType.text,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'Como você gostaria de pagar?',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(24),
-                      child: GestureDetector(
-                        onTap: () async {
-                          _metodoPagamentoBottomSheet(context);
-                        },
-                        child: AbsorbPointer(
-                          child: CustomFormField(
-                            icon: pagamento == null
-                                ? null
-                                : listaIcons[indexPagamento],
-                            hint: 'Selecione o método de pagamento',
-                            controller: pagamentoController,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return "Selecione o método de pagamento";
                               }
                               return null;
                             },
@@ -294,28 +248,46 @@ class _AgendaTelaState extends State<AgendaTela> {
                     SizedBox(
                       height: 20,
                     ),
-
-                    /*
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Como você gostaria de pagar?',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
                     Container(
                       height: 100,
                       child: CustomRadio(idPagamento: (value) {
                         this.pagamento = value;
                       }),
-                    ),*/
-
+                    ),
                     Container(
                         alignment: Alignment.topRight,
                         width: MediaQuery.of(context).size.width - 20,
                         height: 40,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).primaryColor),
+                            color: Theme.of(context).accentColor),
                         child: ScopedModelDescendant<LoginModelo>(
                           builder: (context, child, model) {
                             return FlatButton(
                               onPressed: _botaoHabilitado
                                   ? () async {
-                                      if (_formKey.currentState.validate()) {
+                                      if (this.pagamento == null) {
+                                        FlushbarHelper.createError(
+                                                message:
+                                                    "Selecione uma forma de pagamento",
+                                                duration: Duration(seconds: 2))
+                                            .show(context);
+                                      }
+                                      if (_formKey.currentState.validate() &&
+                                          this.pagamento != null) {
                                         await listener.cancel();
                                         setState(() {
                                           _botaoHabilitado = false;
@@ -471,45 +443,6 @@ class _AgendaTelaState extends State<AgendaTela> {
               .toList();
           return ListView(children: tiles);
         });
-  }
-
-  _metodoPagamentoBottomSheet(context) async {
-    await showModalBottomSheet(
-        isDismissible: true,
-        context: context,
-        builder: (bc) {
-          return FutureBuilder<QuerySnapshot>(
-            future: FormaPagamentoControle.get()
-                .orderBy('descricao')
-                .getDocuments(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                return ListView.builder(
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) {
-                      FormaPagamento formaPagamento =
-                          FormaPagamento.fromDocument(
-                              snapshot.data.documents[index]);
-                      return ListTile(
-                        onTap: () {
-                          this.pagamento = formaPagamento.id;
-                          indexPagamento = index;
-                          pagamentoController.text = formaPagamento.descricao;
-                          Navigator.of(context).pop();
-                        },
-                        leading: listaIcons[index],
-                        title: Text(formaPagamento.descricao),
-                      );
-                    });
-              }
-            },
-          );
-        }).then((value) {});
-    setState(() {});
   }
 
   /*

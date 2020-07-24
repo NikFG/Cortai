@@ -57,8 +57,7 @@ class _StartScreenState extends State<StartScreen> {
               end: Alignment.bottomCenter,
               stops: [0.1, 0.7],
               colors: [
-                Color(0xFFF5A43D),
-                //Theme.of(context).accentColor,
+                Theme.of(context).primaryColor,
                 Theme.of(context).accentColor,
               ],
             ),
