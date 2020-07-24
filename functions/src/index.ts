@@ -170,7 +170,7 @@ export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
                 Agora você é um cabeleireiro do salão ${salao.get('nome')}
                </p><br>
                Clique neste 
-               <a href=https://us-central1-agendamento-cortes.cloudfunctions.net/confirmaCabeleireiroEmail?usuario=${criptado}>link</a>
+               <a href=https://us-central1-cortai-349b0.cloudfunctions.net/confirmaCabeleireiroEmail?usuario=${criptado}>link</a>
                para confirmar a ação`
       };
 
@@ -187,11 +187,9 @@ export const enviaEmailConfirmacaoCabeleireiro = functions.firestore
 
   });
 
-
-
-
-export const confirmaCabeleireiroEmail = functions.https
-  .onRequest(async (request, response) => {
+export const confirmaCabeleireiroEmail = functions
+  .runWith({ memory: '256MB', timeoutSeconds: 300 })
+  .https.onRequest(async (request, response) => {
     const usuarioId = await decrypt(`${request.query.usuario}`);
     console.log(usuarioId);
     if (!usuarioId) {
@@ -329,7 +327,7 @@ export const recalculaValoresResumo = functions.firestore
         .where('salao', '==', salao)
         .where('ativo', '==', true)
         .get();
-      
+
       let servicos = queryServico.docs;
       servicos.sort((a, b) => {
         return a.get('valor') < b.get('valor') ? -1
@@ -365,12 +363,13 @@ export const calculaAvaliacaoResumo = functions.firestore
       .get()
 
 
-    const total = resumo.get('mediaAvaliacao') + snapshot.get('avaliacao');
+    const total = resumo.get('totalAvaliacao') + snapshot.get('avaliacao');
+    const quantidade = resumo.get('quantidadeAvaliacao') + 1
     await db
       .collection('saloes')
       .doc(snapshot.get('salao'))
       .update({
-        'quantidadeAvaliacao': admin.firestore.FieldValue.increment,
+        'quantidadeAvaliacao': quantidade,
         'totalAvaliacao': total
       });
 
