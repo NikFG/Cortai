@@ -104,7 +104,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                         },
                         child: AbsorbPointer(
                           child: CustomFormField(
-                            hint: 'Profissional',
+                            hint: 'Selecione o Profissional',
                             icon: Icon(Icons.content_cut),
                             controller: profissionalController,
                             validator: (value) {
@@ -148,12 +148,12 @@ class _AgendaTelaState extends State<AgendaTela> {
                         },
                         child: AbsorbPointer(
                           child: CustomFormField(
-                            icon: Icon(FontAwesome.credit_card),
-                            hint: 'dd/mm/yyyy',
+                            icon: Icon(FontAwesome.calendar),
+                            hint: 'Selecione a data',
                             controller: dataController,
                             validator: (value) {
                               if (value.isEmpty) {
-                                return "Selecione o dia";
+                                return "Selecione a data";
                               }
                               return null;
                             },
@@ -199,11 +199,46 @@ class _AgendaTelaState extends State<AgendaTela> {
                         child: AbsorbPointer(
                           child: CustomFormField(
                             icon: Icon(Icons.access_time),
-                            hint: 'hh:mm',
+                            hint: 'Selecione o horário',
                             controller: horarioController,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "Selecione o horário";
+                              }
+                              return null;
+                            },
+                            inputType: TextInputType.text,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Como você gostaria de pagar?',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(24),
+                      child: GestureDetector(
+                        onTap: () async {
+                          _metodoPagamentoBottomSheet(context);
+                        },
+                        child: AbsorbPointer(
+                          child: CustomFormField(
+                            icon: Icon(FontAwesome.credit_card),
+                            hint: 'Selecione o método de pagamento',
+                            controller: horarioController,
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "Selecione o método de pagamento";
                               }
                               return null;
                             },
@@ -248,32 +283,22 @@ class _AgendaTelaState extends State<AgendaTela> {
                     SizedBox(
                       height: 20,
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'Como você gostaria de pagar?',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
+
+                    /*
                     Container(
                       height: 100,
                       child: CustomRadio(idPagamento: (value) {
                         this.pagamento = value;
                       }),
-                    ),
+                    ),*/
+
                     Container(
                         alignment: Alignment.topRight,
                         width: MediaQuery.of(context).size.width - 20,
                         height: 40,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).accentColor),
+                            color: Theme.of(context).primaryColor),
                         child: ScopedModelDescendant<LoginModelo>(
                           builder: (context, child, model) {
                             return FlatButton(
@@ -316,7 +341,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                             dados.pago = false;
                                             dados.servico =
                                                 widget.servicoDados.id;
-                                            dados.servicoDados = widget.servicoDados;
+
                                             HorarioControle.store(dados,
                                                 onSuccess: onSuccess,
                                                 onFail: onFail);
@@ -443,6 +468,43 @@ class _AgendaTelaState extends State<AgendaTela> {
               .toList();
           return ListView(children: tiles);
         });
+  }
+
+  _metodoPagamentoBottomSheet(context) async {
+    await showModalBottomSheet(
+        isDismissible: true,
+        context: context,
+        builder: (bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: Icon(
+                      FontAwesome.money,
+                    ),
+                    title: Text('Dinheiro'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    }),
+                ListTile(
+                    leading: Icon(
+                      FontAwesome.credit_card,
+                    ),
+                    title: Text('Cartão Crédito'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    }),
+                ListTile(
+                    leading: Icon(FontAwesome.credit_card_alt),
+                    title: Text('Cartão Débito'),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    }),
+              ],
+            ),
+          );
+        }).then((value) {});
+    setState(() {});
   }
 
   /*
