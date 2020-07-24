@@ -1,19 +1,17 @@
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Dados/funcionamento.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
-import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/custom_button.dart';
 import 'package:agendacabelo/Widgets/custom_form_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class EditarFuncionamentoTela extends StatefulWidget {
-  //final String salao;
+  final String salao;
 
-  // EditarFuncionamentoTela(this.salao);
+  EditarFuncionamentoTela(this.salao);
 
   @override
   _EditarFuncionamentoTelaState createState() =>
@@ -28,7 +26,6 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
   var _aberturaController = TextEditingController();
   var _fechamentoController = TextEditingController();
   var _intervaloController = MaskedTextController(mask: '00');
-  bool _switchMarcado = true;
   bool _botaoHabilitado = true;
   List _diasSemana = [false, false, false, false, false, false, false];
 
@@ -36,208 +33,210 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Horário de funcionamento'),
+        title: Text('Editar/Adicionar Horários'),
         centerTitle: true,
       ),
       body: Form(
         key: _formKey,
-        child: ListView(
-          padding: EdgeInsets.all(15),
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: IgnorePointer(
+          ignoring: !_botaoHabilitado,
+          child: ListView(
+            padding: EdgeInsets.all(15),
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () => _selectTime(context, _aberturaController),
+                      child: AbsorbPointer(
+                        child: CustomFormField(
+                          controller: _aberturaController,
+                          hint: 'Horário de abertura',
+                          icon: Icon(Icons.access_time),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Insira o horário de abertura";
+                            }
+                            return null;
+                          },
+                          inputType: TextInputType.text,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () => _selectTime(context, _fechamentoController),
+                      child: AbsorbPointer(
+                        child: CustomFormField(
+                          controller: _fechamentoController,
+                          hint: 'Inserir Horário de fechamento',
+                          icon: Icon(Icons.access_time),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Insira o horário de fechamento";
+                            }
+                            return null;
+                          },
+                          inputType: TextInputType.text,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomFormField(
+                controller: _intervaloController,
+                inputType: TextInputType.number,
+                hint: "Intervalo entre horários",
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return "Digite um número";
+                  }
+                  if (value == '00' || value == '0') {
+                    return 'Não podem haver intervalos menores que 1';
+                  }
+                  return null;
+                },
+                icon: Icon(Icons.settings_backup_restore),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text("Editar/Adcionar Horários",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () => _selectTime(context, _aberturaController),
-                    child: AbsorbPointer(
-                      child: CustomFormField(
-                        controller: _aberturaController,
-                        hint: 'Inserir Horário de abertura',
-                        icon: Icon(Icons.access_time),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "nao obrigatorio";
-                          }
-                          return null;
-                        },
-                        inputType: TextInputType.text,
+                  Column(
+                    children: <Widget>[
+                      Text('DOM'),
+                      SizedBox(
+                        width: 42,
+                        height: 49,
+                        child: Checkbox(
+                          onChanged: (bool value) {
+                            setState(() {
+                              _diasSemana[0] = value;
+                            });
+                          },
+                          value: _diasSemana[0],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () => _selectTime(context, _fechamentoController),
-                    child: AbsorbPointer(
-                      child: CustomFormField(
-                        controller: _fechamentoController,
-                        hint: 'Inserir Horário de fechamento',
-                        icon: Icon(Icons.access_time),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return "nao obrigatorio";
-                          }
-                          return null;
+                  Column(
+                    children: <Widget>[
+                      Text('SEG'),
+                      Checkbox(
+                        onChanged: (bool value) {
+                          setState(() {
+                            _diasSemana[1] = value;
+                          });
                         },
-                        inputType: TextInputType.text,
+                        value: _diasSemana[1],
                       ),
-                    ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text('TER'),
+                      Checkbox(
+                        onChanged: (bool value) {
+                          setState(() {
+                            _diasSemana[2] = value;
+                          });
+                        },
+                        value: _diasSemana[2],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text('QUA'),
+                      Checkbox(
+                        onChanged: (bool value) {
+                          setState(() {
+                            _diasSemana[3] = value;
+                          });
+                        },
+                        value: _diasSemana[3],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text('QUI'),
+                      Checkbox(
+                        onChanged: (bool value) {
+                          setState(() {
+                            _diasSemana[4] = value;
+                          });
+                        },
+                        value: _diasSemana[4],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text('SEX'),
+                      Checkbox(
+                        onChanged: (bool value) {
+                          setState(() {
+                            _diasSemana[5] = value;
+                          });
+                        },
+                        value: _diasSemana[5],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text('SAB'),
+                      Checkbox(
+                        onChanged: (bool value) {
+                          setState(() {
+                            _diasSemana[6] = value;
+                          });
+                        },
+                        value: _diasSemana[6],
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: _intervaloController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: "Intervalo entre horários",
-                prefixIcon: Icon(Icons.settings_backup_restore),
+              SizedBox(height: 50),
+              CustomButton(
+                textoBotao: "Confirmar",
+                botaoHabilitado: _botaoHabilitado,
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    setState(() {
+                      _botaoHabilitado = false;
+                    });
+                    List<Funcionamento> dados = [];
+                    for (int i = 0; i < 7; i++) {
+                      if (_diasSemana[i]) {
+                        Funcionamento f = Funcionamento();
+                        f.diaSemana = _diaSemanaIndex(i);
+                        f.horarioAbertura = _aberturaController.text;
+                        f.horarioFechamento = _fechamentoController.text;
+                        f.intervalo = int.parse(_intervaloController.text);
+                        dados.add(f);
+                      }
+                    }
+                    FuncionamentoControle.updateAll(dados, widget.salao,
+                        onSuccess: onSuccess, onFail: onFail);
+                  }
+                },
               ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return "Digite um número";
-                }
-                return null;
-              },
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Text('DOM'),
-                    SizedBox(
-                      width: 42,
-                      height: 49,
-                      child: Checkbox(
-                        onChanged: (bool value) {
-                          setState(() {
-                            _diasSemana[0] = value;
-                          });
-                        },
-                        value: _diasSemana[0],
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text('SEG'),
-                    Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          _diasSemana[1] = value;
-                        });
-                      },
-                      value: _diasSemana[1],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text('TER'),
-                    Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          _diasSemana[2] = value;
-                        });
-                      },
-                      value: _diasSemana[2],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text('QUA'),
-                    Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          _diasSemana[3] = value;
-                        });
-                      },
-                      value: _diasSemana[3],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text('QUI'),
-                    Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          _diasSemana[4] = value;
-                        });
-                      },
-                      value: _diasSemana[4],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text('SEX'),
-                    Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          _diasSemana[5] = value;
-                        });
-                      },
-                      value: _diasSemana[5],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: <Widget>[
-                    Text('SAB'),
-                    Checkbox(
-                      onChanged: (bool value) {
-                        setState(() {
-                          _diasSemana[6] = value;
-                        });
-                      },
-                      value: _diasSemana[6],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height:MediaQuery.of(context).size.height /4
-            ),
-            SizedBox(
-              height: 46,
-              width: MediaQuery.of(context).size.width / 1.1,
-              child: RaisedButton(
-                onPressed: (){},
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Colors.red)),
-                child: _botaoHabilitado
-                    ? Text(
-                        "Confirmar",
-                        style: TextStyle(fontSize: 18),
-                      )
-                    : CircularProgressIndicator(),
-                textColor: Colors.white,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -272,5 +271,21 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
       default:
         return '';
     }
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Horarios alterados com sucesso")
+        .show(context);
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  void onFail() async {
+    await FlushbarHelper.createError(message: "Horarios alterados com sucesso")
+        .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
   }
 }
