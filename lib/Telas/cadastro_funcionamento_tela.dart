@@ -1,11 +1,13 @@
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Dados/funcionamento.dart';
+import 'package:agendacabelo/Telas/editar_horario_funcionamento.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class CadastroFuncionamentoTela extends StatefulWidget {
@@ -42,6 +44,18 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
         child: ListView(
           padding: EdgeInsets.all(15),
           children: <Widget>[
+            Align(  
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon:Icon(FontAwesome.gear),
+                onPressed: (){
+                  //criar uma pagina aqui para editar 
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => EditarFuncionamentoTela()));
+                },
+              ),
+            ),
+            
             FutureBuilder<QuerySnapshot>(
               future: FuncionamentoControle.get(widget.salao).getDocuments(),
               builder: (context, snapshot) {
@@ -61,21 +75,25 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                       Util.ordenarDiasSemana(a.documentID)
                           .compareTo(Util.ordenarDiasSemana(b.documentID)));
                   var listaRows = listaDocuments.map((doc) {
-                    Funcionamento dados =
-                        Funcionamento.fromDocument(doc);
-                    return Row(
+                    Funcionamento dados = Funcionamento.fromDocument(doc);
+                    return Column(
                       children: <Widget>[
                         Text(
-                            "${dados.diaSemana}: ${dados.horarioAbertura} - ${dados.horarioFechamento}")
+                            "${dados.diaSemana}: ${dados.horarioAbertura} - ${dados.horarioFechamento}",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500))
                       ],
                     );
                   }).toList();
-                  return Column(
+                  return Wrap(
+                    direction: Axis.horizontal,
+                    alignment: WrapAlignment.center,
+                    spacing: 20,
+                    runSpacing:20,
                     children: listaRows,
                   );
                 }
               },
             ),
+/*
             GestureDetector(
               onTap: () => _selectTime(context, _aberturaController),
               child: AbsorbPointer(
@@ -236,9 +254,11 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 30,
-            ),
+            
+
+
+            
+
             SizedBox(
               height: 44,
               child: RaisedButton(
@@ -291,7 +311,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                 textColor: Colors.white,
                 color: Theme.of(context).primaryColor,
               ),
-            ),
+            ),*/
           ],
         ),
       ),
