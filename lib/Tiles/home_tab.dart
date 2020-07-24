@@ -26,7 +26,7 @@ class _HomeTabState extends State<HomeTab> {
 
   String cidade = SharedPreferencesControle.getCidade();
   var _link =
-      'https://us-central1-agendamento-cortes.cloudfunctions.net/calculaDistancia';
+      'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
   var url = '';
 
   @override
