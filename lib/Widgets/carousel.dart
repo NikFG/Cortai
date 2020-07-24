@@ -1,5 +1,3 @@
-import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -57,7 +55,7 @@ class _CarouselState extends State<Carousel> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 20.0),
                             child: Text(
-                              txtList[imgList.indexOf(item)],
+                              txtList[_index],
                               overflow: TextOverflow.fade,
                               style: TextStyle(
                                 color: Colors.white,
@@ -78,7 +76,6 @@ class _CarouselState extends State<Carousel> {
           enlargeCenterPage: true,
           aspectRatio: 2.5,
           onPageChanged: (index, reason) {
-
             setState(() {
               _index = index;
             });
