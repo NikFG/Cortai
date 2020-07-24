@@ -15,7 +15,7 @@ class AgendadoTela extends StatelessWidget {
     return ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
       if (model.dados != null) {
         String url =
-            'https://us-central1-agendamento-cortes.cloudfunctions.net/getAgendados'
+            'https://us-central1-cortai-349b0.cloudfunctions.net/getAgendados'
             '?clienteId=${model.dados.id}&pago=';
         return TabBarView(
           children: <Widget>[
