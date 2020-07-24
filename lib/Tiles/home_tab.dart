@@ -61,7 +61,7 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ],
         ),
-       // Carousel(),
+        Carousel(),
         Padding(
             padding: EdgeInsets.only(left: 20, top: 10),
             child: Text(
