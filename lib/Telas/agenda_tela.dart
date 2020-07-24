@@ -11,7 +11,6 @@ import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Widgets/custom_form_field.dart';
-import 'package:agendacabelo/Widgets/custom_radio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';

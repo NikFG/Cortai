@@ -1,10 +1,7 @@
 import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
 import 'package:agendacabelo/Controle/horario_controle.dart';
-import 'package:agendacabelo/Controle/servico_controle.dart';
-
 import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Dados/login.dart';
-import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
