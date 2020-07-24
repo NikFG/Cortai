@@ -44,65 +44,186 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
         child: ListView(
           padding: EdgeInsets.all(15),
           children: <Widget>[
-           Padding(
-             padding: EdgeInsets.only(bottom:20),
-             child: Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: <Widget>[
-                Text("Segunda-Feira:",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                    SizedBox(
-                      height: 20,
+            Padding(
+              padding: EdgeInsets.only(bottom: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text("Editar/Adcionar Horários",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () => _selectTime(context, _aberturaController),
+                    child: AbsorbPointer(
+                      child: CustomFormField(
+                        controller: _aberturaController,
+                        hint: 'Inserir Horário de abertura',
+                        icon: Icon(Icons.access_time),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "nao obrigatorio";
+                          }
+                          return null;
+                        },
+                        inputType: TextInputType.text,
+                      ),
                     ),
-                     GestureDetector(
-              onTap: () => _selectTime(context, _aberturaController),
-              child: AbsorbPointer(
-                child: CustomFormField(
-                  controller: _aberturaController,
-                  hint: 'Mostrar o horario atual de abertura',
-                  icon: Icon(Icons.access_time),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "nao obrigatorio";
-                    }
-                    return null;
-                  },
-                  inputType: TextInputType.text,
-                ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () => _selectTime(context, _fechamentoController),
+                    child: AbsorbPointer(
+                      child: CustomFormField(
+                        controller: _fechamentoController,
+                        hint: 'Inserir Horário de fechamento',
+                        icon: Icon(Icons.access_time),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "nao obrigatorio";
+                          }
+                          return null;
+                        },
+                        inputType: TextInputType.text,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
               height: 20,
             ),
-            GestureDetector(
-              onTap: () => _selectTime(context, _fechamentoController),
-              child: AbsorbPointer(
-                child: CustomFormField(
-                  controller: _fechamentoController,
-                  hint: 'Mostrar o horario atual de fechamento',
-                  icon: Icon(Icons.access_time),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "nao obrigatorio";
-                    }
-                    return null;
-                  },
-                  inputType: TextInputType.text,
-                ),
+            TextFormField(
+              controller: _intervaloController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "Intervalo entre horários",
+                prefixIcon: Icon(Icons.settings_backup_restore),
               ),
-            ),
-               ],
-             ),
-           ),
-           
-          
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return "Digite um número";
+                }
+                return null;
+              },
             ),
             SizedBox(
-              height: 44,
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text('DOM'),
+                    SizedBox(
+                      width: 42,
+                      height: 49,
+                      child: Checkbox(
+                        onChanged: (bool value) {
+                          setState(() {
+                            _diasSemana[0] = value;
+                          });
+                        },
+                        value: _diasSemana[0],
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text('SEG'),
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          _diasSemana[1] = value;
+                        });
+                      },
+                      value: _diasSemana[1],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text('TER'),
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          _diasSemana[2] = value;
+                        });
+                      },
+                      value: _diasSemana[2],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text('QUA'),
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          _diasSemana[3] = value;
+                        });
+                      },
+                      value: _diasSemana[3],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text('QUI'),
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          _diasSemana[4] = value;
+                        });
+                      },
+                      value: _diasSemana[4],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text('SEX'),
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          _diasSemana[5] = value;
+                        });
+                      },
+                      value: _diasSemana[5],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text('SAB'),
+                    Checkbox(
+                      onChanged: (bool value) {
+                        setState(() {
+                          _diasSemana[6] = value;
+                        });
+                      },
+                      value: _diasSemana[6],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height:MediaQuery.of(context).size.height /4
+            ),
+            SizedBox(
+              height: 46,
+              width: MediaQuery.of(context).size.width / 1.1,
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: (){},
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18.0),
                     side: BorderSide(color: Colors.red)),
@@ -153,4 +274,3 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
     }
   }
 }
-
