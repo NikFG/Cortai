@@ -34,21 +34,23 @@ class _CarouselState extends State<Carousel> {
                                 BorderRadius.all(Radius.circular(5.0)),
                             child: Stack(
                               children: <Widget>[
-                                Image.network(
-                                  item,
-                                  fit: BoxFit.fill,
-                                  width: 1000.0,
+                                Image(
+                                  image: AssetImage(
+                                    'assets/images/Saude.png',
+                                  ),
+                                  width: 1000,
                                 ),
                                 Positioned(
                                   bottom: 0.0,
                                   left: 0.0,
                                   right: 0.0,
                                   child: Container(
+                                    // height:50,
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          Colors.transparent,
-                                          Colors.black
+                                          Theme.of(context).accentColor,
+                                          Theme.of(context).primaryColor,
                                         ],
                                         begin: Alignment.topCenter,
                                         end: Alignment.bottomCenter,
@@ -57,12 +59,12 @@ class _CarouselState extends State<Carousel> {
                                     padding: EdgeInsets.symmetric(
                                         vertical: 10.0, horizontal: 20.0),
                                     child: Text(
-                                      '${snapshot.data.documents[_current].data['nome']}',
+                                      'Uma Nova Experiência para um velho hábito',
                                       overflow: TextOverflow.fade,
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12.0,
+                                        //fontWeight: FontWeight.bold,
                                       ),
                                       textAlign: TextAlign.center,
                                     ),
