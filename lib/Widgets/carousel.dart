@@ -73,11 +73,12 @@ class _CarouselState extends State<Carousel> {
               ))
           .toList(),
       options: CarouselOptions(
-          autoPlayInterval: Duration(seconds: 3),
+          autoPlayInterval: Duration(seconds: 5),
           autoPlay: true,
           enlargeCenterPage: true,
           aspectRatio: 2.5,
           onPageChanged: (index, reason) {
+
             setState(() {
               _index = index;
             });
