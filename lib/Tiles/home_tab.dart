@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
 import 'package:agendacabelo/Dados/salao.dart';
+import 'package:agendacabelo/Telas/sugerir_salao_tela.dart';
 import 'package:agendacabelo/Tiles/home_tile.dart';
 import 'package:agendacabelo/Widgets/carousel.dart';
 import 'package:agendacabelo/Widgets/custom_form_field.dart';
@@ -120,8 +121,25 @@ class _HomeTabState extends State<HomeTab> {
                     );
                   } else {
                     if (response.data.statusCode == 404) {
-                      return Center(
-                        child: Text(response.data.body),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(response.data.body,textAlign: TextAlign.justify,),
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => SugerirSalaoTela()));
+                              },
+                              child: Text(
+                                "Sugerir novo salão",
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            )
+                          ],
+                        ),
                       );
                     }
                     List<dynamic> dados = json.decode(response.data.body);
