@@ -6,6 +6,7 @@ import 'package:agendacabelo/Telas/perfil_tela.dart';
 import 'package:agendacabelo/Util/push_notification.dart';
 import 'package:agendacabelo/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'gerenciar_servico_tela.dart';
 import 'agendado_tela.dart';
@@ -97,6 +98,7 @@ class _HomeTelaState extends State<HomeTela> {
                   centerTitle: true,
                   actions: <Widget>[
                     PopupMenuButton(
+                      icon: Icon(FontAwesome.ellipsis_v),
                       itemBuilder: (context) => [
                         PopupMenuItem(
                           value: 1,
