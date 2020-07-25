@@ -1,5 +1,6 @@
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Dados/funcionamento.dart';
+import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
 import 'package:agendacabelo/Telas/home_tela.dart';
 import 'package:agendacabelo/Widgets/custom_button.dart';
 import 'package:agendacabelo/Widgets/custom_form_field.dart';
@@ -10,8 +11,9 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class DiaFuncionamentoTela extends StatefulWidget {
   final String salao;
+  final Funcionamento dados;
 
-  DiaFuncionamentoTela(this.salao);
+  DiaFuncionamentoTela(this.dados, this.salao);
 
   @override
   _DiaFuncionamentoTelaState createState() => _DiaFuncionamentoTelaState();
@@ -25,7 +27,14 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
   var _fechamentoController = TextEditingController();
   var _intervaloController = MaskedTextController(mask: '00');
   bool _botaoHabilitado = true;
-  List _diasSemana = [false, false, false, false, false, false, false];
+
+  @override
+  void initState() {
+    super.initState();
+    _aberturaController.text = widget.dados.horarioAbertura;
+    _fechamentoController.text = widget.dados.horarioFechamento;
+    _intervaloController.text = widget.dados.intervalo.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +117,6 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
               SizedBox(
                 height: 30,
               ),
-              
               SizedBox(height: 50),
               CustomButton(
                 textoBotao: "Confirmar",
@@ -118,17 +126,12 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                     setState(() {
                       _botaoHabilitado = false;
                     });
-                    List<Funcionamento> dados = [];
-                    for (int i = 0; i < 7; i++) {
-                      if (_diasSemana[i]) {
-                        Funcionamento f = Funcionamento();
-                        f.horarioAbertura = _aberturaController.text;
-                        f.horarioFechamento = _fechamentoController.text;
-                        f.intervalo = int.parse(_intervaloController.text);
-                        dados.add(f);
-                      }
-                    }
-                    FuncionamentoControle.updateAll(dados, widget.salao,
+                    Funcionamento f = Funcionamento();
+                    f.diaSemana = widget.dados.diaSemana;
+                    f.intervalo = int.parse(_intervaloController.text);
+                    f.horarioAbertura = _aberturaController.text;
+                    f.horarioFechamento = _fechamentoController.text;
+                    FuncionamentoControle.update(f, widget.salao,
                         onSuccess: onSuccess, onFail: onFail);
                   }
                 },
@@ -154,8 +157,8 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
     await FlushbarHelper.createSuccess(
             message: "Horarios alterados com sucesso")
         .show(context);
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => CadastroFuncionamentoTela(widget.salao)));
   }
 
   void onFail() async {
