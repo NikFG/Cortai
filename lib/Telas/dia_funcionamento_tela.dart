@@ -1,6 +1,6 @@
 import 'package:agendacabelo/Controle/funcionamento_controle.dart';
 import 'package:agendacabelo/Dados/funcionamento.dart';
-import 'package:agendacabelo/Telas/home_tela.dart';
+import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
 import 'package:agendacabelo/Widgets/custom_button.dart';
 import 'package:agendacabelo/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -8,18 +8,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
-class EditarFuncionamentoTela extends StatefulWidget {
+class DiaFuncionamentoTela extends StatefulWidget {
   final String salao;
+  final Funcionamento dados;
 
-  EditarFuncionamentoTela(this.salao);
+  DiaFuncionamentoTela(this.dados, this.salao);
 
   @override
-  _EditarFuncionamentoTelaState createState() =>
-      _EditarFuncionamentoTelaState();
+  _DiaFuncionamentoTelaState createState() => _DiaFuncionamentoTelaState();
 }
 
-class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
-  //TODO: estilizar
+class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
   var _formKey = GlobalKey<FormState>();
   TimeOfDay selectedTime = TimeOfDay.now();
   TimeOfDay selectedTime2 = TimeOfDay.now();
@@ -27,13 +26,20 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
   var _fechamentoController = TextEditingController();
   var _intervaloController = MaskedTextController(mask: '00');
   bool _botaoHabilitado = true;
-  List _diasSemana = [false, false, false, false, false, false, false];
+
+  @override
+  void initState() {
+    super.initState();
+    _aberturaController.text = widget.dados.horarioAbertura;
+    _fechamentoController.text = widget.dados.horarioFechamento;
+    _intervaloController.text = widget.dados.intervalo.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar/Adicionar Horários'),
+        title: Text('Editar Dia'),
         centerTitle: true,
       ),
       body: Form(
@@ -110,106 +116,6 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
               SizedBox(
                 height: 30,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text('DOM'),
-                      SizedBox(
-                        width: 42,
-                        height: 49,
-                        child: Checkbox(
-                          onChanged: (bool value) {
-                            setState(() {
-                              _diasSemana[0] = value;
-                            });
-                          },
-                          value: _diasSemana[0],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('SEG'),
-                      Checkbox(
-                        onChanged: (bool value) {
-                          setState(() {
-                            _diasSemana[1] = value;
-                          });
-                        },
-                        value: _diasSemana[1],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('TER'),
-                      Checkbox(
-                        onChanged: (bool value) {
-                          setState(() {
-                            _diasSemana[2] = value;
-                          });
-                        },
-                        value: _diasSemana[2],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('QUA'),
-                      Checkbox(
-                        onChanged: (bool value) {
-                          setState(() {
-                            _diasSemana[3] = value;
-                          });
-                        },
-                        value: _diasSemana[3],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('QUI'),
-                      Checkbox(
-                        onChanged: (bool value) {
-                          setState(() {
-                            _diasSemana[4] = value;
-                          });
-                        },
-                        value: _diasSemana[4],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('SEX'),
-                      Checkbox(
-                        onChanged: (bool value) {
-                          setState(() {
-                            _diasSemana[5] = value;
-                          });
-                        },
-                        value: _diasSemana[5],
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text('SAB'),
-                      Checkbox(
-                        onChanged: (bool value) {
-                          setState(() {
-                            _diasSemana[6] = value;
-                          });
-                        },
-                        value: _diasSemana[6],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
               SizedBox(height: 50),
               CustomButton(
                 textoBotao: "Confirmar",
@@ -219,18 +125,12 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                     setState(() {
                       _botaoHabilitado = false;
                     });
-                    List<Funcionamento> dados = [];
-                    for (int i = 0; i < 7; i++) {
-                      if (_diasSemana[i]) {
-                        Funcionamento f = Funcionamento();
-                        f.diaSemana = _diaSemanaIndex(i);
-                        f.horarioAbertura = _aberturaController.text;
-                        f.horarioFechamento = _fechamentoController.text;
-                        f.intervalo = int.parse(_intervaloController.text);
-                        dados.add(f);
-                      }
-                    }
-                    FuncionamentoControle.updateAll(dados, widget.salao,
+                    Funcionamento f = Funcionamento();
+                    f.diaSemana = widget.dados.diaSemana;
+                    f.intervalo = int.parse(_intervaloController.text);
+                    f.horarioAbertura = _aberturaController.text;
+                    f.horarioFechamento = _fechamentoController.text;
+                    FuncionamentoControle.update(f, widget.salao,
                         onSuccess: onSuccess, onFail: onFail);
                   }
                 },
@@ -252,33 +152,12 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
       });
   }
 
-  String _diaSemanaIndex(int index) {
-    switch (index) {
-      case 0:
-        return 'DOM';
-      case 1:
-        return 'SEG';
-      case 2:
-        return 'TER';
-      case 3:
-        return 'QUA';
-      case 4:
-        return 'QUI';
-      case 5:
-        return 'SEX';
-      case 6:
-        return 'SAB';
-      default:
-        return '';
-    }
-  }
-
   void onSuccess() async {
     await FlushbarHelper.createSuccess(
             message: "Horarios alterados com sucesso")
         .show(context);
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => CadastroFuncionamentoTela(widget.salao)));
   }
 
   void onFail() async {
