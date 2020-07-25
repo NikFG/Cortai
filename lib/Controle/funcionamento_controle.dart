@@ -32,13 +32,7 @@ class FuncionamentoControle {
       dados.forEach((doc) async {
         await get(salao)
             .document(doc.diaSemana)
-            .setData(doc.toMap(), merge: true)
-            .then((value) {
-          onSuccess();
-        }).catchError((e) {
-          print(e);
-          onFail();
-        });
+            .setData(doc.toMap(), merge: true);
       });
       onSuccess();
     } catch (e) {
@@ -48,13 +42,25 @@ class FuncionamentoControle {
 
   static void delete(String diaSemana, String salao,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await get(salao)
-        .document(diaSemana)
-        .delete()
-        .then((value) => onSuccess)
-        .catchError((e) {
+    await get(salao).document(diaSemana).delete().then((value) {
+      onSuccess();
+    }).catchError((e) {
       print(e);
       onFail();
     });
+  }
+
+  static void deleteAll(String salao,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    try {
+      var docs =
+          await get(salao).getDocuments().then((value) => value.documents);
+      docs.forEach((element) {
+        get(salao).document(element.documentID).delete();
+      });
+      onSuccess();
+    } catch (e) {
+      onFail();
+    }
   }
 }
