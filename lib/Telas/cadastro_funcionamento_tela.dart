@@ -5,6 +5,7 @@ import 'package:agendacabelo/Telas/editar_horario_funcionamento.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/custom_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -29,11 +30,11 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Horário de funcionamento'),
+        title: Text('Funcionamento'),
         centerTitle: true,
         actions: <Widget>[
           PopupMenuButton(
-            icon: Icon(FontAwesome.ellipsis_v),
+            icon: Icon(Icons.more_vert),
             itemBuilder: (context) => [
               PopupMenuItem(
                 value: 1,
@@ -51,7 +52,32 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
               PopupMenuItem(
                 value: 2,
                 child: FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              content: Text(
+                                  "Deseja realmente remover todos os horários do salão?"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+                                    FuncionamentoControle.deleteAll(
+                                        widget.salao,
+                                        onSuccess: onSuccessDeletado,
+                                        onFail: onFailDeletado);
+                                    setState(() {});
+                                  },
+                                  child: Text("Sim"),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Não"),
+                                ),
+                              ],
+                            ));
+                  },
                   child: Text("Remover todos"),
                 ),
               )
@@ -73,9 +99,17 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                   );
                 } else {
                   if (snapshot.data.documents.length == 0) {
-                    return Container(
-                      width: 0,
-                      height: 0,
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height / 4),
+                      child: CustomButton(
+                        textoBotao: "Criar horários",
+                        botaoHabilitado: true,
+                        onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    EditarFuncionamentoTela(widget.salao))),
+                      ),
                     );
                   }
                   var listaDocuments = snapshot.data.documents;
@@ -90,31 +124,59 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                       children: <Widget>[
                         Text("${dados.diaSemana}:",
                             style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w700)),
+                                fontSize: 18, fontWeight: FontWeight.w700)),
                         Text(
                             "${dados.horarioAbertura} - ${dados.horarioFechamento}",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16,
                             )),
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DiaFuncionamentoTela(widget.salao)));
-                          },
-                          child: Text(
-                            "Editar",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 18),
+                        Expanded(
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => DiaFuncionamentoTela(
+                                      dados, widget.salao)));
+                            },
+                            child: Text(
+                              "Editar",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 16),
+                            ),
                           ),
                         ),
-                        FlatButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Remover",
-                            style: TextStyle(color: Colors.red, fontSize: 18),
+                        Expanded(
+                          child: FlatButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                        content: Text(
+                                            "Deseja realmente remover este horário do salão?"),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () {
+                                              FuncionamentoControle.delete(
+                                                  dados.diaSemana, widget.salao,
+                                                  onSuccess: onSuccessDeletado,
+                                                  onFail: onFailDeletado);
+                                              setState(() {});
+                                            },
+                                            child: Text("Sim"),
+                                          ),
+                                          FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Não"),
+                                          ),
+                                        ],
+                                      ));
+                            },
+                            child: Text(
+                              "Remover",
+                              style: TextStyle(color: Colors.red, fontSize: 16),
+                            ),
                           ),
                         ),
                       ],
@@ -130,5 +192,18 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
         ),
       ),
     );
+  }
+
+  void onSuccessDeletado() async {
+    await FlushbarHelper.createSuccess(message: "Deletado com sucesso")
+        .show(context);
+    Navigator.of(context).pop();
+  }
+
+  void onFailDeletado() async {
+    await FlushbarHelper.createError(
+            message: "Houve um erro ao deletar horário")
+        .show(context);
+    Navigator.of(context).pop();
   }
 }
