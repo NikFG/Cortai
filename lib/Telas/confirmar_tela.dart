@@ -2,6 +2,7 @@ import 'package:agendacabelo/Controle/horario_controle.dart';
 import 'package:agendacabelo/Dados/horario.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/confirmar_tile.dart';
+import 'package:agendacabelo/Widgets/custom_shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -28,9 +29,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return CustomShimmer(4);
                     } else {
                       if (snapshot.data.documents.length == 0) {
                         return Center(
@@ -57,9 +56,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
+                      return CustomShimmer(4);
                     } else {
                       if (snapshot.data.documents.length == 0) {
                         return Center(

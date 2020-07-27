@@ -3,6 +3,7 @@ import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/gerencia_servico_tile.dart';
 import 'package:agendacabelo/Widgets/custom_list_tile.dart';
+import 'package:agendacabelo/Widgets/custom_shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -21,9 +22,7 @@ class GerenciarServicoTela extends StatelessWidget {
               .getDocuments(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return CustomShimmer(5);
             } else {
               List<Widget> lista = [
                 CustomListTile(

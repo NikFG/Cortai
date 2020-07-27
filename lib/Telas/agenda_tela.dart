@@ -112,7 +112,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                         },
                         child: AbsorbPointer(
                           child: CustomFormField(
-                            hint: 'Selecione o Profissional',
+                            hint: 'Profissional',
                             icon: Icon(Icons.content_cut),
                             controller: profissionalController,
                             validator: (value) {
@@ -157,7 +157,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                         child: AbsorbPointer(
                           child: CustomFormField(
                             icon: Icon(FontAwesome.calendar),
-                            hint: 'Selecione a data',
+                            hint: 'Data',
                             controller: dataController,
                             validator: (value) {
                               if (value.isEmpty) {
@@ -207,7 +207,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                         child: AbsorbPointer(
                           child: CustomFormField(
                             icon: Icon(Icons.access_time),
-                            hint: 'Selecione o horário',
+                            hint: 'Horário',
                             controller: horarioController,
                             validator: (value) {
                               if (value.isEmpty) {
@@ -244,7 +244,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             icon: pagamento == null
                                 ? null
                                 : listaIcons[indexPagamento],
-                            hint: 'Selecione o método de pagamento',
+                            hint: 'Método de pagamento',
                             controller: pagamentoController,
                             validator: (value) {
                               if (value.isEmpty) {
