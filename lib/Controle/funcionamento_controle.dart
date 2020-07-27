@@ -1,5 +1,5 @@
-import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:agendacabelo/Dados/funcionamento.dart';
+import 'package:cortai/Controle/salao_controle.dart';
+import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

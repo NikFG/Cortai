@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:agendacabelo/Util/util.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

@@ -1,7 +1,7 @@
-import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Widgets/custom_form_field.dart';
+import 'package:cortai/Controle/shared_preferences_controle.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';

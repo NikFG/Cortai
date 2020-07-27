@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:agendacabelo/Telas/login_tela.dart';
+import 'package:cortai/Telas/login_tela.dart';
 
 class StartScreen extends StatefulWidget {
   @override

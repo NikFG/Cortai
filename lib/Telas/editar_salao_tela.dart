@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:agendacabelo/Dados/salao.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Telas/home_tela.dart';
-import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Widgets/maps_tela.dart';
+import 'package:cortai/Controle/salao_controle.dart';
+import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/maps_tela.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';

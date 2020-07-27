@@ -1,10 +1,10 @@
-import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Telas/editar_salao_tela.dart';
-import 'package:agendacabelo/Tiles/home_tab.dart';
-import 'package:agendacabelo/Telas/perfil_tela.dart';
-import 'package:agendacabelo/Util/push_notification.dart';
-import 'package:agendacabelo/Widgets/bottom_custom.dart';
+import 'package:cortai/Controle/servico_controle.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Telas/editar_salao_tela.dart';
+import 'package:cortai/Tiles/home_tab.dart';
+import 'package:cortai/Telas/perfil_tela.dart';
+import 'package:cortai/Util/push_notification.dart';
+import 'package:cortai/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';

@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Controle/horario_controle.dart';
+import 'package:cortai/Controle/horario_controle.dart';
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

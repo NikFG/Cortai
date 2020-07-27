@@ -1,7 +1,7 @@
-import 'package:agendacabelo/Dados/servico.dart';
-import 'package:agendacabelo/Telas/agenda_tela.dart';
-import 'package:agendacabelo/Widgets/custom_list_tile.dart';
-import 'package:agendacabelo/Widgets/hero_custom.dart';
+import 'package:cortai/Dados/servico.dart';
+import 'package:cortai/Telas/agenda_tela.dart';
+import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Widgets/hero_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Util/util.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 

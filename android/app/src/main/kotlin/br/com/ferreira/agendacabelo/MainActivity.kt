@@ -1,4 +1,4 @@
-package br.com.ferreira.agendacabelo
+package com.nfsoft.cortai
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

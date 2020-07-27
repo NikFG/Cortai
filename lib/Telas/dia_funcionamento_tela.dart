@@ -1,8 +1,8 @@
-import 'package:agendacabelo/Controle/funcionamento_controle.dart';
-import 'package:agendacabelo/Dados/funcionamento.dart';
-import 'package:agendacabelo/Telas/cadastro_funcionamento_tela.dart';
-import 'package:agendacabelo/Widgets/custom_button.dart';
-import 'package:agendacabelo/Widgets/custom_form_field.dart';
+import 'package:cortai/Controle/funcionamento_controle.dart';
+import 'package:cortai/Dados/funcionamento.dart';
+import 'package:cortai/Telas/cadastro_funcionamento_tela.dart';
+import 'package:cortai/Widgets/custom_button.dart';
+import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

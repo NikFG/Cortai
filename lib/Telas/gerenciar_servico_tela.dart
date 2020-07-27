@@ -1,9 +1,9 @@
-import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/servico.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Tiles/gerencia_servico_tile.dart';
-import 'package:agendacabelo/Widgets/custom_list_tile.dart';
-import 'package:agendacabelo/Widgets/custom_shimmer.dart';
+import 'package:cortai/Controle/servico_controle.dart';
+import 'package:cortai/Dados/servico.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Tiles/gerencia_servico_tile.dart';
+import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';

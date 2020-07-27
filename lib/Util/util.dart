@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
+import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

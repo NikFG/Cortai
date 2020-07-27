@@ -1,5 +1,5 @@
-import 'package:agendacabelo/Dados/login.dart';
-import 'package:agendacabelo/Dados/salao.dart';
+import 'package:cortai/Dados/login.dart';
+import 'package:cortai/Dados/salao.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
