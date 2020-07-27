@@ -1,8 +1,8 @@
-import 'package:agendacabelo/Dados/login.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Telas/home_tela.dart';
-import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Widgets/custom_form_field.dart';
+import 'package:cortai/Dados/login.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';

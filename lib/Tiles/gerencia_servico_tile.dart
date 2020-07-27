@@ -1,6 +1,6 @@
-import 'package:agendacabelo/Dados/servico.dart';
-import 'package:agendacabelo/Telas/criar_servico_tela.dart';
-import 'package:agendacabelo/Widgets/custom_list_tile.dart';
+import 'package:cortai/Dados/servico.dart';
+import 'package:cortai/Telas/criar_servico_tela.dart';
+import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 
 class GerenciaServicoTile extends StatelessWidget {

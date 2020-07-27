@@ -1,14 +1,14 @@
-import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/servico.dart';
-import 'package:agendacabelo/Dados/salao.dart';
-import 'package:agendacabelo/Telas/saiba_mais.dart';
-import 'package:agendacabelo/Tiles/servico_tile.dart';
-import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Widgets/custom_shimmer.dart';
+import 'package:cortai/Controle/servico_controle.dart';
+import 'package:cortai/Dados/servico.dart';
+import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Telas/saiba_mais.dart';
+import 'package:cortai/Tiles/servico_tile.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:agendacabelo/Widgets/custom_appbar.dart';
-import 'package:agendacabelo/Widgets/custom_appbar_expandida.dart';
+import 'package:cortai/Widgets/custom_appbar.dart';
+import 'package:cortai/Widgets/custom_appbar_expandida.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class ServicoTela extends StatelessWidget {

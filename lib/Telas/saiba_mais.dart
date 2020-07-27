@@ -1,12 +1,12 @@
-import 'package:agendacabelo/Controle/avaliacao_controle.dart';
-import 'package:agendacabelo/Controle/funcionamento_controle.dart';
-import 'package:agendacabelo/Dados/avaliacao.dart';
-import 'package:agendacabelo/Dados/funcionamento.dart';
-import 'package:agendacabelo/Dados/salao.dart';
-import 'package:agendacabelo/Widgets/custom_list_tile.dart';
+import 'package:cortai/Controle/avaliacao_controle.dart';
+import 'package:cortai/Controle/funcionamento_controle.dart';
+import 'package:cortai/Dados/avaliacao.dart';
+import 'package:cortai/Dados/funcionamento.dart';
+import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:agendacabelo/Util/util.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
 class SaibaMaisTela extends StatelessWidget {

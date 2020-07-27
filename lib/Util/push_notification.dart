@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:agendacabelo/Telas/home_tela.dart';
+import 'package:cortai/Telas/home_tela.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

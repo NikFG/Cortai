@@ -1,10 +1,10 @@
-import 'package:agendacabelo/Controle/funcionamento_controle.dart';
-import 'package:agendacabelo/Dados/funcionamento.dart';
-import 'package:agendacabelo/Telas/dia_funcionamento_tela.dart';
-import 'package:agendacabelo/Telas/editar_horario_funcionamento.dart';
-import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Widgets/custom_button.dart';
-import 'package:agendacabelo/Widgets/custom_shimmer.dart';
+import 'package:cortai/Controle/funcionamento_controle.dart';
+import 'package:cortai/Dados/funcionamento.dart';
+import 'package:cortai/Telas/dia_funcionamento_tela.dart';
+import 'package:cortai/Telas/editar_horario_funcionamento.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/custom_button.dart';
+import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';

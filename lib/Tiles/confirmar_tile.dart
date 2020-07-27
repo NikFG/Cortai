@@ -1,8 +1,8 @@
-import 'package:agendacabelo/Controle/cabeleireiro_controle.dart';
-import 'package:agendacabelo/Controle/horario_controle.dart';
-import 'package:agendacabelo/Dados/horario.dart';
-import 'package:agendacabelo/Dados/login.dart';
-import 'package:agendacabelo/Widgets/custom_list_tile.dart';
+import 'package:cortai/Controle/cabeleireiro_controle.dart';
+import 'package:cortai/Controle/horario_controle.dart';
+import 'package:cortai/Dados/horario.dart';
+import 'package:cortai/Dados/login.dart';
+import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
