@@ -5,6 +5,7 @@ import 'package:agendacabelo/Dados/login.dart';
 import 'package:agendacabelo/Dados/servico.dart';
 import 'package:agendacabelo/Modelos/login_modelo.dart';
 import 'package:agendacabelo/Tiles/agendado_tile.dart';
+import 'package:agendacabelo/Widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
@@ -23,9 +24,7 @@ class AgendadoTela extends StatelessWidget {
               future: http.get(url + 'false'),
               builder: (context, response) {
                 if (!response.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return CustomShimmer(4);
                 } else {
                   List<dynamic> dados = json.decode(response.data.body);
                   var widgets = dados
@@ -44,9 +43,7 @@ class AgendadoTela extends StatelessWidget {
               future: http.get(url + 'true'),
               builder: (context, response) {
                 if (!response.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return CustomShimmer(4);
                 } else {
                   List<dynamic> dados = json.decode(response.data.body);
                   var widgets = dados

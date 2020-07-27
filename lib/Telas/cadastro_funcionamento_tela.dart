@@ -4,6 +4,7 @@ import 'package:agendacabelo/Telas/dia_funcionamento_tela.dart';
 import 'package:agendacabelo/Telas/editar_horario_funcionamento.dart';
 import 'package:agendacabelo/Util/util.dart';
 import 'package:agendacabelo/Widgets/custom_button.dart';
+import 'package:agendacabelo/Widgets/custom_shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -93,9 +94,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
               future: FuncionamentoControle.get(widget.salao).getDocuments(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return CustomShimmer(4);
                 } else {
                   if (snapshot.data.documents.length == 0) {
                     return Padding(

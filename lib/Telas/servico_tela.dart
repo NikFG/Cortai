@@ -4,6 +4,7 @@ import 'package:agendacabelo/Dados/salao.dart';
 import 'package:agendacabelo/Telas/saiba_mais.dart';
 import 'package:agendacabelo/Tiles/servico_tile.dart';
 import 'package:agendacabelo/Util/util.dart';
+import 'package:agendacabelo/Widgets/custom_shimmer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:agendacabelo/Widgets/custom_appbar.dart';
@@ -161,9 +162,7 @@ class ServicoTela extends StatelessWidget {
                     .getDocuments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return CustomShimmer(4);
                   } else {
                     var widgets = snapshot.data.documents
                         .map((doc) =>
