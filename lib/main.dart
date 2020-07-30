@@ -1,3 +1,5 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:cortai/Blocs/agendado_bloc.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Widgets/splash_custom.dart';
 import 'package:flutter/material.dart';
@@ -14,24 +16,26 @@ class MyApp extends StatelessWidget {
     SharedPreferencesControle();
     return ScopedModel<LoginModelo>(
       model: LoginModelo(),
-      child: MaterialApp(
-        title: "Agendamento de corte",
-        theme: ThemeData(
-          primarySwatch: Colors.orange,
-          primaryColor: Color(0xFFf45d27),
-          accentColor: Color(0xFFf5851f),
-          fontFamily: 'Poppins'
+      child: BlocProvider(
+        blocs: [Bloc((i) => AgendadoBloc())],
+        child: MaterialApp(
+          title: "Agendamento de corte",
+          theme: ThemeData(
+              primarySwatch: Colors.orange,
+              primaryColor: Color(0xFFf45d27),
+              accentColor: Color(0xFFf5851f),
+              fontFamily: 'Poppins'),
+          debugShowCheckedModeBanner: false,
+          home: SplashCustom(),
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('pt'),
+          ],
         ),
-        debugShowCheckedModeBanner: false,
-        home: SplashCustom(),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: [
-          const Locale('pt'),
-        ],
       ),
     );
   }
