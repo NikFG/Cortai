@@ -22,16 +22,20 @@ class AgendadoTile extends StatefulWidget {
 
   AgendadoTile(
       {@required this.horario,
-      this.servico,
-      this.cabeleireiro,
+      @required this.servico,
+      @required this.cabeleireiro,
       @required this.pago});
 
   @override
   _AgendadoTileState createState() => _AgendadoTileState();
 }
 
-class _AgendadoTileState extends State<AgendadoTile> {
+class _AgendadoTileState extends State<AgendadoTile>
+    with AutomaticKeepAliveClientMixin<AgendadoTile> {
   double _avaliacao;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
