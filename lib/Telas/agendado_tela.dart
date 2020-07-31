@@ -1,45 +1,114 @@
 import 'dart:convert';
-
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Stores/agendado_store.dart';
 import 'package:cortai/Tiles/agendado_tile.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:http/http.dart' as http;
 
 class AgendadoTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AgendadoStore jsonFalse = AgendadoStore();
+    AgendadoStore jsonTrue = AgendadoStore();
     return ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
       if (model.dados != null) {
-        String url =
+        final url =
             'https://us-central1-cortai-349b0.cloudfunctions.net/getAgendados'
             '?clienteId=${model.dados.id}&pago=';
+        jsonFalse.getData(url + 'false');
+        jsonTrue.getData(url + 'true');
         return TabBarView(
           children: <Widget>[
-            FutureBuilder<http.Response>(
-              future: http.get(url + 'false'),
-              builder: (context, response) {
-                if (!response.hasData) {
-                  return CustomShimmer(4);
-                } else {
-                  List<dynamic> dados = json.decode(response.data.body);
-                  var widgets = dados
-                      .map((dado) => AgendadoTile(
-                            horario: Horario.fromJson(dado),
-                            servico: Servico.fromHorarioJson(dado),
-                            cabeleireiro: Login.fromHorarioJson(dado),
-                            pago: false,
-                          ))
-                      .toList();
-                  return ListView(children: widgets);
-                }
-              },
+            Tab(
+              child: Observer(
+                builder: (context) {
+                  if (jsonFalse.isLoading) {
+                    return CustomShimmer(4);
+                  } else {
+                    return RefreshIndicator(
+                      displacement: MediaQuery.of(context).size.width / 2,
+                      color: Theme.of(context).primaryColor,
+                      onRefresh: () => jsonFalse.getData(url + 'false'),
+                      child: jsonFalse.statusCode == 404
+                          ? ListView(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height /
+                                          4),
+                                  child: Text(
+                                    jsonTrue.data[0],
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              ],
+                            )
+                          : ListView.builder(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: jsonFalse.data.length,
+                              itemBuilder: (context, index) {
+                                var dado = jsonFalse.data[index];
+                                return AgendadoTile(
+                                    horario: Horario.fromJson(dado),
+                                    servico: Servico.fromHorarioJson(dado),
+                                    cabeleireiro: Login.fromHorarioJson(dado),
+                                    pago: false);
+                              }),
+                    );
+                  }
+                },
+              ),
             ),
-            FutureBuilder<http.Response>(
+            Tab(
+              child: Observer(
+                builder: (context) {
+                  if (jsonTrue.isLoading) {
+                    return CustomShimmer(4);
+                  } else {
+                    return RefreshIndicator(
+                      displacement: MediaQuery.of(context).size.width / 2,
+                      color: Theme.of(context).primaryColor,
+                      onRefresh: () => jsonTrue.getData(url + 'true'),
+                      child: jsonTrue.statusCode == 404
+                          ? ListView(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height /
+                                          4),
+                                  child: Text(
+                                    jsonTrue.data[0],
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
+                              ],
+                            )
+                          : ListView.builder(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: jsonTrue.count,
+                              itemBuilder: (context, index) {
+                                var dado = jsonTrue.data[index];
+                                return AgendadoTile(
+                                    horario: Horario.fromJson(dado),
+                                    servico: Servico.fromHorarioJson(dado),
+                                    cabeleireiro: Login.fromHorarioJson(dado),
+                                    pago: true);
+                              }),
+                    );
+                  }
+                },
+              ),
+            ),
+
+/*            FutureBuilder<http.Response>(
               future: http.get(url + 'true'),
               builder: (context, response) {
                 if (!response.hasData) {
@@ -57,7 +126,7 @@ class AgendadoTela extends StatelessWidget {
                   return ListView(children: widgets);
                 }
               },
-            ),
+            )*/
           ],
         );
       } else {
