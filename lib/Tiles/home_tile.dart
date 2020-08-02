@@ -40,42 +40,44 @@ class _HomeTileState extends State<HomeTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: Card(
-        shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.grey[300], width: 1.0),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        child: ListTile(
-          onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ServicoTela(
-                  dados: widget.dados,
-                  menorValor: _menorValor,
-                  maiorValor: _maiorValor,
-                  distancia: _distancia))),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      HeroCustom(imagemUrl: widget.dados.imagem)));
-            },
-            child: GFAvatar(
-              shape: GFAvatarShape.circle,
-              radius: 30,
-              backgroundColor: Colors.transparent,
-              backgroundImage: NetworkImage(widget.dados.imagem),
-            ),
-          ),
-          title: Text(
-            widget.dados.nome,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.left,
-            softWrap: false,
-            style: TextStyle(
-                color: Colors.black, fontSize: 20.0, fontFamily: 'Poppins'),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return CustomListTile(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              ServicoTela(dados: widget.dados, distancia: _distancia))),
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => HeroCustom(
+                    imagemUrl: widget.dados.imagem,
+                    descricao: widget.dados.nome,
+                  )));
+        },
+        child: GFAvatar(
+          shape: GFAvatarShape.circle,
+          radius: 30,
+          backgroundColor: Colors.transparent,
+          backgroundImage: widget.dados.imagem != null
+              ? NetworkImage(widget.dados.imagem)
+              : AssetImage("assets/images/shop.png"),
+        ),
+      ),
+      onLongPress: () {
+        _dialogDados(context);
+      },
+      title: Text(
+        widget.dados.nome,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.left,
+        softWrap: false,
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w100,
+        ),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
             children: <Widget>[
               Row(
                 children: <Widget>[
