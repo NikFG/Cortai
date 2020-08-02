@@ -14,57 +14,46 @@ class ServicoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5),
-      height: 100,
-      child: Card(
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.grey[300], width: 1.0),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Align(
-            alignment: Alignment.center,
-            child: ListTile(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      AgendaTela(this.dados, this.nomeSalao))),
-              leading: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => HeroCustom(
-                            imagemUrl: dados.imagemUrl != null
-                                ? dados.imagemUrl
-                                : imgPadrao,
-                            descricao: dados.descricao,
-                          )));
-                },
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 30,
-                  backgroundImage: NetworkImage(
-                      dados.imagemUrl != null ? dados.imagemUrl : imgPadrao,
-                      scale: 2.0),
-                ),
-              ),
-              title: Text(
-                dados.descricao,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: Colors.black, fontSize: 20.0, fontFamily: 'Poppins'),
-              ),
-              subtitle: Text(
-                dados.observacao,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                ),
-                maxLines: 3,
-              ),
-              trailing: Text(
-                "R\$${dados.valor.toStringAsFixed(2).replaceAll('.', ',')}",
-                style: TextStyle(
-                    fontSize: 14, color: Colors.black87, fontFamily: 'Poppins'),
-              ),
-            ),
-          )),
+    return CustomListTile(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => AgendaTela(this.dados, this.nomeSalao))),
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => HeroCustom(
+                    imagemUrl:
+                        dados.imagemUrl != null ? dados.imagemUrl : imgPadrao,
+                    descricao: dados.descricao,
+                  )));
+        },
+        child: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 30,
+          backgroundImage: dados.imagemUrl != null
+              ? NetworkImage(dados.imagemUrl, scale: 2.0)
+              : AssetImage("assets/images/barbearia.png"),
+        ),
+      ),
+      title: Text(
+        dados.descricao,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 20.0,
+        ),
+      ),
+      subtitle: Text(
+        dados.observacao,
+        style: TextStyle(),
+        maxLines: 3,
+      ),
+      trailing: Text(
+        "R\$${dados.valor.toStringAsFixed(2).replaceAll('.', ',')}",
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.black87,
+        ),
+      ),
     );
   }
 }
