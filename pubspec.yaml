@@ -47,6 +47,11 @@ dependencies:
   url_launcher: ^5.4.10
 
 
+flutter_icons:
+  android: true
+  ios: true
+  adaptive_icon_foreground: true
+  image_path: "assets/icons/icon_white.png"
 
 
 dev_dependencies:
