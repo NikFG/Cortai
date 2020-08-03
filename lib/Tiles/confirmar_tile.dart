@@ -16,9 +16,13 @@ class ConfirmarTile extends StatefulWidget {
   _ConfirmarTileState createState() => _ConfirmarTileState();
 }
 
-class _ConfirmarTileState extends State<ConfirmarTile> {
+class _ConfirmarTileState extends State<ConfirmarTile>
+    with AutomaticKeepAliveClientMixin<ConfirmarTile> {
   bool confirmado;
   String valor;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -139,13 +143,6 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
                                 ),
                               ],
                             )).then((value) => Navigator.of(context).pop());
-//                    confirmado = false;
-
-//                    HorarioControle.cancelaAgendamento(
-//                      widget.horarioDados,
-//                      onSuccess: () {},
-//                      onFail: () {},
-//                    );
                   },
                 ),
                 ListTile(
