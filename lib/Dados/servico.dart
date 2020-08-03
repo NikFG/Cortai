@@ -56,7 +56,7 @@ class Servico {
   Servico.fromMap(Map<String, dynamic> map, String id) {
     this.id = id;
     descricao = map["descricao"];
-    _valor = map["valor"];
+    _valor = (map["valor"] as num).toDouble();
     imagemUrl = map["imagemUrl"];
     salao = map['salao'];
     observacao = map['observacao'] != null ? map['observacao'] : '';
