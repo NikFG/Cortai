@@ -19,7 +19,7 @@ class AgendadoTile extends StatefulWidget {
   final bool pago;
   final Login cabeleireiro;
   final Servico servico;
-  final avaliado;
+  bool avaliado;
 
   AgendadoTile(
       {@required this.horario,
@@ -79,81 +79,90 @@ class _AgendadoTileState extends State<AgendadoTile>
 
   _avaliarDialog(BuildContext context) async {
     String salao = await getSalao();
-
+    bool confirmado = false;
     var _descricaoControlador = TextEditingController();
-    if (!widget.avaliado) {
-      return showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => AlertDialog(
-                title: Text(
-                    "Qual a avaliação que deseja dar ao seu cabeleireiro?"),
-                content: Wrap(
-                  children: <Widget>[
-                    RatingBar(
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
+    try {
+      if (!widget.avaliado) {
+        return showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+                  title: Text(
+                      "Qual a avaliação que deseja dar ao seu cabeleireiro?"),
+                  content: Wrap(
+                    children: <Widget>[
+                      RatingBar(
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (double value) {
+                          setState(() {
+                            _avaliacao = value;
+                          });
+                        },
                       ),
-                      onRatingUpdate: (double value) {
-                        setState(() {
-                          _avaliacao = value;
-                        });
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: CustomFormField(
+                          validator: (value) {
+                            return null;
+                          },
+                          hint: "Descrição",
+                          controller: _descricaoControlador,
+                          icon: null,
+                          inputType: TextInputType.text,
+                          isFrase: true,
+                        ),
+                      )
+                    ],
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Cancelar"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
                       },
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: CustomFormField(
-                        validator: (value) {
-                          return null;
-                        },
-                        hint: "Descrição",
-                        controller: _descricaoControlador,
-                        icon: null,
-                        inputType: TextInputType.text,
-                        isFrase: true,
-                      ),
-                    )
+                    FlatButton(
+                      child: Text("Confirmar"),
+                      onPressed: () {
+                        if (_avaliacao > 1) {
+                          var dataHora = DateTime.now();
+                          Avaliacao dados = Avaliacao();
+                          dados.cabeleireiro = widget.horario.cabeleireiro;
+                          dados.avaliacao = _avaliacao;
+                          dados.descricao = _descricaoControlador.text;
+                          dados.salao = salao;
+                          dados.data = Util.dateFormat.format(dataHora);
+                          dados.hora = Util.timeFormat.format(dataHora);
+                          dados.horario = widget.horario.id;
+                          AvaliacaoControle.store(dados,
+                              onSuccess: () {}, onFail: () {});
+                          widget.avaliado = true;
+                          confirmado = true;
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
                   ],
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("Cancelar"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("Confirmar"),
-                    onPressed: () {
-                      if (_avaliacao > 1) {
-                        var dataHora = DateTime.now();
-                        Avaliacao dados = Avaliacao();
-                        dados.cabeleireiro = widget.horario.cabeleireiro;
-                        dados.avaliacao = _avaliacao;
-                        dados.descricao = _descricaoControlador.text;
-                        dados.salao = salao;
-                        dados.data = Util.dateFormat.format(dataHora);
-                        dados.hora = Util.timeFormat.format(dataHora);
-                        dados.horario = widget.horario.id;
-                        AvaliacaoControle.store(dados,
-                            onSuccess: onSuccess, onFail: onFail);
-                      }
-                    },
-                  ),
-                ],
-              ));
-    } else {
-      return showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                content: Text("Você já avaliou este corte"),
-              ));
+                )).then((value) {
+          if (confirmado == true) onSuccess();
+        });
+      } else {
+        return showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  content: Text("Você já avaliou este corte"),
+                ));
+      }
+    } catch (e) {
+      onFail();
     }
   }
 
@@ -190,8 +199,6 @@ class _AgendadoTileState extends State<AgendadoTile>
             message: "Avaliação enviada com sucesso!!",
             duration: Duration(milliseconds: 1300))
         .show(context);
-    Navigator.of(context).pop();
-
   }
 
   void onFail() async {
