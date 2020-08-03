@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Dados/servico.dart';
@@ -44,7 +43,7 @@ class AgendadoTela extends StatelessWidget {
                                       top: MediaQuery.of(context).size.height /
                                           4),
                                   child: Text(
-                                    jsonTrue.data[0],
+                                    jsonFalse.data[0],
                                     textAlign: TextAlign.center,
                                   ),
                                 )
@@ -100,6 +99,7 @@ class AgendadoTela extends StatelessWidget {
                                     horario: Horario.fromJson(dado),
                                     servico: Servico.fromHorarioJson(dado),
                                     cabeleireiro: Login.fromHorarioJson(dado),
+                                    avaliado: dado['avaliado'] as bool,
                                     pago: true);
                               }),
                     );
@@ -107,26 +107,6 @@ class AgendadoTela extends StatelessWidget {
                 },
               ),
             ),
-
-/*            FutureBuilder<http.Response>(
-              future: http.get(url + 'true'),
-              builder: (context, response) {
-                if (!response.hasData) {
-                  return CustomShimmer(4);
-                } else {
-                  List<dynamic> dados = json.decode(response.data.body);
-                  var widgets = dados
-                      .map((dado) => AgendadoTile(
-                            horario: Horario.fromJson(dado),
-                            servico: Servico.fromHorarioJson(dado),
-                            cabeleireiro: Login.fromHorarioJson(dado),
-                            pago: true,
-                          ))
-                      .toList();
-                  return ListView(children: widgets);
-                }
-              },
-            )*/
           ],
         );
       } else {
