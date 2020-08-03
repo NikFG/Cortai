@@ -390,20 +390,70 @@ export const getAgendados = functions
     let stringJson = []
 
     for (let i = 0; i < horarios.docs.length; i++) {
+      const horario = horarios.docs[i]
       const cabeleireiroId = horarios.docs[i].get('cabeleireiro') as string
       const cabeleireiro = await db.collection('usuarios').doc(cabeleireiroId).get()
+
+      const salao = cabeleireiro.get('salao') as string
+
+      const avaliado = await db.collection('avaliacoes')
+        .where('horario', '==', horario.id)
+        .where('cabeleireiro', '==', cabeleireiroId)
+        .where('salao', '==', salao)
+        .get()
+
       stringJson.push(Flatted.stringify({
         'id': horarios.docs[i].id,
         'data': horarios.docs[i].data(),
         'cabeleireiro': cabeleireiro.data(),
+        'avaliado': avaliado.docs.length > 0
       }))
     }
 
     const json = stringJson.map((value) => {
       return Flatted.parse(value)
     })
+    
     if (json.length == 0) {
       return response.status(404).send("Não há resultados")
     }
+    
     return response.status(200).json(json);
   })
+
+export const getConfirmados = functions
+  .runWith({ memory: '1GB', timeoutSeconds: 120 })
+  .https.onRequest(async (request, response) => {
+
+
+    const cabeleireiro = request.query.cabeleireiroID as string;
+  //  const confirmado = (request.query.confirmado as string === 'true');
+
+    const query = await db.collection('horarios')
+   //   .where('confirmado', '==', confirmado)
+      .where('cabeleireiro', '==', cabeleireiro)
+      .orderBy('data', 'desc')
+      .orderBy('horario').get()
+
+    let stringJson = []
+
+    for (let i = 0; i < query.docs.length; i++) {
+      const horario = query.docs[i]
+      const clienteId = horario.get('cliente') as string
+      const cliente = await db.collection('usuarios').doc(clienteId).get()
+      stringJson.push(Flatted.stringify({
+        'id': horario.id,
+        'data': horario.data(),
+        'cliente': cliente.data(),
+      }))
+    }
+    const json = stringJson.map((value) => {
+      return Flatted.parse(value)
+    })
+
+    if (json.length == 0) {
+      return response.status(404).send("Não há resultados")
+    }
+
+    return response.status(200).json(json);
+  });

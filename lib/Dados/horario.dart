@@ -26,7 +26,7 @@ class Horario {
     pago = snapshot.data['pago'];
     formaPagamento = snapshot.data['formaPagamento'];
 
-    servicoDados = Servico.fromMap(snapshot.data['servico_map'],servico);
+    servicoDados = Servico.fromMap(snapshot.data['servico_map'], servico);
   }
 
   Horario.fromJson(Map<String, dynamic> json) {
@@ -39,6 +39,7 @@ class Horario {
     servico = json['data']['servico'];
     pago = json['data']['pago'];
     formaPagamento = json['data']['formaPagamento'];
+    servicoDados = Servico.fromMap(json['data']['servico_map'], servico);
   }
 
   Map<String, dynamic> toMap() {
@@ -63,4 +64,12 @@ class Horario {
         'cliente: $cliente, servico: $servico, pago:'
         ' $pago, formaPagamento: $formaPagamento}';
   }
+
+  @override
+  bool operator ==(dados) {
+    return dados is Horario && dados.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }
