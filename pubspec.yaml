@@ -1,7 +1,7 @@
-name: agendacabelo
+name: cortai
 description: Agendamento para cabeleireiros
 
-version: 1.0.0+1
+version: 0.0.1+2
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -28,6 +28,7 @@ dependencies:
   flutter_auth_buttons: ^0.8.0
   flutter_google_places: ^0.2.5
   flutter_icons: ^1.0.0+1
+  flutter_launcher_icons: ^0.7.5
   flutter_masked_text: ^0.8.0
   flutter_rating_bar: ^3.0.1+1
   geocoder: ^0.2.1
@@ -38,13 +39,16 @@ dependencies:
   http: ^0.12.1
   image_picker: ^0.6.5+2
   intl: ^0.16.0
+  maps_launcher: ^1.2.1
   password_strength: ^0.1.2
   permission_handler: 5.0.1+1
   photo_view: ^0.9.2
   scoped_model: ^1.0.1
   shared_preferences: ^0.5.7+3
+  shimmer: ^1.1.1
   splashscreen: ^1.2.0
   url_launcher: ^5.4.10
+  webview_flutter: ^0.3.22+1
 
 
 flutter_icons:
@@ -53,16 +57,17 @@ flutter_icons:
   adaptive_icon_foreground: true
   image_path: "assets/icons/icon_white.png"
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-assets:
-  - assets/icones/corte.svg
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
+
   fonts:
     - family: Poppins
       fonts:

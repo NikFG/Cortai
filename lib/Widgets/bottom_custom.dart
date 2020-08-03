@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Controle/horario_controle.dart';
+import 'package:cortai/Controle/horario_controle.dart';
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +26,6 @@ class _BottomCustomState extends State<BottomCustom> {
     itensUsuario();
     if (widget.isCabeleireiro) {
       itensCabeleireiro(widget.usuario);
-      this.itens.add(BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        title: Text("Perfil"),
-      ),);
     }
   }
 
@@ -50,15 +46,32 @@ class _BottomCustomState extends State<BottomCustom> {
     });
   }
 
+  TextStyle stylePadrao() {
+    return TextStyle(fontSize: 12);
+  }
+
   itensUsuario() {
     var itens = [
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        title: Text("Início"),
+        icon: Icon(FontAwesome.home),
+        title: Text(
+          "Início",
+          style: stylePadrao(),
+        ),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.schedule),
-        title: Text("Marcados"),
+        icon: Icon(FontAwesome.calendar_o),
+        title: Text(
+          "Agendados",
+          style: stylePadrao(),
+        ),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(FontAwesome.user_circle_o),
+        title: Text(
+          "Perfil",
+          style: stylePadrao(),
+        ),
       ),
     ];
     this.itens.addAll(itens);
@@ -92,13 +105,18 @@ class _BottomCustomState extends State<BottomCustom> {
                   );
               }
             }),
-        title: Text("Confirmar"),
+        title: Text(
+          "Confirmar",
+          style: stylePadrao(),
+        ),
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.content_cut),
-        title: Text("Serviços"),
+        icon: Icon(FontAwesome.scissors),
+        title: Text(
+          "Serviços",
+          style: stylePadrao(),
+        ),
       ),
-
     ];
     this.itens.addAll(itens);
   }

@@ -1,8 +1,8 @@
-import 'package:agendacabelo/Dados/login_dados.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Telas/login_tela.dart';
-import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Widgets/custom_form_field.dart';
+import 'package:cortai/Dados/login.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Telas/login_tela.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,8 +27,6 @@ class _CadastroTelaState extends State<CadastroTela> {
 
   @override
   Widget build(BuildContext context) {
-
-
     Util.corPrimariaStatusBar(context);
     return Scaffold(
         body: Form(
@@ -72,7 +70,6 @@ class _CadastroTelaState extends State<CadastroTela> {
                           style: TextStyle(
                             fontWeight: FontWeight.w900,
                             color: Color(0xCCFFFFFF),
-                            fontFamily: 'Poppins',
                             fontSize: 38,
                           ),
                         ),
@@ -93,7 +90,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                             color: Colors.grey,
                           ),
                           controller: _nomeControlador,
-                          isNome: true,
+                          isFrase: true,
                           inputType: TextInputType.text,
                           validator: (text) {
                             if (text.isEmpty) {
@@ -141,7 +138,8 @@ class _CadastroTelaState extends State<CadastroTela> {
                           icon: Icon(Icons.vpn_key, color: Colors.grey),
                           controller: _senhaControlador,
                           validator: (text) {
-                            double forcaSenha = estimatePasswordStrength(_senhaControlador.text);
+                            double forcaSenha = estimatePasswordStrength(
+                                _senhaControlador.text);
                             if (text.length < 6) {
                               return "A senha deve conter pelo menos 6 caracteres";
                             }
@@ -181,7 +179,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                               ? () {
                                   if (_formKey.currentState.validate()) {
                                     LoginModelo login = LoginModelo();
-                                    var loginDados = LoginDados(
+                                    var loginDados = Login(
                                         email: _emailControlador.text,
                                         nome: _nomeControlador.text,
                                         telefone: _telefoneControlador.text,
@@ -190,8 +188,8 @@ class _CadastroTelaState extends State<CadastroTela> {
                                         imagemUrl: null,
                                         isDonoSalao: false);
 
-                                    login.signUp(
-                                        loginDados: loginDados,
+                                    login.criarContaEmail(
+                                        login: loginDados,
                                         senha: _senhaControlador.text,
                                         onSuccess: onSuccess,
                                         onFail: onFail);

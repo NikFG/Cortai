@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Util/util.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -21,8 +21,7 @@ class HeroCustom extends StatelessWidget {
         title: descricao != null
             ? Text(
                 this.descricao,
-                style: TextStyle(
-                    fontFamily: 'Poppins', fontWeight: FontWeight.w600),
+                style: TextStyle(fontWeight: FontWeight.w600),
               )
             : Container(
                 height: 0,
@@ -32,6 +31,7 @@ class HeroCustom extends StatelessWidget {
       ),
       body: Center(
         child: PhotoView(
+          minScale: PhotoViewComputedScale.contained,
           heroAttributes: PhotoViewHeroAttributes(
             tag: 'Foto',
             transitionOnUserGestures: true,

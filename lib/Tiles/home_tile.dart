@@ -1,19 +1,17 @@
-import 'package:agendacabelo/Controle/avaliacao_controle.dart';
-import 'package:agendacabelo/Controle/servico_controle.dart';
-import 'package:agendacabelo/Dados/avaliacao_dados.dart';
-import 'package:agendacabelo/Dados/servico_dados.dart';
-import 'package:agendacabelo/Dados/salao_dados.dart';
-import 'package:agendacabelo/Util/util.dart';
-import 'package:agendacabelo/Telas/servico_tela.dart';
-import 'package:agendacabelo/Widgets/hero_custom.dart';
+import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:cortai/Telas/servico_tela.dart';
+import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Widgets/hero_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/shape/gf_avatar_shape.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class HomeTile extends StatefulWidget {
-  final SalaoDados dados;
+  final Salao dados;
   final double distancia;
 
   HomeTile(this.dados, this.distancia);
@@ -24,9 +22,7 @@ class HomeTile extends StatefulWidget {
 
 class _HomeTileState extends State<HomeTile> {
   double _media = 0;
-  int _quantidade = 0;
-  double _menorValor = 0;
-  double _maiorValor = 0;
+
   String _distancia;
 
   @override
@@ -34,8 +30,8 @@ class _HomeTileState extends State<HomeTile> {
     super.initState();
     _distancia =
         '${widget.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
-    _mediaAvaliacoes();
-    _minMaxPrecos();
+    if (widget.dados.quantidadeAvaliacao > 0)
+      _media = widget.dados.totalAvaliacao / widget.dados.quantidadeAvaliacao;
   }
 
   @override
@@ -79,35 +75,31 @@ class _HomeTileState extends State<HomeTile> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Text(
-                    _media.toStringAsFixed(1),
-                    style: TextStyle(fontSize: 14.0, color: Colors.black38),
-                  ),
-                  SizedBox(width: 2.0),
-                  Icon(Icons.star, color: Colors.amber, size: 10.0),
-                  SizedBox(width: 5.0),
-                  Text(
-                    "(${_quantidade.toString()})",
-                    style: TextStyle(fontSize: 14.0, color: Colors.black38),
-                  ),
-                  SizedBox(width: 5.0),
-                  Text(
-                    _distancia,
-                    style: TextStyle(fontSize: 14.0, color: Colors.black38),
-                  ),
-                ],
+              Text(
+                _media.toStringAsFixed(1),
+                style: TextStyle(fontSize: 15.0),
               ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Text(
-                    "Entre R\$${_menorValor.toStringAsFixed(2)} ~ R\$${_maiorValor.toStringAsFixed(2)} ",
-                    style: TextStyle(fontSize: 11, color: Colors.black38),
-                  )),
+              SizedBox(width: 2.0),
+              Icon(Icons.star, color: Colors.amber, size: 12.0),
+              SizedBox(width: 5.0),
+              Text(
+                "(${widget.dados.quantidadeAvaliacao.toString()})",
+                style: TextStyle(fontSize: 15.0),
+              ),
+              SizedBox(width: 3.0),
+              Text(
+                _distancia,
+                style: TextStyle(fontSize: 15.0),
+              ),
             ],
           ),
-        ),
+          Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                "Entre R\$${widget.dados.menorValorServico.toStringAsFixed(2)} ~ R\$${widget.dados.maiorValorServico.toStringAsFixed(2)} ",
+                style: TextStyle(fontSize: 15),
+              )),
+        ],
       ),
     );
   }
@@ -118,7 +110,13 @@ class _HomeTileState extends State<HomeTile> {
         builder: (context) {
           return AlertDialog(
             title: Text("Mais informações"),
-            content: Text("${widget.dados.endereco}"),
+            content: FlatButton(
+              onPressed: () {
+                MapsLauncher.launchCoordinates(widget.dados.latitude,
+                    widget.dados.longitude, widget.dados.nome);
+              },
+              child: Text("${widget.dados.endereco}"),
+            ),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
@@ -135,40 +133,5 @@ class _HomeTileState extends State<HomeTile> {
             ],
           );
         });
-  }
-
-  _mediaAvaliacoes() async {
-    var lista = await AvaliacaoControle.get()
-        .where('salao', isEqualTo: widget.dados.id)
-        .getDocuments()
-        .then((doc) =>
-            doc.documents.map((e) => AvaliacaoDados.fromDocument(e)).toList());
-    _quantidade = lista.length;
-    if (_quantidade > 0) {
-      double media = 0;
-      for (int i = 0; i < _quantidade; i++) {
-        media += lista[i].avaliacao;
-      }
-      media = media / lista.length;
-      setState(() {
-        _media = media;
-        _quantidade = lista.length;
-      });
-    }
-  }
-
-  _minMaxPrecos() async {
-    var lista = await ServicoControle.get()
-        .where('salao', isEqualTo: widget.dados.id)
-        .getDocuments()
-        .then((doc) =>
-            doc.documents.map((e) => ServicoDados.fromDocument(e)).toList());
-    lista.sort((a, b) => a.valor.compareTo(b.valor));
-    if (lista.length > 0) {
-      setState(() {
-        _menorValor = lista.first.valor;
-        _maiorValor = lista.last.valor;
-      });
-    }
   }
 }

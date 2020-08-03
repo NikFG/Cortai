@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/avaliacao_dados.dart';
+import 'package:cortai/Dados/avaliacao.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +9,7 @@ class AvaliacaoControle {
     return _firestore.collection('avaliacoes');
   }
 
-  static void store(AvaliacaoDados dados,
+  static void store(Avaliacao dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore.collection('avaliacoes').add(dados.toMap()).then((value) {
       print(value);
@@ -20,7 +20,7 @@ class AvaliacaoControle {
     });
   }
 
-  static void update(AvaliacaoDados dados,
+  static void update(Avaliacao dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore
         .collection('avaliacoes')

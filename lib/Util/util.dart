@@ -1,8 +1,9 @@
 import 'dart:io';
-import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
+import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,6 +33,7 @@ class Util {
   }
 
   static ligacaoTelefonica(String telefone) async {
+    telefone = "tel:" + telefone;
     if (await canLaunch(telefone)) {
       await launch(telefone);
     } else {
@@ -88,9 +90,9 @@ class Util {
     }
   }
 
-  static Future<String> enviaImagem(String uid, File imagem) async {
+  static Future<String> enviaImagem(String uid, File imagem, String pasta) async {
     StorageUploadTask task = FirebaseStorage.instance
-        .ref()
+        .ref().child(pasta)
         .child(uid + DateTime.now().millisecondsSinceEpoch.toString())
         .putFile(imagem);
     StorageTaskSnapshot taskSnapshot = await task.onComplete;
@@ -104,12 +106,14 @@ class Util {
         .then((value) => value.delete());
   }
 
-  static Widget leadingScaffold(BuildContext context) {
+  static Widget leadingScaffold(BuildContext context,
+      {Color color = Colors.white}) {
     return IconButton(
       onPressed: () => Navigator.of(context).pop(),
       icon: Platform.isAndroid
           ? Icon(Icons.arrow_back)
           : Icon(Icons.arrow_back_ios),
+      color: color,
     );
   }
 
@@ -124,7 +128,13 @@ class Util {
     String cidade = await Geolocator()
         .placemarkFromPosition(position)
         .then((value) => value.first.subAdministrativeArea);
+
+    String endereco = await Geocoder.local
+        .findAddressesFromCoordinates(
+            Coordinates(position.latitude, position.longitude))
+        .then((value) => value.first.addressLine);
     await SharedPreferencesControle.setCidade(cidade);
     await SharedPreferencesControle.setPosition(position);
+    await SharedPreferencesControle.setEndereco(endereco);
   }
 }

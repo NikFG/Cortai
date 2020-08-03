@@ -1,112 +1,197 @@
-import 'package:agendacabelo/Controle/horario_controle.dart';
-import 'package:agendacabelo/Dados/horario_dados.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Controle/cabeleireiro_controle.dart';
+import 'package:cortai/Controle/horario_controle.dart';
+import 'package:cortai/Dados/horario.dart';
+import 'package:cortai/Dados/login.dart';
+import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:flushbar/flushbar_helper.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class ConfirmarTile extends StatefulWidget {
-  final HorarioDados dados;
+  final Horario horarioDados;
 
-  const ConfirmarTile(this.dados);
+  ConfirmarTile(this.horarioDados);
 
   @override
   _ConfirmarTileState createState() => _ConfirmarTileState();
 }
 
 class _ConfirmarTileState extends State<ConfirmarTile> {
+  bool confirmado;
+  String valor;
+
+  @override
+  void initState() {
+    super.initState();
+    valor = widget.horarioDados.servicoDados.valorFormatado();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<LoginModelo>(
-      builder: (context, child, model) {
-        return Wrap(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: 20, left:20),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Tela de Confirmação",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 26,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+    return CustomListTile(
+      onTap: () => !widget.horarioDados.confirmado
+          ? _bottomSheetOpcoes(context)
+          : !widget.horarioDados.pago ? _dialogPago(context) : null,
+      leading: null,
+      title: FutureBuilder(
+        future: CabeleireiroControle.get()
+            .document(widget.horarioDados.cliente)
+            .get(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center();
+          } else {
+            Login cliente = Login.fromDocument(snapshot.data);
+            return Text(
+              cliente.nome,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20.0,
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Dismissible(
-                key: Key(widget.dados.id),
-                background: Container(
-                  width: 20,
-                  color: Colors.green,
-                  child: Align(
-                      alignment: Alignment(-0.9, 0),
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
-                      )),
-                ),
-                secondaryBackground: Container(
-                  color: Colors.red,
-                  child: Align(
-                      alignment: Alignment(0.9, 0),
-                      child: Icon(
-                        Icons.cancel,
-                        color: Colors.white,
-                      )),
-                ),
-                onDismissed: (direction) async {
-                  switch (direction) {
-                    case DismissDirection.endToStart:
-                      await Firestore.instance
-                          .collection('horariosExcluidos')
-                          .add(widget.dados.toMap());
-                      await HorarioControle.delete(widget.dados.id).then(
-                          (value) async => await FlushbarHelper.createError(
-                                  message: "Horário cancelado com sucesso",
-                                  duration: Duration(seconds: 2))
-                              .show(context));
-
-                      break;
-                    case DismissDirection.startToEnd:
-                      HorarioControle.confirmaAgendamento(widget.dados.id,
-                          onSuccess: onSuccess, onFail: onFail);
-
-                      break;
-                    case DismissDirection.vertical:
-                    case DismissDirection.horizontal:
-                    case DismissDirection.up:
-                    case DismissDirection.down:
-                      break;
-                  }
-                },
-                child: ListTile(
-                  title: Text("Salao bom demais"),
-                  subtitle: Text(
-                    "${widget.dados.data} - ${widget.dados.horario}",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                    textAlign: TextAlign.start,
-                  ),
-                  leading: CircleAvatar(
-                    radius: 30,
-                    backgroundImage: NetworkImage(
-                        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  trailing: Icon(FontAwesome.chevron_right),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
+            );
+          }
+        },
+      ),
+      subtitle: Text(
+        "${widget.horarioDados.servicoDados.descricao} $valor\n"
+        "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",
+        style: TextStyle(
+          fontSize: 15,
+        ),
+      ),
+      trailing: widget.horarioDados.confirmado ? _pago() : null,
     );
+  }
+
+  Widget _pago() {
+    return Column(
+      children: <Widget>[
+        Text("Pago:"),
+        widget.horarioDados.pago
+            ? Icon(
+                FontAwesome.check,
+                color: Colors.green,
+                size: 32,
+              )
+            : Icon(
+                FontAwesome.times,
+                color: Colors.red,
+                size: 32,
+              ),
+      ],
+    );
+  }
+
+  _bottomSheetOpcoes(context) async {
+    await showModalBottomSheet(
+        isDismissible: true,
+        context: context,
+        builder: (bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                    title: Text('Confirmar Horário'),
+                    onTap: () {
+                      confirmado = true;
+                      Navigator.of(context).pop();
+                      HorarioControle.confirmaAgendamento(
+                          widget.horarioDados.id,
+                          onSuccess: () {},
+                          onFail: () {},
+                          context: context);
+                    }),
+                ListTile(
+                  leading: Icon(Icons.remove_circle, color: Colors.red),
+                  title: Text('Cancelar Horário'),
+                  onTap: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              content:
+                                  Text("Deseja realmente cancelar o horário?"),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "Não",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    confirmado = false;
+                                    HorarioControle.cancelaAgendamento(
+                                      widget.horarioDados,
+                                      onSuccess: () {},
+                                      onFail: () {},
+                                    );
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("Sim"),
+                                ),
+                              ],
+                            )).then((value) => Navigator.of(context).pop());
+//                    confirmado = false;
+
+//                    HorarioControle.cancelaAgendamento(
+//                      widget.horarioDados,
+//                      onSuccess: () {},
+//                      onFail: () {},
+//                    );
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.cancel),
+                  title: Text('Voltar'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        }).then((value) {
+      if (confirmado != null) if (confirmado)
+        onSuccess();
+      else
+        onSuccessCancelar();
+    });
+    setState(() {});
+  }
+
+  _dialogPago(context) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+              title: Text("Confirma pagamento?"),
+              content: Text(
+                  "${widget.horarioDados.data}:${widget.horarioDados.horario}\nValor: $valor"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cancelar"),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    HorarioControle.confirmaPagamento(widget.horarioDados.id,
+                        onSuccess: onSuccessPago, onFail: onFailPago);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Confirmar"),
+                )
+              ],
+            ));
   }
 
   void onSuccess() async {
@@ -121,5 +206,33 @@ class _ConfirmarTileState extends State<ConfirmarTile> {
             message: "Houve algum erro ao confirmar o horário",
             duration: Duration(seconds: 2))
         .show(context);
+  }
+
+  void onSuccessPago() async {
+    await FlushbarHelper.createSuccess(
+            message: "Pagamento confirmado com sucesso",
+            duration: Duration(seconds: 2))
+        .show(context);
+  }
+
+  void onFailPago() async {
+    await FlushbarHelper.createError(
+            message: "Houve algum erro ao confirmar pagamento",
+            duration: Duration(seconds: 2))
+        .show(context);
+  }
+
+  void onSuccessCancelar() async {
+    await FlushbarHelper.createError(
+            message: "Horário cancelado com sucesso",
+            duration: Duration(seconds: 2))
+        .show(Scaffold.of(context).context);
+  }
+
+  void onFailCancelar() async {
+    await FlushbarHelper.createError(
+            message: "Houve algum erro ao cancelar o horário",
+            duration: Duration(seconds: 2))
+        .show(Scaffold.of(context).context);
   }
 }

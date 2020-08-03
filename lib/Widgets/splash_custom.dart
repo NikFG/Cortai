@@ -1,8 +1,8 @@
-import 'package:agendacabelo/Controle/shared_preferences_controle.dart';
-import 'package:agendacabelo/Modelos/login_modelo.dart';
-import 'package:agendacabelo/Telas/home_tela.dart';
-import 'package:agendacabelo/Telas/login_tela.dart';
-import 'package:agendacabelo/Util/util.dart';
+import 'package:cortai/Controle/shared_preferences_controle.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Tiles/start_screen.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -20,12 +20,16 @@ class _SplashCustomState extends State<SplashCustom> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
       builder: (BuildContext context, Widget child, LoginModelo model) {
+        if (_permissionStatus.isUndetermined)
+          requestPermission(Permission.location);
         return SplashScreen(
-          seconds: 4,
+          seconds: 5,
           navigateAfterSeconds: _telaInicial(model),
-          title: Text("CortaÍ"),
-          image: Image.network(
-              'https://cdn2.iconfinder.com/data/icons/mosaicon-11/512/cut-512.png'),
+          //   title: Text("CortaÍ"),
+          image: Image.asset('assets/icons/icon_white_transparent.png'),
+          photoSize: 150.0,
+
+          loaderColor: Colors.white,
           backgroundColor: Theme.of(context).primaryColor,
         );
       },
@@ -33,12 +37,11 @@ class _SplashCustomState extends State<SplashCustom> {
   }
 
   Widget _telaInicial(LoginModelo model) {
-    if (_permissionStatus.isUndetermined)
-      requestPermission(Permission.location);
     if (model.isLogado()) {
       return HomeTela();
+    } else {
+      return StartScreen();
     }
-    return LoginTela();
   }
 
   Future<Null> requestPermission(Permission permission) async {

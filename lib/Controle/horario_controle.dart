@@ -1,4 +1,4 @@
-import 'package:agendacabelo/Dados/horario_dados.dart';
+import 'package:cortai/Dados/horario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,9 +9,9 @@ class HorarioControle {
     return _firestore.collection('horarios');
   }
 
-  static void store(HorarioDados dados,
+  static void store(Horario dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await _firestore.collection('horarios').add(dados.toMap()).then((value) {
+    await get().add(dados.toMap()).then((value) {
       print(value);
       onSuccess();
     }).catchError((e) {
@@ -20,12 +20,11 @@ class HorarioControle {
     });
   }
 
-  static void update(HorarioDados dados,
+  static void update(Horario dados,
       {@required VoidCallback onSuccess(context),
       @required VoidCallback onFail(context),
       @required context}) async {
-    await _firestore
-        .collection('horarios')
+    await get()
         .document(dados.id)
         .updateData(dados.toMap())
         .then((value) {
@@ -36,12 +35,20 @@ class HorarioControle {
     });
   }
 
-  static delete(String id) {
-    _firestore.collection("horarios").document(id).delete();
+  static delete(String id,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) {
+    _firestore.collection("horarios").document(id).delete().then((value) {
+      onSuccess();
+    }).catchError((e) {
+      print(e);
+      onFail();
+    });
   }
 
   static confirmaAgendamento(String id,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {@required VoidCallback onSuccess,
+      @required VoidCallback onFail,
+      @required BuildContext context}) async {
     await _firestore.collection("horarios").document(id).updateData({
       "confirmado": true,
     }).then((value) {
@@ -52,17 +59,38 @@ class HorarioControle {
     });
   }
 
+  /*
+  * Recria o horário na coleção de horários excluídos para depois deletar.
+  * Feito para armazenar os dados e ter controle futuro após o cancelamento
+  * */
+
+  static cancelaAgendamento(Horario dados,
+      {@required VoidCallback onSuccess,
+      @required VoidCallback onFail,
+      clienteCancelou = false}) async {
+    Map<String, dynamic> horario = dados.toMap();
+    horario['clienteCancelou'] = clienteCancelou;
+    await Firestore.instance
+        .collection('horariosExcluidos')
+        .add(horario)
+        .catchError((e) {
+      print(e);
+      onFail();
+    });
+    await delete(dados.id, onSuccess: onSuccess, onFail: onFail);
+  }
+
   static confirmaPagamento(String id,
-      {@required VoidCallback onSuccess(context),
-      @required VoidCallback onFail(context),
-      @required BuildContext context}) async {
+      {@required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
     await _firestore.collection("horarios").document(id).updateData({
       "pago": true,
     }).then((value) {
-      onSuccess(context);
+      print("Ok");
+      onSuccess();
     }).catchError((e) {
       print(e);
-      onFail(context);
+      onFail();
     });
   }
 }

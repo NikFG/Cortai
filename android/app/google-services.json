@@ -1,42 +1,66 @@
 {
   "project_info": {
-    "project_number": "1086670649793",
-    "firebase_url": "https://agendamento-cortes.firebaseio.com",
-    "project_id": "agendamento-cortes",
-    "storage_bucket": "agendamento-cortes.appspot.com"
+    "project_number": "924748747791",
+    "firebase_url": "https://cortai-349b0.firebaseio.com",
+    "project_id": "cortai-349b0",
+    "storage_bucket": "cortai-349b0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1086670649793:android:5bda8215d19c8413dc5740",
+        "mobilesdk_app_id": "1:924748747791:android:ab454b3650475b34c53f7a",
         "android_client_info": {
-          "package_name": "br.com.ferreira.agendacabelo"
+          "package_name": "com.nfsoft.cortai"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1086670649793-dlqk7gkigv3daa93h8embtd008hbaa0q.apps.googleusercontent.com",
+          "client_id": "924748747791-u63f381lcukvpfrfmmq75t1p1fmif24d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "br.com.ferreira.agendacabelo",
-            "certificate_hash": "5eded70aae1a67a26e42fcf0716c08861d29c8e9"
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "9da72e7d2200d27348ad6b0bf10a16306867c50a"
           }
         },
         {
-          "client_id": "1086670649793-mg37klgp5a5ab63knqdbqqfus530kj5h.apps.googleusercontent.com",
+          "client_id": "924748747791-fte2j9f6gki5nsopa36ief0j2fdt0p6q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "bea40c68bb97a67a559f14364cf57d632a63ee6d"
+          }
+        },
+        {
+          "client_id": "924748747791-bk6p2u01somioe266adsnl9mjai4j2qc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "63fdea0b69778c2fe9242e64ef2b2cd9a175ee09"
+          }
+        },
+        {
+          "client_id": "924748747791-5l32it01gmhp150fjgo2d07famnhjnm2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "4eb3fb3b374b8b6037b8ecb92f7ce0742eebf395"
+          }
+        },
+        {
+          "client_id": "924748747791-85nrae5jifihu00579mbs20ooi6311ol.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCkjicmSrhIfx13BcjNrI1wT6pv6OTL0qI"
+          "current_key": "AIzaSyDStsXZJtXHSyxsjcg6cDlEjhCidE9wiFI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1086670649793-mg37klgp5a5ab63knqdbqqfus530kj5h.apps.googleusercontent.com",
+              "client_id": "924748747791-85nrae5jifihu00579mbs20ooi6311ol.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

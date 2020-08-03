@@ -1,5 +1,5 @@
-import 'package:agendacabelo/Controle/salao_controle.dart';
-import 'package:agendacabelo/Dados/funcionamento_dados.dart';
+import 'package:cortai/Controle/salao_controle.dart';
+import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -10,23 +10,7 @@ class FuncionamentoControle {
     return SalaoControle.get().document(salao).collection('funcionamento');
   }
 
-  static void store(FuncionamentoDados dados, String salao,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await _firestore
-        .collection('saloes')
-        .document(salao)
-        .collection('funcionamento')
-        .add(dados.toMap())
-        .then((value) {
-      print(value);
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
-
-  static void update(FuncionamentoDados dados, String salao,
+  static void update(Funcionamento dados, String salao,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore
         .collection('saloes')
@@ -40,5 +24,43 @@ class FuncionamentoControle {
       print(e);
       onFail();
     });
+  }
+
+  static void updateAll(List<Funcionamento> dados, String salao,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    try {
+      dados.forEach((doc) async {
+        await get(salao)
+            .document(doc.diaSemana)
+            .setData(doc.toMap(), merge: true);
+      });
+      onSuccess();
+    } catch (e) {
+      onFail();
+    }
+  }
+
+  static void delete(String diaSemana, String salao,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    await get(salao).document(diaSemana).delete().then((value) {
+      onSuccess();
+    }).catchError((e) {
+      print(e);
+      onFail();
+    });
+  }
+
+  static void deleteAll(String salao,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    try {
+      var docs =
+          await get(salao).getDocuments().then((value) => value.documents);
+      docs.forEach((element) {
+        get(salao).document(element.documentID).delete();
+      });
+      onSuccess();
+    } catch (e) {
+      onFail();
+    }
   }
 }

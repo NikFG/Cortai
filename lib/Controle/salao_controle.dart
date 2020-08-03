@@ -1,4 +1,5 @@
-import 'package:agendacabelo/Dados/salao_dados.dart';
+import 'package:cortai/Dados/login.dart';
+import 'package:cortai/Dados/salao.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -9,16 +10,19 @@ class SalaoControle {
     return _firestore.collection('saloes');
   }
 
-  static void store(SalaoDados dados,
-      {@required String usuario,
+  static void store(Salao dados,
+      {@required Login usuario,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
     await _firestore.collection('saloes').add(dados.toMap()).then((value) {
       print(value);
       Firestore.instance
           .collection('usuarios')
-          .document(usuario)
+          .document(usuario.id)
           .updateData({'salao': value.documentID, 'cabeleireiro': true});
+      usuario.isCabeleireiro = true;
+      usuario.isDonoSalao = true;
+      usuario.salao = value.documentID;
       onSuccess();
     }).catchError((e) {
       print(e);
@@ -26,7 +30,7 @@ class SalaoControle {
     });
   }
 
-  static void update(SalaoDados dados,
+  static void update(Salao dados,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore
         .collection('saloes')
