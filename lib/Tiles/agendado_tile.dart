@@ -19,12 +19,14 @@ class AgendadoTile extends StatefulWidget {
   final bool pago;
   final Login cabeleireiro;
   final Servico servico;
+  final avaliado;
 
   AgendadoTile(
       {@required this.horario,
       @required this.servico,
       @required this.cabeleireiro,
-      @required this.pago});
+      @required this.pago,
+      this.avaliado});
 
   @override
   _AgendadoTileState createState() => _AgendadoTileState();
@@ -39,6 +41,7 @@ class _AgendadoTileState extends State<AgendadoTile>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomListTile(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -74,21 +77,11 @@ class _AgendadoTileState extends State<AgendadoTile>
     );
   }
 
-  isAvaliado(String salao) async {
-    bool avaliado = await AvaliacaoControle.get()
-        .where('horario', isEqualTo: widget.horario.id)
-        .where('cabeleireiro', isEqualTo: widget.horario.cabeleireiro)
-        .where('salao', isEqualTo: salao)
-        .getDocuments()
-        .then((value) => value.documents.length > 0);
-    return avaliado;
-  }
-
   _avaliarDialog(BuildContext context) async {
     String salao = await getSalao();
-    bool avaliado = await isAvaliado(salao);
+
     var _descricaoControlador = TextEditingController();
-    if (!avaliado) {
+    if (!widget.avaliado) {
       return showDialog(
           context: context,
           barrierDismissible: false,
@@ -198,6 +191,7 @@ class _AgendadoTileState extends State<AgendadoTile>
             duration: Duration(milliseconds: 1300))
         .show(context);
     Navigator.of(context).pop();
+
   }
 
   void onFail() async {
