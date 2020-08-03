@@ -54,8 +54,7 @@ class _HomeTileState extends State<HomeTile> {
           backgroundColor: Colors.transparent,
           backgroundImage: widget.dados.imagem != null
               ? NetworkImage(widget.dados.imagem)
-              : NetworkImage(
-                  "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"),
+              : AssetImage("assets/images/shop.png"),
         ),
       ),
       onLongPress: () {
