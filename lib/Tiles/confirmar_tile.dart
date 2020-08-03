@@ -32,6 +32,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return CustomListTile(
       onTap: () => !widget.horarioDados.confirmado
           ? _bottomSheetOpcoes(context)

@@ -19,7 +19,7 @@ class AgendadoTile extends StatefulWidget {
   final bool pago;
   final Login cabeleireiro;
   final Servico servico;
-  bool avaliado;
+  final bool avaliado;
 
   AgendadoTile(
       {@required this.horario,
@@ -35,6 +35,13 @@ class AgendadoTile extends StatefulWidget {
 class _AgendadoTileState extends State<AgendadoTile>
     with AutomaticKeepAliveClientMixin<AgendadoTile> {
   double _avaliacao;
+  bool avaliado;
+
+  @override
+  void initState() {
+    super.initState();
+    avaliado = widget.avaliado;
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -144,7 +151,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                           dados.horario = widget.horario.id;
                           AvaliacaoControle.store(dados,
                               onSuccess: () {}, onFail: () {});
-                          widget.avaliado = true;
+                          avaliado = true;
                           confirmado = true;
                           Navigator.of(context).pop();
                         }
