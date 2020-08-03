@@ -402,6 +402,8 @@ export const getAgendados = functions
     const json = stringJson.map((value) => {
       return Flatted.parse(value)
     })
-
+    if (json.length == 0) {
+      return response.status(404).send("Não há resultados")
+    }
     return response.status(200).json(json);
   })
