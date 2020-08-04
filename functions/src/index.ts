@@ -279,7 +279,8 @@ export const calculaDistancia = functions
       return a.distancia - b.distancia;
     })
     if (json.length == 0) {
-      response.status(404).send("Não há salões para sua cidade ainda. Entre em contato conosco preenchendo o formulário abaixo e sugira um salão.")
+      response.status(404).send("Não há salões para sua cidade ainda. " +
+        "Entre em contato conosco preenchendo o formulário abaixo e sugira um salão ou mude manualmente seu endereço em perfil.")
     }
     response.status(200).json(json)
   });
@@ -413,11 +414,11 @@ export const getAgendados = functions
     const json = stringJson.map((value) => {
       return Flatted.parse(value)
     })
-    
+
     if (json.length == 0) {
       return response.status(404).send("Não há resultados")
     }
-    
+
     return response.status(200).json(json);
   })
 
@@ -427,10 +428,10 @@ export const getConfirmados = functions
 
 
     const cabeleireiro = request.query.cabeleireiroID as string;
-  //  const confirmado = (request.query.confirmado as string === 'true');
+    //  const confirmado = (request.query.confirmado as string === 'true');
 
     const query = await db.collection('horarios')
-   //   .where('confirmado', '==', confirmado)
+      //   .where('confirmado', '==', confirmado)
       .where('cabeleireiro', '==', cabeleireiro)
       .orderBy('data', 'desc')
       .orderBy('horario').get()
