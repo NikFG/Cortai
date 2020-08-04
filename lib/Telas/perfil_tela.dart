@@ -72,11 +72,9 @@ class _PerfilTelaState extends State<PerfilTela> {
                       },
                       child: CircleAvatar(
                         radius: 32,
-                        backgroundImage: NetworkImage(
-                          model.dados.imagemUrl != null
-                              ? model.dados.imagemUrl
-                              : "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                        ),
+                        backgroundImage: model.dados.imagemUrl == null
+                            ? AssetImage('assets/images/user.png')
+                            : NetworkImage(model.dados.imagemUrl),
                         backgroundColor: Colors.transparent,
                       ),
                     ),
@@ -84,27 +82,6 @@ class _PerfilTelaState extends State<PerfilTela> {
                   SizedBox(
                     height: 20,
                   ),
-
-                  /*       FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CheckinTela()));
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            FontAwesome.bar_chart,
-                            color: Colors.black54,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            "Relatórios",
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      )),*/
                   FlatButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
