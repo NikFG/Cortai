@@ -34,13 +34,13 @@ class LoginModelo extends Model {
       @required VoidCallback onFail}) {
     notifyListeners();
     _auth
-        .createUserWithEmailAndPassword(
-            email: login.email, password: senha)
+        .createUserWithEmailAndPassword(email: login.email, password: senha)
         .then((user) async {
       await _getUID();
       login.id = _firebaseUser.uid;
       this.dados = login;
       await _salvarDadosUsuarioEmail();
+      await _firebaseUser.sendEmailVerification();
       notifyListeners();
       onSuccess();
     }).catchError((e) async {
@@ -63,21 +63,31 @@ class LoginModelo extends Model {
       {@required String email,
       @required String senha,
       @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) {
+      @required VoidCallback onFail,
+      @required VoidCallback onVerifyEmail}) {
     isCarregando = true;
     notifyListeners();
-    _auth
-        .signInWithEmailAndPassword(email: email, password: senha)
-        .then((user) async {
-      _carregarUsuario();
-      isCarregando = false;
-      notifyListeners();
-      onSuccess();
-    }).catchError((e) {
-      isCarregando = false;
-      notifyListeners();
-      onFail();
-    });
+
+      _auth
+          .signInWithEmailAndPassword(email: email, password: senha)
+          .then((user) async {
+        if (user.user.isEmailVerified) {
+          _carregarUsuario();
+          isCarregando = false;
+          notifyListeners();
+          onSuccess();
+        } else {
+          logout();
+          notifyListeners();
+          await user.user.sendEmailVerification();
+          onVerifyEmail();
+          isCarregando = false;
+        }
+      }).catchError((e) {
+        isCarregando = false;
+        notifyListeners();
+        onFail();
+      });
   }
 
   //Login no firebase via Google
@@ -100,7 +110,6 @@ class LoginModelo extends Model {
     });
   }
 
-
   Future<Null> _salvarDadosUsuarioGoogle() async {
     if (await _carregarUsuario() == false) {
       this.dados = Login(
@@ -122,7 +131,7 @@ class LoginModelo extends Model {
     notifyListeners();
   }
 
-  Future<Null> signOut() async {
+  Future<Null> logout() async {
     await _auth.signOut();
     dados = null;
     _firebaseUser = null;
@@ -155,7 +164,6 @@ class LoginModelo extends Model {
       }
     }
   }
-
 
   bool isLogado() {
     return _firebaseUser != null;
