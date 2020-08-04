@@ -213,7 +213,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   ),
                   FlatButton(
                       onPressed: () async {
-                        await model.signOut();
+                        await model.logout();
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
