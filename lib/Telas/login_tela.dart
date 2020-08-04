@@ -74,7 +74,6 @@ class _LoginTelaState extends State<LoginTela> {
                                   width: 200.0,
                                 ),
                               ),
-                             
                               Spacer(),
                             ],
                           ),
@@ -175,7 +174,8 @@ class _LoginTelaState extends State<LoginTela> {
                                                 email: _emailControlador.text,
                                                 senha: _senhaControlador.text,
                                                 onSuccess: onSuccess,
-                                                onFail: onFail);
+                                                onFail: onFail,
+                                                onVerifyEmail: onVerifyEmail);
                                           }
                                         }
                                       : null,
@@ -280,6 +280,15 @@ class _LoginTelaState extends State<LoginTela> {
     await FlushbarHelper.createError(
             message: "Erro ao realizar o cadastro, teste novamente!",
             title: "Verifique os dados digitados")
+        .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
+  }
+
+  void onVerifyEmail() {
+    FlushbarHelper.createInformation(
+            message: "Verifique seu email antes de fazer login")
         .show(context);
     setState(() {
       _botaoHabilitado = true;

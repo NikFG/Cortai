@@ -185,7 +185,7 @@ class _AgendadoTileState extends State<AgendadoTile>
   Widget confirmado() {
     return Column(
       children: <Widget>[
-        Text("Status:"),
+        Text("Confirmado:"),
         widget.horario.confirmado
             ? Icon(
                 FontAwesome.check_circle_o,

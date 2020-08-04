@@ -28,11 +28,11 @@ class PushNotification {
         print("onMessage: $message");
       },
       onLaunch: (Map<String, dynamic> message) async {
-        _rotaTelaInicial(message['data']['screen'], context);
+//        _rotaTelaInicial(message['data']['screen'], context);
         print("onLaunch: $message");
       },
       onResume: (Map<String, dynamic> message) async {
-        _rotaTelaInicial(message['data']['screen'], context);
+//        _rotaTelaInicial(message['data']['screen'], context);
         print("onResume: $message");
       },
     );
@@ -52,7 +52,7 @@ class PushNotification {
         paginaInicial = 1;
         break;
       case "confirmar_tela":
-        paginaInicial = 2;
+        paginaInicial = 3;
         break;
     }
     Navigator.of(context).pushReplacement(MaterialPageRoute(

@@ -15,21 +15,19 @@ import 'confirmar_tela.dart';
 class HomeTela extends StatefulWidget {
   final int paginaInicial;
 
-  HomeTela({this.paginaInicial});
+  HomeTela({this.paginaInicial = 0});
 
   @override
   _HomeTelaState createState() => _HomeTelaState();
 }
 
 class _HomeTelaState extends State<HomeTela> {
-  int index = 0;
+  int index;
 
   @override
   void initState() {
     super.initState();
-    if (widget.paginaInicial != null) {
-      index = widget.paginaInicial;
-    }
+    index = widget.paginaInicial;
   }
 
   @override
@@ -41,7 +39,7 @@ class _HomeTelaState extends State<HomeTela> {
           if (model.dados.isDonoSalao && model.dados.salao == null) {
             return EditarSalaoTela(model.dados.id);
           }
-          PushNotification.servico(model.dados.id, context);
+         PushNotification.servico(model.dados.id, context);
           return PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
@@ -141,7 +139,7 @@ class _HomeTelaState extends State<HomeTela> {
                 body: PerfilTela(),
               ),
               DefaultTabController(
-                length: 2,  
+                length: 2,
                 child: Scaffold(
                   bottomNavigationBar: BottomCustom(_pageController, index,
                       model.dados.isCabeleireiro, model.dados.id),
