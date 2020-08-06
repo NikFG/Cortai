@@ -2,6 +2,8 @@ import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Telas/criar_servico_tela.dart';
 import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 class GerenciaServicoTile extends StatelessWidget {
   final Servico dados;
