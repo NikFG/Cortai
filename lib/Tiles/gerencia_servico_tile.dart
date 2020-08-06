@@ -29,7 +29,7 @@ class GerenciaServicoTile extends StatelessWidget {
               context: context,
               barrierDismissible: true,
               builder: (context) => AlertDialog(
-                    content: Text(
+                    content:  Text(
                         "Peça permissão ao gerente para poder acessar este corte e editá-lo"),
                     actions: <Widget>[
                       FlatButton(
