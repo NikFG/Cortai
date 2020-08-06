@@ -15,13 +15,12 @@ class MyApp extends StatelessWidget {
     return ScopedModel<LoginModelo>(
       model: LoginModelo(),
       child: MaterialApp(
-        title: "Agendamento de corte",
+        title: "Cortaí",
         theme: ThemeData(
-          primarySwatch: Colors.orange,
-          primaryColor: Color(0xFFf45d27),
-          accentColor: Color(0xFFf5851f),
-          fontFamily: 'Poppins'
-        ),
+            primarySwatch: Colors.orange,
+            primaryColor: Color(0xFFf45d27),
+            accentColor: Color(0xFFf5851f),
+            fontFamily: 'Poppins'),
         debugShowCheckedModeBanner: false,
         home: SplashCustom(),
         localizationsDelegates: [

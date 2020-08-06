@@ -1,7 +1,7 @@
 name: cortai
 description: Agendamento para cabeleireiros
 
-version: 1.0.2+1
+version: 1.0.2+5
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
