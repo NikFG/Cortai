@@ -36,6 +36,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   List<Cabeleireiro> selecionados = [];
   bool _botaoHabilitado = true;
   final pasta = 'Imagens servicos';
+
   @override
   void initState() {
     super.initState();
@@ -110,51 +111,58 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 SizedBox(
                   height: 20,
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    var snapshots = await Firestore.instance
-                        .collection('usuarios')
-                        .orderBy('nome')
-                        .where('salao', isEqualTo: model.dados.salao)
-                        .getDocuments();
-                    List<Cabeleireiro> dados = snapshots.documents
-                        .map((e) => Cabeleireiro.fromDocument(e))
-                        .toList();
+                model.dados.isDonoSalao
+                    ? GestureDetector(
+                        onTap: () async {
+                          var snapshots = await Firestore.instance
+                              .collection('usuarios')
+                              .orderBy('nome')
+                              .where('salao', isEqualTo: model.dados.salao)
+                              .getDocuments();
+                          List<Cabeleireiro> dados = snapshots.documents
+                              .map((e) => Cabeleireiro.fromDocument(e))
+                              .toList();
 
-                    showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (context) => _MyDialog(
-                              dados: dados,
-                              selecionados: selecionados,
-                              onSelectedDadosChanged: (dados) {
-                                selecionados = dados;
-                                selecionados
-                                    .sort((a, b) => a.nome.compareTo(b.nome));
-                                _cabeleireirosControlador.text = "";
-                                for (int i = 0; i < selecionados.length; i++) {
-                                  i != selecionados.length - 1
-                                      ? _cabeleireirosControlador.text +=
-                                          selecionados[i].nome + ", "
-                                      : _cabeleireirosControlador.text +=
-                                          selecionados[i].nome;
-                                }
-                              },
-                            ));
-                  },
-                  child: AbsorbPointer(
-                    child: CustomFormField(
-                      icon: null,
-                      validator: (value) {
-                        return null;
-                      },
-                      inputType: TextInputType.multiline,
-                      maxLines: null,
-                      controller: _cabeleireirosControlador,
-                      hint: "Cabeleireiros",
-                    ),
-                  ),
-                ),
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) => _MyDialog(
+                                    dados: dados,
+                                    selecionados: selecionados,
+                                    onSelectedDadosChanged: (dados) {
+                                      selecionados = dados;
+                                      selecionados.sort(
+                                          (a, b) => a.nome.compareTo(b.nome));
+                                      _cabeleireirosControlador.text = "";
+                                      for (int i = 0;
+                                          i < selecionados.length;
+                                          i++) {
+                                        i != selecionados.length - 1
+                                            ? _cabeleireirosControlador.text +=
+                                                selecionados[i].nome + ", "
+                                            : _cabeleireirosControlador.text +=
+                                                selecionados[i].nome;
+                                      }
+                                    },
+                                  ));
+                        },
+                        child: AbsorbPointer(
+                          child: CustomFormField(
+                            icon: null,
+                            validator: (value) {
+                              return null;
+                            },
+                            inputType: TextInputType.multiline,
+                            maxLines: null,
+                            controller: _cabeleireirosControlador,
+                            hint: "Cabeleireiros",
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: 0,
+                        height: 0,
+                      ),
                 SizedBox(
                   height: 10,
                 ),
@@ -253,6 +261,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 dados.ativo = ativo;
                                 dados.cabeleireiros =
                                     selecionados.map((e) => e.id).toList();
+
                                 if (widget.dados != null) {
                                   if (_imagem != null) {
                                     if (widget.dados.imagemUrl != null)
@@ -268,6 +277,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                       onSuccess: onUpdateSuccess,
                                       onFail: onFail);
                                 } else {
+                                  //Caso seja apenas um cabeleireiro irá adicionar o serviço apenas para si
+                                  if (!model.dados.isDonoSalao)
+                                    dados.cabeleireiros.add(model.dados.id);
                                   if (_imagem != null)
                                     dados.imagemUrl = await Util.enviaImagem(
                                         model.dados.id, _imagem, pasta);
