@@ -17,7 +17,8 @@ class GerenciarServicoTela extends StatelessWidget {
         return FutureBuilder<QuerySnapshot>(
           future: ServicoControle.get()
               .where('salao', isEqualTo: model.dados.salao)
-              .orderBy('ativo',descending: true)
+//              .where('cabeleireiros', arrayContains: model.dados.id)
+              .orderBy('ativo', descending: true)
               .orderBy('descricao')
               .getDocuments(),
           builder: (context, snapshot) {
@@ -38,7 +39,10 @@ class GerenciarServicoTela extends StatelessWidget {
                 ),
               ];
               lista.addAll(snapshot.data.documents.map((doc) {
-                return GerenciaServicoTile(Servico.fromDocument(doc));
+                return GerenciaServicoTile(
+                    dados: Servico.fromDocument(doc),
+                    isDonoSalao: model.dados.isDonoSalao,
+                    id: model.dados.id);
               }).toList());
               return ListView(children: lista);
             }
