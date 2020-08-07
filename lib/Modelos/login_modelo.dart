@@ -135,6 +135,8 @@ class LoginModelo extends Model {
 
   Future<Null> logout() async {
     await _auth.signOut();
+    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
     dados = null;
     _firebaseUser = null;
     notifyListeners();
