@@ -25,7 +25,7 @@ dependencies:
   firebase_messaging: ^6.0.16
   firebase_storage: ^3.1.6
   flushbar: 1.10.4
-  flutter_auth_buttons: ^0.8.0
+  flutter_auth_buttons: 0.9.0
   flutter_google_places: ^0.2.5
   flutter_icons: ^1.0.0+1
   flutter_launcher_icons: ^0.7.5
