@@ -29,11 +29,19 @@ class _LoginTelaState extends State<LoginTela> {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model.isCarregando) {
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.white70,
+          return Scaffold(
+              body: Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Carregando...",style: TextStyle(fontSize: 20.0),),
+                SizedBox(height: 10,),
+                CircularProgressIndicator(),
+              ],
             ),
-          );
+          ));
         } else {
           return Scaffold(
               body: Form(
