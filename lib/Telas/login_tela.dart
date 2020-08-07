@@ -36,8 +36,13 @@ class _LoginTelaState extends State<LoginTela> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Carregando...",style: TextStyle(fontSize: 20.0),),
-                SizedBox(height: 10,),
+                Text(
+                  "Carregando...",
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
                 CircularProgressIndicator(),
               ],
             ),
@@ -231,13 +236,7 @@ class _LoginTelaState extends State<LoginTela> {
                                         setState(() {
                                           _botaoHabilitado = false;
                                         });
-                                        model
-                                            .logarGoogle()
-                                            .then((value) => onSuccess())
-                                            .catchError((e) {
-                                          print(e);
-                                          onFail();
-                                        });
+                                        model.logarGoogle(onSuccess, onFail);
                                       }
                                     : null,
                                 borderRadius: 50,
@@ -286,7 +285,7 @@ class _LoginTelaState extends State<LoginTela> {
 
   void onFail() async {
     await FlushbarHelper.createError(
-            message: "Erro ao realizar o cadastro, teste novamente!",
+            message: "Erro ao realizar o login, tente novamente!",
             title: "Verifique os dados digitados")
         .show(context);
     setState(() {
