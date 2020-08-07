@@ -111,6 +111,7 @@ class LoginModelo extends Model {
   }
 
   Future<Null> _salvarDadosUsuarioGoogle() async {
+    isCarregando = true;
     if (await _carregarUsuario() == false) {
       this.dados = Login(
           id: _firebaseUser.uid,
@@ -129,10 +130,13 @@ class LoginModelo extends Model {
         .document(_firebaseUser.uid)
         .setData(this.dados.toMap(), merge: true);
     notifyListeners();
+    isCarregando = false;
   }
 
   Future<Null> logout() async {
     await _auth.signOut();
+    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
     dados = null;
     _firebaseUser = null;
     notifyListeners();
