@@ -75,10 +75,10 @@ class SaibaMaisTela extends StatelessWidget {
                                 child: CircularProgressIndicator(),
                               );
                             } else {
-                              var listaFuncionamento =
-                                  snapshot.data.documents.map((doc) {
-                                return Funcionamento.fromDocument(doc);
-                              }).toList();
+                              var listaFuncionamento = List<Funcionamento>();
+                              //     snapshot.data.documents.map((doc) {
+                              //   return Funcionamento.fromDocument(doc);
+                              // }).toList();
                               listaFuncionamento.sort((a, b) =>
                                   Util.ordenarDiasSemana(a.diaSemana).compareTo(
                                       Util.ordenarDiasSemana(b.diaSemana)));
@@ -129,18 +129,19 @@ class SaibaMaisTela extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     );
                   } else {
-                    return ListView.builder(
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index) {
-                        Avaliacao avaliacao = Avaliacao.fromDocument(
-                            snapshot.data.documents[index]);
-                        return CustomListTile(
-                          onTap: () {},
-                          leading: Text(avaliacao.avaliacao.toStringAsFixed(2)),
-                          title: Text(avaliacao.descricao),
-                        );
-                      },
-                    );
+                    return Center();
+                    // return ListView.builder(
+                    //   itemCount: snapshot.data.documents.length,
+                    //   itemBuilder: (context, index) {
+                    //     Avaliacao avaliacao = Avaliacao.fromDocument(
+                    //         snapshot.data.documents[index]);
+                    //     return CustomListTile(
+                    //       onTap: () {},
+                    //       leading: Text(avaliacao.avaliacao.toStringAsFixed(2)),
+                    //       title: Text(avaliacao.descricao),
+                    //     );
+                    //   },
+                    // );
                   }
                 },
               )

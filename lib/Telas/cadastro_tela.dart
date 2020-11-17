@@ -8,6 +8,7 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:password_strength/password_strength.dart';
 
@@ -191,11 +192,11 @@ class _CadastroTelaState extends State<CadastroTela> {
                                           isCabeleireiro: false,
                                           salao: null,
                                           imagemUrl: null,
-                                          isDonoSalao: false);
+                                          isDonoSalao: false,
+                                      senha: _senhaConfirmaControlador.text);
 
                                       login.criarContaEmail(
                                           login: loginDados,
-                                          senha: _senhaControlador.text,
                                           onSuccess: onSuccess,
                                           onFail: onFail);
                                     }
@@ -255,5 +256,9 @@ class _CadastroTelaState extends State<CadastroTela> {
     await FlushbarHelper.createError(
             message: "Erro ao realizar o cadastro, teste novamente!")
         .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
+
   }
 }

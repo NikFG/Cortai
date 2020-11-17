@@ -32,7 +32,7 @@ class FuncionamentoControle {
       dados.forEach((doc) async {
         await get(salao)
             .document(doc.diaSemana)
-            .setData(doc.toMap(), merge: true);
+            .setData(doc.toMap());
       });
       onSuccess();
     } catch (e) {

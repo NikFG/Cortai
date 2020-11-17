@@ -1,5 +1,6 @@
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Widgets/splash_custom.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SharedPreferencesControle();
+    Firebase.initializeApp(name: "Cortaí");
     return ScopedModel<LoginModelo>(
       model: LoginModelo(),
       child: MaterialApp(

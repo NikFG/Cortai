@@ -12,9 +12,8 @@ import 'package:maps_launcher/maps_launcher.dart';
 
 class HomeTile extends StatefulWidget {
   final Salao dados;
-  final double distancia;
 
-  HomeTile(this.dados, this.distancia);
+  HomeTile(this.dados);
 
   @override
   _HomeTileState createState() => _HomeTileState();
@@ -29,7 +28,7 @@ class _HomeTileState extends State<HomeTile> {
   void initState() {
     super.initState();
     _distancia =
-        '${widget.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
+        '${widget.dados.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
     _media = widget.dados.mediaAvaliacao;
     // if (widget.dados.quantidadeAvaliacao > 0)
     // _media = widget.dados.totalAvaliacao / widget.dados.quantidadeAvaliacao;

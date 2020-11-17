@@ -75,7 +75,7 @@ class _SolicitacaoCabeleireiroTelaState
 
                               await Firestore.instance
                                   .collection('usuarios')
-                                  .document(dados.id)
+                                  .document(dados.id.toString())
                                   .updateData(({'salaoTemp': widget.salao}));
                               onSuccess();
                             }).catchError((e) {

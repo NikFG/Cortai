@@ -38,13 +38,14 @@ class GerenciarServicoTela extends StatelessWidget {
                   title: Text("Adicionar novo serviço"),
                 ),
               ];
-              lista.addAll(snapshot.data.documents.map((doc) {
-                return GerenciaServicoTile(
-                    dados: Servico.fromDocument(doc),
-                    isDonoSalao: model.dados.isDonoSalao,
-                    id: model.dados.id);
-              }).toList());
-              return ListView(children: lista);
+              // lista.addAll(snapshot.data.documents.map((doc) {
+              //   return GerenciaServicoTile(
+              //       dados: Servico.fromDocument(doc),
+              //       isDonoSalao: model.dados.isDonoSalao,
+              //       id: model.dados.id);
+              // }).toList());
+              // return ListView(children: lista);
+              return Center();
             }
           },
         );

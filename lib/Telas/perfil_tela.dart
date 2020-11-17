@@ -61,10 +61,10 @@ class _PerfilTelaState extends State<PerfilTela> {
                         await getImagem();
                         if (_imagem != null) {
                           String url = await Util.enviaImagem(
-                              model.dados.id, _imagem, pasta);
+                              model.dados.id.toString(), _imagem, pasta);
                           Firestore.instance
                               .collection('usuarios')
-                              .document(model.dados.id)
+                              .document(model.dados.id.toString())
                               .updateData({'fotoURL': url});
                           model.dados.imagemUrl = url;
                           setState(() {});
@@ -287,11 +287,11 @@ class _PerfilTelaState extends State<PerfilTela> {
                     .document(model.salao)
                     .get()
                     .then((doc) {
-                  return Salao.fromDocument(doc);
+                  return Salao();
                 });
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
-                        EditarSalaoTela(model.id, salao: salaoDados)));
+                        EditarSalaoTela(model.id.toString(), salao: salaoDados)));
               },
               child: model.salao != null
                   ? Row(

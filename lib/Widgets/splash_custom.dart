@@ -38,6 +38,7 @@ class _SplashCustomState extends State<SplashCustom> {
 
   Widget _telaInicial(LoginModelo model) {
     if (model.isLogado()) {
+
       return HomeTela();
     } else {
       return StartScreen();

@@ -53,11 +53,6 @@ class _StartScreenState extends State<StartScreen> {
         child: Container(
           decoration: BoxDecoration(
             gradient:LinearGradient(
-              //
-              // List: <Color>[
-              //   Theme.of(context).primaryColor,
-              //   Theme.of(context).accentColor,
-              // ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               stops: [0.1, 0.7],

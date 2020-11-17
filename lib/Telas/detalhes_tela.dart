@@ -42,7 +42,7 @@ class DetalhesTela extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
-            Salao salao = Salao.fromDocument(snapshot.data);
+            Salao salao = Salao();//Salao.fromDocument(snapshot.data);
             return ListView(
               children: <Widget>[
                 Container(

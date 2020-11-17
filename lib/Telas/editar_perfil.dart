@@ -131,8 +131,8 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                               model.dados.telefone = _telefoneControlador.text;
                               await Firestore.instance
                                   .collection('usuarios')
-                                  .document(model.dados.id)
-                                  .setData(model.dados.toMap(), merge: true)
+                                  .document(model.dados.id.toString())
+                                  .setData(model.dados.toMap())
                                   .then((value) async {
                                 await FlushbarHelper.createSuccess(
                                         message:

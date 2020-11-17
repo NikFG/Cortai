@@ -164,13 +164,14 @@ class ServicoTela extends StatelessWidget {
                   if (!snapshot.hasData) {
                     return CustomShimmer(4);
                   } else {
-                    var widgets = snapshot.data.documents
-                        .map((doc) =>
-                            ServicoTile(Servico.fromDocument(doc), dados.nome))
-                        .toList();
-                    return Column(
-                      children: widgets,
-                    );
+                    return Center();
+                    // var widgets = snapshot.data.documents
+                    //     .map((doc) =>
+                    //         ServicoTile(Servico.fromDocument(doc), dados.nome))
+                    //     .toList();
+                    // return Column(
+                    //   children: widgets,
+                    // );
                   }
                 },
               ),

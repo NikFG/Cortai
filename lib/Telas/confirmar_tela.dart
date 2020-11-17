@@ -36,15 +36,15 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                           child: Text("Não há agendamentos para confirmar"),
                         );
                       }
-
-                      return ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, index) {
-                          Horario horario = Horario.fromDocument(
-                              snapshot.data.documents[index]);
-                          return ConfirmarTile(horario);
-                        },
-                      );
+                      return Center();
+                      // return ListView.builder(
+                      //   itemCount: snapshot.data.documents.length,
+                      //   itemBuilder: (context, index) {
+                      //     Horario horario = Horario.fromDocument(
+                      //         snapshot.data.documents[index]);
+                      //     return ConfirmarTile(horario);
+                      //   },
+                      // );
                     }
                   }),
               StreamBuilder<QuerySnapshot>(
@@ -64,14 +64,15 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                         );
                       }
 
-                      return ListView.builder(
-                        itemCount: snapshot.data.documents.length,
-                        itemBuilder: (context, index) {
-                          Horario horario = Horario.fromDocument(
-                              snapshot.data.documents[index]);
-                          return ConfirmarTile(horario);
-                        },
-                      );
+                      // return ListView.builder(
+                      //   itemCount: snapshot.data.documents.length,
+                      //   itemBuilder: (context, index) {
+                      //     Horario horario = Horario.fromDocument(
+                      //         snapshot.data.documents[index]);
+                      //     return ConfirmarTile(horario);
+                      //   },
+                      // );
+                      return Center();
                     }
                   }),
             ],

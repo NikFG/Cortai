@@ -28,6 +28,8 @@ class _LoginTelaState extends State<LoginTela> {
     Util.corPrimariaStatusBar(context);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
+        _emailControlador.text = "nikollasferreira@hotmail.com";
+        _senhaControlador.text = "abc123456";
         if (model.isCarregando) {
           return Scaffold(
               body: Align(
@@ -126,7 +128,7 @@ class _LoginTelaState extends State<LoginTela> {
                                 hint: "Senha",
                                 isSenha: true,
                                 validator: (text) {
-                                  if (text.isEmpty || text.length < 6) {
+                                  if (text.isEmpty || text.length < 1) {
                                     return "Senha inválida";
                                   }
                                   return null;

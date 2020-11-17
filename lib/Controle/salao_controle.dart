@@ -18,7 +18,7 @@ class SalaoControle {
       print(value);
       Firestore.instance
           .collection('usuarios')
-          .document(usuario.id)
+          .document(usuario.id.toString())
           .updateData({'salao': value.documentID, 'cabeleireiro': true});
       usuario.isCabeleireiro = true;
       usuario.isDonoSalao = true;

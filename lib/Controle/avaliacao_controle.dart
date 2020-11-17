@@ -25,7 +25,7 @@ class AvaliacaoControle {
     await _firestore
         .collection('avaliacoes')
         .document(dados.id)
-        .setData(dados.toMap(), merge: true)
+        .setData(dados.toMap())
         .then((value) {
       onSuccess();
     }).catchError((e) {

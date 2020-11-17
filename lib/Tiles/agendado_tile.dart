@@ -188,7 +188,7 @@ class _AgendadoTileState extends State<AgendadoTile>
         .collection('usuarios')
         .document(widget.horario.cabeleireiro)
         .get();
-    String salao = snapshot.data['salao'];
+    String salao = snapshot.data()['salao'];
     return salao;
   }
 

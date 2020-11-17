@@ -105,9 +105,10 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   whereIn: widget.servicoDados.cabeleireiros)
                               .orderBy('nome')
                               .getDocuments();
-                          var cabeleireiros = profissionais.documents
-                              .map((doc) => Cabeleireiro.fromDocument(doc))
-                              .toList();
+                          var cabeleireiros = List<Cabeleireiro>();
+                          // var cabeleireiros = profissionais.documents
+                          //     .map((doc) => Cabeleireiro.fromDocument(doc))
+                          //     .toList();
                           _profissionalBottomSheet(context, cabeleireiros);
                         },
                         child: AbsorbPointer(
@@ -147,10 +148,11 @@ class _AgendaTelaState extends State<AgendaTela> {
                               .document(widget.servicoDados.salao)
                               .collection('funcionamento')
                               .getDocuments();
-                          List<Funcionamento> funcionamento = snapshots
-                              .documents
-                              .map((doc) => Funcionamento.fromDocument(doc))
-                              .toList();
+                          List<Funcionamento> funcionamento = [];
+                          // snapshots
+                          //     .documents
+                          //     .map((doc) => Funcionamento.fromDocument(doc))
+                          //     .toList();
                           var diasSemana = _verificaDiasSemana(funcionamento);
                           _calendario(context, diasSemana);
                         },
@@ -192,8 +194,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                                     widget.servicoDados.salao)
                                 .document(Util.weekdayToString(this.data))
                                 .get();
-                            Funcionamento funcionamento =
-                                Funcionamento.fromDocument(snapshot);
+                            Funcionamento funcionamento = Funcionamento();
+                                // Funcionamento.fromDocument(snapshot);
 
                             _horarioBottomSheet(context, funcionamento);
                           } else {
@@ -333,7 +335,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                           if (value.documents.length == 0) {
                                             Horario dados = Horario();
                                             dados.cabeleireiro = profissional;
-                                            dados.cliente = model.dados.id;
+                                            dados.cliente = model.dados.id.toString();
                                             dados.confirmado = false;
                                             dados.data = dataController.text;
                                             dados.formaPagamento =
@@ -400,9 +402,10 @@ class _AgendaTelaState extends State<AgendaTela> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<Horario> horarioDados = snapshot.data.documents
-                      .map((doc) => Horario.fromDocument(doc))
-                      .toList();
+                  List<Horario> horarioDados = [];
+                  // snapshot.data.documents
+                  //     .map((doc) => Horario.fromDocument(doc))
+                  //     .toList();
                   DateTime dataAgora = DateTime.now();
                   DateTime horarioAtual;
                   if (data.day == dataAgora.day &&
@@ -487,23 +490,24 @@ class _AgendaTelaState extends State<AgendaTela> {
                   child: CircularProgressIndicator(),
                 );
               } else {
-                return ListView.builder(
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) {
-                      FormaPagamento formaPagamento =
-                          FormaPagamento.fromDocument(
-                              snapshot.data.documents[index]);
-                      return ListTile(
-                        onTap: () {
-                          this.pagamento = formaPagamento.id;
-                          indexPagamento = index;
-                          pagamentoController.text = formaPagamento.descricao;
-                          Navigator.of(context).pop();
-                        },
-                        leading: listaIcons[index],
-                        title: Text(formaPagamento.descricao),
-                      );
-                    });
+                // return ListView.builder(
+                //     itemCount: snapshot.data.documents.length,
+                //     itemBuilder: (context, index) {
+                //       FormaPagamento formaPagamento =
+                //           FormaPagamento.fromDocument(
+                //               snapshot.data.documents[index]);
+                //       return ListTile(
+                //         onTap: () {
+                //           this.pagamento = formaPagamento.id;
+                //           indexPagamento = index;
+                //           pagamentoController.text = formaPagamento.descricao;
+                //           Navigator.of(context).pop();
+                //         },
+                //         leading: listaIcons[index],
+                //         title: Text(formaPagamento.descricao),
+                //       );
+                //     });
+                return Center();
               }
             },
           );

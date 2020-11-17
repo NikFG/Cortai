@@ -115,7 +115,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                       Util.ordenarDiasSemana(a.documentID)
                           .compareTo(Util.ordenarDiasSemana(b.documentID)));
                   var listaRows = listaDocuments.map((doc) {
-                    Funcionamento dados = Funcionamento.fromDocument(doc);
+                    Funcionamento dados = Funcionamento();//Funcionamento.fromDocument(doc);
                     return Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

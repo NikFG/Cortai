@@ -119,9 +119,10 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                               .orderBy('nome')
                               .where('salao', isEqualTo: model.dados.salao)
                               .getDocuments();
-                          List<Cabeleireiro> dados = snapshots.documents
-                              .map((e) => Cabeleireiro.fromDocument(e))
-                              .toList();
+                          List<Cabeleireiro> dados = [];
+                          // snapshots.documents
+                          //     .map((e) => Cabeleireiro.fromDocument(e))
+                          //     .toList();
 
                           showDialog(
                               barrierDismissible: false,
@@ -268,7 +269,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                       await Util.deletaImagem(
                                           widget.dados.imagemUrl);
                                     dados.imagemUrl = await Util.enviaImagem(
-                                        model.dados.id, _imagem, pasta);
+                                        model.dados.id.toString().toString(),
+                                        _imagem,
+                                        pasta);
                                   } else {
                                     dados.imagemUrl = widget.dados.imagemUrl;
                                   }
@@ -279,10 +282,13 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 } else {
                                   //Caso seja apenas um cabeleireiro irá adicionar o serviço apenas para si
                                   if (!model.dados.isDonoSalao)
-                                    dados.cabeleireiros.add(model.dados.id);
+                                    dados.cabeleireiros
+                                        .add(model.dados.id.toString());
                                   if (_imagem != null)
                                     dados.imagemUrl = await Util.enviaImagem(
-                                        model.dados.id, _imagem, pasta);
+                                        model.dados.id.toString(),
+                                        _imagem,
+                                        pasta);
                                   ServicoControle.store(dados,
                                       onSuccess: onSuccess, onFail: onFail);
                                 }
@@ -325,8 +331,8 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         .orderBy('nome')
         .where('uid', whereIn: widget.dados.cabeleireiros)
         .getDocuments();
-    selecionados =
-        documents.documents.map((e) => Cabeleireiro.fromDocument(e)).toList();
+    selecionados = [];
+    // documents.documents.map((e) => Cabeleireiro.fromDocument(e)).toList();
     _cabeleireirosControlador.text = "";
     for (int i = 0; i < selecionados.length; i++) {
       if (i != selecionados.length - 1)

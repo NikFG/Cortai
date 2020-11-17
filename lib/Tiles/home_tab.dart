@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/home_store.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Tiles/home_tile.dart';
@@ -8,6 +9,7 @@ import 'package:cortai/Widgets/carousel.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:cortai/Widgets/maps_tela.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -15,6 +17,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -126,54 +129,60 @@ class _HomeTabState extends State<HomeTab> {
               url =
                   "$_link?cidade=Divinópolis&latitude=$latitude&longitude=$longitude";
               print(url);
-              return FutureBuilder<http.Response>(
-                future: http.get(url),
-                builder: (context, response) {
-                  if (!response.hasData) {
-                    return CustomShimmer(3);
-                  } else {
-                    if (response.data.statusCode == 404) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              response.data.body,
-                              textAlign: TextAlign.justify,
+              return ScopedModelDescendant<LoginModelo>(
+                builder: (context, child, model) {
+
+                  return FutureBuilder<http.Response>(
+                    future: http.get(url,
+                        headers: {"Authorization": "Bearer ${model.token}"}),
+                    builder: (context, response) {
+                      if (!response.hasData) {
+                        return CustomShimmer(3);
+                      } else {
+
+                        if (response.data.statusCode == 404) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  response.data.body,
+                                  textAlign: TextAlign.justify,
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    String urlForm =
+                                        'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link';
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => WebViewTela(
+                                                urlForm,
+                                                "Sugerir novo salão")));
+                                  },
+                                  child: Text(
+                                    "Sugerir novo salão",
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                )
+                              ],
                             ),
-                            FlatButton(
-                              onPressed: () {
-                                String urlForm =
-                                    'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link';
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => WebViewTela(
-                                        urlForm, "Sugerir novo salão")));
-                              },
-                              child: Text(
-                                "Sugerir novo salão",
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    }
+                          );
+                        }
 
-
-
-                    List<dynamic> dados = json.decode(response.data.body);
-                    print(dados);
-                    List<Widget> widgets = dados
-                        .map((s) => HomeTile(
-                            Salao.fromJsonApi(s), 100.0))
-                        .toList();
-                    return Column(
-                      children: widgets,
-                    );
-                    return Center();
-                  }
+                        List<dynamic> dados = json.decode(response.data.body);
+                        print(dados);
+                        List<Widget> widgets = dados
+                            .map((s) => HomeTile(Salao.fromJsonApi(s)))
+                            .toList();
+                        return Column(
+                          children: widgets,
+                        );
+                        return Center();
+                      }
+                    },
+                  );
                 },
               );
             }

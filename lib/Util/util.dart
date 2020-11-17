@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -90,14 +91,16 @@ class Util {
     }
   }
 
-  static Future<String> enviaImagem(String uid, File imagem, String pasta) async {
-    StorageUploadTask task = FirebaseStorage.instance
-        .ref().child(pasta)
-        .child(uid + DateTime.now().millisecondsSinceEpoch.toString())
-        .putFile(imagem);
-    StorageTaskSnapshot taskSnapshot = await task.onComplete;
-    String url = await taskSnapshot.ref.getDownloadURL();
-    return url;
+  static Future<String> enviaImagem(
+      String uid, File imagem, String pasta) async {
+    // StorageUploadTask task = FirebaseStorage.instance
+    //     .ref()
+    //     .child(pasta)
+    //     .child(uid + DateTime.now().millisecondsSinceEpoch.toString())
+    //     .putFile(imagem);
+    // StorageTaskSnapshot taskSnapshot = await task.onComplete;
+    // String url = await taskSnapshot.ref.getDownloadURL();
+    return "abc";
   }
 
   static deletaImagem(String url) async {
@@ -123,11 +126,11 @@ class Util {
   }
 
   static setLocalizacao() async {
-    var position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    String cidade = await Geolocator()
-        .placemarkFromPosition(position)
-        .then((value) => value.first.subAdministrativeArea);
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    String cidade =
+        await placemarkFromCoordinates(position.latitude, position.longitude)
+            .then((value) => value.first.subAdministrativeArea);
 
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(

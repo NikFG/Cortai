@@ -37,9 +37,9 @@ class _HomeTelaState extends State<HomeTela> {
       builder: (context, child, model) {
         if (model != null) {
           if (model.dados.isDonoSalao && model.dados.salao == null) {
-            return EditarSalaoTela(model.dados.id);
+            return EditarSalaoTela(model.dados.id.toString());
           }
-         PushNotification.servico(model.dados.id, context);
+         PushNotification.servico(model.dados.id.toString(), context);
           return PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
@@ -56,13 +56,13 @@ class _HomeTelaState extends State<HomeTela> {
                   child: HomeTab(),
                 ),
                 bottomNavigationBar: BottomCustom(_pageController, index,
-                    model.dados.isCabeleireiro, model.dados.id),
+                    model.dados.isCabeleireiro, model.dados.id.toString()),
               ),
               DefaultTabController(
                 length: 2,
                 child: Scaffold(
                   bottomNavigationBar: BottomCustom(_pageController, index,
-                      model.dados.isCabeleireiro, model.dados.id),
+                      model.dados.isCabeleireiro, model.dados.id.toString()),
                   body: AgendadoTela(),
                   extendBodyBehindAppBar: true,
                   appBar: AppBar(
@@ -135,14 +135,14 @@ class _HomeTelaState extends State<HomeTela> {
               ),
               Scaffold(
                 bottomNavigationBar: BottomCustom(_pageController, index,
-                    model.dados.isCabeleireiro, model.dados.id),
+                    model.dados.isCabeleireiro, model.dados.id.toString()),
                 body: PerfilTela(),
               ),
               DefaultTabController(
                 length: 2,
                 child: Scaffold(
                   bottomNavigationBar: BottomCustom(_pageController, index,
-                      model.dados.isCabeleireiro, model.dados.id),
+                      model.dados.isCabeleireiro, model.dados.id.toString()),
                   body: ConfirmarTela(),
                   extendBodyBehindAppBar: true,
                   appBar: AppBar(
@@ -218,7 +218,7 @@ class _HomeTelaState extends State<HomeTela> {
               ),
               Scaffold(
                 bottomNavigationBar: BottomCustom(_pageController, index,
-                    model.dados.isCabeleireiro, model.dados.id),
+                    model.dados.isCabeleireiro, model.dados.id.toString()),
                 body: Padding(
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height / 20),
