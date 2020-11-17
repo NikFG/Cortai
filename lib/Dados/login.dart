@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Login {
-  String id;
+  // String id;
+  int id;
   String nome;
+  String senha;
   String salao;
   String telefone;
   String email;
@@ -42,6 +44,7 @@ class Login {
     @required this.isCabeleireiro,
     @required this.isDonoSalao,
     this.id,
+    this.senha,
   });
 
   @override
@@ -54,9 +57,10 @@ class Login {
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': id,
+      'id': id,
       'email': email,
-      'fotoURL': imagemUrl,
+      'password': senha,
+      'imagem': imagemUrl,
       'nome': nome,
       'telefone': telefone,
       'salao': salao,
