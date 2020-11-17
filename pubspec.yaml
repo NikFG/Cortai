@@ -18,6 +18,7 @@ dependencies:
   cloud_firestore: 0.14.3
   cupertino_icons: ^1.0.0
   custom_radio_button: ^0.0.3
+  dio: ^3.0.10
   email_validator: ^1.0.4
   firebase_analytics: ^6.2.0
   firebase_auth: ^0.18.3
@@ -26,6 +27,7 @@ dependencies:
   firebase_storage: ^5.0.1
   flushbar: 1.10.4
   flutter_auth_buttons: 0.10.0
+  flutter_bcrypt: ^1.0.5
   flutter_google_places: ^0.2.5
   flutter_icons: ^1.0.0+1
   flutter_launcher_icons: ^0.8.1
