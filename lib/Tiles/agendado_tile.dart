@@ -104,15 +104,25 @@ class _AgendadoTileState extends State<AgendadoTile>
                         allowHalfRating: true,
                         itemCount: 5,
                         itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
                         onRatingUpdate: (double value) {
                           setState(() {
                             _avaliacao = value;
                           });
                         },
+                        ratingWidget: RatingWidget(
+                          half: Icon(
+                            Icons.star_half,
+                            color: Colors.amber,
+                          ),
+                          empty: Icon(
+                            Icons.star,
+                            color: Colors.white,
+                          ),
+                          full: Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 10),
