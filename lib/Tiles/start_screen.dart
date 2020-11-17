@@ -52,7 +52,12 @@ class _StartScreenState extends State<StartScreen> {
         value: SystemUiOverlayStyle.light,
         child: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient:LinearGradient(
+              //
+              // List: <Color>[
+              //   Theme.of(context).primaryColor,
+              //   Theme.of(context).accentColor,
+              // ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               stops: [0.1, 0.7],
@@ -144,7 +149,6 @@ class _StartScreenState extends State<StartScreen> {
                               'Os profissionais cadastrados recebem qualificações por seus serviços, não se esqueça de deixar a sua avaliação!',
                               textAlign: TextAlign.justify,
                               style: subTituloStyle,
-
                             ),
                           ],
                         ),

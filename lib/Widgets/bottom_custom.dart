@@ -96,7 +96,7 @@ class _BottomCustomState extends State<BottomCustom> {
                     badgeColor: Theme.of(context).primaryColor,
                     showBadge: _numeroConfirmacoes != 0 ? true : false,
                     animationType: BadgeAnimationType.scale,
-                    position: BadgePosition(left: 19, bottom: 8),
+                    position: BadgePosition(bottom: 8),
                     badgeContent: Text(
                       _numeroConfirmacoes.toString(),
                       style: TextStyle(color: Colors.white),
