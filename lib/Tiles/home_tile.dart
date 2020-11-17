@@ -30,8 +30,9 @@ class _HomeTileState extends State<HomeTile> {
     super.initState();
     _distancia =
         '${widget.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
-    if (widget.dados.quantidadeAvaliacao > 0)
-      _media = widget.dados.totalAvaliacao / widget.dados.quantidadeAvaliacao;
+    _media = widget.dados.mediaAvaliacao;
+    // if (widget.dados.quantidadeAvaliacao > 0)
+    // _media = widget.dados.totalAvaliacao / widget.dados.quantidadeAvaliacao;
   }
 
   @override

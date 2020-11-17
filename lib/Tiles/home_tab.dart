@@ -27,8 +27,10 @@ class _HomeTabState extends State<HomeTab> {
   var endereco = TextEditingController();
 
   String cidade = SharedPreferencesControle.getCidade();
-  var _link =
-      'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
+
+  // var _link =
+  //     'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
+  var _link = "http://192.168.0.108:8000/api/saloes/home/";
   var url = '';
   String latitude;
   String longitude;
@@ -120,7 +122,10 @@ class _HomeTabState extends State<HomeTab> {
                 ],
               );
             } else {
-              url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
+              // url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
+              url =
+                  "$_link?cidade=Divinópolis&latitude=$latitude&longitude=$longitude";
+              print(url);
               return FutureBuilder<http.Response>(
                 future: http.get(url),
                 builder: (context, response) {
@@ -155,14 +160,19 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       );
                     }
+
+
+
                     List<dynamic> dados = json.decode(response.data.body);
+                    print(dados);
                     List<Widget> widgets = dados
                         .map((s) => HomeTile(
-                            Salao.fromJson(s), s['distancia'] as double))
+                            Salao.fromJsonApi(s), 100.0))
                         .toList();
                     return Column(
                       children: widgets,
                     );
+                    return Center();
                   }
                 },
               );
