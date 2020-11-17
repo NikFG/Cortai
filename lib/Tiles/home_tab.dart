@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Stores/home_store.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Tiles/home_tile.dart';
 import 'package:cortai/Widgets/carousel.dart';
@@ -9,6 +10,7 @@ import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:cortai/Widgets/maps_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -21,32 +23,34 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   PermissionStatus _permissionStatus;
-  ScrollController _scrollController = ScrollController();
-  List<Placemark> local;
+  HomeStore store;
   var endereco = TextEditingController();
 
   String cidade = SharedPreferencesControle.getCidade();
-  var _link =
-      'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
+
+  // var _link =
+  //     'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
+  var _link = "http://192.168.0.108:8000/api/saloes/home/";
   var url = '';
+  String latitude;
+  String longitude;
 
   @override
   void initState() {
+    store = HomeStore();
     super.initState();
-    _permissionStatus = SharedPreferencesControle.getPermissionStatus();
-    getEndereco();
-
-    String latitude =
-        SharedPreferencesControle.getPosition().latitude.toString();
-    String longitude =
-        SharedPreferencesControle.getPosition().longitude.toString();
-    url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
+    store.status = SharedPreferencesControle.getPermissionStatus();
+    store.setEndereco(SharedPreferencesControle.getEndereco());
+    if (store.endereco.isNotEmpty) {
+      latitude = SharedPreferencesControle.getPosition().latitude.toString();
+      longitude = SharedPreferencesControle.getPosition().longitude.toString();
+//      url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      controller: _scrollController,
       physics: AlwaysScrollableScrollPhysics(),
       children: [
         Row(
@@ -74,8 +78,10 @@ class _HomeTabState extends State<HomeTab> {
                   fontWeight: FontWeight.w500,
                   fontFamily: "Poppins"),
             )),
-        getPermissaoLocal()
-            ? Column(
+        Observer(
+          builder: (context) {
+            if (store.getPermissao) {
+              return Column(
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
@@ -86,16 +92,18 @@ class _HomeTabState extends State<HomeTab> {
                                       Position(
                                           latitude: value.latitude,
                                           longitude: value.longitude));
+                                  latitude = value.latitude.toString();
+                                  longitude = value.longitude.toString();
                                 },
                                 cidadeChanged: (String value) async {
                                   await SharedPreferencesControle.setCidade(
                                       value);
+                                  cidade = value;
                                 },
                                 enderecoChanged: (String value) async {
                                   await SharedPreferencesControle.setEndereco(
                                       endereco.text);
-                                  await getEndereco();
-                                  setState(() {});
+                                  await store.setEndereco(value);
                                 },
                               )));
                     },
@@ -112,8 +120,13 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ),
                 ],
-              )
-            : FutureBuilder<http.Response>(
+              );
+            } else {
+              // url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
+              url =
+                  "$_link?cidade=Divinópolis&latitude=$latitude&longitude=$longitude";
+              print(url);
+              return FutureBuilder<http.Response>(
                 future: http.get(url),
                 builder: (context, response) {
                   if (!response.hasData) {
@@ -131,10 +144,11 @@ class _HomeTabState extends State<HomeTab> {
                             ),
                             FlatButton(
                               onPressed: () {
+                                String urlForm =
+                                    'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link';
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => WebViewTela(
-                                        'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link',
-                                        "Sugerir novo salão")));
+                                        urlForm, "Sugerir novo salão")));
                               },
                               child: Text(
                                 "Sugerir novo salão",
@@ -146,37 +160,26 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       );
                     }
+
+
+
                     List<dynamic> dados = json.decode(response.data.body);
+                    print(dados);
                     List<Widget> widgets = dados
                         .map((s) => HomeTile(
-                            Salao.fromJson(s), s['distancia'] as double))
+                            Salao.fromJsonApi(s), 100.0))
                         .toList();
                     return Column(
                       children: widgets,
                     );
+                    return Center();
                   }
                 },
-              ),
+              );
+            }
+          },
+        ),
       ],
     );
-  }
-
-  getPermissaoLocal() {
-    if ((_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) &&
-        cidade.isEmpty &&
-        endereco.text.isEmpty) {
-      return true;
-    }
-    return false;
-  }
-
-  getEndereco() async {
-    if (_permissionStatus.isDenied || _permissionStatus.isPermanentlyDenied) {
-      String endereco = SharedPreferencesControle.getEndereco();
-      if (endereco != null) if (endereco.isNotEmpty) {
-        this.endereco.text = endereco;
-        local = await Geolocator().placemarkFromAddress(endereco);
-      }
-    }
   }
 }

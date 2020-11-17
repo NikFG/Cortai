@@ -56,7 +56,8 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () => _selectTime(context, _aberturaController),
+                      onTap: () => _selectTime(
+                          context, _aberturaController, 'Horário de abertura'),
                       child: AbsorbPointer(
                         child: CustomFormField(
                           controller: _aberturaController,
@@ -76,7 +77,8 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                       height: 20,
                     ),
                     GestureDetector(
-                      onTap: () => _selectTime(context, _fechamentoController),
+                      onTap: () => _selectTime(context, _fechamentoController,
+                          'Horário de fechamento'),
                       child: AbsorbPointer(
                         child: CustomFormField(
                           controller: _fechamentoController,
@@ -142,10 +144,10 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
     );
   }
 
-  Future<Null> _selectTime(
-      BuildContext context, TextEditingController timeController) async {
-    final TimeOfDay picked =
-        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+  Future<Null> _selectTime(BuildContext context,
+      TextEditingController timeController, String helpText) async {
+    final TimeOfDay picked = await showTimePicker(
+        context: context, initialTime: TimeOfDay.now(), helpText: helpText);
     if (picked != null)
       setState(() {
         timeController.value = TextEditingValue(text: picked.format(context));

@@ -30,8 +30,9 @@ class _HomeTileState extends State<HomeTile> {
     super.initState();
     _distancia =
         '${widget.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
-    if (widget.dados.quantidadeAvaliacao > 0)
-      _media = widget.dados.totalAvaliacao / widget.dados.quantidadeAvaliacao;
+    _media = widget.dados.mediaAvaliacao;
+    // if (widget.dados.quantidadeAvaliacao > 0)
+    // _media = widget.dados.totalAvaliacao / widget.dados.quantidadeAvaliacao;
   }
 
   @override
@@ -54,8 +55,7 @@ class _HomeTileState extends State<HomeTile> {
           backgroundColor: Colors.transparent,
           backgroundImage: widget.dados.imagem != null
               ? NetworkImage(widget.dados.imagem)
-              : NetworkImage(
-                  "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"),
+              : AssetImage("assets/images/shop.png"),
         ),
       ),
       onLongPress: () {

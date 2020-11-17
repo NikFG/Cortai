@@ -25,7 +25,7 @@ class Servico {
     this._valor = double.parse(valor);
   }
 
-  Servico.fromDocument(DocumentSnapshot snapshot) {
+  /*Servico.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     descricao = snapshot.data["descricao"];
     _valor = snapshot.data["valor"];
@@ -35,7 +35,7 @@ class Servico {
     observacao =
         snapshot.data['observacao'] != null ? snapshot.data['observacao'] : '';
     ativo = snapshot.data['ativo'];
-  }
+  }*/
 
   Servico.fromHorarioJson(Map<String, dynamic> json) {
     if (json['data']['servico'] != null &&
@@ -56,7 +56,7 @@ class Servico {
   Servico.fromMap(Map<String, dynamic> map, String id) {
     this.id = id;
     descricao = map["descricao"];
-    _valor = map["valor"];
+    _valor = (map["valor"] as num).toDouble();
     imagemUrl = map["imagemUrl"];
     salao = map['salao'];
     observacao = map['observacao'] != null ? map['observacao'] : '';

@@ -29,11 +29,24 @@ class _LoginTelaState extends State<LoginTela> {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model.isCarregando) {
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.white70,
+          return Scaffold(
+              body: Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Carregando...",
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CircularProgressIndicator(),
+              ],
             ),
-          );
+          ));
         } else {
           return Scaffold(
               body: Form(
@@ -74,7 +87,6 @@ class _LoginTelaState extends State<LoginTela> {
                                   width: 200.0,
                                 ),
                               ),
-                             
                               Spacer(),
                             ],
                           ),
@@ -175,7 +187,8 @@ class _LoginTelaState extends State<LoginTela> {
                                                 email: _emailControlador.text,
                                                 senha: _senhaControlador.text,
                                                 onSuccess: onSuccess,
-                                                onFail: onFail);
+                                                onFail: onFail,
+                                                onVerifyEmail: onVerifyEmail);
                                           }
                                         }
                                       : null,
@@ -223,13 +236,7 @@ class _LoginTelaState extends State<LoginTela> {
                                         setState(() {
                                           _botaoHabilitado = false;
                                         });
-                                        model
-                                            .logarGoogle()
-                                            .then((value) => onSuccess())
-                                            .catchError((e) {
-                                          print(e);
-                                          onFail();
-                                        });
+                                        model.logarGoogle(onSuccess, onFail);
                                       }
                                     : null,
                                 borderRadius: 50,
@@ -278,8 +285,17 @@ class _LoginTelaState extends State<LoginTela> {
 
   void onFail() async {
     await FlushbarHelper.createError(
-            message: "Erro ao realizar o cadastro, teste novamente!",
+            message: "Erro ao realizar o login, tente novamente!",
             title: "Verifique os dados digitados")
+        .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
+  }
+
+  void onVerifyEmail() {
+    FlushbarHelper.createInformation(
+            message: "Verifique seu email antes de fazer login")
         .show(context);
     setState(() {
       _botaoHabilitado = true;

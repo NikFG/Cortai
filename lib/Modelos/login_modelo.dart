@@ -34,13 +34,13 @@ class LoginModelo extends Model {
       @required VoidCallback onFail}) {
     notifyListeners();
     _auth
-        .createUserWithEmailAndPassword(
-            email: login.email, password: senha)
+        .createUserWithEmailAndPassword(email: login.email, password: senha)
         .then((user) async {
       await _getUID();
       login.id = _firebaseUser.uid;
       this.dados = login;
       await _salvarDadosUsuarioEmail();
+      await _firebaseUser.sendEmailVerification();
       notifyListeners();
       onSuccess();
     }).catchError((e) async {
@@ -63,16 +63,26 @@ class LoginModelo extends Model {
       {@required String email,
       @required String senha,
       @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) {
+      @required VoidCallback onFail,
+      @required VoidCallback onVerifyEmail}) {
     isCarregando = true;
     notifyListeners();
+
     _auth
         .signInWithEmailAndPassword(email: email, password: senha)
         .then((user) async {
-      _carregarUsuario();
-      isCarregando = false;
-      notifyListeners();
-      onSuccess();
+      if (user.user.isEmailVerified) {
+        _carregarUsuario();
+        isCarregando = false;
+        notifyListeners();
+        onSuccess();
+      } else {
+        logout();
+        notifyListeners();
+        await user.user.sendEmailVerification();
+        onVerifyEmail();
+        isCarregando = false;
+      }
     }).catchError((e) {
       isCarregando = false;
       notifyListeners();
@@ -81,25 +91,42 @@ class LoginModelo extends Model {
   }
 
   //Login no firebase via Google
-  Future<Null> logarGoogle() async {
-    notifyListeners();
-    GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-
-    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    await _auth.signInWithCredential(credential).then((_) async {
-      await _getUID();
-      await _salvarDadosUsuarioGoogle();
+  Future<Null> logarGoogle(VoidCallback onSucess, VoidCallback onFail) async {
+    isCarregando = true;
+    try {
       notifyListeners();
-    }).catchError((e) {
+      GoogleSignInAccount googleUser =
+          await _googleSignIn.signIn().catchError((e) => null);
+      if (googleUser == null) {
+        isCarregando = false;
+        throw Exception("Erro ao logar");
+      }
+      GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication.catchError((e) {
+        return null;
+      });
+
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await _auth.signInWithCredential(credential).then((_) async {
+        await _getUID();
+        await _salvarDadosUsuarioGoogle();
+        notifyListeners();
+        isCarregando = false;
+        onSucess();
+      }).catchError((e) {
+        isCarregando = false;
+        notifyListeners();
+        onFail();
+      });
+    } catch (e) {
       isCarregando = false;
-      notifyListeners();
-    });
+      print(e);
+      onFail();
+    }
   }
-
 
   Future<Null> _salvarDadosUsuarioGoogle() async {
     if (await _carregarUsuario() == false) {
@@ -122,8 +149,10 @@ class LoginModelo extends Model {
     notifyListeners();
   }
 
-  Future<Null> signOut() async {
+  Future<Null> logout() async {
     await _auth.signOut();
+    await _googleSignIn.disconnect();
+    await _googleSignIn.signOut();
     dados = null;
     _firebaseUser = null;
     notifyListeners();
@@ -155,7 +184,6 @@ class LoginModelo extends Model {
       }
     }
   }
-
 
   bool isLogado() {
     return _firebaseUser != null;

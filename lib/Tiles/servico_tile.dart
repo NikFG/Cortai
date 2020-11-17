@@ -30,9 +30,9 @@ class ServicoTile extends StatelessWidget {
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 30,
-          backgroundImage: NetworkImage(
-              dados.imagemUrl != null ? dados.imagemUrl : imgPadrao,
-              scale: 2.0),
+          backgroundImage: dados.imagemUrl != null
+              ? NetworkImage(dados.imagemUrl, scale: 2.0)
+              : AssetImage("assets/images/barbearia.png"),
         ),
       ),
       title: Text(
