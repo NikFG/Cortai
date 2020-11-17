@@ -15,7 +15,7 @@ class Horario {
 
   Horario();
 
-  Horario.fromDocument(DocumentSnapshot snapshot) {
+/*  Horario.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     horario = snapshot.data['horario'];
     data = snapshot.data['data'];
@@ -27,7 +27,7 @@ class Horario {
     formaPagamento = snapshot.data['formaPagamento'];
 
     servicoDados = Servico.fromMap(snapshot.data['servico_map'], servico);
-  }
+  }*/
 
   Horario.fromJson(Map<String, dynamic> json) {
     id = json['id'];

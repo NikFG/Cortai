@@ -13,7 +13,7 @@ class Avaliacao {
 
   Avaliacao();
 
-  Avaliacao.fromDocument(DocumentSnapshot snapshot) {
+/*  Avaliacao.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     avaliacao = snapshot.data["avaliacao"];
     descricao =
@@ -23,7 +23,7 @@ class Avaliacao {
     cabeleireiro = snapshot.data["cabeleireiro"];
     salao = snapshot.data['salao'];
     horario = snapshot.data['horario'];
-  }
+  }*/
 
   Map<String, dynamic> toMap() {
     return {

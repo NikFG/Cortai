@@ -13,10 +13,11 @@ class Salao {
   double maiorValorServico;
   int quantidadeAvaliacao;
   double totalAvaliacao;
+  double mediaAvaliacao;
 
   Salao();
 
-  Salao.fromDocument(DocumentSnapshot snapshot) {
+/*  Salao.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.documentID;
     nome = snapshot.data['nome'];
     endereco = snapshot.data['endereco'];
@@ -29,7 +30,7 @@ class Salao {
     maiorValorServico = (snapshot.data['maiorValorServico'] as num).toDouble();
     quantidadeAvaliacao = snapshot.data['quantidadeAvaliacao'] as num;
     totalAvaliacao = (snapshot.data['totalAvaliacao'] as num).toDouble();
-  }
+  }*/
 
   Map<String, dynamic> toMap() {
     return {
@@ -48,6 +49,7 @@ class Salao {
   }
 
   Salao.fromJson(Map<String, dynamic> json) {
+    print(json);
     id = json['id'];
     nome = json['data']['nome'];
     endereco = json['data']['endereco'];
@@ -60,6 +62,21 @@ class Salao {
     maiorValorServico = (json['data']['maiorValorServico'] as num).toDouble();
     quantidadeAvaliacao = json['data']['quantidadeAvaliacao'] as num;
     totalAvaliacao = (json['data']['totalAvaliacao'] as num).toDouble();
+  }
+
+  Salao.fromJsonApi(Map<String, dynamic> json) {
+    id = json['id'].toString();
+    nome = json['nome'];
+    endereco = json['endereco'];
+    telefone = json['telefone'];
+    imagem = json['imagem'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    cidade = json['cidade'];
+    menorValorServico = json['menor'];
+    maiorValorServico = json['maior'];
+    quantidadeAvaliacao = json['qtd_avaliacao'];
+    mediaAvaliacao = json['media'];
   }
 
   @override
