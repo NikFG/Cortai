@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:cortai/Dados/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 /*
 * Classe modelo para ScopedModel.
@@ -12,10 +17,14 @@ import 'package:scoped_model/scoped_model.dart';
 class LoginModelo extends Model {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  static FirebaseUser _firebaseUser;
+  final String url = "http://192.168.0.108:8000/api/";
+  static User _firebaseUser;
+
+  // static FirebaseUser _firebaseUser;
 
   bool isCarregando = false;
   Login dados;
+  String token = "";
 
   static LoginModelo of(BuildContext context) =>
       ScopedModel.of<LoginModelo>(context);
@@ -29,37 +38,54 @@ class LoginModelo extends Model {
   //Criar conta com email e senha
   void criarContaEmail(
       {@required Login login,
-      @required String senha,
       @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) {
+      @required VoidCallback onFail}) async {
     notifyListeners();
-    _auth
-        .createUserWithEmailAndPassword(email: login.email, password: senha)
-        .then((user) async {
-      await _getUID();
-      login.id = _firebaseUser.uid;
-      this.dados = login;
-      await _salvarDadosUsuarioEmail();
-      await _firebaseUser.sendEmailVerification();
-      notifyListeners();
-      onSuccess();
-    }).catchError((e) async {
+    var dio = Dio();
+    print(login.toMap());
+    try {
+      FormData formData = new FormData.fromMap(login.toMap());
+      var response = await dio.post(url + "auth/user/create", data: formData);
+      print(response.data);
+      if (response.statusCode == 200)
+        onSuccess();
+      else
+        onFail();
+    } catch (e) {
       print(e);
-      isCarregando = false;
-      notifyListeners();
       onFail();
-    });
-  }
-
-  Future<Null> _salvarDadosUsuarioEmail() async {
-    await Firestore.instance
-        .collection("usuarios")
-        .document(_firebaseUser.uid)
-        .setData(dados.toMap());
+    }
   }
 
   //Login no firebase via email/senha
   void logarEmail(
+      {@required String email,
+      @required String senha,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail,
+      @required VoidCallback onVerifyEmail}) async {
+    print(email);
+    print(senha);
+    isCarregando = true;
+    notifyListeners();
+    var dio = Dio();
+    try {
+      FormData formData = FormData.fromMap({"email": email, "password": senha});
+      var response = await dio.post(url + "auth/login", data: formData);
+      print(response.statusMessage);
+      print(response.data);
+
+      isCarregando = false;
+      notifyListeners();
+      _carregarUsuarioNew(response.data['user'], response.data['access_token']);
+      onSuccess();
+    } catch (e) {
+      print(e);
+      onFail();
+    }
+  }
+
+  void logarEmailOld(
       {@required String email,
       @required String senha,
       @required VoidCallback onSuccess,
@@ -71,7 +97,7 @@ class LoginModelo extends Model {
     _auth
         .signInWithEmailAndPassword(email: email, password: senha)
         .then((user) async {
-      if (user.user.isEmailVerified) {
+      if (user.user.emailVerified) {
         _carregarUsuario();
         isCarregando = false;
         notifyListeners();
@@ -131,7 +157,7 @@ class LoginModelo extends Model {
   Future<Null> _salvarDadosUsuarioGoogle() async {
     if (await _carregarUsuario() == false) {
       this.dados = Login(
-          id: _firebaseUser.uid,
+          id: _firebaseUser.uid as int,
           email: _firebaseUser.email,
           imagemUrl: _firebaseUser.photoUrl,
           nome: _firebaseUser.displayName,
@@ -142,10 +168,6 @@ class LoginModelo extends Model {
     } else {
       await _carregarUsuario();
     }
-    await Firestore.instance
-        .collection("usuarios")
-        .document(_firebaseUser.uid)
-        .setData(this.dados.toMap(), merge: true);
     notifyListeners();
   }
 
@@ -158,6 +180,11 @@ class LoginModelo extends Model {
     notifyListeners();
   }
 
+  _carregarUsuarioNew(Map<String, dynamic> login, String token) {
+    this.token = token;
+    dados = Login.fromJson(login);
+  }
+
   /*Carregar os dados do firebase caso o usuário esteja logando no sistema,
   * ou então necessite dos dados para atulizar alguma informação
   */
@@ -165,7 +192,7 @@ class LoginModelo extends Model {
   Future<bool> _carregarUsuario() async {
     bool result;
     if (_firebaseUser == null) {
-      _firebaseUser = await _auth.currentUser();
+      _firebaseUser = _auth.currentUser;
     }
     if (_firebaseUser != null) {
       if (dados == null) {
@@ -186,11 +213,12 @@ class LoginModelo extends Model {
   }
 
   bool isLogado() {
+    return false;
     return _firebaseUser != null;
   }
 
-  Future<dynamic> _getUID() async {
-    _firebaseUser = await _auth.currentUser();
+  Future<dynamic> _getUID() {
+    _firebaseUser = _auth.currentUser;
   }
 
   recuperarSenha(String email) async {
