@@ -24,6 +24,17 @@ class Login {
     isDonoSalao = dados['donoSalao'];
   }
 
+  Login.fromJson(Map<String, dynamic> dados) {
+    id = dados['id'];
+    nome = dados['nome'];
+    salao = dados['salao'];
+    telefone = dados['telefone'];
+    email = dados['email'];
+    imagemUrl = dados['imagem'];
+    isCabeleireiro = dados['is_cabeleireiro'] == 1;
+    isDonoSalao = dados['is_dono_salao'] == 1;
+  }
+
   Login.fromHorarioJson(Map<String, dynamic> json) {
     id = json['data']['usuario'];
     nome = json['cabeleireiro']['nome'];

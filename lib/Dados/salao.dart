@@ -14,6 +14,7 @@ class Salao {
   int quantidadeAvaliacao;
   double totalAvaliacao;
   double mediaAvaliacao;
+  double distancia;
 
   Salao();
 
@@ -73,10 +74,11 @@ class Salao {
     latitude = json['latitude'];
     longitude = json['longitude'];
     cidade = json['cidade'];
-    menorValorServico = json['menor'];
-    maiorValorServico = json['maior'];
+    menorValorServico = (json['menor_valor'] as num).toDouble();
+    maiorValorServico = (json['maior_valor'] as num).toDouble();
     quantidadeAvaliacao = json['qtd_avaliacao'];
-    mediaAvaliacao = json['media'];
+    mediaAvaliacao = (json['media'] as num).toDouble();
+    distancia = double.parse(json['distancia']);
   }
 
   @override
