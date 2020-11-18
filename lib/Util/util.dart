@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
   static DateFormat timeFormat = DateFormat("HH:mm");
+  static const url = "http://192.168.0.108:8000/api/";
 
   static String timestampToString(Timestamp timestamp) {
     var formatter = new DateFormat('dd/MM/yyyy, H:mm');
@@ -93,6 +95,8 @@ class Util {
 
   static Future<String> enviaImagem(
       String uid, File imagem, String pasta) async {
+    String base64Image = base64Encode(imagem.readAsBytesSync());
+    String fileName = imagem.path.split("/").last;
     // StorageUploadTask task = FirebaseStorage.instance
     //     .ref()
     //     .child(pasta)
@@ -100,7 +104,13 @@ class Util {
     //     .putFile(imagem);
     // StorageTaskSnapshot taskSnapshot = await task.onComplete;
     // String url = await taskSnapshot.ref.getDownloadURL();
-    return "abc";
+    return base64Image + fileName;
+  }
+
+  static List<String> imgToBase64(File imagem) {
+    String base64Image = base64Encode(imagem.readAsBytesSync());
+    String fileName = imagem.path.split("/").last;
+    return [base64Image, fileName];
   }
 
   static deletaImagem(String url) async {

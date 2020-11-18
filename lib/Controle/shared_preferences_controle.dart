@@ -8,13 +8,13 @@ class SharedPreferencesControle {
 
   SharedPreferencesControle() {
     try {
-      _getInstace();
+      getInstace();
     } catch (e) {
       print(e);
     }
   }
 
-  _getInstace() async {
+  static getInstace() async {
     _prefs = await SharedPreferences.getInstance();
   }
 

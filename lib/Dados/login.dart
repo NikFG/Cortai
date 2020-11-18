@@ -7,6 +7,7 @@ class Login {
   String nome;
   String senha;
   String salao;
+  int salao_id;
   String telefone;
   String email;
   String imagemUrl;
@@ -27,7 +28,7 @@ class Login {
   Login.fromJson(Map<String, dynamic> dados) {
     id = dados['id'];
     nome = dados['nome'];
-    salao = dados['salao'];
+    salao_id = dados['salao_id'];
     telefone = dados['telefone'];
     email = dados['email'];
     imagemUrl = dados['imagem'];
@@ -74,9 +75,9 @@ class Login {
       'imagem': imagemUrl,
       'nome': nome,
       'telefone': telefone,
-      'salao': salao,
-      'cabeleireiro': isCabeleireiro,
-      'donoSalao': isDonoSalao,
+      'salao_id': salao,
+      'is_cabeleireiro': isCabeleireiro,
+      'is_dono_salao': isDonoSalao,
     };
   }
 }

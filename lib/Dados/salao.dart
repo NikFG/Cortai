@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 
 class Salao {
   String id;
@@ -6,6 +9,7 @@ class Salao {
   String endereco;
   String telefone;
   String imagem;
+  File img;
   String cidade;
   double latitude;
   double longitude;
@@ -32,20 +36,14 @@ class Salao {
     quantidadeAvaliacao = snapshot.data['quantidadeAvaliacao'] as num;
     totalAvaliacao = (snapshot.data['totalAvaliacao'] as num).toDouble();
   }*/
-
   Map<String, dynamic> toMap() {
     return {
       "nome": nome,
       "endereco": endereco,
       "telefone": telefone,
-      "imagem": imagem,
       "latitude": latitude,
       "longitude": longitude,
       "cidade": cidade,
-      'menorValorServico': menorValorServico,
-      "maiorValorServico": maiorValorServico,
-      "quantidadeAvaliacao": quantidadeAvaliacao,
-      "totalAvaliacao": totalAvaliacao,
     };
   }
 
@@ -83,6 +81,8 @@ class Salao {
 
   @override
   String toString() {
-    return 'SalaoDados{id: $id, nome: $nome, endereco: $endereco, telefone: $telefone, imagem: $imagem, cidade: $cidade, latitude: $latitude, longitude: $longitude}';
+    return 'SalaoDados{id: $id, nome: $nome, endereco: $endereco, '
+        'telefone: $telefone, imagem: $imagem, cidade: $cidade, '
+        'latitude: $latitude, longitude: $longitude}';
   }
 }

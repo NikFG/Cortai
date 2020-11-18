@@ -176,17 +176,15 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                   dados.telefone = _telefoneController.text;
                                   dados.cidade = _cidade;
                                   if (widget.salao == null) {
-                                    dados.menorValorServico = 0;
-                                    dados.maiorValorServico = 0;
-                                    dados.quantidadeAvaliacao = 0;
-                                    dados.totalAvaliacao = 0;
+                                    // dados.menorValorServico = 0;
+                                    // dados.maiorValorServico = 0;
+                                    // dados.quantidadeAvaliacao = 0;
+                                    // dados.totalAvaliacao = 0;
 
-                                    if (_imagem != null) {
-                                      dados.imagem = await Util.enviaImagem(
-                                          widget.usuario, _imagem, pasta);
-                                    }
                                     SalaoControle.store(dados,
                                         usuario: model.dados,
+                                        imagem: _imagem,
+                                        token: model.token,
                                         onSuccess: onSuccess,
                                         onFail: onFail);
                                   } else {
@@ -292,6 +290,10 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
     FlushbarHelper.createError(
             message: 'Houve algum erro ao criar o salão\nTente novamente!!')
         .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
+
   }
 
   void onSuccessEditar() async {

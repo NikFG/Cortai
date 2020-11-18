@@ -213,8 +213,7 @@ class LoginModelo extends Model {
   }
 
   bool isLogado() {
-    return false;
-    return _firebaseUser != null;
+    return token.isNotEmpty;
   }
 
   Future<dynamic> _getUID() {

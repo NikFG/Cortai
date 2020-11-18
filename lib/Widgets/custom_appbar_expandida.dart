@@ -41,10 +41,10 @@ class CustomAppbarExpandida extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment(0.9, 0.0),
             end: Alignment(0.9, 0.9),
-            // colors: <Color>[
-            //   Color(0x60000000),
-            //   Color(0x00000000),
-            // ],
+            colors: <Color>[
+              Color(0x60000000),
+              Color(0x00000000),
+            ],
           ),
         ));
   }

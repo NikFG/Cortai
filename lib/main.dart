@@ -6,14 +6,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'Controle/shared_preferences_controle.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferencesControle.getInstace();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 //Todo tutorial primeira entrada!
+//TODO TRATAR SEM ACESSO A INTERNET PRA LOGAR
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SharedPreferencesControle();
-    Firebase.initializeApp(name: "Cortaí");
+
     return ScopedModel<LoginModelo>(
       model: LoginModelo(),
       child: MaterialApp(

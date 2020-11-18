@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
@@ -33,8 +34,7 @@ class _HomeTabState extends State<HomeTab> {
 
   // var _link =
   //     'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
-  var _link = "http://192.168.0.108:8000/api/saloes/home/";
-  var url = '';
+  var param = '';
   String latitude;
   String longitude;
 
@@ -126,20 +126,18 @@ class _HomeTabState extends State<HomeTab> {
               );
             } else {
               // url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
-              url =
-                  "$_link?cidade=Divinópolis&latitude=$latitude&longitude=$longitude";
-              print(url);
+              param =
+                  "cidade=Divinópolis&latitude=$latitude&longitude=$longitude";
+              print(param);
               return ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
-
                   return FutureBuilder<http.Response>(
-                    future: http.get(url,
+                    future: http.get(SalaoControle.getNew() + param,
                         headers: {"Authorization": "Bearer ${model.token}"}),
                     builder: (context, response) {
                       if (!response.hasData) {
                         return CustomShimmer(3);
                       } else {
-
                         if (response.data.statusCode == 404) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
