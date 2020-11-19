@@ -5,12 +5,11 @@ class Cabeleireiro {
   String nome;
   String salao;
 
-/*  Cabeleireiro.fromDocument(DocumentSnapshot snapshot) {
-    id = snapshot.documentID;
-    nome = snapshot.data["nome"];
-    salao = snapshot.data['salao'];
-  }*/
 
+  Cabeleireiro.fromJson(Map<String,dynamic> map){
+    id = map['id'].toString();
+    nome = map['nome'];
+  }
   Map<String, dynamic> toMap() {
     return {
       "id": id,
