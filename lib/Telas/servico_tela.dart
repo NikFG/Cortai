@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cortai/Controle/servico_controle.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/saiba_mais.dart';
 import 'package:cortai/Tiles/servico_tile.dart';
 import 'package:cortai/Util/util.dart';
@@ -10,17 +13,19 @@ import 'package:flutter/material.dart';
 import 'package:cortai/Widgets/custom_appbar.dart';
 import 'package:cortai/Widgets/custom_appbar_expandida.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
 
 class ServicoTela extends StatelessWidget {
-  final Salao dados;
+  final Salao salao;
   final String distancia;
 
-  ServicoTela({@required this.dados, @required this.distancia});
+  ServicoTela({@required this.salao, @required this.distancia});
 
   @override
   Widget build(BuildContext context) {
-    String media = dados.quantidadeAvaliacao > 0
-        ? (dados.totalAvaliacao / dados.quantidadeAvaliacao).toStringAsFixed(1)
+    String media = salao.quantidadeAvaliacao > 0
+        ? (salao.totalAvaliacao / salao.quantidadeAvaliacao).toStringAsFixed(1)
         : '0.0';
     return Scaffold(
       body: CustomScrollView(
@@ -31,7 +36,7 @@ class ServicoTela extends StatelessWidget {
               leading: Util.leadingScaffold(context),
               title: CustomAppbar(
                   child: Text(
-                dados.nome,
+                salao.nome,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20.0,
@@ -45,10 +50,10 @@ class ServicoTela extends StatelessWidget {
               expandedHeight: 90.0,
               flexibleSpace: FlexibleSpaceBar(
                 background: CustomAppbarExpandida(
-                    nomeSalao: dados.nome,
-                    enderecoSalao: dados.endereco,
-                    menorValor: dados.menorValorServico,
-                    maiorValor: dados.maiorValorServico,
+                    nomeSalao: salao.nome,
+                    enderecoSalao: salao.endereco,
+                    menorValor: salao.menorValorServico,
+                    maiorValor: salao.maiorValorServico,
                     distancia: distancia),
               )),
           SliverList(
@@ -65,12 +70,12 @@ class ServicoTela extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => SaibaMaisTela(dados)));
+                              builder: (context) => SaibaMaisTela(salao)));
                         },
                         child: Column(
                           children: <Widget>[
                             Text(
-                              dados.nome,
+                              salao.nome,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500, fontSize: 22),
@@ -85,7 +90,7 @@ class ServicoTela extends StatelessWidget {
                         child: GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SaibaMaisTela(dados)));
+                                  builder: (context) => SaibaMaisTela(salao)));
                             },
                             child: Row(
                                 mainAxisAlignment:
@@ -123,8 +128,8 @@ class ServicoTela extends StatelessWidget {
                                     padding:
                                         EdgeInsets.only(bottom: 8.0, left: 8.0),
                                     child: Text(
-                                      "R\$${dados.menorValorServico.toStringAsFixed(2)}"
-                                      "~ R\$${dados.maiorValorServico.toStringAsFixed(2)}",
+                                      "R\$${salao.menorValorServico.toStringAsFixed(2)}"
+                                      "~ R\$${salao.maiorValorServico.toStringAsFixed(2)}",
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 18.0,
@@ -154,27 +159,29 @@ class ServicoTela extends StatelessWidget {
                   ],
                 ),
               ),
-              FutureBuilder<QuerySnapshot>(
-                future: ServicoControle.get()
-                    .where('salao', isEqualTo: dados.id)
-                    .where('ativo', isEqualTo: true)
-                    .orderBy('descricao')
-                    .getDocuments(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return CustomShimmer(4);
-                  } else {
-                    return Center();
-                    // var widgets = snapshot.data.documents
-                    //     .map((doc) =>
-                    //         ServicoTile(Servico.fromDocument(doc), dados.nome))
-                    //     .toList();
-                    // return Column(
-                    //   children: widgets,
-                    // );
-                  }
+              ScopedModelDescendant<LoginModelo>(
+                builder: (context, child, model) {
+                  return FutureBuilder<http.Response>(
+                    future: http.get(ServicoControle.getBySalao(this.salao.id),
+                        headers: Util.token(model.token)),
+                    builder: (context, response) {
+                      if (!response.hasData) {
+                        return CustomShimmer(4);
+                      } else {
+                        print(response.data.body);
+                        List<dynamic> dados = json.decode(response.data.body);
+                        var widgets = dados
+                            .map((doc) => ServicoTile(
+                                Servico.fromJson(doc), this.salao.nome))
+                            .toList();
+                        return Column(
+                          children: widgets,
+                        );
+                      }
+                    },
+                  );
                 },
-              ),
+              )
             ]),
           ),
         ],
