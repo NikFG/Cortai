@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -37,7 +38,9 @@ class HeroCustom extends StatelessWidget {
             transitionOnUserGestures: true,
           ),
           imageProvider: this.imagemFile == null
-              ? NetworkImage(this.imagemUrl)
+              ? CachedNetworkImageProvider(
+                  this.imagemUrl,
+                )
               : FileImage(this.imagemFile),
         ),
       ),

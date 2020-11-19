@@ -15,6 +15,7 @@ class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
   static DateFormat timeFormat = DateFormat("HH:mm");
   static const url = "http://192.168.0.108:8000/api/";
+  static const storage_url = "http://192.168.0.108:8000/";
 
   static String timestampToString(Timestamp timestamp) {
     var formatter = new DateFormat('dd/MM/yyyy, H:mm');
