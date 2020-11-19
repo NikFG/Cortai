@@ -40,7 +40,7 @@ class _HomeTileState extends State<HomeTile> {
     return CustomListTile(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              ServicoTela(dados: widget.dados, distancia: _distancia))),
+              ServicoTela(salao: widget.dados, distancia: _distancia))),
       leading: GestureDetector(
         onTap: () {
           if (widget.dados.imagem != null) {
