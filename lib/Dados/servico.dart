@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Dados/cabeleireiro.dart';
+import 'package:cortai/Util/util.dart';
 
 class Servico {
-  String id;
+  int id;
   String descricao;
   double _valor;
   String imagemUrl;
   List<String> cabeleireiros;
+  List<Cabeleireiro> cabeleireiros_api;
   String salao;
   String observacao;
   bool ativo;
@@ -25,17 +28,17 @@ class Servico {
     this._valor = double.parse(valor);
   }
 
-  /*Servico.fromDocument(DocumentSnapshot snapshot) {
-    id = snapshot.documentID;
-    descricao = snapshot.data["descricao"];
-    _valor = snapshot.data["valor"];
-    imagemUrl = snapshot.data["imagemUrl"];
-    cabeleireiros = List.from(snapshot.data['cabeleireiros']);
-    salao = snapshot.data['salao'];
-    observacao =
-        snapshot.data['observacao'] != null ? snapshot.data['observacao'] : '';
-    ativo = snapshot.data['ativo'];
-  }*/
+  Servico.fromJson(Map<String, dynamic> servico) {
+    id = servico['id'];
+    descricao = servico["nome"];
+    _valor = servico["valor"];
+    imagemUrl = Util.storage_url + servico["imagem"];
+    cabeleireiros_api = List.from(servico['cabeleireiros'])
+        .map((e) => Cabeleireiro.fromJson(e))
+        .toList();
+    observacao = servico['observacao'];
+    ativo = servico['ativo'];
+  }
 
   Servico.fromHorarioJson(Map<String, dynamic> json) {
     if (json['data']['servico'] != null &&
@@ -54,7 +57,7 @@ class Servico {
   }
 
   Servico.fromMap(Map<String, dynamic> map, String id) {
-    this.id = id;
+    this.id = id as num;
     descricao = map["descricao"];
     _valor = (map["valor"] as num).toDouble();
     imagemUrl = map["imagemUrl"];
