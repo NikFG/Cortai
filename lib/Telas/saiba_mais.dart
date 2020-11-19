@@ -67,7 +67,7 @@ class SaibaMaisTela extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             )),
                         FutureBuilder<QuerySnapshot>(
-                          future: FuncionamentoControle.get(salao.id)
+                          future: FuncionamentoControle.get(salao.id.toString())
                               .getDocuments(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {

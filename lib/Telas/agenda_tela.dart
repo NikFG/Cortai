@@ -344,7 +344,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                                 horarioController.text;
                                             dados.pago = false;
                                             dados.servico =
-                                                widget.servicoDados.id;
+                                                widget.servicoDados.id.toString();
                                             dados.servicoDados = widget.servicoDados;
                                             HorarioControle.store(dados,
                                                 onSuccess: onSuccess,
