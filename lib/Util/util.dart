@@ -23,6 +23,9 @@ class Util {
         .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
     return formatted;
   }
+  static Map<String,String> token(String token){
+    return {"Authorization": "Bearer $token}"};
+  }
 
   static Timestamp stringToTimestamp(String horario) {
     horario = horario.substring(5);
