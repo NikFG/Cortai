@@ -12,7 +12,7 @@ class SalaoControle {
   static final _url = Util.url + "saloes/";
 
   static String getNew() {
-    return _url + "home/";
+    return _url + "home";
   }
 
   static CollectionReference get() {

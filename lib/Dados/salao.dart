@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
 
 class Salao {
@@ -68,7 +69,8 @@ class Salao {
     nome = json['nome'];
     endereco = json['endereco'];
     telefone = json['telefone'];
-    imagem = json['imagem'];
+    imagem = json['imagem'] != null ? Util.storage_url + json['imagem'] : null;
+    print(imagem);
     latitude = json['latitude'];
     longitude = json['longitude'];
     cidade = json['cidade'];

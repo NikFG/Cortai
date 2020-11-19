@@ -127,8 +127,8 @@ class _HomeTabState extends State<HomeTab> {
             } else {
               // url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
               param =
-                  "cidade=Divinópolis&latitude=$latitude&longitude=$longitude";
-              print(param);
+                  "?cidade=Divinópolis&latitude=$latitude&longitude=$longitude";
+
               return ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
                   return FutureBuilder<http.Response>(
@@ -170,7 +170,7 @@ class _HomeTabState extends State<HomeTab> {
                         }
 
                         List<dynamic> dados = json.decode(response.data.body);
-                        print(dados);
+
                         List<Widget> widgets = dados
                             .map((s) => HomeTile(Salao.fromJsonApi(s)))
                             .toList();

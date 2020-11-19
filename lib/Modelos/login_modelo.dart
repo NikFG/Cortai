@@ -42,11 +42,10 @@ class LoginModelo extends Model {
       @required VoidCallback onFail}) async {
     notifyListeners();
     var dio = Dio();
-    print(login.toMap());
+
     try {
       FormData formData = new FormData.fromMap(login.toMap());
       var response = await dio.post(url + "auth/user/create", data: formData);
-      print(response.data);
       if (response.statusCode == 200)
         onSuccess();
       else

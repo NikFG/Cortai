@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Telas/servico_tela.dart';
@@ -42,18 +43,20 @@ class _HomeTileState extends State<HomeTile> {
               ServicoTela(dados: widget.dados, distancia: _distancia))),
       leading: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => HeroCustom(
-                    imagemUrl: widget.dados.imagem,
-                    descricao: widget.dados.nome,
-                  )));
+          if (widget.dados.imagem != null) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => HeroCustom(
+                      imagemUrl: widget.dados.imagem,
+                      descricao: widget.dados.nome,
+                    )));
+          }
         },
         child: GFAvatar(
           shape: GFAvatarShape.circle,
           radius: 30,
           backgroundColor: Colors.transparent,
           backgroundImage: widget.dados.imagem != null
-              ? NetworkImage(widget.dados.imagem)
+              ? CachedNetworkImageProvider(widget.dados.imagem)
               : AssetImage("assets/images/shop.png"),
         ),
       ),
