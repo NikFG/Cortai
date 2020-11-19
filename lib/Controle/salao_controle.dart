@@ -68,7 +68,7 @@ class SalaoControle {
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore
         .collection('saloes')
-        .document(dados.id)
+        .document(dados.id.toString())
         .updateData(dados.toMap())
         .then((value) {
       onSuccess();
