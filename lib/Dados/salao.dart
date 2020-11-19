@@ -5,7 +5,7 @@ import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
 
 class Salao {
-  String id;
+  int id;
   String nome;
   String endereco;
   String telefone;
@@ -65,7 +65,7 @@ class Salao {
   }
 
   Salao.fromJsonApi(Map<String, dynamic> json) {
-    id = json['id'].toString();
+    id = json['id'];
     nome = json['nome'];
     endereco = json['endereco'];
     telefone = json['telefone'];
