@@ -80,31 +80,32 @@ class _BottomCustomState extends State<BottomCustom> {
   itensCabeleireiro(String uid) {
     var itens = [
       BottomNavigationBarItem(
-        icon: StreamBuilder<QuerySnapshot>(
-            stream: HorarioControle.get()
-                .where('confirmado', isEqualTo: false)
-                .where('cabeleireiro', isEqualTo: uid)
-                .snapshots(),
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                case ConnectionState.waiting:
-                  return Icon(FontAwesome5.calendar_check);
-                default:
-                  int _numeroConfirmacoes = snapshot.data.documents.length;
-                  return Badge(
-                    badgeColor: Theme.of(context).primaryColor,
-                    showBadge: _numeroConfirmacoes != 0 ? true : false,
-                    animationType: BadgeAnimationType.scale,
-                    position: BadgePosition(bottom: 8),
-                    badgeContent: Text(
-                      _numeroConfirmacoes.toString(),
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    child: Icon(FontAwesome5.calendar_check),
-                  );
-              }
-            }),
+        icon: Icon(Icons.ac_unit),
+        // icon: StreamBuilder<QuerySnapshot>(
+        //     stream: HorarioControle.get()
+        //         .where('confirmado', isEqualTo: false)
+        //         .where('cabeleireiro', isEqualTo: uid)
+        //         .snapshots(),
+        //     builder: (context, snapshot) {
+        //       switch (snapshot.connectionState) {
+        //         case ConnectionState.none:
+        //         case ConnectionState.waiting:
+        //           return Icon(FontAwesome5.calendar_check);
+        //         default:
+        //           int _numeroConfirmacoes = snapshot.data.documents.length;
+        //           return Badge(
+        //             badgeColor: Theme.of(context).primaryColor,
+        //             showBadge: _numeroConfirmacoes != 0 ? true : false,
+        //             animationType: BadgeAnimationType.scale,
+        //             position: BadgePosition(bottom: 8),
+        //             badgeContent: Text(
+        //               _numeroConfirmacoes.toString(),
+        //               style: TextStyle(color: Colors.white),
+        //             ),
+        //             child: Icon(FontAwesome5.calendar_check),
+        //           );
+        //       }
+        //     }),
         title: Text(
           "Confirmar",
           style: stylePadrao(),

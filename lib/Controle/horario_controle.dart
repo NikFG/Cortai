@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HorarioControle {
-  static Firestore _firestore = Firestore.instance;
+  static var _firestore = Firestore.instance;
 
   static CollectionReference get() {
     return _firestore.collection('horarios');
