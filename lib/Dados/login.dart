@@ -46,15 +46,14 @@ class Login {
     isCabeleireiro = json['cabeleireiro']['cabeleireiro'];
     isDonoSalao = json['cabeleireiro']['donoSalao'];
   }
-
   Login({
     @required this.nome,
-    @required this.salao,
-    @required this.telefone,
-    @required this.email,
-    @required this.imagemUrl,
-    @required this.isCabeleireiro,
-    @required this.isDonoSalao,
+    this.salao,
+     this.telefone,
+     this.email,
+     this.imagemUrl,
+     this.isCabeleireiro,
+     this.isDonoSalao,
     this.id,
     this.senha,
   });

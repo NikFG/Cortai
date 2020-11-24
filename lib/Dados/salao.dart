@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:dio/dio.dart';
 
 class Salao {
   int id;
@@ -79,6 +77,18 @@ class Salao {
     quantidadeAvaliacao = json['qtd_avaliacao'];
     mediaAvaliacao = (json['media'] as num).toDouble();
     distancia = double.parse(json['distancia']);
+  }
+
+  Salao.fromJsonApiDados(Map<String, dynamic> json) {
+    id = json['id'];
+    nome = json['nome'];
+    endereco = json['endereco'];
+    telefone = json['telefone'];
+    imagem = json['imagem'] != null ? Util.storage_url + json['imagem'] : null;
+    print(imagem);
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    cidade = json['cidade'];
   }
 
   @override

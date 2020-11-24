@@ -40,6 +40,22 @@ class Servico {
     ativo = servico['ativo'];
   }
 
+  Servico.fromJsonApi(Map<String, dynamic> servico) {
+    if (servico.containsKey('pivot')) {
+      print(servico['pivot']);
+    }
+    id = servico['id'];
+    descricao = servico.containsKey('pivot')
+        ? servico['pivot']['descricao']
+        : servico["nome"];
+    _valor =  servico.containsKey('pivot')
+        ? servico['pivot']['valor']
+        :servico["valor"];
+    imagemUrl = servico["imagem"];
+    observacao = servico['observacao'];
+    ativo = servico['ativo'];
+  }
+
   Servico.fromHorarioJson(Map<String, dynamic> json) {
     if (json['data']['servico'] != null &&
         json['data']['servico_map'] != null) {
