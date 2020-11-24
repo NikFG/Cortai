@@ -1,5 +1,6 @@
 import 'package:cortai/Dados/horario.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 
 class HorarioControle {
@@ -7,6 +8,12 @@ class HorarioControle {
 
   static CollectionReference get() {
     return _firestore.collection('horarios');
+  }
+
+  static String _url = Util.url + "horarios/";
+
+  static String getNew(String tipo, int pago) {
+    return _url + "$tipo/${pago.toString()}";
   }
 
   static void store(Horario dados,
