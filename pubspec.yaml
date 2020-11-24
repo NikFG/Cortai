@@ -49,6 +49,7 @@ dependencies:
   password_strength: ^0.1.2
   permission_handler: 5.0.1+1
   photo_view: ^0.10.3
+  pusher_websocket_flutter: ^0.2.0
   rxdart: ^0.24.1
   scoped_model: ^1.0.1
   shared_preferences: ^0.5.7+3
