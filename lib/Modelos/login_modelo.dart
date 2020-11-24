@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:cortai/Dados/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -57,7 +58,7 @@ class LoginModelo extends Model {
   }
 
   //Login no firebase via email/senha
-  void logarEmail(
+  void signInEmail(
       {@required String email,
       @required String senha,
       @required VoidCallback onSuccess,
@@ -82,37 +83,6 @@ class LoginModelo extends Model {
       print(e);
       onFail();
     }
-  }
-
-  void logarEmailOld(
-      {@required String email,
-      @required String senha,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail,
-      @required VoidCallback onVerifyEmail}) {
-    isCarregando = true;
-    notifyListeners();
-
-    _auth
-        .signInWithEmailAndPassword(email: email, password: senha)
-        .then((user) async {
-      if (user.user.emailVerified) {
-        _carregarUsuario();
-        isCarregando = false;
-        notifyListeners();
-        onSuccess();
-      } else {
-        logout();
-        notifyListeners();
-        await user.user.sendEmailVerification();
-        onVerifyEmail();
-        isCarregando = false;
-      }
-    }).catchError((e) {
-      isCarregando = false;
-      notifyListeners();
-      onFail();
-    });
   }
 
   //Login no firebase via Google
@@ -171,11 +141,15 @@ class LoginModelo extends Model {
   }
 
   Future<Null> logout() async {
+    Dio dio = Dio();
+    await dio.post(Util.url + "auth/logout",
+        options: Options(headers: Util.token(token)));
     await _auth.signOut();
     await _googleSignIn.disconnect();
     await _googleSignIn.signOut();
     dados = null;
     _firebaseUser = null;
+    token = null;
     notifyListeners();
   }
 
