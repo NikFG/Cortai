@@ -132,7 +132,7 @@ class _HomeTabState extends State<HomeTab> {
               return ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
                   return FutureBuilder<http.Response>(
-                    future: http.get(SalaoControle.getNew() + param,
+                    future: http.get(SalaoControle.get() + param,
                         headers: {"Authorization": "Bearer ${model.token}"}),
                     builder: (context, response) {
                       if (!response.hasData) {
