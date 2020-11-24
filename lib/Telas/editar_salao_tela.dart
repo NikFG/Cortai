@@ -14,9 +14,8 @@ import 'package:scoped_model/scoped_model.dart';
 
 class EditarSalaoTela extends StatefulWidget {
   final Salao salao;
-  final String usuario;
 
-  EditarSalaoTela(this.usuario, {this.salao});
+  EditarSalaoTela({this.salao});
 
   @override
   _EditarSalaoTelaState createState() => _EditarSalaoTelaState();
@@ -188,13 +187,10 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                         onSuccess: onSuccess,
                                         onFail: onFail);
                                   } else {
-                                    if (_imagem != null) {
-                                      if (dados.imagem != null)
-                                        await Util.deletaImagem(dados.imagem);
-                                      dados.imagem = await Util.enviaImagem(
-                                          widget.usuario, _imagem, pasta);
-                                    }
                                     SalaoControle.update(dados,
+                                        token: model.token,
+                                        imagem: _imagem,
+                                        usuario: model.dados,
                                         onSuccess: onSuccessEditar,
                                         onFail: onFailEditar);
                                   }
@@ -293,7 +289,6 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
     setState(() {
       _botaoHabilitado = true;
     });
-
   }
 
   void onSuccessEditar() async {
