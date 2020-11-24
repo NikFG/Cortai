@@ -1,8 +1,10 @@
-import 'package:cortai/Controle/horario_controle.dart';
+import 'dart:convert';
+
 import 'package:badges/badges.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Util/pusher_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:http/http.dart' as http;
 
 class BottomCustom extends StatefulWidget {
   final PageController pageController;
@@ -19,14 +21,18 @@ class BottomCustom extends StatefulWidget {
 
 class _BottomCustomState extends State<BottomCustom> {
   List<BottomNavigationBarItem> itens = [];
+  PusherService pusher = PusherService();
 
   @override
   void initState() {
-    super.initState();
     itensUsuario();
     if (widget.isCabeleireiro) {
       itensCabeleireiro(widget.usuario);
     }
+    pusher.firePusher(
+        eventName: 'ContaConfirmar',
+        channelName: 'user.' + widget.usuario);
+    super.initState();
   }
 
   @override
@@ -80,36 +86,35 @@ class _BottomCustomState extends State<BottomCustom> {
   itensCabeleireiro(String uid) {
     var itens = [
       BottomNavigationBarItem(
-        icon: Icon(Icons.ac_unit),
-        // icon: StreamBuilder<QuerySnapshot>(
-        //     stream: HorarioControle.get()
-        //         .where('confirmado', isEqualTo: false)
-        //         .where('cabeleireiro', isEqualTo: uid)
-        //         .snapshots(),
-        //     builder: (context, snapshot) {
-        //       switch (snapshot.connectionState) {
-        //         case ConnectionState.none:
-        //         case ConnectionState.waiting:
-        //           return Icon(FontAwesome5.calendar_check);
-        //         default:
-        //           int _numeroConfirmacoes = snapshot.data.documents.length;
-        //           return Badge(
-        //             badgeColor: Theme.of(context).primaryColor,
-        //             showBadge: _numeroConfirmacoes != 0 ? true : false,
-        //             animationType: BadgeAnimationType.scale,
-        //             position: BadgePosition(bottom: 8),
-        //             badgeContent: Text(
-        //               _numeroConfirmacoes.toString(),
-        //               style: TextStyle(color: Colors.white),
-        //             ),
-        //             child: Icon(FontAwesome5.calendar_check),
-        //           );
-        //       }
-        //     }),
-        title: Text(
-          "Confirmar",
-          style: stylePadrao(),
+        icon: StreamBuilder(
+          stream: pusher.eventStream,
+          builder: (context, snapshot) {
+            print("chegou aqui");
+            if (!snapshot.hasData) {
+              http
+                  .get('http://192.168.0.108:8000/api/agenda/9')
+                  .then((value) => value);
+
+              return Icon(FontAwesome5.calendar_check);
+            } else {
+              var dados = json.decode(snapshot.data);
+              int numeroConfirmacoes = dados['quantidade'];
+
+              return Badge(
+                badgeColor: Theme.of(context).primaryColor,
+                showBadge: numeroConfirmacoes != 0,
+                animationType: BadgeAnimationType.scale,
+                position: BadgePosition(bottom: 8, start: 8),
+                badgeContent: Text(
+                  numeroConfirmacoes.toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                child: Icon(FontAwesome5.calendar_check),
+              );
+            }
+          },
         ),
+        title: Text("Confirmar"),
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.scissors),
@@ -120,5 +125,11 @@ class _BottomCustomState extends State<BottomCustom> {
       ),
     ];
     this.itens.addAll(itens);
+  }
+
+  @override
+  void dispose() {
+    pusher.unbindEvent('ContaConfirmar');
+    super.dispose();
   }
 }
