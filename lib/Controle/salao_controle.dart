@@ -59,10 +59,31 @@ class SalaoControle {
       var response = await dio.post(
         _url + "edit/${dados.id.toString()}",
         data: formData,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
+        options: Options(headers: Util.token(token)),
       );
       print(response.data);
       onSuccess();
+    } catch (e) {
+      print(e);
+      onFail();
+    }
+  }
+
+  static Future<Null> adicionaCabeleireiro(
+      {@required String email,
+      @required String token,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
+    Dio dio = Dio();
+    try {
+      var response = await dio.patch(_url + "edit/cabeleireiro/$email",
+          options: Options(headers: Util.token(token)));
+      print(response.data);
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else {
+        onFail();
+      }
     } catch (e) {
       print(e);
       onFail();
