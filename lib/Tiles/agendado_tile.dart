@@ -61,7 +61,7 @@ class _AgendadoTileState extends State<AgendadoTile>
       },
       title:
           Text("${widget.servico.descricao} com ${widget.cabeleireiro.nome}"),
-      subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.horario}"),
+      subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.hora}"),
       trailing: widget.pago
           ? FlatButton(
               child: Column(
@@ -152,13 +152,13 @@ class _AgendadoTileState extends State<AgendadoTile>
                         if (_avaliacao > 1) {
                           var dataHora = DateTime.now();
                           Avaliacao dados = Avaliacao();
-                          dados.cabeleireiro = widget.horario.cabeleireiro;
+                          dados.cabeleireiro = widget.horario.cabeleireiro.toString();
                           dados.avaliacao = _avaliacao;
                           dados.descricao = _descricaoControlador.text;
                           dados.salao = salao;
                           dados.data = Util.dateFormat.format(dataHora);
                           dados.hora = Util.timeFormat.format(dataHora);
-                          dados.horario = widget.horario.id;
+                          dados.horario = widget.horario.id.toString();
                           AvaliacaoControle.store(dados,
                               onSuccess: () {}, onFail: () {});
                           avaliado = true;
@@ -186,7 +186,7 @@ class _AgendadoTileState extends State<AgendadoTile>
   Future<String> getSalao() async {
     var snapshot = await Firestore.instance
         .collection('usuarios')
-        .document(widget.horario.cabeleireiro)
+        .document(widget.horario.cabeleireiro.toString())
         .get();
     String salao = snapshot.data()['salao'];
     return salao;

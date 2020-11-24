@@ -144,17 +144,17 @@ class _AgendaTelaState extends State<AgendaTela> {
                       padding: EdgeInsets.all(24),
                       child: GestureDetector(
                         onTap: () async {
-                          var snapshots = await SalaoControle.get()
-                              .document(widget.servicoDados.salao)
-                              .collection('funcionamento')
-                              .getDocuments();
-                          List<Funcionamento> funcionamento = [];
+                          // var snapshots = await SalaoControle.get()
+                          //     .document(widget.servicoDados.salao)
+                          //     .collection('funcionamento')
+                          //     .getDocuments();
+                          // List<Funcionamento> funcionamento = [];
                           // snapshots
                           //     .documents
                           //     .map((doc) => Funcionamento.fromDocument(doc))
                           //     .toList();
-                          var diasSemana = _verificaDiasSemana(funcionamento);
-                          _calendario(context, diasSemana);
+                          // var diasSemana = _verificaDiasSemana(funcionamento);
+                          // _calendario(context, diasSemana);
                         },
                         child: AbsorbPointer(
                           child: CustomFormField(
@@ -195,7 +195,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                 .document(Util.weekdayToString(this.data))
                                 .get();
                             Funcionamento funcionamento = Funcionamento();
-                                // Funcionamento.fromDocument(snapshot);
+                            // Funcionamento.fromDocument(snapshot);
 
                             _horarioBottomSheet(context, funcionamento);
                           } else {
@@ -334,18 +334,21 @@ class _AgendaTelaState extends State<AgendaTela> {
                                             .then((value) {
                                           if (value.documents.length == 0) {
                                             Horario dados = Horario();
-                                            dados.cabeleireiro = profissional;
-                                            dados.cliente = model.dados.id.toString();
+                                            dados.cabeleireiro =
+                                                int.parse(profissional);
+                                            dados.cliente =
+                                                model.dados.id.toString();
                                             dados.confirmado = false;
                                             dados.data = dataController.text;
                                             dados.formaPagamento =
                                                 this.pagamento;
-                                            dados.horario =
-                                                horarioController.text;
+                                            dados.hora = horarioController.text;
                                             dados.pago = false;
-                                            dados.servico =
-                                                widget.servicoDados.id.toString();
-                                            dados.servicoDados = widget.servicoDados;
+                                            dados.servico = widget
+                                                .servicoDados.id
+                                                .toString();
+                                            dados.servicoDados =
+                                                widget.servicoDados;
                                             HorarioControle.store(dados,
                                                 onSuccess: onSuccess,
                                                 onFail: onFail);
@@ -604,7 +607,7 @@ class _AgendaTelaState extends State<AgendaTela> {
       }
     if (horarios.length > 0) {
       for (var dado in horarios) {
-        listaHorarios.remove(dado.horario);
+        listaHorarios.remove(dado.hora);
       }
     }
 

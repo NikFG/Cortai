@@ -7,7 +7,7 @@ class FuncionamentoControle {
   static Firestore _firestore = Firestore.instance;
 
   static CollectionReference get(String salao) {
-    return SalaoControle.get().document(salao).collection('funcionamento');
+    return _firestore.collection('funcionamento');
   }
 
   static void update(Funcionamento dados, String salao,

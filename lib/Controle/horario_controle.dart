@@ -32,7 +32,7 @@ class HorarioControle {
       @required VoidCallback onFail(context),
       @required context}) async {
     await get()
-        .document(dados.id)
+        .document(dados.id.toString())
         .updateData(dados.toMap())
         .then((value) {
       onSuccess(context);
@@ -84,12 +84,11 @@ class HorarioControle {
       print(e);
       onFail();
     });
-    await delete(dados.id, onSuccess: onSuccess, onFail: onFail);
+    await delete(dados.id.toString(), onSuccess: onSuccess, onFail: onFail);
   }
 
   static confirmaPagamento(String id,
-      {@required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     await _firestore.collection("horarios").document(id).updateData({
       "pago": true,
     }).then((value) {

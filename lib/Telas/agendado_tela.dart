@@ -1,3 +1,5 @@
+import 'package:cortai/Controle/horario_controle.dart';
+import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Dados/servico.dart';
@@ -17,11 +19,11 @@ class AgendadoTela extends StatelessWidget {
     AgendadoStore jsonTrue = AgendadoStore();
     return ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
       if (model.dados != null) {
-        final url =
-            'https://us-central1-cortai-349b0.cloudfunctions.net/getAgendados'
-            '?clienteId=${model.dados.id}&pago=';
-        jsonFalse.getData(url + 'false');
-        jsonTrue.getData(url + 'true');
+        jsonFalse.getData(HorarioControle.getNew("cliente", 0),
+            token: model.token);
+        jsonTrue.getData(HorarioControle.getNew("cliente", 1),
+            token: model.token);
+        // jsonTrue.getData(url + 'true');
         return TabBarView(
           children: <Widget>[
             Tab(
@@ -33,7 +35,8 @@ class AgendadoTela extends StatelessWidget {
                     return RefreshIndicator(
                       displacement: MediaQuery.of(context).size.width / 2,
                       color: Theme.of(context).primaryColor,
-                      onRefresh: () => jsonFalse.getData(url + 'false'),
+                      onRefresh: () => jsonFalse
+                          .getData(HorarioControle.getNew("cliente", 0)),
                       child: jsonFalse.statusCode == 404
                           ? ListView(
                               physics: AlwaysScrollableScrollPhysics(),
@@ -54,10 +57,11 @@ class AgendadoTela extends StatelessWidget {
                               itemCount: jsonFalse.data.length,
                               itemBuilder: (context, index) {
                                 var dado = jsonFalse.data[index];
+                                var horario = Horario.fromJsonApi(dado);
                                 return AgendadoTile(
-                                    horario: Horario.fromJson(dado),
-                                    servico: Servico.fromHorarioJson(dado),
-                                    cabeleireiro: Login.fromHorarioJson(dado),
+                                    horario: horario,
+                                    servico: horario.servico_api.first,
+                                    cabeleireiro: Login(nome: "nome"),
                                     pago: false);
                               }),
                     );
@@ -74,7 +78,8 @@ class AgendadoTela extends StatelessWidget {
                     return RefreshIndicator(
                       displacement: MediaQuery.of(context).size.width / 2,
                       color: Theme.of(context).primaryColor,
-                      onRefresh: () => jsonTrue.getData(url + 'true'),
+                      onRefresh: () => jsonTrue
+                          .getData(HorarioControle.getNew("cliente", 1)),
                       child: jsonTrue.statusCode == 404
                           ? ListView(
                               physics: AlwaysScrollableScrollPhysics(),
@@ -95,11 +100,12 @@ class AgendadoTela extends StatelessWidget {
                               itemCount: jsonTrue.count,
                               itemBuilder: (context, index) {
                                 var dado = jsonTrue.data[index];
+                                var horario = Horario.fromJsonApi(dado);
                                 return AgendadoTile(
-                                    horario: Horario.fromJson(dado),
-                                    servico: Servico.fromHorarioJson(dado),
-                                    cabeleireiro: Login.fromHorarioJson(dado),
-                                    avaliado: dado['avaliado'] as bool,
+                                    horario: horario,
+                                    servico: horario.servico_api.first,
+                                    cabeleireiro: Login(nome: "nome"),
+                                    avaliado: true,
                                     pago: true);
                               }),
                     );

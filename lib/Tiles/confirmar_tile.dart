@@ -60,7 +60,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
       ),
       subtitle: Text(
         "${widget.horarioDados.servicoDados.descricao} $valor\n"
-        "${widget.horarioDados.data} -> ${widget.horarioDados.horario}",
+        "${widget.horarioDados.data} -> ${widget.horarioDados.hora}",
         style: TextStyle(
           fontSize: 15,
         ),
@@ -106,7 +106,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
                       confirmado = true;
                       Navigator.of(context).pop();
                       HorarioControle.confirmaAgendamento(
-                          widget.horarioDados.id,
+                          widget.horarioDados.id.toString(),
                           onSuccess: () {},
                           onFail: () {},
                           context: context);
@@ -172,7 +172,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
         builder: (context) => AlertDialog(
               title: Text("Confirma pagamento?"),
               content: Text(
-                  "${widget.horarioDados.data}:${widget.horarioDados.horario}\nValor: $valor"),
+                  "${widget.horarioDados.data}:${widget.horarioDados.hora}\nValor: $valor"),
               actions: <Widget>[
                 FlatButton(
                   onPressed: () {
@@ -182,7 +182,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
                 ),
                 FlatButton(
                   onPressed: () {
-                    HorarioControle.confirmaPagamento(widget.horarioDados.id,
+                    HorarioControle.confirmaPagamento(widget.horarioDados.id.toString(),
                         onSuccess: onSuccessPago, onFail: onFailPago);
                     Navigator.of(context).pop();
                   },

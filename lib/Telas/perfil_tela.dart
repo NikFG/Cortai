@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Dados/login.dart';
@@ -18,6 +20,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
 class PerfilTela extends StatefulWidget {
@@ -148,7 +151,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   Divider(
                     color: Colors.black87,
                   ),
-                  _widgetsDonoSalao(model.dados),
+                  _widgetsDonoSalao(model.dados, model),
                   FlatButton(
                       onPressed: () {
                         showAboutDialog(
@@ -252,15 +255,15 @@ class _PerfilTelaState extends State<PerfilTela> {
     });
   }
 
-  Widget _widgetsDonoSalao(Login model) {
-    if (model.isDonoSalao) {
+  Widget _widgetsDonoSalao(Login login, LoginModelo model) {
+    if (login.isDonoSalao) {
       return Column(
         children: <Widget>[
           FlatButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      CadastroFuncionamentoTela(model.salao)));
+                      CadastroFuncionamentoTela(login.salao)));
             },
             child: Row(
               children: <Widget>[
@@ -283,17 +286,15 @@ class _PerfilTelaState extends State<PerfilTela> {
           ),
           FlatButton(
               onPressed: () async {
-                var salaoDados = await SalaoControle.get()
-                    .document(model.salao)
-                    .get()
-                    .then((doc) {
-                  return Salao();
-                });
+                var response = await http.get(
+                    SalaoControle.show(login.salao_id),
+                    headers: Util.token(model.token));
+                print(response.body);
+                Salao salao = Salao.fromJsonApiDados(json.decode(response.body));
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        EditarSalaoTela(model.id.toString(), salao: salaoDados)));
+                    builder: (context) => EditarSalaoTela(salao: salao)));
               },
-              child: model.salao != null
+              child: login.salao_id != null
                   ? Row(
                       children: <Widget>[
                         Icon(
@@ -331,7 +332,7 @@ class _PerfilTelaState extends State<PerfilTela> {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
-                        SolicitacaoCabeleireiroTela(model.salao)));
+                        SolicitacaoCabeleireiroTela(login.salao)));
               },
               child: Row(children: <Widget>[
                 Icon(

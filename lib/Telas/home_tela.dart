@@ -37,7 +37,7 @@ class _HomeTelaState extends State<HomeTela> {
       builder: (context, child, model) {
         if (model != null) {
           if (model.dados.isDonoSalao && model.dados.salao_id == null) {
-            return EditarSalaoTela(model.dados.id.toString());
+            return EditarSalaoTela();
           }
          PushNotification.servico(model.dados.id.toString(), context);
           return PageView(
