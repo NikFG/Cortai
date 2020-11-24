@@ -190,14 +190,14 @@ class _AgendaTelaState extends State<AgendaTela> {
                       child: GestureDetector(
                         onTap: () async {
                           if (this.data != null) {
-                            var snapshot = await FuncionamentoControle.get(
-                                    widget.servicoDados.salao)
-                                .document(Util.weekdayToString(this.data))
-                                .get();
-                            Funcionamento funcionamento = Funcionamento();
+                            // var snapshot = await FuncionamentoControle.get(
+                            //         widget.servicoDados.salao)
+                            //     .document(Util.weekdayToString(this.data))
+                            //     .get();
+                            // Funcionamento funcionamento = Funcionamento();
                             // Funcionamento.fromDocument(snapshot);
 
-                            _horarioBottomSheet(context, funcionamento);
+                            // _horarioBottomSheet(context, funcionamento);
                           } else {
                             FlushbarHelper.createInformation(
                                 message: "Selecione o dia primeiro",

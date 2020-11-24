@@ -263,7 +263,7 @@ class _PerfilTelaState extends State<PerfilTela> {
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      CadastroFuncionamentoTela(login.salao)));
+                      CadastroFuncionamentoTela()));
             },
             child: Row(
               children: <Widget>[
@@ -290,7 +290,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                     SalaoControle.show(login.salao_id),
                     headers: Util.token(model.token));
                 print(response.body);
-                Salao salao = Salao.fromJsonApiDados(json.decode(response.body));
+                Salao salao =
+                    Salao.fromJsonApiDados(json.decode(response.body));
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => EditarSalaoTela(salao: salao)));
               },

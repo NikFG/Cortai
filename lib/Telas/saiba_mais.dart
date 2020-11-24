@@ -66,36 +66,36 @@ class SaibaMaisTela extends StatelessWidget {
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                             )),
-                        FutureBuilder<QuerySnapshot>(
-                          future: FuncionamentoControle.get(salao.id.toString())
-                              .getDocuments(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else {
-                              var listaFuncionamento = List<Funcionamento>();
-                              //     snapshot.data.documents.map((doc) {
-                              //   return Funcionamento.fromDocument(doc);
-                              // }).toList();
-                              listaFuncionamento.sort((a, b) =>
-                                  Util.ordenarDiasSemana(a.diaSemana).compareTo(
-                                      Util.ordenarDiasSemana(b.diaSemana)));
-                              var listaWidgets =
-                                  listaFuncionamento.map((dados) {
-                                return Text(
-                                    "${dados.diaSemana}: ${dados.horarioAbertura} as ${dados.horarioFechamento}",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                    ));
-                              }).toList();
-                              return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: listaWidgets);
-                            }
-                          },
-                        ),
+                        // FutureBuilder<QuerySnapshot>(
+                        //   future: FuncionamentoControle.get(salao.id.toString())
+                        //       .getDocuments(),
+                        //   builder: (context, snapshot) {
+                        //     if (!snapshot.hasData) {
+                        //       return Center(
+                        //         child: CircularProgressIndicator(),
+                        //       );
+                        //     } else {
+                        //       var listaFuncionamento = List<Funcionamento>();
+                        //       //     snapshot.data.documents.map((doc) {
+                        //       //   return Funcionamento.fromDocument(doc);
+                        //       // }).toList();
+                        //       listaFuncionamento.sort((a, b) =>
+                        //           Util.ordenarDiasSemana(a.diaSemana).compareTo(
+                        //               Util.ordenarDiasSemana(b.diaSemana)));
+                        //       var listaWidgets =
+                        //           listaFuncionamento.map((dados) {
+                        //         return Text(
+                        //             "${dados.diaSemana}: ${dados.horarioAbertura} as ${dados.horarioFechamento}",
+                        //             style: TextStyle(
+                        //               fontSize: 16,
+                        //             ));
+                        //       }).toList();
+                        //       return Column(
+                        //           crossAxisAlignment: CrossAxisAlignment.start,
+                        //           children: listaWidgets);
+                        //     }
+                        //   },
+                        // ),
                         Text("Endereço:",
                             style: TextStyle(
                               fontSize: 22,
