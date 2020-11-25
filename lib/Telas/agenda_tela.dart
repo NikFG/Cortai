@@ -50,11 +50,12 @@ class _AgendaTelaState extends State<AgendaTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.nomeSalao),
-          centerTitle: true,
-          leading: Util.leadingScaffold(context)),
-      body: Form(
+        appBar: AppBar(
+            title: Text(widget.nomeSalao),
+            centerTitle: true,
+            leading: Util.leadingScaffold(context)),
+        body: Center()
+        /*Form(
         key: _formKey,
         child: IgnorePointer(
           ignoring: !_botaoHabilitado,
@@ -296,13 +297,13 @@ class _AgendaTelaState extends State<AgendaTela> {
                       height: 20,
                     ),
 
-                    /*
+                    */ /*
                     Container(
                       height: 100,
                       child: CustomRadio(idPagamento: (value) {
                         this.pagamento = value;
                       }),
-                    ),*/
+                    ),*/ /*
 
                     Container(
                         alignment: Alignment.topRight,
@@ -386,8 +387,8 @@ class _AgendaTelaState extends State<AgendaTela> {
             ],
           ),
         ),
-      ),
-    );
+      ),*/
+        );
   }
 
   _horarioBottomSheet(context, Funcionamento funcionamento) {
