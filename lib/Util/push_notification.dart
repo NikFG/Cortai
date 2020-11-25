@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:cortai/Telas/home_tela.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -37,12 +36,12 @@ class PushNotification {
       },
     );
 
-    await _fcm.getToken().then((String token) {
-      Firestore.instance
-          .collection('usuarios')
-          .document(usuarioId)
-          .updateData({'token': token});
-    });
+    // await _fcm.getToken().then((String token) {
+    //   Firestore.instance
+    //       .collection('usuarios')
+    //       .document(usuarioId)
+    //       .updateData({'token': token});
+    // });
   }
 
   static _rotaTelaInicial(String nome, BuildContext context) {

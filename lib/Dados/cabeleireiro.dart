@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Cabeleireiro {
-  String id;
+  int id;
   String nome;
-  String salao;
+  int salao;
 
   Cabeleireiro();
 
   Cabeleireiro.fromJson(Map<String, dynamic> map) {
-    id = map['id'].toString();
+    id = map['id'];
     nome = map['nome'];
+    salao = map['salao_id'];
   }
 
   Map<String, dynamic> toMap() {

@@ -25,15 +25,16 @@ class SalaoControle {
       @required VoidCallback onFail}) async {
     Dio dio = Dio();
     Map<String, dynamic> map = dados.toMap();
-    map["imagem"] = await MultipartFile.fromFile(imagem.path,
-        filename: imagem.path.split('/').last);
+    if (imagem != null)
+      map["imagem"] = await MultipartFile.fromFile(imagem.path,
+          filename: imagem.path.split('/').last);
     FormData formData = FormData.fromMap(map);
 
     try {
       var response = await dio.post(
         _url + "store",
         data: formData,
-        options: Options(headers: {"Authorization": "Bearer $token"}),
+        options: Options(headers: Util.token(token)),
       );
       print(response.data);
       onSuccess();
@@ -88,5 +89,9 @@ class SalaoControle {
       print(e);
       onFail();
     }
+  }
+
+  static String getCabeleireiros() {
+    return _url + "cabeleireiros";
   }
 }

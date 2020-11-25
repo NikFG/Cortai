@@ -1,16 +1,11 @@
 import 'package:cortai/Controle/horario_controle.dart';
-import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/login.dart';
-import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Telas/home_tela.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:maps_launcher/maps_launcher.dart';
 
 class DetalhesTela extends StatelessWidget {
   final Horario horario;

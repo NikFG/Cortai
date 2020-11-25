@@ -103,19 +103,19 @@ class _HomeTelaState extends State<HomeTela> {
                             value: 1,
                             child: FlatButton(
                               onPressed: () async {
-                                var snapshots =
-                                    await ServicoControle.get().getDocuments();
-
-                                for (int i = 0;
-                                    i < snapshots.documents.length;
-                                    i++) {
-                                  ServicoControle.get()
-                                      .document(
-                                          snapshots.documents[i].documentID)
-                                      .updateData({
-                                    "confirmado": true,
-                                  });
-                                }
+                                // var snapshots =
+                                //     await ServicoControle.get().getDocuments();
+                                //
+                                // for (int i = 0;
+                                //     i < snapshots.documents.length;
+                                //     i++) {
+                                //   ServicoControle.get()
+                                //       .document(
+                                //           snapshots.documents[i].documentID)
+                                //       .updateData({
+                                //     "confirmado": true,
+                                //   });
+                                // }
                               },
                               child: Text("Confirmar todos"),
                             ),
@@ -186,19 +186,19 @@ class _HomeTelaState extends State<HomeTela> {
                             value: 1,
                             child: FlatButton(
                               onPressed: () async {
-                                var snapshots =
-                                    await ServicoControle.get().getDocuments();
-
-                                for (int i = 0;
-                                    i < snapshots.documents.length;
-                                    i++) {
-                                  ServicoControle.get()
-                                      .document(
-                                          snapshots.documents[i].documentID)
-                                      .updateData({
-                                    "confirmado": true,
-                                  });
-                                }
+                                // var snapshots =
+                                //     await ServicoControle.get().getDocuments();
+                                //
+                                // for (int i = 0;
+                                //     i < snapshots.documents.length;
+                                //     i++) {
+                                //   ServicoControle.get()
+                                //       .document(
+                                //           snapshots.documents[i].documentID)
+                                //       .updateData({
+                                //     "confirmado": true,
+                                //   });
+                                // }
                               },
                               child: Text("Confirmar todos"),
                             ),

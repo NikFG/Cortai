@@ -8,7 +8,6 @@ import 'package:cortai/Telas/saiba_mais.dart';
 import 'package:cortai/Tiles/servico_tile.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:cortai/Widgets/custom_appbar.dart';
 import 'package:cortai/Widgets/custom_appbar_expandida.dart';
@@ -25,7 +24,7 @@ class ServicoTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String media = salao.quantidadeAvaliacao > 0
-        ? (salao.totalAvaliacao / salao.quantidadeAvaliacao).toStringAsFixed(1)
+        ? salao.mediaAvaliacao.toStringAsFixed(1)
         : '0.0';
     return Scaffold(
       body: CustomScrollView(
@@ -172,7 +171,7 @@ class ServicoTela extends StatelessWidget {
                         List<dynamic> dados = json.decode(response.data.body);
                         var widgets = dados
                             .map((doc) => ServicoTile(
-                                Servico.fromJson(doc), this.salao.nome))
+                                Servico.fromJsonApi(doc), this.salao.nome))
                             .toList();
                         return Column(
                           children: widgets,

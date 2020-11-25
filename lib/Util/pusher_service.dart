@@ -18,8 +18,6 @@ class PusherService {
   Map<String, dynamic> json;
 
   Future<void> initPusher() async {
-    String token =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOTIuMTY4LjAuMTA4OjgwMDBcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MDU5MTUwNTcsImV4cCI6MTYwNTkxODY1NywibmJmIjoxNjA1OTE1MDU3LCJqdGkiOiJnT3pYSGJ6OWtsWVhBNkI0Iiwic3ViIjoyMiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.NzT5VivBMmaVIUd4BqcArv_5DxeXFtuiuEp6QLzDSzc";
     try {
       // await Pusher.init(APP_KEY, PusherOptions(cluster: PUSHER_CLUSTER,auth: PusherAuth('/broadcasting/auth',)));
       await Pusher.init(

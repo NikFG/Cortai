@@ -23,15 +23,15 @@ class ServicoTile extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => HeroCustom(
                     imagemUrl:
-                        dados.imagemUrl != null ? dados.imagemUrl : imgPadrao,
+                        dados.imagem != null ? dados.imagem : imgPadrao,
                     descricao: dados.descricao,
                   )));
         },
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 30,
-          backgroundImage: dados.imagemUrl != null
-              ? NetworkImage(dados.imagemUrl, scale: 2.0)
+          backgroundImage: dados.imagem != null
+              ? NetworkImage(dados.imagem, scale: 2.0)
               : AssetImage("assets/images/barbearia.png"),
         ),
       ),

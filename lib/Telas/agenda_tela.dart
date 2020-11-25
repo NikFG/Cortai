@@ -1,22 +1,15 @@
 import 'dart:async';
-import 'package:cortai/Controle/cabeleireiro_controle.dart';
 import 'package:cortai/Controle/forma_pagamento_controle.dart';
-import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Controle/horario_controle.dart';
-import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Dados/cabeleireiro.dart';
-import 'package:cortai/Dados/forma_pagamento.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
-import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'home_tela.dart';
 
 class AgendaTela extends StatefulWidget {
@@ -460,7 +453,7 @@ class _AgendaTelaState extends State<AgendaTela> {
             listTiles.add(ListTile(
               onTap: () {
                 profissionalController.text = c.nome;
-                profissional = c.id;
+                profissional = c.id.toString();
                 Navigator.of(context).pop();
               },
               title: Text(

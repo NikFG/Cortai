@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/servico_controle.dart';
 import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/servico.dart';
@@ -7,12 +10,12 @@ import 'package:cortai/Telas/home_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cortai/Widgets/hero_custom.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
 
 class CriarServicoTela extends StatefulWidget {
   final Servico dados;
@@ -114,16 +117,16 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 model.dados.isDonoSalao
                     ? GestureDetector(
                         onTap: () async {
-                          var snapshots = await Firestore.instance
-                              .collection('usuarios')
-                              .orderBy('nome')
-                              .where('salao', isEqualTo: model.dados.salao)
-                              .getDocuments();
-                          List<Cabeleireiro> dados = [];
-                          // snapshots.documents
-                          //     .map((e) => Cabeleireiro.fromDocument(e))
-                          //     .toList();
-
+                          var response = await http.get(
+                              SalaoControle.getCabeleireiros(),
+                              headers: Util.token(model.token));
+                          print(response.body);
+                          print(json.decode(response.body));
+                          List<Cabeleireiro> dados = json
+                              .decode(response.body)
+                              .map<Cabeleireiro>(
+                                  (c) => Cabeleireiro.fromJson(c))
+                              .toList();
                           showDialog(
                               barrierDismissible: false,
                               context: context,
@@ -209,7 +212,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                         },
                         child: Image.file(_imagem))
                     : widget.dados != null
-                        ? widget.dados.imagemUrl == null
+                        ? widget.dados.imagem == null
                             ? Container(
                                 width: 0,
                                 height: 0,
@@ -220,10 +223,10 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => HeroCustom(
-                                              imagemUrl:
-                                                  widget.dados.imagemUrl)));
+                                              imagemUrl: widget.dados.imagem)));
                                 },
-                                child: Image.network(widget.dados.imagemUrl))
+                                child: CachedNetworkImage(
+                                    imageUrl: widget.dados.imagem))
                         : Container(
                             width: 0,
                             height: 0,
@@ -254,10 +257,10 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 setState(() {
                                   _botaoHabilitado = false;
                                 });
-                                Servico dados = Servico();
+                                Servico dados = widget.dados;
                                 dados.descricao = _nomeControlador.text;
                                 dados.setValor(_precoControlador.text);
-                                dados.salao = model.dados.salao;
+                                dados.salao = model.dados.salao_id;
                                 dados.observacao = _observacaoControlador.text;
                                 dados.ativo = ativo;
                                 dados.cabeleireiros =
@@ -265,32 +268,33 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
 
                                 if (widget.dados != null) {
                                   if (_imagem != null) {
-                                    if (widget.dados.imagemUrl != null)
+                                    if (widget.dados.imagem != null)
                                       await Util.deletaImagem(
-                                          widget.dados.imagemUrl);
-                                    dados.imagemUrl = await Util.enviaImagem(
+                                          widget.dados.imagem);
+                                    dados.imagem = await Util.enviaImagem(
                                         model.dados.id.toString().toString(),
                                         _imagem,
                                         pasta);
                                   } else {
-                                    dados.imagemUrl = widget.dados.imagemUrl;
+                                    dados.imagem = widget.dados.imagem;
                                   }
                                   dados.id = widget.dados.id;
-                                  ServicoControle.update(dados,
+                                  ServicoControle.update(
+                                      dados: dados,
+                                      token: model.token,
+                                      imagem: _imagem,
                                       onSuccess: onUpdateSuccess,
                                       onFail: onFail);
                                 } else {
                                   //Caso seja apenas um cabeleireiro irá adicionar o serviço apenas para si
                                   if (!model.dados.isDonoSalao)
-                                    dados.cabeleireiros
-                                        .add(model.dados.id.toString());
-                                  if (_imagem != null)
-                                    dados.imagemUrl = await Util.enviaImagem(
-                                        model.dados.id.toString(),
-                                        _imagem,
-                                        pasta);
-                                  ServicoControle.store(dados,
-                                      onSuccess: onSuccess, onFail: onFail);
+                                    dados.cabeleireiros.add(model.dados.id);
+                                  ServicoControle.store(
+                                      dados: dados,
+                                      token: model.token,
+                                      imagem: _imagem,
+                                      onSuccess: onSuccess,
+                                      onFail: onFail);
                                 }
                               }
                             } catch (e) {
@@ -326,13 +330,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
     _precoControlador.text = widget.dados.valor.toStringAsFixed(2);
     _observacaoControlador.text = widget.dados.observacao;
     ativo = widget.dados.ativo;
-    var documents = await Firestore.instance
-        .collection('usuarios')
-        .orderBy('nome')
-        .where('uid', whereIn: widget.dados.cabeleireiros)
-        .getDocuments();
-    selecionados = [];
-    // documents.documents.map((e) => Cabeleireiro.fromDocument(e)).toList();
+
+    selecionados = widget.dados.cabeleireirosApi;
+
     _cabeleireirosControlador.text = "";
     for (int i = 0; i < selecionados.length; i++) {
       if (i != selecionados.length - 1)
@@ -365,8 +365,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
             message: "Houve erro ao enviar os dados",
             duration: Duration(milliseconds: 1200))
         .show(context);
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+    setState(() {
+      _botaoHabilitado = true;
+    });
   }
 
   Widget _verificaImagemNula() {
@@ -379,7 +380,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         texto = "Altere a imagem caso necessário";
       }
     } else {
-      if (widget.dados.imagemUrl == null) {
+      if (widget.dados.imagem == null) {
         if (_imagem == null) {
           texto = "Selecione uma imagem";
         } else {

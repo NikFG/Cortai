@@ -153,12 +153,12 @@ class _AgendadoTileState extends State<AgendadoTile>
                           var dataHora = DateTime.now();
                           Avaliacao dados = Avaliacao();
                           dados.cabeleireiro = widget.horario.cabeleireiro.toString();
-                          dados.avaliacao = _avaliacao;
-                          dados.descricao = _descricaoControlador.text;
+                          dados.valor = _avaliacao;
+                          dados.observacao = _descricaoControlador.text;
                           dados.salao = salao;
                           dados.data = Util.dateFormat.format(dataHora);
-                          dados.hora = Util.timeFormat.format(dataHora);
-                          dados.horario = widget.horario.id.toString();
+                          // dados.hora = Util.timeFormat.format(dataHora);
+                          dados.horarioId = widget.horario.id;
                           AvaliacaoControle.store(dados,
                               onSuccess: () {}, onFail: () {});
                           avaliado = true;

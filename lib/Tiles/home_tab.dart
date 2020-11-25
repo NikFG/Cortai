@@ -172,12 +172,11 @@ class _HomeTabState extends State<HomeTab> {
                         List<dynamic> dados = json.decode(response.data.body);
 
                         List<Widget> widgets = dados
-                            .map((s) => HomeTile(Salao.fromJsonApi(s)))
+                            .map((s) => HomeTile(Salao.fromJson(s)))
                             .toList();
                         return Column(
                           children: widgets,
                         );
-                        return Center();
                       }
                     },
                   );
