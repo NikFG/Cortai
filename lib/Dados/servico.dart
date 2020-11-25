@@ -48,9 +48,9 @@ class Servico {
     descricao = servico.containsKey('pivot')
         ? servico['pivot']['descricao']
         : servico["nome"];
-    _valor =  servico.containsKey('pivot')
-        ? servico['pivot']['valor']
-        :servico["valor"];
+    _valor = servico.containsKey('pivot')
+        ? (servico['pivot']['valor'] as num).toDouble()
+        : (servico["valor"] as num).toDouble();
     imagemUrl = servico["imagem"];
     observacao = servico['observacao'];
     ativo = servico['ativo'];

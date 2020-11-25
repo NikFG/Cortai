@@ -5,11 +5,13 @@ class Cabeleireiro {
   String nome;
   String salao;
 
+  Cabeleireiro();
 
-  Cabeleireiro.fromJson(Map<String,dynamic> map){
+  Cabeleireiro.fromJson(Map<String, dynamic> map) {
     id = map['id'].toString();
     nome = map['nome'];
   }
+
   Map<String, dynamic> toMap() {
     return {
       "id": id,
