@@ -76,8 +76,7 @@ class _MapsTelaState extends State<MapsTela> {
               mapController = controller;
               if (widget.lat != null) {
                 mapController.animateCamera(CameraUpdate.newCameraPosition(
-                    CameraPosition(
-                        target: latLng, zoom: 20.0)));
+                    CameraPosition(target: latLng, zoom: 20.0)));
                 setState(() {
                   _markers.add(marker(LatLng(widget.lat, widget.lng)));
                 });
@@ -87,7 +86,6 @@ class _MapsTelaState extends State<MapsTela> {
             zoomControlsEnabled: false,
             mapType: MapType.normal,
             onTap: (latLng) async {
-
               setState(() {
                 this.latLng = latLng;
               });
@@ -151,8 +149,8 @@ class _MapsTelaState extends State<MapsTela> {
     PermissionStatus status = SharedPreferencesControle.getPermissionStatus();
     var latlng;
     if (status.isGranted) {
-      var location = await Geolocator
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      var location = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
       latlng = LatLng(location.latitude, location.longitude);
     }
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(

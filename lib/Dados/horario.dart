@@ -17,7 +17,6 @@ class Horario {
   bool pago;
   String formaPagamento;
 
-
   Horario();
 
   Horario.fromJsonApi(Map<String, dynamic> json) {

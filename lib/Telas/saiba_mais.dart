@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cortai/Controle/avaliacao_controle.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/avaliacao.dart';
@@ -147,8 +146,7 @@ class SaibaMaisTela extends StatelessWidget {
                             Avaliacao avaliacao = avaliacoes[index];
                             return CustomListTile(
                               onTap: () {},
-                              leading:
-                                  Text(avaliacao.valor.toStringAsFixed(2)),
+                              leading: Text(avaliacao.valor.toStringAsFixed(2)),
                               title: Text(avaliacao.observacao),
                             );
                           },

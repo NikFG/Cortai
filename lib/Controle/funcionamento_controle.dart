@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 class FuncionamentoControle {
   static String _url = Util.url + 'funcionamento/';
 
-
-
   static String get(int salao) {
     return _url + "${salao.toString()}";
   }

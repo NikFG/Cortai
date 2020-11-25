@@ -30,8 +30,7 @@ class _BottomCustomState extends State<BottomCustom> {
       itensCabeleireiro(widget.usuario);
     }
     pusher.firePusher(
-        eventName: 'ContaConfirmar',
-        channelName: 'user.' + widget.usuario);
+        eventName: 'ContaConfirmar', channelName: 'user.' + widget.usuario);
     super.initState();
   }
 

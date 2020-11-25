@@ -26,9 +26,7 @@ class CustomAppbarExpandida extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-             
-            ],
+            children: <Widget>[],
           ),
         ),
         decoration: BoxDecoration(

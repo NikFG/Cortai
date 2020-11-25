@@ -28,7 +28,7 @@ class DetalhesTela extends StatelessWidget {
           ),
           centerTitle: true,
           leading: Util.leadingScaffold(context)),
-    /*  body: FutureBuilder<DocumentSnapshot>(
+      /*  body: FutureBuilder<DocumentSnapshot>(
         future: SalaoControle.get().document(cabeleireiro.salao).get(),
         //mudar para salao do horário
         builder: (context, snapshot) {

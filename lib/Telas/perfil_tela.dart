@@ -262,8 +262,7 @@ class _PerfilTelaState extends State<PerfilTela> {
           FlatButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      CadastroFuncionamentoTela()));
+                  builder: (context) => CadastroFuncionamentoTela()));
             },
             child: Row(
               children: <Widget>[

@@ -36,9 +36,10 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                           child: Text("Não há agendamentos para confirmar"),
                         );
                       }
-                      List<Horario> listaConfirmar = jsonDecode(response.data.body)
-                          .map<Horario>((h) => Horario.fromJsonApi(h))
-                          .toList();
+                      List<Horario> listaConfirmar =
+                          jsonDecode(response.data.body)
+                              .map<Horario>((h) => Horario.fromJsonApi(h))
+                              .toList();
                       return ListView.builder(
                         itemCount: listaConfirmar.length,
                         itemBuilder: (context, index) {

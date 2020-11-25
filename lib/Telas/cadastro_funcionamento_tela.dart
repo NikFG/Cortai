@@ -171,8 +171,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                                 FlatButton(
                                                   onPressed: () {
                                                     FuncionamentoControle.delete(
-                                                        dados.id,
-                                                        model.token,
+                                                        dados.id, model.token,
                                                         onSuccess:
                                                             onSuccessDeletado,
                                                         onFail: onFailDeletado);

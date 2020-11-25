@@ -42,7 +42,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
         controller: widget.controller,
         obscureText: widget.isSenha,
         autocorrect: !widget.isSenha,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         textCapitalization: widget.isFrase
             ? TextCapitalization.sentences
             : TextCapitalization.none,

@@ -152,7 +152,8 @@ class _AgendadoTileState extends State<AgendadoTile>
                         if (_avaliacao > 1) {
                           var dataHora = DateTime.now();
                           Avaliacao dados = Avaliacao();
-                          dados.cabeleireiro = widget.horario.cabeleireiro.toString();
+                          dados.cabeleireiro =
+                              widget.horario.cabeleireiro.toString();
                           dados.valor = _avaliacao;
                           dados.observacao = _descricaoControlador.text;
                           dados.salao = salao;

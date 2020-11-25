@@ -12,7 +12,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 class DiaFuncionamentoTela extends StatefulWidget {
   final Funcionamento dados;
   final String token;
-  DiaFuncionamentoTela(this.dados,this.token);
+  DiaFuncionamentoTela(this.dados, this.token);
 
   @override
   _DiaFuncionamentoTelaState createState() => _DiaFuncionamentoTelaState();

@@ -15,6 +15,7 @@ class HorarioControle {
   static String getNew(String tipo, int pago) {
     return _url + "$tipo/${pago.toString()}";
   }
+
   static String getCabeleireiro(String tipo, int confirmado) {
     return _url + "$tipo/${confirmado.toString()}";
   }

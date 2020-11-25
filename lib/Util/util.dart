@@ -23,7 +23,8 @@ class Util {
         .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
     return formatted;
   }
-  static Map<String,String> token(String token){
+
+  static Map<String, String> token(String token) {
     return {"Authorization": "Bearer $token}"};
   }
 

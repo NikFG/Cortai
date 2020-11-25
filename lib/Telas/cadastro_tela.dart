@@ -193,7 +193,8 @@ class _CadastroTelaState extends State<CadastroTela> {
                                           salao: null,
                                           imagemUrl: null,
                                           isDonoSalao: false,
-                                      senha: _senhaConfirmaControlador.text);
+                                          senha:
+                                              _senhaConfirmaControlador.text);
 
                                       login.criarContaEmail(
                                           login: loginDados,
@@ -259,6 +260,5 @@ class _CadastroTelaState extends State<CadastroTela> {
     setState(() {
       _botaoHabilitado = true;
     });
-
   }
 }

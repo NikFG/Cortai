@@ -52,7 +52,7 @@ class _StartScreenState extends State<StartScreen> {
         value: SystemUiOverlayStyle.light,
         child: Container(
           decoration: BoxDecoration(
-            gradient:LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               stops: [0.1, 0.7],

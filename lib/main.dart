@@ -7,7 +7,6 @@ import 'package:scoped_model/scoped_model.dart';
 import 'Controle/shared_preferences_controle.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesControle.getInstace();
   await Firebase.initializeApp();
@@ -19,7 +18,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return ScopedModel<LoginModelo>(
       model: LoginModelo(),
       child: MaterialApp(

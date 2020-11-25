@@ -39,7 +39,7 @@ class _HomeTelaState extends State<HomeTela> {
           if (model.dados.isDonoSalao && model.dados.salao_id == null) {
             return EditarSalaoTela();
           }
-         PushNotification.servico(model.dados.id.toString(), context);
+          PushNotification.servico(model.dados.id.toString(), context);
           return PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _pageController,
