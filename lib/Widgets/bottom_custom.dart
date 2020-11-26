@@ -37,22 +37,21 @@ class _BottomCustomState extends State<BottomCustom> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: widget.index,
-        onTap: (index) {
-          _bottomTapped(index);
-        },
-        items: itens);
+      type: BottomNavigationBarType.fixed,
+      currentIndex: widget.index,
+      selectedFontSize: 12,
+      unselectedFontSize: 12,
+      onTap: (index) {
+        _bottomTapped(index);
+      },
+      items: itens,
+    );
   }
 
   void _bottomTapped(int index) {
     setState(() {
       widget.pageController.jumpToPage(index);
     });
-  }
-
-  TextStyle stylePadrao() {
-    return TextStyle(fontSize: 12);
   }
 
   itensUsuario() {
@@ -64,6 +63,7 @@ class _BottomCustomState extends State<BottomCustom> {
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.calendar_o),
         label: "Agenda",
+
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.user_circle_o),
@@ -94,7 +94,7 @@ class _BottomCustomState extends State<BottomCustom> {
                 badgeColor: Theme.of(context).primaryColor,
                 showBadge: numeroConfirmacoes != 0,
                 animationType: BadgeAnimationType.scale,
-                position: BadgePosition(bottom: 8, start: 8),
+                position: BadgePosition(bottom: 8, start: 12),
                 badgeContent: Text(
                   numeroConfirmacoes.toString(),
                   style: TextStyle(color: Colors.white),

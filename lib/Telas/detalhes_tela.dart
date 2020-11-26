@@ -4,7 +4,6 @@ import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/horario.dart';
-import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';

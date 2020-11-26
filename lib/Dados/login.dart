@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
 class Login {
-  // String id;
   int id;
   String nome;
-  String senha;
   int salaoId;
   String telefone;
   String email;
   String imagemUrl;
   bool isCabeleireiro;
   bool isDonoSalao;
+  String senha;
 
   Login.fromJson(Map<String, dynamic> dados) {
     id = dados['id'];
@@ -32,7 +31,7 @@ class Login {
     this.isCabeleireiro,
     this.isDonoSalao,
     this.id,
-    this.senha,
+    this.senha
   });
 
   @override

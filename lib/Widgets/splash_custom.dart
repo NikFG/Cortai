@@ -9,6 +9,8 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 class SplashCustom extends StatefulWidget {
+  final bool logado;
+  SplashCustom(this.logado);
   @override
   _SplashCustomState createState() => _SplashCustomState();
 }
@@ -37,7 +39,9 @@ class _SplashCustomState extends State<SplashCustom> {
   }
 
   Widget _telaInicial(LoginModelo model) {
-    if (model.isLogado()) {
+
+    if (widget.logado) {
+      model.carregarDados();
       return HomeTela();
     } else {
       return StartScreen();

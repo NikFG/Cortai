@@ -13,7 +13,6 @@ import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/maps_tela.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
@@ -62,16 +61,16 @@ class _PerfilTelaState extends State<PerfilTela> {
                     leading: GestureDetector(
                       onTap: () async {
                         await getImagem();
-                        if (_imagem != null) {
-                          String url = await Util.enviaImagem(
-                              model.dados.id.toString(), _imagem, pasta);
-                          Firestore.instance
-                              .collection('usuarios')
-                              .document(model.dados.id.toString())
-                              .updateData({'fotoURL': url});
-                          model.dados.imagemUrl = url;
-                          setState(() {});
-                        }
+                        // if (_imagem != null) {
+                        //   String url = await Util.enviaImagem(
+                        //       model.dados.id.toString(), _imagem, pasta);
+                        //   Firestore.instance
+                        //       .collection('usuarios')
+                        //       .document(model.dados.id.toString())
+                        //       .updateData({'fotoURL': url});
+                        //   model.dados.imagemUrl = url;
+                        //   setState(() {});
+                        // }
                       },
                       child: CircleAvatar(
                         radius: 32,

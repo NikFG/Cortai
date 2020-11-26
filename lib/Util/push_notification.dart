@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:cortai/Telas/home_tela.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class PushNotification {
   PushNotification();
 
   static Future<Null> servico(String usuarioId, BuildContext context) async {
-    final FirebaseMessaging _fcm = FirebaseMessaging();
+ /*   final FirebaseMessaging _fcm = FirebaseMessaging();
     _fcm.autoInitEnabled();
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -41,7 +41,7 @@ class PushNotification {
     //       .collection('usuarios')
     //       .document(usuarioId)
     //       .updateData({'token': token});
-    // });
+    // });*/
   }
 
   static _rotaTelaInicial(String nome, BuildContext context) {

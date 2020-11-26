@@ -7,7 +7,6 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Util {
@@ -16,23 +15,8 @@ class Util {
   static const url = "http://192.168.0.108:8000/api/";
   static const storage_url = "http://192.168.0.108:8000/";
 
-  static String timestampToString(Timestamp timestamp) {
-    var formatter = new DateFormat('dd/MM/yyyy, H:mm');
-    String formatted = formatter
-        .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
-    return formatted;
-  }
-
   static Map<String, String> token(String token) {
     return {"Authorization": "Bearer $token}"};
-  }
-
-  static Timestamp stringToTimestamp(String horario) {
-    horario = horario.substring(5);
-    horario = horario.replaceAll("/", "-");
-    horario = horario.replaceAll(",", "");
-    DateFormat format = new DateFormat('dd-MM-yyyy H:m');
-    return Timestamp.fromDate(format.parse(horario));
   }
 
   static dateTimeofDayToDateTime(DateTime dt, TimeOfDay time) {

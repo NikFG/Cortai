@@ -1,14 +1,15 @@
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/home_tela.dart';
+
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+import 'home_tela.dart';
 
 class EditarPerfilTela extends StatefulWidget {
   final Login login;
@@ -124,9 +125,30 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                               setState(() {
                                 _botaoHabilitado = false;
                               });
-                              model.dados.nome = _nomeControlador.text;
-                              model.dados.telefone = _telefoneControlador.text;
-                              await Firestore.instance
+
+                              model.atualizaDados(
+                                  telefone: _telefoneControlador.text,
+                                  nome: _nomeControlador.text,
+                                  token: model.token,
+                                  onSucess: () async {
+                                    await FlushbarHelper.createSuccess(
+                                            message:
+                                                "Informações de usuário atualizadas com sucesso")
+                                        .show(context);
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) => HomeTela()));
+                                  },
+                                  onFail: () async {
+                                    await FlushbarHelper.createError(
+                                            message:
+                                                "Houve algum erro ao atualizar as informações")
+                                        .show(context);
+                                    setState(() {
+                                      _botaoHabilitado = true;
+                                    });
+                                  });
+                              /*  await Firestore.instance
                                   .collection('usuarios')
                                   .document(model.dados.id.toString())
                                   .setData(model.dados.toMap())
@@ -146,7 +168,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                                 setState(() {
                                   _botaoHabilitado = true;
                                 });
-                              });
+                              });*/
                             }
                           },
                           child: _botaoHabilitado

@@ -35,6 +35,7 @@ class _HomeTelaState extends State<HomeTela> {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model != null) {
+          model.carregarDados();
           if (model.dados.isDonoSalao && model.dados.salaoId == null) {
             return EditarSalaoTela();
           }

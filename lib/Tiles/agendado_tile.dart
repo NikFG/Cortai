@@ -2,7 +2,6 @@ import 'package:cortai/Controle/avaliacao_controle.dart';
 import 'package:cortai/Dados/avaliacao.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Telas/detalhes_tela.dart';
-import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
