@@ -51,22 +51,55 @@ class HorarioControle {
   static delete(String id,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) {}
 
-  static confirmaAgendamento(String id,
+  static confirmaAgendamento(int id, String token,
       {@required VoidCallback onSuccess,
       @required VoidCallback onFail,
-      @required BuildContext context}) async {}
+      @required BuildContext context}) async {
+    try {
+      Dio dio = Dio();
+      var response = await dio.put(_url + "confirma/${id.toString()}",
+          options: Options(headers: Util.token(token)));
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else
+        onFail();
+    } catch (e) {
+      print(e);
+      onFail();
+    }
+  }
 
-  /*
-  * Recria o horário na coleção de horários excluídos para depois deletar.
-  * Feito para armazenar os dados e ter controle futuro após o cancelamento
-  * */
-
-  static cancelaAgendamento(Horario dados,
+  static cancelaAgendamento(int id, String token,
       {@required VoidCallback onSuccess,
       @required VoidCallback onFail,
-      clienteCancelou = false}) async {}
+      bool clienteCancelou = false}) async {
+    try {
+      Dio dio = Dio(); //Falta tratar caso cliente cancele
+      var response = await dio.put(_url + "cancela/${id.toString()}",
+          options: Options(headers: Util.token(token)));
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else
+        onFail();
+    } catch (e) {
+      print(e);
+      onFail();
+    }
+  }
 
-  static confirmaPagamento(String id,
-      {@required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {}
+  static confirmaPagamento(int id, String token,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    try {
+      Dio dio = Dio();
+      var response = await dio.put(_url + "paga/${id.toString()}",
+          options: Options(headers: Util.token(token)));
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else
+        onFail();
+    } catch (e) {
+      print(e);
+      onFail();
+    }
+  }
 }
