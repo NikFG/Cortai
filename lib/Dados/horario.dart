@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/servico.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'cliente.dart';
 
@@ -12,10 +9,12 @@ class Horario {
   String data;
   bool confirmado;
   Cabeleireiro cabeleireiro;
+  int cabeleireiro_id;
   Cliente cliente;
+  int cliente_id;
   List<Servico> servicos;
   bool pago;
-  String formaPagamento;
+  int formaPagamento_id;
 
   Horario();
 
@@ -33,18 +32,19 @@ class Horario {
       return Servico.fromJsonApi(s);
     }).toList();
     pago = json['pago'] == 1;
-    formaPagamento = json['formaPagamento'];
+    formaPagamento_id = json['formaPagamento'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "cabeleireiro": cabeleireiro,
-      "cliente": cliente,
+      "cabeleireiro_id": cabeleireiro_id,
+      "cliente_id": cliente_id,
       "confirmado": confirmado,
-      "data": data,
-      "formaPagamento": formaPagamento,
-      "horario": hora,
+      "data": data.replaceAll("/", '-'),
+      "forma_pagamento_id": formaPagamento_id,
+      "hora": hora,
       "pago": pago,
+      "servicos": servicos.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -54,7 +54,7 @@ class Horario {
         ' $hora, data: $data, confirmado: '
         '$confirmado, cabeleireiro: $cabeleireiro, '
         'cliente: $cliente, pago:'
-        ' $pago, formaPagamento: $formaPagamento}';
+        ' $pago, formaPagamento: $formaPagamento_id}';
   }
 
   @override

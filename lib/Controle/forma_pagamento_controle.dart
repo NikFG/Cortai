@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Util/util.dart';
 
 class FormaPagamentoControle {
-  static Firestore _firestore = Firestore.instance;
+  static String _url = Util.url + "formaPagamento/";
 
-  static CollectionReference get() {
-    return _firestore.collection('formaPagamento');
+  static String get(int salaoId) {
+    return _url;
   }
 }

@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'horario.dart';
 
 class Avaliacao {
   int id;

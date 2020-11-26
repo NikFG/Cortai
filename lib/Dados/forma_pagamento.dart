@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class FormaPagamento {
-  String id;
+  int id;
   String icone;
   String descricao;
 
@@ -10,4 +8,9 @@ class FormaPagamento {
     icone = snapshot.data['icone'];
     descricao = snapshot.data['descricao'];
   }*/
+  FormaPagamento.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    icone = json['imagem'] != null ? json['imagem'] : '';
+    descricao = json['descricao'];
+  }
 }

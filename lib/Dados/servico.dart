@@ -51,6 +51,7 @@ class Servico {
 
   Map<String, dynamic> toMap() {
     return {
+      "id": id,
       "nome": descricao,
       "valor": _valor,
       'salao_id': salao,

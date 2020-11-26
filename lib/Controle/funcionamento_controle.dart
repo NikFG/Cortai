@@ -10,6 +10,10 @@ class FuncionamentoControle {
     return _url + "${salao.toString()}";
   }
 
+  static String getDiaSemana(String diaSemana, int salao) {
+    return _url + "$diaSemana/${salao.toString()}";
+  }
+
   static void update(Funcionamento dados, String token,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     try {

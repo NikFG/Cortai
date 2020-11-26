@@ -124,7 +124,7 @@ class LoginModelo extends Model {
       this.dados = Login(
           id: _firebaseUser.uid as int,
           email: _firebaseUser.email,
-          imagemUrl: _firebaseUser.photoUrl,
+          imagemUrl: _firebaseUser.photoURL,
           nome: _firebaseUser.displayName,
           isCabeleireiro: false,
           isDonoSalao: false,
