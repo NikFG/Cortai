@@ -1,22 +1,29 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Controle/forma_pagamento_controle.dart';
+import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Dados/cabeleireiro.dart';
+import 'package:cortai/Dados/forma_pagamento.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'home_tela.dart';
+import 'package:http/http.dart' as http;
 
 class AgendaTela extends StatefulWidget {
-  final Servico servicoDados;
+  final Servico servico;
   final String nomeSalao;
 
-  AgendaTela(this.servicoDados, this.nomeSalao);
+  AgendaTela(this.servico, this.nomeSalao);
 
   @override
   _AgendaTelaState createState() => _AgendaTelaState();
@@ -27,12 +34,14 @@ class _AgendaTelaState extends State<AgendaTela> {
   var horarioController = TextEditingController();
   var profissionalController = TextEditingController();
   var pagamentoController = TextEditingController();
-  String profissional;
-  String pagamento;
+
+  int pagamento;
+  int cabeleireiroSelecionado;
   DateTime data;
   bool _botaoHabilitado = true;
   var _formKey = GlobalKey<FormState>();
-  StreamSubscription<QuerySnapshot> listener;
+
+  // StreamSubscription<QuerySnapshot> listener;
   int indexPagamento;
   final List<Icon> listaIcons = [
     Icon(FontAwesome.credit_card),
@@ -42,367 +51,341 @@ class _AgendaTelaState extends State<AgendaTela> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: Text(widget.nomeSalao),
-            centerTitle: true,
-            leading: Util.leadingScaffold(context)),
-        body: Center()
-        /*Form(
-        key: _formKey,
-        child: IgnorePointer(
-          ignoring: !_botaoHabilitado,
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                title: Text(
-                  widget.servicoDados.descricao,
-                  style: TextStyle(fontSize: 22),
-                ),
-                subtitle: Text(
-                    'R\$${widget.servicoDados.valor.toStringAsFixed(2)}',
-                    style: TextStyle(fontSize: 16)),
-                leading: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: widget.servicoDados.imagemUrl != null
-                      ? NetworkImage(widget.servicoDados.imagemUrl)
-                      : null, //definir imagem padrão
-                  backgroundColor: Colors.transparent,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Selecione o Profissional :",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900,
+    return ScopedModelDescendant<LoginModelo>(
+      builder: (context, child, model) {
+        return Scaffold(
+          appBar: AppBar(
+              title: Text(widget.nomeSalao),
+              centerTitle: true,
+              leading: Util.leadingScaffold(context)),
+          body: Form(
+            key: _formKey,
+            child: IgnorePointer(
+              ignoring: !_botaoHabilitado,
+              child: ListView(
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      widget.servico.descricao,
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    subtitle: Text(
+                        'R\$${widget.servico.valor.toStringAsFixed(2)}',
+                        style: TextStyle(fontSize: 16)),
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: widget.servico.imagem != null
+                          ? CachedNetworkImageProvider(widget.servico.imagem)
+                          : null, //definir imagem padrão
+                      backgroundColor: Colors.transparent,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Selecione o Profissional :",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(24),
-                      child: GestureDetector(
-                        onTap: () async {
-                          var profissionais = await CabeleireiroControle.get()
-                              .where('uid',
-                                  whereIn: widget.servicoDados.cabeleireiros)
-                              .orderBy('nome')
-                              .getDocuments();
-                          var cabeleireiros = List<Cabeleireiro>();
-                          // var cabeleireiros = profissionais.documents
-                          //     .map((doc) => Cabeleireiro.fromDocument(doc))
-                          //     .toList();
-                          _profissionalBottomSheet(context, cabeleireiros);
-                        },
-                        child: AbsorbPointer(
-                          child: CustomFormField(
-                            hint: 'Profissional',
-                            icon: Icon(Icons.content_cut),
-                            controller: profissionalController,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return "Selecione o profissional";
-                              }
-                              return null;
+                        Padding(
+                          padding: EdgeInsets.all(24),
+                          child: GestureDetector(
+                            onTap: () async {
+                              _profissionalBottomSheet(
+                                  context, widget.servico.cabeleireirosApi);
                             },
-                            inputType: TextInputType.text,
+                            child: AbsorbPointer(
+                              child: CustomFormField(
+                                hint: 'Profissional',
+                                icon: Icon(Icons.content_cut),
+                                controller: profissionalController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Selecione o profissional";
+                                  }
+                                  return null;
+                                },
+                                inputType: TextInputType.text,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          "Quando seria melhor para você ?",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              "Quando seria melhor para você ?",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(24),
-                      child: GestureDetector(
-                        onTap: () async {
-                          // var snapshots = await SalaoControle.get()
-                          //     .document(widget.servicoDados.salao)
-                          //     .collection('funcionamento')
-                          //     .getDocuments();
-                          // List<Funcionamento> funcionamento = [];
-                          // snapshots
-                          //     .documents
-                          //     .map((doc) => Funcionamento.fromDocument(doc))
-                          //     .toList();
-                          // var diasSemana = _verificaDiasSemana(funcionamento);
-                          // _calendario(context, diasSemana);
-                        },
-                        child: AbsorbPointer(
-                          child: CustomFormField(
-                            icon: Icon(FontAwesome.calendar),
-                            hint: 'Data',
-                            controller: dataController,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return "Selecione a data";
-                              }
-                              return null;
+                        Padding(
+                          padding: EdgeInsets.all(24),
+                          child: GestureDetector(
+                            onTap: () async {
+                              var response = await http.get(
+                                  FuncionamentoControle.get(
+                                      model.dados.salao_id),
+                                  headers: Util.token(model.token));
+                              List<Funcionamento> funcionamento =
+                                  jsonDecode(response.body)
+                                      .map<Funcionamento>(
+                                          (f) => Funcionamento.fromJson(f))
+                                      .toList();
+                              var diasSemana =
+                                  _verificaDiasSemana(funcionamento);
+                              _calendario(context, diasSemana);
                             },
-                            inputType: TextInputType.datetime,
+                            child: AbsorbPointer(
+                              child: CustomFormField(
+                                icon: Icon(FontAwesome.calendar),
+                                hint: 'Data',
+                                controller: dataController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Selecione a data";
+                                  }
+                                  return null;
+                                },
+                                inputType: TextInputType.datetime,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'Qual horario?',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(24),
-                      child: GestureDetector(
-                        onTap: () async {
-                          if (this.data != null) {
-                            // var snapshot = await FuncionamentoControle.get(
-                            //         widget.servicoDados.salao)
-                            //     .document(Util.weekdayToString(this.data))
-                            //     .get();
-                            // Funcionamento funcionamento = Funcionamento();
-                            // Funcionamento.fromDocument(snapshot);
-
-                            // _horarioBottomSheet(context, funcionamento);
-                          } else {
-                            FlushbarHelper.createInformation(
-                                message: "Selecione o dia primeiro",
-                                duration: Duration(
-                                  milliseconds: 1500,
-                                )).show(context);
-                          }
-                        },
-                        child: AbsorbPointer(
-                          child: CustomFormField(
-                            icon: Icon(Icons.access_time),
-                            hint: 'Horário',
-                            controller: horarioController,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return "Selecione o horário";
-                              }
-                              return null;
-                            },
-                            inputType: TextInputType.text,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'Como você gostaria de pagar?',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(24),
-                      child: GestureDetector(
-                        onTap: () async {
-                          _metodoPagamentoBottomSheet(context);
-                        },
-                        child: AbsorbPointer(
-                          child: CustomFormField(
-                            icon: pagamento == null
-                                ? null
-                                : listaIcons[indexPagamento],
-                            hint: 'Método de pagamento',
-                            controller: pagamentoController,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return "Selecione o método de pagamento";
-                              }
-                              return null;
-                            },
-                            inputType: TextInputType.text,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Row(
-                        children: <Widget>[
-                          Container(
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
                             padding: EdgeInsets.all(10),
                             child: Text(
-                              'Você tem um código de desconto?',
+                              'Qual horario?',
                               style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w700),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      height: 45,
-                      padding: EdgeInsets.only(
-                          top: 4, left: 16, right: 16, bottom: 4),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.horizontal(),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(color: Colors.black12, blurRadius: 5)
-                          ]),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: '7C845AB',
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-
-                    */ /*
-                    Container(
-                      height: 100,
-                      child: CustomRadio(idPagamento: (value) {
-                        this.pagamento = value;
-                      }),
-                    ),*/ /*
-
-                    Container(
-                        alignment: Alignment.topRight,
-                        width: MediaQuery.of(context).size.width - 20,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).primaryColor),
-                        child: ScopedModelDescendant<LoginModelo>(
-                          builder: (context, child, model) {
-                            return FlatButton(
-                              onPressed: _botaoHabilitado
-                                  ? () async {
-                                      if (_formKey.currentState.validate()) {
-                                        await listener.cancel();
-                                        setState(() {
-                                          _botaoHabilitado = false;
-                                        });
-
-                                        HorarioControle.get()
-                                            .where('cabeleireiro',
-                                                isEqualTo: profissional)
-                                            .where('data',
-                                                isEqualTo: dataController.text)
-                                            .where('horario',
-                                                isEqualTo:
-                                                    horarioController.text)
-                                            .getDocuments()
-                                            .then((value) {
-                                          if (value.documents.length == 0) {
-                                            Horario dados = Horario();
-                                            dados.cabeleireiro =
-                                                int.parse(profissional);
-                                            dados.cliente =
-                                                model.dados.id.toString();
-                                            dados.confirmado = false;
-                                            dados.data = dataController.text;
-                                            dados.formaPagamento =
-                                                this.pagamento;
-                                            dados.hora = horarioController.text;
-                                            dados.pago = false;
-                                            dados.servico = widget
-                                                .servicoDados.id
-                                                .toString();
-                                            dados.servicoDados =
-                                                widget.servicoDados;
-                                            HorarioControle.store(dados,
+                        Padding(
+                          padding: EdgeInsets.all(24),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (this.data != null) {
+                                var response = await http.get(
+                                    FuncionamentoControle.getDiaSemana(
+                                        Util.weekdayToString(data),
+                                        model.dados.salao_id),
+                                    headers: Util.token(model.token));
+                                Funcionamento funcionamento =
+                                    Funcionamento.fromJson(
+                                        jsonDecode(response.body));
+                                _horarioBottomSheet(
+                                    context, funcionamento, model.token);
+                              } else {
+                                FlushbarHelper.createInformation(
+                                    message: "Selecione o dia primeiro",
+                                    duration: Duration(
+                                      milliseconds: 1500,
+                                    )).show(context);
+                              }
+                            },
+                            child: AbsorbPointer(
+                              child: CustomFormField(
+                                icon: Icon(Icons.access_time),
+                                hint: 'Horário',
+                                controller: horarioController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Selecione o horário";
+                                  }
+                                  return null;
+                                },
+                                inputType: TextInputType.text,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              'Como você gostaria de pagar?',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(24),
+                          child: GestureDetector(
+                            onTap: () async {
+                              _metodoPagamentoBottomSheet(
+                                  context, model.dados.salao_id, model.token);
+                            },
+                            child: AbsorbPointer(
+                              child: CustomFormField(
+                                icon: pagamento == null
+                                    ? null
+                                    : listaIcons[indexPagamento],
+                                hint: 'Método de pagamento',
+                                controller: pagamentoController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return "Selecione o método de pagamento";
+                                  }
+                                  return null;
+                                },
+                                inputType: TextInputType.text,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  'Você tem um código de desconto?',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.1,
+                          height: 45,
+                          padding: EdgeInsets.only(
+                              top: 4, left: 16, right: 16, bottom: 4),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.horizontal(),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(color: Colors.black12, blurRadius: 5)
+                              ]),
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '7C845AB',
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        // Container(
+                        //   height: 100,
+                        //   child: CustomRadio(idPagamento: (value) {
+                        //     this.pagamento = value;
+                        //   }),
+                        // ),
+                        Container(
+                            alignment: Alignment.topRight,
+                            width: MediaQuery.of(context).size.width - 20,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).primaryColor),
+                            child: ScopedModelDescendant<LoginModelo>(
+                              builder: (context, child, model) {
+                                return FlatButton(
+                                  onPressed: _botaoHabilitado
+                                      ? () async {
+                                          if (_formKey.currentState
+                                              .validate()) {
+                                            // await listener.cancel();
+                                            setState(() {
+                                              _botaoHabilitado = false;
+                                            });
+                                            Horario horario = Horario();
+                                            horario.cabeleireiro_id =
+                                                cabeleireiroSelecionado;
+                                            horario.cliente_id = model.dados.id;
+                                            horario.confirmado = false;
+                                            horario.data = dataController.text;
+                                            horario.formaPagamento_id =
+                                                pagamento;
+                                            horario.hora =
+                                                horarioController.text;
+                                            horario.pago = false;
+                                            horario.servicos = List<Servico>();
+                                            horario.servicos
+                                                .add(widget.servico);
+                                            HorarioControle.store(
+                                                horario: horario,
+                                                token: model.token,
                                                 onSuccess: onSuccess,
                                                 onFail: onFail);
-                                          } else {
-                                            FlushbarHelper.createInformation(
-                                                    title: "Nos desculpe",
-                                                    message:
-                                                        "Houve um agendamento neste horário")
-                                                .show(context);
-                                            setState(() {
-                                              _botaoHabilitado = true;
-                                            });
-                                            horarioController.text = "";
                                           }
-                                        });
-                                      }
-                                    }
-                                  : null,
-                              child: Center(
-                                  child: _botaoHabilitado
-                                      ? Text(
-                                          'Confirmar',
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : CircularProgressIndicator()),
-                            );
-                          },
-                        ))
-                  ],
-                ),
+                                        }
+                                      : null,
+                                  child: Center(
+                                      child: _botaoHabilitado
+                                          ? Text(
+                                              'Confirmar',
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          : CircularProgressIndicator()),
+                                );
+                              },
+                            ))
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),*/
         );
+      },
+    );
   }
 
-  _horarioBottomSheet(context, Funcionamento funcionamento) {
+  //TODO substituir para stream builder com pusher
+  _horarioBottomSheet(context, Funcionamento funcionamento, String token) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          return StreamBuilder<QuerySnapshot>(
-              stream: HorarioControle.get()
-                  .where('cabeleireiro', isEqualTo: profissional)
-                  .where('data', isEqualTo: dataController.text)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
+          return FutureBuilder<http.Response>(
+              future: http.get(
+                  HorarioControle.getData(
+                      dataController.text, cabeleireiroSelecionado),
+                  headers: Util.token(token)),
+              builder: (context, response) {
+                if (!response.hasData) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<Horario> horarioDados = [];
-                  // snapshot.data.documents
-                  //     .map((doc) => Horario.fromDocument(doc))
-                  //     .toList();
+                  List<Horario> horarioDados = jsonDecode(response.data.body)
+                      .map<Horario>((h) => Horario.fromJsonApi(h))
+                      .toList();
                   DateTime dataAgora = DateTime.now();
                   DateTime horarioAtual;
                   if (data.day == dataAgora.day &&
@@ -425,7 +408,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                         return ListTile(
                           onTap: () {
                             horarioController.text = horarios[index];
-                            listener = listenerHorario();
                             Navigator.of(context).pop();
                           },
                           title: Text(
@@ -453,7 +435,7 @@ class _AgendaTelaState extends State<AgendaTela> {
             listTiles.add(ListTile(
               onTap: () {
                 profissionalController.text = c.nome;
-                profissional = c.id.toString();
+                cabeleireiroSelecionado = c.id;
                 Navigator.of(context).pop();
               },
               title: Text(
@@ -472,39 +454,38 @@ class _AgendaTelaState extends State<AgendaTela> {
         });
   }
 
-  _metodoPagamentoBottomSheet(context) async {
+  _metodoPagamentoBottomSheet(context, int salaoId, String token) async {
     await showModalBottomSheet(
         isDismissible: true,
         context: context,
         builder: (bc) {
-          return FutureBuilder<QuerySnapshot>(
-            future: FormaPagamentoControle.get()
-                .orderBy('descricao')
-                .getDocuments(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
+          return FutureBuilder<http.Response>(
+            future: http.get(FormaPagamentoControle.get(salaoId),
+                headers: Util.token(token)),
+            builder: (context, response) {
+              if (!response.hasData) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               } else {
-                // return ListView.builder(
-                //     itemCount: snapshot.data.documents.length,
-                //     itemBuilder: (context, index) {
-                //       FormaPagamento formaPagamento =
-                //           FormaPagamento.fromDocument(
-                //               snapshot.data.documents[index]);
-                //       return ListTile(
-                //         onTap: () {
-                //           this.pagamento = formaPagamento.id;
-                //           indexPagamento = index;
-                //           pagamentoController.text = formaPagamento.descricao;
-                //           Navigator.of(context).pop();
-                //         },
-                //         leading: listaIcons[index],
-                //         title: Text(formaPagamento.descricao),
-                //       );
-                //     });
-                return Center();
+                List<FormaPagamento> pagamentos = jsonDecode(response.data.body)
+                    .map<FormaPagamento>((p) => FormaPagamento.fromJson(p))
+                    .toList();
+                return ListView.builder(
+                    itemCount: pagamentos.length,
+                    itemBuilder: (context, index) {
+                      FormaPagamento fp = pagamentos[index];
+                      return ListTile(
+                        onTap: () {
+                          this.pagamento = fp.id;
+                          indexPagamento = index;
+                          pagamentoController.text = fp.descricao;
+                          Navigator.of(context).pop();
+                        },
+                        leading: listaIcons[index],
+                        title: Text(fp.descricao),
+                      );
+                    });
               }
             },
           );
@@ -622,25 +603,28 @@ class _AgendaTelaState extends State<AgendaTela> {
             message: "Houve algum erro ao agendar",
             duration: Duration(milliseconds: 1500))
         .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
   }
 
-  StreamSubscription<QuerySnapshot> listenerHorario() {
-    var snapshots = HorarioControle.get()
-        .where('cabeleireiro', isEqualTo: profissional)
-        .where('data', isEqualTo: dataController.text)
-        .where('horario', isEqualTo: horarioController.text)
-        .snapshots();
-    var listener = snapshots.listen((doc) async {
-      if (doc.documentChanges.length > 0) {
-        horarioController.text = "";
-        await FlushbarHelper.createInformation(
-            title: "Nos desculpe",
-            message: "Houve um agendamento neste horário",
-            duration: Duration(
-              milliseconds: 2100,
-            )).show(context);
-      }
-    });
-    return listener;
-  }
+// StreamSubscription<QuerySnapshot> listenerHorario() {
+//   var snapshots = HorarioControle.get()
+//       .where('cabeleireiro', isEqualTo: cabeleireiroSelecionado)
+//       .where('data', isEqualTo: dataController.text)
+//       .where('horario', isEqualTo: horarioController.text)
+//       .snapshots();
+//   var listener = snapshots.listen((doc) async {
+//     if (doc.documentChanges.length > 0) {
+//       horarioController.text = "";
+//       await FlushbarHelper.createInformation(
+//           title: "Nos desculpe",
+//           message: "Houve um agendamento neste horário",
+//           duration: Duration(
+//             milliseconds: 2100,
+//           )).show(context);
+//     }
+//   });
+//   return listener;
+// }
 }
