@@ -1,74 +1,60 @@
 import 'package:cortai/Dados/horario.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cortai/Util/util.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class HorarioControle {
-  static var _firestore = Firestore.instance;
-
-  static CollectionReference get() {
-    return _firestore.collection('horarios');
-  }
-
   static String _url = Util.url + "horarios/";
 
   static String getNew(String tipo, int pago) {
     return _url + "$tipo/${pago.toString()}";
   }
 
+  static String getData(String data, int cabeleireiroId) {
+    data = data.replaceAll("/", "-");
+    return _url + "cabeleireiro/${cabeleireiroId.toString()}/data/$data";
+  }
+
   static String getCabeleireiro(String tipo, int confirmado) {
     return _url + "$tipo/${confirmado.toString()}";
   }
 
-  static void store(Horario dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await get().add(dados.toMap()).then((value) {
-      print(value);
+  static void store(
+      {@required Horario horario,
+      @required String token,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
+    Dio dio = Dio();
+    try {
+      FormData formData = FormData.fromMap(horario.toMap());
+      var response = await dio.post(
+        _url + "store",
+        data: formData,
+        options: Options(headers: Util.token(token)),
+      );
+      print(response.data);
+      if (response.statusCode == 500) {
+        onFail();
+      }
       onSuccess();
-    }).catchError((e) {
+    } catch (e) {
       print(e);
       onFail();
-    });
+    }
   }
 
   static void update(Horario dados,
       {@required VoidCallback onSuccess(context),
       @required VoidCallback onFail(context),
-      @required context}) async {
-    await get()
-        .document(dados.id.toString())
-        .updateData(dados.toMap())
-        .then((value) {
-      onSuccess(context);
-    }).catchError((e) {
-      print(e);
-      onFail(context);
-    });
-  }
+      @required context}) async {}
 
   static delete(String id,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) {
-    _firestore.collection("horarios").document(id).delete().then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) {}
 
   static confirmaAgendamento(String id,
       {@required VoidCallback onSuccess,
       @required VoidCallback onFail,
-      @required BuildContext context}) async {
-    await _firestore.collection("horarios").document(id).updateData({
-      "confirmado": true,
-    }).then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
+      @required BuildContext context}) async {}
 
   /*
   * Recria o horário na coleção de horários excluídos para depois deletar.
@@ -78,29 +64,9 @@ class HorarioControle {
   static cancelaAgendamento(Horario dados,
       {@required VoidCallback onSuccess,
       @required VoidCallback onFail,
-      clienteCancelou = false}) async {
-    Map<String, dynamic> horario = dados.toMap();
-    horario['clienteCancelou'] = clienteCancelou;
-    await Firestore.instance
-        .collection('horariosExcluidos')
-        .add(horario)
-        .catchError((e) {
-      print(e);
-      onFail();
-    });
-    await delete(dados.id.toString(), onSuccess: onSuccess, onFail: onFail);
-  }
+      clienteCancelou = false}) async {}
 
   static confirmaPagamento(String id,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await _firestore.collection("horarios").document(id).updateData({
-      "pago": true,
-    }).then((value) {
-      print("Ok");
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
+      {@required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {}
 }
