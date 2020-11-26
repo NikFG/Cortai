@@ -152,7 +152,7 @@ class DetalhesTela extends StatelessWidget {
     );
   }
 
-  _cancelarDialog(BuildContext context) {
+  _cancelarDialog(BuildContext context, String token) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -169,7 +169,7 @@ class DetalhesTela extends StatelessWidget {
           FlatButton(
             child: Text("Confirmar"),
             onPressed: () async {
-              await HorarioControle.cancelaAgendamento(horario,
+              await HorarioControle.cancelaAgendamento(horario.id, token,
                   onSuccess: onSuccess, onFail: onFail, clienteCancelou: true);
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => HomeTela()));
