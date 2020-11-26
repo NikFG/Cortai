@@ -10,7 +10,6 @@ import 'package:cortai/Widgets/carousel.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:cortai/Widgets/maps_tela.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';

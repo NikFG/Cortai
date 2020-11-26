@@ -96,7 +96,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
               children: <Widget>[
                 FutureBuilder<http.Response>(
                   future: http.get(
-                      FuncionamentoControle.get(model.dados.salao_id),
+                      FuncionamentoControle.get(model.dados.salaoId),
                       headers: Util.token(model.token)),
                   builder: (context, response) {
                     if (!response.hasData) {

@@ -285,8 +285,7 @@ class _PerfilTelaState extends State<PerfilTela> {
           ),
           FlatButton(
               onPressed: () async {
-                var response = await http.get(
-                    SalaoControle.show(login.salao_id),
+                var response = await http.get(SalaoControle.show(login.salaoId),
                     headers: Util.token(model.token));
                 print(response.body);
                 Salao salao =
@@ -294,7 +293,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => EditarSalaoTela(salao: salao)));
               },
-              child: login.salao_id != null
+              child: login.salaoId != null
                   ? Row(
                       children: <Widget>[
                         Icon(
@@ -331,8 +330,7 @@ class _PerfilTelaState extends State<PerfilTela> {
           FlatButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        SolicitacaoCabeleireiroTela(login.salao)));
+                    builder: (context) => SolicitacaoCabeleireiroTela()));
               },
               child: Row(children: <Widget>[
                 Icon(

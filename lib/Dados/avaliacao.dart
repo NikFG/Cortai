@@ -1,12 +1,10 @@
-
-
 class Avaliacao {
   int id;
   double valor;
   String observacao;
   String data;
   String cabeleireiro;
-  String salao;
+  int salaoId;
   int horarioId;
 
   Avaliacao();
@@ -25,7 +23,7 @@ class Avaliacao {
       "descricao": observacao,
       "data": data,
       "cabeleireiro": cabeleireiro,
-      "salao": salao,
+      "salao": salaoId,
       "horario": horarioId,
     };
   }

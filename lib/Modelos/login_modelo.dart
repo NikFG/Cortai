@@ -128,7 +128,7 @@ class LoginModelo extends Model {
           nome: _firebaseUser.displayName,
           isCabeleireiro: false,
           isDonoSalao: false,
-          salao: null,
+          salaoId: null,
           telefone: null);
     } else {
       await _carregarUsuario();
@@ -173,7 +173,7 @@ class LoginModelo extends Model {
           result = false;
         } else {
           result = true;
-          dados = Login.fromDocument(doc);
+          // dados = Login.fromDocument(doc);
         }
         notifyListeners();
         return result;

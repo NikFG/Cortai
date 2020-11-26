@@ -260,7 +260,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 Servico dados = widget.dados;
                                 dados.descricao = _nomeControlador.text;
                                 dados.setValor(_precoControlador.text);
-                                dados.salao = model.dados.salao_id;
+                                dados.salao = model.dados.salaoId;
                                 dados.observacao = _observacaoControlador.text;
                                 dados.ativo = ativo;
                                 dados.cabeleireiros =
@@ -268,9 +268,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
 
                                 if (widget.dados != null) {
                                   if (_imagem != null) {
-                                    if (widget.dados.imagem != null)
-                                      await Util.deletaImagem(
-                                          widget.dados.imagem);
                                     dados.imagem = await Util.enviaImagem(
                                         model.dados.id.toString().toString(),
                                         _imagem,

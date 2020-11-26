@@ -1,4 +1,3 @@
-import 'package:cortai/Controle/servico_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/editar_salao_tela.dart';
 import 'package:cortai/Tiles/home_tab.dart';
@@ -36,7 +35,7 @@ class _HomeTelaState extends State<HomeTela> {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model != null) {
-          if (model.dados.isDonoSalao && model.dados.salao_id == null) {
+          if (model.dados.isDonoSalao && model.dados.salaoId == null) {
             return EditarSalaoTela();
           }
           PushNotification.servico(model.dados.id.toString(), context);

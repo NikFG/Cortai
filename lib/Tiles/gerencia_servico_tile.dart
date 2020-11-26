@@ -6,7 +6,6 @@ import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/shape/gf_avatar_shape.dart';
-import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 
 class GerenciaServicoTile extends StatelessWidget {

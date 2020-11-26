@@ -1,7 +1,6 @@
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Telas/cadastro_funcionamento_tela.dart';
-import 'package:cortai/Telas/home_tela.dart';
 import 'package:cortai/Widgets/custom_button.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';

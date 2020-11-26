@@ -8,7 +8,6 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:password_strength/password_strength.dart';
 
@@ -190,7 +189,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                                           nome: _nomeControlador.text,
                                           telefone: _telefoneControlador.text,
                                           isCabeleireiro: false,
-                                          salao: null,
+                                          salaoId: null,
                                           imagemUrl: null,
                                           isDonoSalao: false,
                                           senha:

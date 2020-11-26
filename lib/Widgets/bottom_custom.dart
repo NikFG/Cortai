@@ -59,24 +59,15 @@ class _BottomCustomState extends State<BottomCustom> {
     var itens = [
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.home),
-        title: Text(
-          "Início",
-          style: stylePadrao(),
-        ),
+        label: "Início",
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.calendar_o),
-        title: Text(
-          "Agendados",
-          style: stylePadrao(),
-        ),
+        label: "Agenda",
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.user_circle_o),
-        title: Text(
-          "Perfil",
-          style: stylePadrao(),
-        ),
+        label: "Perfil",
       ),
     ];
     this.itens.addAll(itens);
@@ -113,14 +104,11 @@ class _BottomCustomState extends State<BottomCustom> {
             }
           },
         ),
-        title: Text("Confirmar"),
+        label: "Confirmar",
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.scissors),
-        title: Text(
-          "Serviços",
-          style: stylePadrao(),
-        ),
+        label: "Serviços",
       ),
     ];
     this.itens.addAll(itens);

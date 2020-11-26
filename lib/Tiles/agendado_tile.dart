@@ -7,7 +7,6 @@ import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cortai/Widgets/custom_list_tile.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,16 +15,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class AgendadoTile extends StatefulWidget {
   final Horario horario;
-  final bool pago;
-  final Login cabeleireiro;
   final Servico servico;
   final bool avaliado;
 
   AgendadoTile(
       {@required this.horario,
       @required this.servico,
-      @required this.cabeleireiro,
-      @required this.pago,
       this.avaliado});
 
   @override
@@ -55,14 +50,12 @@ class _AgendadoTileState extends State<AgendadoTile>
             builder: (context) => DetalhesTela(
                   horario: widget.horario,
                   servico: widget.servico,
-                  cabeleireiro: widget.cabeleireiro,
-                  pago: widget.pago,
                 )));
       },
       title:
-          Text("${widget.servico.descricao} com ${widget.cabeleireiro.nome}"),
+          Text("${widget.servico.descricao} com ${widget.horario.cabeleireiro.nome}"),
       subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.hora}"),
-      trailing: widget.pago
+      trailing: widget.horario.pago
           ? FlatButton(
               child: Column(
                 children: <Widget>[
@@ -84,8 +77,7 @@ class _AgendadoTileState extends State<AgendadoTile>
     );
   }
 
-  _avaliarDialog(BuildContext context) async {
-    String salao = await getSalao();
+  _avaliarDialog(BuildContext context) {
     bool confirmado = false;
     var _descricaoControlador = TextEditingController();
     try {
@@ -156,7 +148,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                               widget.horario.cabeleireiro.toString();
                           dados.valor = _avaliacao;
                           dados.observacao = _descricaoControlador.text;
-                          dados.salao = salao;
+                          dados.salaoId = widget.horario.cabeleireiro.salaoId;
                           dados.data = Util.dateFormat.format(dataHora);
                           // dados.hora = Util.timeFormat.format(dataHora);
                           dados.horarioId = widget.horario.id;
@@ -182,15 +174,6 @@ class _AgendadoTileState extends State<AgendadoTile>
     } catch (e) {
       onFail();
     }
-  }
-
-  Future<String> getSalao() async {
-    var snapshot = await Firestore.instance
-        .collection('usuarios')
-        .document(widget.horario.cabeleireiro.toString())
-        .get();
-    String salao = snapshot.data()['salao'];
-    return salao;
   }
 
   Widget confirmado() {

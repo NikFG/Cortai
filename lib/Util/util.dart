@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
@@ -116,12 +115,6 @@ class Util {
     String base64Image = base64Encode(imagem.readAsBytesSync());
     String fileName = imagem.path.split("/").last;
     return [base64Image, fileName];
-  }
-
-  static deletaImagem(String url) async {
-    await FirebaseStorage.instance
-        .getReferenceFromUrl(url)
-        .then((value) => value.delete());
   }
 
   static Widget leadingScaffold(BuildContext context,

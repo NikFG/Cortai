@@ -142,7 +142,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             onTap: () async {
                               var response = await http.get(
                                   FuncionamentoControle.get(
-                                      model.dados.salao_id),
+                                      model.dados.salaoId),
                                   headers: Util.token(model.token));
                               List<Funcionamento> funcionamento =
                                   jsonDecode(response.body)
@@ -190,7 +190,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                 var response = await http.get(
                                     FuncionamentoControle.getDiaSemana(
                                         Util.weekdayToString(data),
-                                        model.dados.salao_id),
+                                        model.dados.salaoId),
                                     headers: Util.token(model.token));
                                 Funcionamento funcionamento =
                                     Funcionamento.fromJson(
@@ -239,7 +239,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                           child: GestureDetector(
                             onTap: () async {
                               _metodoPagamentoBottomSheet(
-                                  context, model.dados.salao_id, model.token);
+                                  context, model.dados.salaoId, model.token);
                             },
                             child: AbsorbPointer(
                               child: CustomFormField(
@@ -321,12 +321,12 @@ class _AgendaTelaState extends State<AgendaTela> {
                                               _botaoHabilitado = false;
                                             });
                                             Horario horario = Horario();
-                                            horario.cabeleireiro_id =
+                                            horario.cabeleireiroId =
                                                 cabeleireiroSelecionado;
-                                            horario.cliente_id = model.dados.id;
+                                            horario.clienteId = model.dados.id;
                                             horario.confirmado = false;
                                             horario.data = dataController.text;
-                                            horario.formaPagamento_id =
+                                            horario.formaPagamentoId =
                                                 pagamento;
                                             horario.hora =
                                                 horarioController.text;
@@ -383,6 +383,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
+                  print(response.data.body);
                   List<Horario> horarioDados = jsonDecode(response.data.body)
                       .map<Horario>((h) => Horario.fromJsonApi(h))
                       .toList();

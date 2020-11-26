@@ -1,8 +1,6 @@
 import 'package:cortai/Controle/horario_controle.dart';
-import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/login.dart';
-import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/agendado_store.dart';
 import 'package:cortai/Tiles/agendado_tile.dart';
@@ -59,10 +57,9 @@ class AgendadoTela extends StatelessWidget {
                                 var dado = jsonFalse.data[index];
                                 var horario = Horario.fromJsonApi(dado);
                                 return AgendadoTile(
-                                    horario: horario,
-                                    servico: horario.servicos.first,
-                                    cabeleireiro: Login(nome: "nome"),
-                                    pago: false);
+                                  horario: horario,
+                                  servico: horario.servicos.first,
+                                );
                               }),
                     );
                   }
@@ -104,9 +101,7 @@ class AgendadoTela extends StatelessWidget {
                                 return AgendadoTile(
                                     horario: horario,
                                     servico: horario.servicos.first,
-                                    cabeleireiro: Login(nome: "nome"),
-                                    avaliado: true,
-                                    pago: true);
+                                    avaliado: true);
                               }),
                     );
                   }

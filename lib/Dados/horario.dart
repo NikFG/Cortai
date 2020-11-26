@@ -9,12 +9,12 @@ class Horario {
   String data;
   bool confirmado;
   Cabeleireiro cabeleireiro;
-  int cabeleireiro_id;
+  int cabeleireiroId;
   Cliente cliente;
-  int cliente_id;
+  int clienteId;
   List<Servico> servicos;
   bool pago;
-  int formaPagamento_id;
+  int formaPagamentoId;
 
   Horario();
 
@@ -32,16 +32,16 @@ class Horario {
       return Servico.fromJsonApi(s);
     }).toList();
     pago = json['pago'] == 1;
-    formaPagamento_id = json['formaPagamento'];
+    formaPagamentoId = json['formaPagamento'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "cabeleireiro_id": cabeleireiro_id,
-      "cliente_id": cliente_id,
+      "cabeleireiro_id": cabeleireiroId,
+      "cliente_id": clienteId,
       "confirmado": confirmado,
       "data": data.replaceAll("/", '-'),
-      "forma_pagamento_id": formaPagamento_id,
+      "forma_pagamento_id": formaPagamentoId,
       "hora": hora,
       "pago": pago,
       "servicos": servicos.map((e) => e.toMap()).toList(),
@@ -54,7 +54,7 @@ class Horario {
         ' $hora, data: $data, confirmado: '
         '$confirmado, cabeleireiro: $cabeleireiro, '
         'cliente: $cliente, pago:'
-        ' $pago, formaPagamento: $formaPagamento_id}';
+        ' $pago, formaPagamento: $formaPagamentoId}';
   }
 
   @override

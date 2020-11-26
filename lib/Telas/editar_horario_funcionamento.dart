@@ -230,7 +230,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                           f.horarioAbertura = _aberturaController.text;
                           f.horarioFechamento = _fechamentoController.text;
                           f.intervalo = int.parse(_intervaloController.text);
-                          f.salao_id = model.dados.salao_id;
+                          f.salaoId = model.dados.salaoId;
                           dados.add(f);
                         }
                       }

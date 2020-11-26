@@ -1,11 +1,10 @@
-
 class Funcionamento {
   int id;
   String diaSemana;
   String horarioAbertura;
   String horarioFechamento;
   int intervalo;
-  int salao_id;
+  int salaoId;
 
   Funcionamento();
 
@@ -16,7 +15,7 @@ class Funcionamento {
       "horario_abertura": horarioAbertura,
       "horario_fechamento": horarioFechamento,
       "intervalo": intervalo,
-      "salao_id": salao_id
+      "salao_id": salaoId
     };
   }
 
@@ -26,6 +25,6 @@ class Funcionamento {
     horarioAbertura = json['horario_abertura'];
     horarioFechamento = json['horario_fechamento'];
     intervalo = json['intervalo'];
-    salao_id = json['salao_id'];
+    salaoId = json['salao_id'];
   }
 }
