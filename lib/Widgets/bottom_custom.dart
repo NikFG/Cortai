@@ -10,7 +10,7 @@ class BottomCustom extends StatefulWidget {
   final PageController pageController;
   final int index;
   final bool isCabeleireiro;
-  final String usuario;
+  final int usuario;
 
   BottomCustom(
       this.pageController, this.index, this.isCabeleireiro, this.usuario);
@@ -30,7 +30,8 @@ class _BottomCustomState extends State<BottomCustom> {
       itensCabeleireiro(widget.usuario);
     }
     pusher.firePusher(
-        eventName: 'ContaConfirmar', channelName: 'user.' + widget.usuario);
+        eventName: 'ContaConfirmar',
+        channelName: 'user.' + widget.usuario.toString());
     super.initState();
   }
 
@@ -63,7 +64,6 @@ class _BottomCustomState extends State<BottomCustom> {
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.calendar_o),
         label: "Agenda",
-
       ),
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.user_circle_o),
@@ -73,7 +73,7 @@ class _BottomCustomState extends State<BottomCustom> {
     this.itens.addAll(itens);
   }
 
-  itensCabeleireiro(String uid) {
+  itensCabeleireiro(int id) {
     var itens = [
       BottomNavigationBarItem(
         icon: StreamBuilder(
