@@ -19,6 +19,10 @@ class HorarioControle {
     return _url + "$tipo/${confirmado.toString()}";
   }
 
+  static String getQuantidade(int id) {
+    return _url + "count/${id.toString()}";
+  }
+
   static void store(
       {@required Horario horario,
       @required String token,

@@ -31,7 +31,7 @@ class _HomeTelaState extends State<HomeTela> {
 
   @override
   Widget build(BuildContext context) {
-    final _pageController = PageController(initialPage: index, keepPage: true);
+    final _pageController = PageController(initialPage: index);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model.dados != null) {
@@ -40,7 +40,7 @@ class _HomeTelaState extends State<HomeTela> {
           }
           return Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.dados.isCabeleireiro, model.dados.id),
+                  model.dados.isCabeleireiro, model.dados.id, model.token),
               body: PageView(
                 physics: NeverScrollableScrollPhysics(),
                 controller: _pageController,

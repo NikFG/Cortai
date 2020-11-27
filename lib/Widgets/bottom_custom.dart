@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:badges/badges.dart';
+import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Util/pusher_service.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:http/http.dart' as http;
@@ -11,9 +13,10 @@ class BottomCustom extends StatefulWidget {
   final int index;
   final bool isCabeleireiro;
   final int usuario;
+  final String token;
 
-  BottomCustom(
-      this.pageController, this.index, this.isCabeleireiro, this.usuario);
+  BottomCustom(this.pageController, this.index, this.isCabeleireiro,
+      this.usuario, this.token);
 
   @override
   _BottomCustomState createState() => _BottomCustomState();
@@ -78,16 +81,34 @@ class _BottomCustomState extends State<BottomCustom> {
       BottomNavigationBarItem(
         icon: StreamBuilder(
           stream: pusher.eventStream,
-          builder: (context, snapshot) {
+          builder: (context, event) {
             print("chegou aqui");
-            if (!snapshot.hasData) {
-              http
-                  .get('http://192.168.0.108:8000/api/agenda/9')
-                  .then((value) => value);
-
-              return Icon(FontAwesome5.calendar_check);
+            if (!event.hasData) {
+              return FutureBuilder<http.Response>(
+                future: http.get(HorarioControle.getQuantidade(id),
+                    headers: Util.token(widget.token)),
+                builder: (context, response) {
+                  if (!response.hasData) {
+                    return Icon(FontAwesome5.calendar_check);
+                  } else {
+                    var dados = json.decode(response.data.body);
+                    int numeroConfirmacoes = dados['quantidade'];
+                    return Badge(
+                      badgeColor: Theme.of(context).primaryColor,
+                      showBadge: numeroConfirmacoes != 0,
+                      animationType: BadgeAnimationType.scale,
+                      position: BadgePosition(bottom: 8, start: 12),
+                      badgeContent: Text(
+                        numeroConfirmacoes.toString(),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      child: Icon(FontAwesome5.calendar_check),
+                    );
+                  }
+                },
+              );
             } else {
-              var dados = json.decode(snapshot.data);
+              var dados = json.decode(event.data);
               int numeroConfirmacoes = dados['quantidade'];
 
               return Badge(
