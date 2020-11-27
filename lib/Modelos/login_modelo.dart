@@ -33,6 +33,10 @@ class LoginModelo extends Model {
     await carregarDados();
   }
 
+  void teste() {
+    notifyListeners();
+  }
+
   //Criar conta com email e senha
   void criarContaEmail(
       {@required Login login,
@@ -93,41 +97,8 @@ class LoginModelo extends Model {
     } catch (error) {
       print(error);
       onFail();
-    }
-    /* isCarregando = true;
-    try {
-      notifyListeners();
-      GoogleSignInAccount googleUser =
-          await _googleSignIn.signIn().catchError((e) => null);
-      if (googleUser == null) {
-        isCarregando = false;
-        throw Exception("Erro ao logar");
-      }
-      GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication.catchError((e) {
-        return null;
-      });
-
-      final OAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await _auth.signInWithCredential(credential).then((_) async {
-        await _getUID();
-        await _salvarDadosUsuarioGoogle();
-        notifyListeners();
-        isCarregando = false;
-        onSucess();
-      }).catchError((e) {
-        isCarregando = false;
-        notifyListeners();
-        onFail();
-      });
-    } catch (e) {
       isCarregando = false;
-      print(e);
-      onFail();
-    }*/
+    }
   }
 
   Future<Null> _salvarDadosUsuarioGoogle(
@@ -167,7 +138,8 @@ class LoginModelo extends Model {
     await _storage.deleteAll();
   }
 
-  carregarDados() async {
+  Future<bool> carregarDados() async {
+    isCarregando = true;
     String email = await _storage.read(key: 'login');
     String senha = await _storage.read(key: 'senha');
     if (email != null && senha != null) {
@@ -188,8 +160,7 @@ class LoginModelo extends Model {
   }
 
   atualizaDados(
-      {
-        @required String telefone,
+      {@required String telefone,
       @required String nome,
       @required String token,
       @required VoidCallback onSucess,
