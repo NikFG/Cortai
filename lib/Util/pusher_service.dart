@@ -18,13 +18,14 @@ class PusherService {
   Map<String, dynamic> json;
 
   Future<void> initPusher() async {
+    // String token =
+    //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOTIuMTY4LjAuMTA4OjgwMDBcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE2MDY0Nzc2NjIsImV4cCI6MTYwNjQ4MTI2MiwibmJmIjoxNjA2NDc3NjYyLCJqdGkiOiJ2aHZITlAybUgxMmttZjBlIiwic3ViIjoyMiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.XfECYVeXXPLPIa6bLs6dTeEYex5KXOrKZ8anSHkYgjI";
     try {
       // await Pusher.init(APP_KEY, PusherOptions(cluster: PUSHER_CLUSTER,auth: PusherAuth('/broadcasting/auth',)));
       await Pusher.init(
           APP_KEY,
           PusherOptions(
             cluster: PUSHER_CLUSTER,
-            // encrypted: false,
             // auth: PusherAuth('http://192.168.0.108:8000/broadcasting/auth',
             //     headers: {
             //       'Authorization': 'Bearer $token',

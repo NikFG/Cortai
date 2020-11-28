@@ -190,7 +190,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                                           telefone: _telefoneControlador.text,
                                           isCabeleireiro: false,
                                           salaoId: null,
-                                          imagemUrl: null,
+                                          imagem: null,
                                           isDonoSalao: false,
                                           senha:
                                               _senhaConfirmaControlador.text);

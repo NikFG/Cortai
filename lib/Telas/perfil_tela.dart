@@ -74,9 +74,9 @@ class _PerfilTelaState extends State<PerfilTela> {
                       },
                       child: CircleAvatar(
                         radius: 32,
-                        backgroundImage: model.dados.imagemUrl == null
+                        backgroundImage: model.dados.imagem == null
                             ? AssetImage('assets/images/user.png')
-                            : NetworkImage(model.dados.imagemUrl),
+                            : NetworkImage(model.dados.imagem),
                         backgroundColor: Colors.transparent,
                       ),
                     ),
