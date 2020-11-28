@@ -102,16 +102,24 @@ class LoginModelo extends Model {
   }
 
   Future<Null> _salvarDadosUsuarioGoogle(
-      GoogleSignInAccount user, String token) async {
-    this.dados = Login(
-        nome: user.displayName,
-        email: user.email,
-        imagemUrl: user.photoUrl,
-        senha: token);
+      GoogleSignInAccount user, String google_token) async {
+    Login login = Login(
+      nome: user.displayName,
+      email: user.email,
+      imagem: user.photoUrl,
+      senha: google_token,
+      isCabeleireiro: false,
+      salaoId: null,
+      isDonoSalao: false,
+      isGoogle: true,
+    );
     try {
       Dio dio = Dio();
-      FormData data = FormData.fromMap(dados.toMap());
-      dio.post(_url + "login/google", data: data);
+      FormData data = FormData.fromMap(login.toMap());
+      var response = await dio.post(_url + "login/google", data: data);
+
+      _salvarDados(
+          response.data['user'], response.data['access_token'], google_token);
     } catch (e) {
       print(e);
     }
@@ -127,11 +135,13 @@ class LoginModelo extends Model {
     notifyListeners();
   }
 
-  _salvarDados(Map<String, dynamic> login, String token, String senha) {
+  _salvarDados(Map<String, dynamic> login, String token, String senha,
+      {bool isGoogle = false}) {
     this.token = token;
     dados = Login.fromJson(login);
     _storage.write(key: 'login', value: dados.email);
     _storage.write(key: 'senha', value: senha);
+    _storage.write(key: 'isGoogle', value: isGoogle.toString());
   }
 
   _apagarDados() async {
@@ -142,13 +152,16 @@ class LoginModelo extends Model {
     isCarregando = true;
     String email = await _storage.read(key: 'login');
     String senha = await _storage.read(key: 'senha');
+    bool isGoogle = await _storage.read(key: 'isGoogle') == 'true';
     if (email != null && senha != null) {
       Dio dio = Dio();
       FormData formData = FormData.fromMap({"email": email, "password": senha});
-      var response = await dio.post(_url + "login", data: formData);
+      String google = isGoogle ? "/google" : "";
+
+      var response = await dio.post(_url + "login" + google, data: formData);
       _salvarDados(response.data['user'], response.data['access_token'], senha);
-      isCarregando = false;
     }
+    isCarregando = false;
   }
 
   bool isLogado() {
