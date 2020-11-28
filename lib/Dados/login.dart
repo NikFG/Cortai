@@ -6,9 +6,10 @@ class Login {
   int salaoId;
   String telefone;
   String email;
-  String imagemUrl;
+  String imagem;
   bool isCabeleireiro;
   bool isDonoSalao;
+  bool isGoogle;
   String senha;
 
   Login.fromJson(Map<String, dynamic> dados) {
@@ -17,27 +18,27 @@ class Login {
     salaoId = dados['salao_id'];
     telefone = dados['telefone'];
     email = dados['email'];
-    imagemUrl = dados['imagem'];
+    imagem = dados['imagem'];
     isCabeleireiro = dados['is_cabeleireiro'] == 1;
     isDonoSalao = dados['is_dono_salao'] == 1;
   }
 
-  Login({
-    @required this.nome,
-    this.salaoId,
-    this.telefone,
-    this.email,
-    this.imagemUrl,
-    this.isCabeleireiro,
-    this.isDonoSalao,
-    this.id,
-    this.senha
-  });
+  Login(
+      {@required this.nome,
+      this.salaoId,
+      this.telefone,
+      this.email,
+      this.imagem,
+      this.isCabeleireiro,
+      this.isDonoSalao,
+      this.id,
+      this.senha,
+      this.isGoogle = false});
 
   @override
   String toString() {
     return 'LoginDados{id: $id, nome: $nome, telefone: $telefone, email: '
-        '$email, imagemUrl: $imagemUrl, isCabeleireiro: '
+        '$email, imagemUrl: $imagem, isCabeleireiro: '
         '$isCabeleireiro, isDonoSalao: $isDonoSalao}';
   }
 
@@ -46,12 +47,13 @@ class Login {
       'id': id,
       'email': email,
       'password': senha,
-      'imagem': imagemUrl,
+      'imagem': imagem,
       'nome': nome,
       'telefone': telefone,
       'salao_id': salaoId,
       'is_cabeleireiro': isCabeleireiro,
       'is_dono_salao': isDonoSalao,
+      'is_google': isGoogle
     };
   }
 }
