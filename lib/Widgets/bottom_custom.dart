@@ -34,7 +34,8 @@ class _BottomCustomState extends State<BottomCustom> {
     }
     pusher.firePusher(
         eventName: 'ContaConfirmar',
-        channelName: 'user.' + widget.usuario.toString());
+        channelName: 'private-user.' + widget.usuario.toString(),
+        token: widget.token);
     super.initState();
   }
 
