@@ -38,7 +38,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                       }
                       List<Horario> listaConfirmar =
                           jsonDecode(response.data.body)
-                              .map<Horario>((h) => Horario.fromJsonApi(h))
+                              .map<Horario>((h) => Horario.fromJson(h))
                               .toList();
                       return ListView.builder(
                         itemCount: listaConfirmar.length,
@@ -64,7 +64,7 @@ class _ConfirmarTelaState extends State<ConfirmarTela> {
                         );
                       }
                       var listaConfirmar = jsonDecode(response.data.body)
-                          .map<Horario>((h) => Horario.fromJsonApi(h))
+                          .map<Horario>((h) => Horario.fromJson(h))
                           .toList();
                       return ListView.builder(
                         itemCount: listaConfirmar.length,

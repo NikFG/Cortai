@@ -54,7 +54,7 @@ class AgendadoTela extends StatelessWidget {
                               itemCount: jsonFalse.data.length,
                               itemBuilder: (context, index) {
                                 var dado = jsonFalse.data[index];
-                                var horario = Horario.fromJsonApi(dado);
+                                var horario = Horario.fromJson(dado);
                                 return AgendadoTile(
                                   horario: horario,
                                   servico: horario.servicos.first,
@@ -96,7 +96,7 @@ class AgendadoTela extends StatelessWidget {
                               itemCount: jsonTrue.count,
                               itemBuilder: (context, index) {
                                 var dado = jsonTrue.data[index];
-                                var horario = Horario.fromJsonApi(dado);
+                                var horario = Horario.fromJson(dado);
                                 return AgendadoTile(
                                     horario: horario,
                                     servico: horario.servicos.first,
