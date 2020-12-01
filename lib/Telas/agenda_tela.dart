@@ -10,11 +10,14 @@ import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Stores/agenda_store.dart';
+import 'package:cortai/Util/pusher_service.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'home_tela.dart';
 import 'package:http/http.dart' as http;
@@ -34,14 +37,14 @@ class _AgendaTelaState extends State<AgendaTela> {
   var horarioController = TextEditingController();
   var profissionalController = TextEditingController();
   var pagamentoController = TextEditingController();
-
+  AgendaStore store = AgendaStore();
   int pagamento;
   int cabeleireiroSelecionado;
   DateTime data;
   bool _botaoHabilitado = true;
   var _formKey = GlobalKey<FormState>();
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // StreamSubscription<QuerySnapshot> listener;
   int indexPagamento;
   final List<Icon> listaIcons = [
     Icon(FontAwesome.credit_card),
@@ -50,10 +53,16 @@ class _AgendaTelaState extends State<AgendaTela> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
               title: Text(widget.nomeSalao),
               centerTitle: true,
@@ -184,42 +193,49 @@ class _AgendaTelaState extends State<AgendaTela> {
                         ),
                         Padding(
                           padding: EdgeInsets.all(24),
-                          child: GestureDetector(
-                            onTap: () async {
-                              if (this.data != null) {
-                                var response = await http.get(
-                                    FuncionamentoControle.getDiaSemana(
-                                        Util.weekdayToString(data),
-                                        model.dados.salaoId),
-                                    headers: Util.token(model.token));
-                                Funcionamento funcionamento =
-                                    Funcionamento.fromJson(
-                                        jsonDecode(response.body));
-                                _horarioBottomSheet(
-                                    context, funcionamento, model.token);
-                              } else {
-                                FlushbarHelper.createInformation(
-                                    message: "Selecione o dia primeiro",
-                                    duration: Duration(
-                                      milliseconds: 1500,
-                                    )).show(context);
-                              }
-                            },
-                            child: AbsorbPointer(
-                              child: CustomFormField(
-                                icon: Icon(Icons.access_time),
-                                hint: 'Horário',
-                                controller: horarioController,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return "Selecione o horário";
-                                  }
-                                  return null;
-                                },
-                                inputType: TextInputType.text,
+                          child: Observer(builder: (context) {
+                            if (store.isEmpty &&
+                                cabeleireiroSelecionado != null) {
+                              store.firePusher(
+                                  cabeleireiroSelecionado, model.token);
+                            }
+                            return GestureDetector(
+                              onTap: () async {
+                                if (this.data != null) {
+                                  var response = await http.get(
+                                      FuncionamentoControle.getDiaSemana(
+                                          Util.weekdayToString(data),
+                                          model.dados.salaoId),
+                                      headers: Util.token(model.token));
+                                  Funcionamento funcionamento =
+                                      Funcionamento.fromJson(
+                                          jsonDecode(response.body));
+                                  _horarioBottomSheet(
+                                      context, funcionamento, model.token);
+                                } else {
+                                  FlushbarHelper.createInformation(
+                                      message: "Selecione o dia primeiro",
+                                      duration: Duration(
+                                        milliseconds: 1500,
+                                      )).show(context);
+                                }
+                              },
+                              child: AbsorbPointer(
+                                child: CustomFormField(
+                                  icon: Icon(Icons.access_time),
+                                  hint: 'Horário',
+                                  controller: horarioController,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return "Selecione o horário";
+                                    }
+                                    return null;
+                                  },
+                                  inputType: TextInputType.text,
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          }),
                         ),
                         Align(
                           alignment: Alignment.topLeft,
@@ -296,12 +312,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                         SizedBox(
                           height: 20,
                         ),
-                        // Container(
-                        //   height: 100,
-                        //   child: CustomRadio(idPagamento: (value) {
-                        //     this.pagamento = value;
-                        //   }),
-                        // ),
                         Container(
                             alignment: Alignment.topRight,
                             width: MediaQuery.of(context).size.width - 20,
@@ -316,7 +326,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                                       ? () async {
                                           if (_formKey.currentState
                                               .validate()) {
-                                            // await listener.cancel();
                                             setState(() {
                                               _botaoHabilitado = false;
                                             });
@@ -367,26 +376,143 @@ class _AgendaTelaState extends State<AgendaTela> {
     );
   }
 
-  //TODO substituir para stream builder com pusher
-  _horarioBottomSheet(context, Funcionamento funcionamento, String token) {
-    showModalBottomSheet(
+  _horarioBottomSheet(
+      context, Funcionamento funcionamento, String token) async {
+    if (store.isEmpty) {
+      await store.getData(
+          HorarioControle.getData(dataController.text, cabeleireiroSelecionado),
+          token);
+    }
+    await showModalBottomSheet(
+      context: context,
+      builder: (context) => Observer(
+        builder: (context) {
+          if (store.isLoading) {
+            return CircularProgressIndicator();
+          } else {
+            DateTime dataAgora = DateTime.now();
+            DateTime horarioAtual;
+            if (data.day == dataAgora.day &&
+                dataAgora.month == data.month &&
+                data.year == dataAgora.year) {
+              horarioAtual = Util.timeFormat
+                  .parse("${dataAgora.hour}:${dataAgora.minute}");
+            }
+
+            store.itensHorario(
+                abertura: funcionamento.horarioAbertura,
+                fechamento: funcionamento.horarioFechamento,
+                intervalo: funcionamento.intervalo,
+                horarioAtual: horarioAtual);
+            if (store.stream.data != null) {
+              print(store.stream.data);
+              var dados =
+                  Map<String, dynamic>.from(json.decode(store.stream.data));
+              List<Horario> streamData = dados['horarios'].map<Horario>((h) {
+                return Horario.fromJson(h);
+              }).toList();
+              store.updateList(streamData);
+              store.itensHorario(
+                  abertura: funcionamento.horarioAbertura,
+                  fechamento: funcionamento.horarioFechamento,
+                  intervalo: funcionamento.intervalo,
+                  horarioAtual: horarioAtual);
+              print("mobx atualizou");
+            } else {
+              print("mobx nulo");
+            }
+            return Container(
+              child: ListView.builder(
+                itemCount: store.horariosTela.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      horarioController.text = store.horariosTela[index];
+                      Navigator.of(context).pop();
+                    },
+                    title: Text(
+                      store.horariosTela[index],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          }
+        },
+      ),
+    );
+
+  }
+/*    showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          return FutureBuilder<http.Response>(
-              future: http.get(
-                  HorarioControle.getData(
-                      dataController.text, cabeleireiroSelecionado),
-                  headers: Util.token(token)),
-              builder: (context, response) {
-                if (!response.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+          return StreamBuilder(
+              stream: pusher.eventStream,
+              builder: (context, event) {
+                if (!event.hasData) {
+                  return FutureBuilder<http.Response>(
+                      future: http.get(
+                          HorarioControle.getData(
+                              dataController.text, cabeleireiroSelecionado),
+                          headers: Util.token(token)),
+                      builder: (context, response) {
+                        if (!response.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          List<Horario> horarioDados =
+                              jsonDecode(response.data.body)
+                                  .map<Horario>((h) => Horario.fromJson(h))
+                                  .toList();
+                          DateTime dataAgora = DateTime.now();
+                          DateTime horarioAtual;
+                          if (data.day == dataAgora.day &&
+                              dataAgora.month == data.month &&
+                              data.year == dataAgora.year) {
+                            horarioAtual = Util.timeFormat
+                                .parse("${dataAgora.hour}:${dataAgora.minute}");
+                          }
+                          List<String> horarios = _itensHorario(
+                              abertura: funcionamento.horarioAbertura,
+                              fechamento: funcionamento.horarioFechamento,
+                              intervalo: funcionamento.intervalo,
+                              horarios: horarioDados,
+                              horarioAtual: horarioAtual);
+
+                          return Container(
+                            child: ListView.builder(
+                              itemCount: horarios.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  onTap: () {
+                                    horarioController.text = horarios[index];
+                                    Navigator.of(context).pop();
+                                  },
+                                  title: Text(
+                                    horarios[index],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                      });
                 } else {
-                  print(response.data.body);
-                  List<Horario> horarioDados = jsonDecode(response.data.body)
-                      .map<Horario>((h) => Horario.fromJsonApi(h))
-                      .toList();
+                  var dados =
+                      Map<String, dynamic>.from(json.decode(event.data));
+                  List<Horario> horarioDados =
+                      dados['horarios'].map<Horario>((h) {
+                    return Horario.fromJson(h);
+                  }).toList();
                   DateTime dataAgora = DateTime.now();
                   DateTime horarioAtual;
                   if (data.day == dataAgora.day &&
@@ -401,7 +527,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                       intervalo: funcionamento.intervalo,
                       horarios: horarioDados,
                       horarioAtual: horarioAtual);
-
+                  print(horarios);
                   return Container(
                     child: ListView.builder(
                       itemCount: horarios.length,
@@ -424,8 +550,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                   );
                 }
               });
-        });
-  }
+        })*/
+
 
   _profissionalBottomSheet(context, List<Cabeleireiro> cabeleireiros) {
     showModalBottomSheet(
@@ -607,6 +733,12 @@ class _AgendaTelaState extends State<AgendaTela> {
     setState(() {
       _botaoHabilitado = true;
     });
+  }
+
+  @override
+  void dispose() {
+    store.unbindEvent('AgendaCabeleireiro');
+    super.dispose();
   }
 
 // StreamSubscription<QuerySnapshot> listenerHorario() {
