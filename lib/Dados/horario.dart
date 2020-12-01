@@ -1,5 +1,6 @@
 import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/servico.dart';
+import 'package:cortai/Util/util.dart';
 
 import 'cliente.dart';
 
@@ -18,7 +19,7 @@ class Horario {
 
   Horario();
 
-  Horario.fromJsonApi(Map<String, dynamic> json) {
+  Horario.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     hora = json['hora'];
     data = json['data'];
@@ -28,9 +29,11 @@ class Horario {
     cliente =
         json['cliente'] != null ? Cliente.fromJson(json['cliente']) : Cliente();
     confirmado = json['confirmado'] == 1;
-    servicos = json['servicos'].map<Servico>((s) {
-      return Servico.fromJsonApi(s);
-    }).toList();
+    servicos = json['servicos'] != null
+        ? json['servicos'].map<Servico>((s) {
+            return Servico.fromJsonApi(s);
+          }).toList()
+        : [];
     pago = json['pago'] == 1;
     formaPagamentoId = json['formaPagamento'];
   }
