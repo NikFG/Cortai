@@ -17,7 +17,7 @@ class PusherService {
   Event lastEvent;
   String lastConnectionState;
   Channel channel;
-  Map<String, dynamic> json;
+
 
   Future<void> initPusher(String token) async {
     var auth = PusherAuth(URL, headers: Util.token(token));
@@ -65,7 +65,7 @@ class PusherService {
   Future<void> firePusher({
     @required String channelName,
     @required String eventName,
-    token,
+    @required token,
   }) async {
     print(channelName);
     await initPusher(token);
