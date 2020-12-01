@@ -11,7 +11,6 @@ import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/agenda_store.dart';
-import 'package:cortai/Util/pusher_service.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -329,25 +328,43 @@ class _AgendaTelaState extends State<AgendaTela> {
                                             setState(() {
                                               _botaoHabilitado = false;
                                             });
-                                            Horario horario = Horario();
-                                            horario.cabeleireiroId =
-                                                cabeleireiroSelecionado;
-                                            horario.clienteId = model.dados.id;
-                                            horario.confirmado = false;
-                                            horario.data = dataController.text;
-                                            horario.formaPagamentoId =
-                                                pagamento;
-                                            horario.hora =
-                                                horarioController.text;
-                                            horario.pago = false;
-                                            horario.servicos = List<Servico>();
-                                            horario.servicos
-                                                .add(widget.servico);
-                                            HorarioControle.store(
-                                                horario: horario,
-                                                token: model.token,
-                                                onSuccess: onSuccess,
-                                                onFail: onFail);
+                                            if (store.horarioOcupado(
+                                                horarioController.text)) {
+                                              horarioController.text = "";
+                                              await FlushbarHelper
+                                                      .createInformation(
+                                                          message:
+                                                              "Horário ocupado",
+                                                          duration: Duration(
+                                                              seconds: 2))
+                                                  .show(context);
+                                              setState(() {
+                                                _botaoHabilitado = true;
+                                              });
+                                            } else {
+                                              Horario horario = Horario();
+                                              horario.cabeleireiroId =
+                                                  cabeleireiroSelecionado;
+                                              horario.clienteId =
+                                                  model.dados.id;
+                                              horario.confirmado = false;
+                                              horario.data =
+                                                  dataController.text;
+                                              horario.formaPagamentoId =
+                                                  pagamento;
+                                              horario.hora =
+                                                  horarioController.text;
+                                              horario.pago = false;
+                                              horario.servicos =
+                                                  List<Servico>();
+                                              horario.servicos
+                                                  .add(widget.servico);
+                                              HorarioControle.store(
+                                                  horario: horario,
+                                                  token: model.token,
+                                                  onSuccess: onSuccess,
+                                                  onFail: onFail);
+                                            }
                                           }
                                         }
                                       : null,
@@ -398,7 +415,6 @@ class _AgendaTelaState extends State<AgendaTela> {
               horarioAtual = Util.timeFormat
                   .parse("${dataAgora.hour}:${dataAgora.minute}");
             }
-
             store.itensHorario(
                 abertura: funcionamento.horarioAbertura,
                 fechamento: funcionamento.horarioFechamento,
@@ -412,14 +428,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                 return Horario.fromJson(h);
               }).toList();
               store.updateList(streamData);
-              store.itensHorario(
-                  abertura: funcionamento.horarioAbertura,
-                  fechamento: funcionamento.horarioFechamento,
-                  intervalo: funcionamento.intervalo,
-                  horarioAtual: horarioAtual);
-              print("mobx atualizou");
-            } else {
-              print("mobx nulo");
             }
             return Container(
               child: ListView.builder(
@@ -445,112 +453,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         },
       ),
     );
-
   }
-/*    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return StreamBuilder(
-              stream: pusher.eventStream,
-              builder: (context, event) {
-                if (!event.hasData) {
-                  return FutureBuilder<http.Response>(
-                      future: http.get(
-                          HorarioControle.getData(
-                              dataController.text, cabeleireiroSelecionado),
-                          headers: Util.token(token)),
-                      builder: (context, response) {
-                        if (!response.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else {
-                          List<Horario> horarioDados =
-                              jsonDecode(response.data.body)
-                                  .map<Horario>((h) => Horario.fromJson(h))
-                                  .toList();
-                          DateTime dataAgora = DateTime.now();
-                          DateTime horarioAtual;
-                          if (data.day == dataAgora.day &&
-                              dataAgora.month == data.month &&
-                              data.year == dataAgora.year) {
-                            horarioAtual = Util.timeFormat
-                                .parse("${dataAgora.hour}:${dataAgora.minute}");
-                          }
-                          List<String> horarios = _itensHorario(
-                              abertura: funcionamento.horarioAbertura,
-                              fechamento: funcionamento.horarioFechamento,
-                              intervalo: funcionamento.intervalo,
-                              horarios: horarioDados,
-                              horarioAtual: horarioAtual);
-
-                          return Container(
-                            child: ListView.builder(
-                              itemCount: horarios.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  onTap: () {
-                                    horarioController.text = horarios[index];
-                                    Navigator.of(context).pop();
-                                  },
-                                  title: Text(
-                                    horarios[index],
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }
-                      });
-                } else {
-                  var dados =
-                      Map<String, dynamic>.from(json.decode(event.data));
-                  List<Horario> horarioDados =
-                      dados['horarios'].map<Horario>((h) {
-                    return Horario.fromJson(h);
-                  }).toList();
-                  DateTime dataAgora = DateTime.now();
-                  DateTime horarioAtual;
-                  if (data.day == dataAgora.day &&
-                      dataAgora.month == data.month &&
-                      data.year == dataAgora.year) {
-                    horarioAtual = Util.timeFormat
-                        .parse("${dataAgora.hour}:${dataAgora.minute}");
-                  }
-                  List<String> horarios = _itensHorario(
-                      abertura: funcionamento.horarioAbertura,
-                      fechamento: funcionamento.horarioFechamento,
-                      intervalo: funcionamento.intervalo,
-                      horarios: horarioDados,
-                      horarioAtual: horarioAtual);
-                  print(horarios);
-                  return Container(
-                    child: ListView.builder(
-                      itemCount: horarios.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          onTap: () {
-                            horarioController.text = horarios[index];
-                            Navigator.of(context).pop();
-                          },
-                          title: Text(
-                            horarios[index],
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 22,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              });
-        })*/
 
 
   _profissionalBottomSheet(context, List<Cabeleireiro> cabeleireiros) {
