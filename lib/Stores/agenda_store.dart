@@ -26,6 +26,7 @@ abstract class _AgendaStore with Store {
   @observable
   List<String> horariosTela = [];
 
+
   @observable
   bool isLoading = false;
 
@@ -34,6 +35,11 @@ abstract class _AgendaStore with Store {
 
   @computed
   bool get isEmpty => horarios.isEmpty;
+
+  @action
+  bool horarioOcupado(String horario){
+    return horariosTela.contains(horario);
+  }
 
   @action
   Future<void> getData(String url, String token) async {

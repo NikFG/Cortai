@@ -94,6 +94,17 @@ mixin _$AgendaStore on _AgendaStore, Store {
   final _$_AgendaStoreActionController = ActionController(name: '_AgendaStore');
 
   @override
+  bool horarioOcupado(String horario) {
+    final _$actionInfo = _$_AgendaStoreActionController.startAction(
+        name: '_AgendaStore.horarioOcupado');
+    try {
+      return super.horarioOcupado(horario);
+    } finally {
+      _$_AgendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void unbindEvent(String eventName) {
     final _$actionInfo = _$_AgendaStoreActionController.startAction(
         name: '_AgendaStore.unbindEvent');
