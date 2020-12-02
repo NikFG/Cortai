@@ -2,6 +2,7 @@ import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/home_tela.dart';
 import 'package:cortai/Tiles/start_screen.dart';
+import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,7 +11,9 @@ import 'package:splashscreen/splashscreen.dart';
 
 class SplashCustom extends StatefulWidget {
   final bool logado;
+
   SplashCustom(this.logado);
+
   @override
   _SplashCustomState createState() => _SplashCustomState();
 }
@@ -22,8 +25,10 @@ class _SplashCustomState extends State<SplashCustom> {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
       builder: (BuildContext context, Widget child, LoginModelo model) {
+        requestPermission(Permission.notification);
         if (_permissionStatus.isUndetermined)
           requestPermission(Permission.location);
+
         return SplashScreen(
           seconds: 5,
           navigateAfterSeconds: _telaInicial(model),
@@ -39,7 +44,6 @@ class _SplashCustomState extends State<SplashCustom> {
   }
 
   Widget _telaInicial(LoginModelo model) {
-
     if (widget.logado) {
       model.carregarDados();
       return HomeTela();

@@ -2,6 +2,7 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/editar_salao_tela.dart';
 import 'package:cortai/Tiles/home_tab.dart';
 import 'package:cortai/Telas/perfil_tela.dart';
+import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -21,10 +22,12 @@ class HomeTela extends StatefulWidget {
 
 class _HomeTelaState extends State<HomeTela> {
   int index;
+  OneSignalService oss;
 
   @override
   void initState() {
     super.initState();
+    oss = OneSignalService.init();
     index = widget.paginaInicial;
   }
 
@@ -34,9 +37,13 @@ class _HomeTelaState extends State<HomeTela> {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model.dados != null) {
+          oss.gravaIdExterna(model.dados.isCabeleireiro,
+              model.dados.isDonoSalao, model.dados.id);
+
           if (model.dados.isDonoSalao && model.dados.salaoId == null) {
             return EditarSalaoTela();
           }
+
           return Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
                   model.dados.isCabeleireiro, model.dados.id, model.token),

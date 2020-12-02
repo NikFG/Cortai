@@ -10,7 +10,6 @@ import 'Controle/shared_preferences_controle.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  OneSignalService.init();
   await SharedPreferencesControle.getInstace();
   bool logado = await FlutterSecureStorage().containsKey(key: 'senha');
   runApp(MyApp(logado));
