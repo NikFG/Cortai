@@ -8,7 +8,7 @@ class Servico {
   String imagem;
   List<int> cabeleireiros;
   List<Cabeleireiro> cabeleireirosApi;
-  int salao;
+  int salao_id;
   String observacao;
   bool ativo;
 
@@ -47,6 +47,7 @@ class Servico {
             .toList()
         : null;
     ativo = servico['deleted_at'] == null;
+    salao_id = servico['salao_id'];
   }
 
   Map<String, dynamic> toMap() {
@@ -54,7 +55,7 @@ class Servico {
       "id": id,
       "nome": descricao,
       "valor": _valor,
-      'salao_id': salao,
+      'salao_id': salao_id,
       'cabeleireiros': cabeleireiros,
       'observacao': observacao,
       'ativo': ativo,
