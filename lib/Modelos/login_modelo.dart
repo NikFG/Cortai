@@ -148,7 +148,7 @@ class LoginModelo extends Model {
     await _storage.deleteAll();
   }
 
-  Future<bool> carregarDados() async {
+  Future<Null> carregarDados() async {
     isCarregando = true;
     String email = await _storage.read(key: 'login');
     String senha = await _storage.read(key: 'senha');
