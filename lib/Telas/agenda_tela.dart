@@ -150,8 +150,9 @@ class _AgendaTelaState extends State<AgendaTela> {
                             onTap: () async {
                               var response = await http.get(
                                   FuncionamentoControle.get(
-                                      model.dados.salaoId),
+                                      widget.servico.salao_id),
                                   headers: Util.token(model.token));
+                              print(response.body);
                               List<Funcionamento> funcionamento =
                                   jsonDecode(response.body)
                                       .map<Funcionamento>(
@@ -159,7 +160,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                       .toList();
                               var diasSemana =
                                   _verificaDiasSemana(funcionamento);
-                              _calendario(context, diasSemana);
+                              await _calendario(context, diasSemana);
                             },
                             child: AbsorbPointer(
                               child: CustomFormField(
@@ -204,7 +205,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   var response = await http.get(
                                       FuncionamentoControle.getDiaSemana(
                                           Util.weekdayToString(data),
-                                          model.dados.salaoId),
+                                          widget.servico.salao_id),
                                       headers: Util.token(model.token));
                                   Funcionamento funcionamento =
                                       Funcionamento.fromJson(
@@ -254,7 +255,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                           child: GestureDetector(
                             onTap: () async {
                               _metodoPagamentoBottomSheet(
-                                  context, model.dados.salaoId, model.token);
+                                  context, widget.servico.salao_id, model.token);
                             },
                             child: AbsorbPointer(
                               child: CustomFormField(
@@ -328,7 +329,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                             setState(() {
                                               _botaoHabilitado = false;
                                             });
-                                            if (store.horarioOcupado(
+                                            if (!store.horarioOcupado(
                                                 horarioController.text)) {
                                               horarioController.text = "";
                                               await FlushbarHelper
