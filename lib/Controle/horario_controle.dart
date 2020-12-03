@@ -18,6 +18,9 @@ class HorarioControle {
   static String getCabeleireiro(String tipo, int confirmado) {
     return _url + "$tipo/${confirmado.toString()}";
   }
+  static String getCabeleireiroAux() {
+    return _url + "cabeleireiro";
+  }
 
   static String getQuantidade(int id) {
     return _url + "count/${id.toString()}";
