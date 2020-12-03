@@ -10,8 +10,9 @@ import 'package:scoped_model/scoped_model.dart';
 
 class ConfirmarTile extends StatefulWidget {
   final Horario horario;
+  final ValueChanged<int> confirmadoChanged;
 
-  ConfirmarTile(this.horario);
+  ConfirmarTile(this.horario, {this.confirmadoChanged});
 
   @override
   _ConfirmarTileState createState() => _ConfirmarTileState();
@@ -23,9 +24,6 @@ class _ConfirmarTileState extends State<ConfirmarTile>
   String valor;
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   void initState() {
     super.initState();
     valor = widget.horario.servicos.first.valorFormatado();
@@ -33,8 +31,8 @@ class _ConfirmarTileState extends State<ConfirmarTile>
 
   @override
   Widget build(BuildContext context) {
-    Cliente cliente = widget.horario.cliente;
     super.build(context);
+    Cliente cliente = widget.horario.cliente;
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) => CustomListTile(
         onTap: () => !widget.horario.confirmado
@@ -99,6 +97,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
                     onTap: () {
                       confirmado = true;
                       Navigator.of(context).pop();
+
                       HorarioControle.confirmaAgendamento(
                           widget.horario.id, token,
                           onSuccess: () {}, onFail: () {}, context: context);
@@ -186,6 +185,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
   }
 
   void onSuccess() async {
+    widget.confirmadoChanged(widget.horario.id);
     await FlushbarHelper.createSuccess(
             message: "Horário confirmado com sucesso",
             duration: Duration(seconds: 2))
@@ -226,4 +226,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
             duration: Duration(seconds: 2))
         .show(Scaffold.of(context).context);
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
