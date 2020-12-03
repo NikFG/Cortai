@@ -1,7 +1,5 @@
 import 'package:cortai/Dados/login.dart';
-
 import 'package:cortai/Util/util.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as fss;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -71,12 +69,14 @@ class LoginModelo extends Model {
     try {
       FormData formData = FormData.fromMap({"email": email, "password": senha});
       var response = await dio.post(_url + "login", data: formData);
+      print(response.data);
       isCarregando = false;
       _salvarDados(response.data['user'], response.data['access_token'], senha);
       notifyListeners();
       onSuccess();
     } catch (e) {
       print(e);
+      isCarregando = false;
       onFail();
     }
   }
@@ -168,8 +168,12 @@ class LoginModelo extends Model {
     return token.isNotEmpty;
   }
 
-  recuperarSenha(String email) async {
-    //Criar rota laravel recuperar senha
+  Future<bool> recuperarSenha(String email) async {
+    Dio dio = Dio();
+    var response = await dio.post(_url + "login/reset",
+        data: FormData.fromMap({'email': email}));
+    print(response.data);
+    return response.statusCode == 200;
   }
 
   atualizaDados(
