@@ -161,6 +161,11 @@ class _LoginTelaState extends State<LoginTela> {
                                                         "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
                                                 .show(context);
                                           }
+                                        }else{
+                                          await FlushbarHelper.createInformation(
+                                              message:
+                                              "Digite seu email para recuperar a senha!")
+                                              .show(context);
                                         }
                                       },
                                       child: Text('Esqueceu a senha ?',
