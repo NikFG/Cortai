@@ -3,8 +3,6 @@ class Avaliacao {
   double valor;
   String observacao;
   String data;
-  String cabeleireiro;
-  int salaoId;
   int horarioId;
 
   Avaliacao();
@@ -19,12 +17,10 @@ class Avaliacao {
   Map<String, dynamic> toMap() {
     return {
       "id": id,
-      "avaliacao": valor,
+      "valor": valor,
       "descricao": observacao,
-      "data": data,
-      "cabeleireiro": cabeleireiro,
-      "salao": salaoId,
-      "horario": horarioId,
+      "data": data.replaceAll("/", '-'),
+      "horario_id": horarioId,
     };
   }
 }
