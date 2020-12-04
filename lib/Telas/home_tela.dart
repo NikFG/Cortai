@@ -134,8 +134,8 @@ class _HomeTelaState extends State<HomeTela> {
                       ),
                     ),
                   ),
-                  PerfilTela(),
-                  DefaultTabController(
+
+                  model.dados.isCabeleireiro ? DefaultTabController(
                     length: 2,
                     child: Scaffold(
                       body: ConfirmarTela(),
@@ -211,12 +211,13 @@ class _HomeTelaState extends State<HomeTela> {
                         ],
                       ),
                     ),
-                  ),
+                  ) : PerfilTela(),
                   Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height / 20),
                     child: GerenciarServicoTela(),
                   ),
+                  PerfilTela() ,
                 ],
               ));
         } else {
