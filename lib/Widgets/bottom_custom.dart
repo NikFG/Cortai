@@ -28,10 +28,16 @@ class _BottomCustomState extends State<BottomCustom> {
 
   @override
   void initState() {
+
     itensUsuario();
     if (widget.isCabeleireiro) {
       itensCabeleireiro(widget.usuario);
     }
+    itens.add(BottomNavigationBarItem(
+      icon: Icon(FontAwesome.user_circle_o),
+      label: "Perfil",
+    ));
+
     pusher.firePusher(
         eventName: 'ContaConfirmar',
         channelName: 'private-conta.' + widget.usuario.toString(),
@@ -41,6 +47,7 @@ class _BottomCustomState extends State<BottomCustom> {
 
   @override
   Widget build(BuildContext context) {
+
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: widget.index,
@@ -68,10 +75,6 @@ class _BottomCustomState extends State<BottomCustom> {
       BottomNavigationBarItem(
         icon: Icon(FontAwesome.calendar_o),
         label: "Agenda",
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(FontAwesome.user_circle_o),
-        label: "Perfil",
       ),
     ];
     this.itens.addAll(itens);
