@@ -58,6 +58,7 @@ class AgendadoTela extends StatelessWidget {
                                 return AgendadoTile(
                                   horario: horario,
                                   servico: horario.servicos.first,
+                                  token: model.token,
                                 );
                               }),
                     );
@@ -100,6 +101,7 @@ class AgendadoTela extends StatelessWidget {
                                 return AgendadoTile(
                                     horario: horario,
                                     servico: horario.servicos.first,
+                                    token: model.token,
                                     avaliado: true);
                               }),
                     );

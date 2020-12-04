@@ -6,6 +6,8 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/home_store.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Tiles/home_tile.dart';
+import 'package:cortai/Util/api.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/carousel.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
@@ -132,7 +134,7 @@ class _HomeTabState extends State<HomeTab> {
                 builder: (context, child, model) {
                   return FutureBuilder<http.Response>(
                     future: http.get(SalaoControle.get() + param,
-                        headers: {"Authorization": "Bearer ${model.token}"}),
+                        headers: Util.token(model.token)),
                     builder: (context, response) {
                       if (!response.hasData) {
                         return CustomShimmer(3);

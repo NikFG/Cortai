@@ -17,10 +17,13 @@ class AgendadoTile extends StatefulWidget {
   final Servico servico;
   final bool avaliado;
 
+  final String token;
+
   AgendadoTile(
       {@required this.horario,
       @required this.servico,
-      this.avaliado});
+      @required this.token,
+      this.avaliado = false});
 
   @override
   _AgendadoTileState createState() => _AgendadoTileState();
@@ -51,8 +54,8 @@ class _AgendadoTileState extends State<AgendadoTile>
                   servico: widget.servico,
                 )));
       },
-      title:
-          Text("${widget.servico.descricao} com ${widget.horario.cabeleireiro.nome}"),
+      title: Text(
+          "${widget.servico.descricao} com ${widget.horario.cabeleireiro.nome}"),
       subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.hora}"),
       trailing: widget.horario.pago
           ? FlatButton(
@@ -69,14 +72,14 @@ class _AgendadoTileState extends State<AgendadoTile>
                 ],
               ),
               onPressed: () {
-                _avaliarDialog(context);
+                _avaliarDialog(context, widget.token);
               })
           : confirmado(),
       leading: null,
     );
   }
 
-  _avaliarDialog(BuildContext context) {
+  _avaliarDialog(BuildContext context, String token) {
     bool confirmado = false;
     var _descricaoControlador = TextEditingController();
     try {
@@ -143,16 +146,13 @@ class _AgendadoTileState extends State<AgendadoTile>
                         if (_avaliacao > 1) {
                           var dataHora = DateTime.now();
                           Avaliacao dados = Avaliacao();
-                          dados.cabeleireiro =
-                              widget.horario.cabeleireiro.toString();
                           dados.valor = _avaliacao;
                           dados.observacao = _descricaoControlador.text;
-                          dados.salaoId = widget.horario.cabeleireiro.salaoId;
                           dados.data = Util.dateFormat.format(dataHora);
                           // dados.hora = Util.timeFormat.format(dataHora);
                           dados.horarioId = widget.horario.id;
                           AvaliacaoControle.store(dados,
-                              onSuccess: () {}, onFail: () {});
+                              token: token, onSuccess: () {}, onFail: () {});
                           avaliado = true;
                           confirmado = true;
                           Navigator.of(context).pop();
