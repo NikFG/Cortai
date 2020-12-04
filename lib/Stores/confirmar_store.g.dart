@@ -95,11 +95,11 @@ mixin _$ConfirmarStore on _ConfirmarStore, Store {
       ActionController(name: '_ConfirmarStore');
 
   @override
-  dynamic teste(int index) {
+  void mudaLista(int index) {
     final _$actionInfo = _$_ConfirmarStoreActionController.startAction(
-        name: '_ConfirmarStore.teste');
+        name: '_ConfirmarStore.mudaLista');
     try {
-      return super.teste(index);
+      return super.mudaLista(index);
     } finally {
       _$_ConfirmarStoreActionController.endAction(_$actionInfo);
     }

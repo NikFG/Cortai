@@ -51,7 +51,7 @@ abstract class _ConfirmarStore with Store {
   int get contNaoConfirmados => naoConfirmados.length;
 
   @action
-  teste(int index) {
+  void mudaLista(int index) {
     Horario h = naoConfirmados[index];
     naoConfirmados.remove(h);
     h.confirmado = true;
