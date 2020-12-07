@@ -1,4 +1,5 @@
 import 'package:cortai/Dados/login.dart';
+import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as fss;
@@ -68,8 +69,18 @@ class LoginModelo extends Model {
     var dio = Dio();
     try {
       FormData formData = FormData.fromMap({"email": email, "password": senha});
-      var response = await dio.post(_url + "login", data: formData);
-      print(response.data);
+      var response = await dio.post(_url + "login",
+          data: formData,
+          options: Options(
+              followRedirects: false,
+              validateStatus: (status) {
+                return status <= 500;
+              }));
+      if (response.statusCode == 403) {
+        onVerifyEmail();
+        isCarregando = false;
+        return;
+      }
       isCarregando = false;
       _salvarDados(response.data['user'], response.data['access_token'], senha);
       notifyListeners();
@@ -94,7 +105,7 @@ class LoginModelo extends Model {
       }
       _salvarDadosUsuarioGoogle(googleUser, auth.accessToken);
       onSucess();
-    } catch (error) {
+    } on DioError catch (error) {
       print(error);
       onFail();
       isCarregando = false;
@@ -119,7 +130,8 @@ class LoginModelo extends Model {
       var response = await dio.post(_url + "login/google", data: data);
 
       _salvarDados(
-          response.data['user'], response.data['access_token'], google_token);
+          response.data['user'], response.data['access_token'], google_token,
+          isGoogle: true);
     } catch (e) {
       print(e);
     }
@@ -159,7 +171,8 @@ class LoginModelo extends Model {
       String google = isGoogle ? "/google" : "";
 
       var response = await dio.post(_url + "login" + google, data: formData);
-      _salvarDados(response.data['user'], response.data['access_token'], senha);
+      _salvarDados(response.data['user'], response.data['access_token'], senha,
+          isGoogle: isGoogle);
     }
     isCarregando = false;
   }
@@ -181,27 +194,21 @@ class LoginModelo extends Model {
       @required String nome,
       @required String token,
       @required VoidCallback onSucess,
-      @required VoidCallback onFail}) async {
+      @required void onFail(String error)}) async {
     try {
-      Dio dio = Dio();
-      FormData formData = FormData.fromMap({
-        'telefone': telefone,
-        'nome': nome,
-      });
-      var response = await dio.post(_url + "edit/${dados.id}",
-          data: formData,
-          options: Options(
-            headers: Util.token(token),
-          ));
-      if (response.statusCode == 200) {
-        dados.telefone = telefone;
-        dados.nome = nome;
-        onSucess();
-      } else
-        onFail();
+      Api api = Api();
+      await api.update(
+          _url, {'telefone': telefone, 'nome': nome}, token, dados.id);
+      dados.telefone = telefone;
+      dados.nome = nome;
+      onSucess();
     } catch (e) {
-      print(e);
-      onFail();
+      String error = "";
+      e.forEach((k, v) {
+        error +=
+            v.toString().replaceFirst('[', '').replaceFirst(']', '') + "\n";
+      });
+      onFail(error);
     }
   }
 }
