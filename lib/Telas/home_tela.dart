@@ -221,7 +221,7 @@ class _HomeTelaState extends State<HomeTela> {
                 ],
               ));
         } else {
-          model.teste();
+          model.listeners();
           return Center();
         }
       },

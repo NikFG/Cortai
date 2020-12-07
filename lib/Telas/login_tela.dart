@@ -188,7 +188,7 @@ class _LoginTelaState extends State<LoginTela> {
                                             setState(() {
                                               _botaoHabilitado = false;
                                             });
-                                            model.signInEmail(
+                                            model.logarEmail(
                                                 email: _emailControlador.text,
                                                 senha: _senhaControlador.text,
                                                 onSuccess: onSuccess,

@@ -32,7 +32,7 @@ class LoginModelo extends Model {
     await carregarDados();
   }
 
-  void teste() {
+  void listeners() {
     notifyListeners();
   }
 
@@ -58,7 +58,7 @@ class LoginModelo extends Model {
   }
 
   //Login no firebase via email/senha
-  void signInEmail(
+  void logarEmail(
       {@required String email,
       @required String senha,
       @required VoidCallback onSuccess,
@@ -92,7 +92,7 @@ class LoginModelo extends Model {
     }
   }
 
-  //Login no firebase via Google
+  //Login via Google na API
   Future<Null> logarGoogle(VoidCallback onSucess, VoidCallback onFail) async {
     isCarregando = true;
     try {
