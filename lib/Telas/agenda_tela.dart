@@ -11,6 +11,7 @@ import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/agenda_store.dart';
+import 'package:cortai/Util/api.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -254,8 +255,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                           padding: EdgeInsets.all(24),
                           child: GestureDetector(
                             onTap: () async {
-                              _metodoPagamentoBottomSheet(
-                                  context, widget.servico.salao_id, model.token);
+                              _metodoPagamentoBottomSheet(context,
+                                  widget.servico.salao_id, model.token);
                             },
                             child: AbsorbPointer(
                               child: CustomFormField(
@@ -456,7 +457,6 @@ class _AgendaTelaState extends State<AgendaTela> {
     );
   }
 
-
   _profissionalBottomSheet(context, List<Cabeleireiro> cabeleireiros) {
     showModalBottomSheet(
         context: context,
@@ -491,8 +491,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         context: context,
         builder: (bc) {
           return FutureBuilder<http.Response>(
-            future: http.get(FormaPagamentoControle.get(salaoId),
-                headers: Util.token(token)),
+            future: Api.get(FormaPagamentoControle.get(salaoId), token),
             builder: (context, response) {
               if (!response.hasData) {
                 return Center(
@@ -629,10 +628,9 @@ class _AgendaTelaState extends State<AgendaTela> {
         context, MaterialPageRoute(builder: (context) => HomeTela()));
   }
 
-  void onFail() async {
+  void onFail(String error) async {
     await FlushbarHelper.createError(
-            message: "Houve algum erro ao agendar",
-            duration: Duration(milliseconds: 1500))
+            message: error, duration: Duration(milliseconds: 1500))
         .show(context);
     setState(() {
       _botaoHabilitado = true;

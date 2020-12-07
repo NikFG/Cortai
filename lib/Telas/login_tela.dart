@@ -161,10 +161,10 @@ class _LoginTelaState extends State<LoginTela> {
                                                         "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
                                                 .show(context);
                                           }
-                                        }else{
+                                        } else {
                                           await FlushbarHelper.createInformation(
-                                              message:
-                                              "Digite seu email para recuperar a senha!")
+                                                  message:
+                                                      "Digite seu email para recuperar a senha!")
                                               .show(context);
                                         }
                                       },
@@ -300,7 +300,8 @@ class _LoginTelaState extends State<LoginTela> {
 
   void onVerifyEmail() {
     FlushbarHelper.createInformation(
-            message: "Verifique seu email antes de fazer login")
+            title: "Verifique seu email antes de fazer login!",
+            message: "Olhe sua caixa de entrada e seu spam!")
         .show(context);
     setState(() {
       _botaoHabilitado = true;

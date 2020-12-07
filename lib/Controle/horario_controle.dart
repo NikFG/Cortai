@@ -1,4 +1,5 @@
 import 'package:cortai/Dados/horario.dart';
+import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class HorarioControle {
   static String getCabeleireiro(String tipo, int confirmado) {
     return _url + "$tipo/${confirmado.toString()}";
   }
+
   static String getCabeleireiroAux() {
     return _url + "cabeleireiro";
   }
@@ -30,23 +32,18 @@ class HorarioControle {
       {@required Horario horario,
       @required String token,
       @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
-    Dio dio = Dio();
+      @required Function onFail(String error)}) async {
     try {
-      FormData formData = FormData.fromMap(horario.toMap());
-      var response = await dio.post(
-        _url + "store",
-        data: formData,
-        options: Options(headers: Util.token(token)),
-      );
-      print(response.data);
-      if (response.statusCode == 500) {
-        onFail();
-      }
+      Api api = Api();
+      api.store(_url, horario.toMap(), token);
       onSuccess();
     } catch (e) {
-      print(e);
-      onFail();
+      String error = "";
+      e.forEach((k, v) {
+        error +=
+            v.toString().replaceFirst('[', '').replaceFirst(']', '') + "\n";
+      });
+      onFail(error);
     }
   }
 

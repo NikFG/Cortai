@@ -1,5 +1,6 @@
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Util/api.dart';
 
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
@@ -23,7 +24,7 @@ class EditarPerfilTela extends StatefulWidget {
 class _EditarPerfilTelaState extends State<EditarPerfilTela> {
   var _formKey = GlobalKey<FormState>();
   final _nomeControlador = TextEditingController();
-  final _telefoneControlador = MaskedTextController(mask: '(00) 0 0000-0000');
+  final _telefoneControlador = MaskedTextController(mask: '(00) 00000-0000');
   bool _botaoHabilitado = true;
 
   @override
@@ -80,7 +81,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                               )),
                           SizedBox(height: 5),
                           CustomFormField(
-                              hint: "(99)9 9999-9999",
+                              hint: "(99) 99999-9999",
                               icon: Icon(
                                 FontAwesome.phone,
                                 color: Colors.grey,
@@ -126,49 +127,12 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                                 _botaoHabilitado = false;
                               });
 
-                              model.atualizaDados(
+                              await model.atualizaDados(
                                   telefone: _telefoneControlador.text,
                                   nome: _nomeControlador.text,
                                   token: model.token,
-                                  onSucess: () async {
-                                    await FlushbarHelper.createSuccess(
-                                            message:
-                                                "Informações de usuário atualizadas com sucesso")
-                                        .show(context);
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomeTela()));
-                                  },
-                                  onFail: () async {
-                                    await FlushbarHelper.createError(
-                                            message:
-                                                "Houve algum erro ao atualizar as informações")
-                                        .show(context);
-                                    setState(() {
-                                      _botaoHabilitado = true;
-                                    });
-                                  });
-                              /*  await Firestore.instance
-                                  .collection('usuarios')
-                                  .document(model.dados.id.toString())
-                                  .setData(model.dados.toMap())
-                                  .then((value) async {
-                                await FlushbarHelper.createSuccess(
-                                        message:
-                                            "Informações de usuário atualizadas com sucesso")
-                                    .show(context);
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) => HomeTela()));
-                              }).catchError((e) async {
-                                await FlushbarHelper.createError(
-                                        message:
-                                            "Houve algum erro ao atualizar as informações")
-                                    .show(context);
-                                setState(() {
-                                  _botaoHabilitado = true;
-                                });
-                              });*/
+                                  onSucess: onSuccess,
+                                  onFail: onFail);
                             }
                           },
                           child: _botaoHabilitado
@@ -192,5 +156,22 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
         return Center();
       },
     );
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Informações de usuário atualizadas com sucesso")
+        .show(context);
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+  }
+
+  void onFail(String error) async {
+    await FlushbarHelper.createError(
+            message: error)
+        .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
   }
 }
