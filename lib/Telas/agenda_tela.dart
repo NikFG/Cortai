@@ -491,7 +491,9 @@ class _AgendaTelaState extends State<AgendaTela> {
         context: context,
         builder: (bc) {
           return FutureBuilder<http.Response>(
-            future: Api.get(FormaPagamentoControle.get(salaoId), token),
+            future: Api.get(FormaPagamentoControle.get(salaoId), token, () {
+              return Center();
+            }),
             builder: (context, response) {
               if (!response.hasData) {
                 return Center(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
@@ -9,8 +11,11 @@ class Api {
     _dio = Dio();
   }
 
-  static Future<http.Response>  get(String url, String token) {
-    return http.get(url, headers: Util.token(token));
+  static Future<http.Response> get(
+      String url, String token, FutureOr onTimeout) {
+    return http
+        .get(url, headers: Util.token(token))
+        .timeout(Duration(seconds: 10), onTimeout: onTimeout);
   }
 
   Future<void> store(
