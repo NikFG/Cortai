@@ -12,7 +12,10 @@ import 'package:url_launcher/url_launcher.dart';
 class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
   static DateFormat timeFormat = DateFormat("HH:mm");
-  static const url = "http://192.168.0.108:8000/api/";
+
+  // static const url = "http://192.168.0.108:8000/api/"; //Local
+  static const url =
+      "http://ec2-18-230-188-111.sa-east-1.compute.amazonaws.com/api/"; //AWS
   static const storage_url = "http://192.168.0.108:8000/";
 
   static Map<String, String> token(String token) {
