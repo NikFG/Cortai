@@ -175,10 +175,6 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                   dados.telefone = _telefoneController.text;
                                   dados.cidade = _cidade;
                                   if (widget.salao == null) {
-                                    // dados.menorValorServico = 0;
-                                    // dados.maiorValorServico = 0;
-                                    // dados.quantidadeAvaliacao = 0;
-                                    // dados.totalAvaliacao = 0;
 
                                     SalaoControle.store(dados,
                                         usuario: model.dados,

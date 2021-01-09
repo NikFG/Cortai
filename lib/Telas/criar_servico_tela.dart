@@ -257,7 +257,9 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 setState(() {
                                   _botaoHabilitado = false;
                                 });
-                                Servico dados = widget.dados;
+                                Servico dados = widget.dados != null
+                                    ? widget.dados
+                                    : Servico();
                                 dados.descricao = _nomeControlador.text;
                                 dados.setValor(_precoControlador.text);
                                 dados.salao_id = model.dados.salaoId;

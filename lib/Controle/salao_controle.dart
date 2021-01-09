@@ -36,7 +36,7 @@ class SalaoControle {
         data: formData,
         options: Options(headers: Util.token(token)),
       );
-      print(response.data);
+      usuario.salaoId = -1;
       onSuccess();
     } catch (e) {
       print(e);
