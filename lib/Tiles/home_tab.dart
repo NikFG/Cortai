@@ -120,22 +120,44 @@ class _HomeTabState extends State<HomeTab> {
                 ],
               );
             } else {
-              url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
-              return FutureBuilder<http.Response>(
-                future: http.get(url),
-                builder: (context, response) {
-                  if (!response.hasData) {
-                    return CustomShimmer(3);
-                  } else {
-                    if (response.data.statusCode == 404) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              response.data.body,
-                              textAlign: TextAlign.justify,
+              param = "?cidade=$cidade&latitude=$latitude&longitude=$longitude";
+
+              return ScopedModelDescendant<LoginModelo>(
+                builder: (context, child, model) {
+                  return FutureBuilder<http.Response>(
+                    future: http.get(SalaoControle.get() + param,
+                        headers: Util.token(model.token)),
+                    builder: (context, response) {
+                      if (!response.hasData) {
+                        return CustomShimmer(3);
+                      } else {
+                        if (response.data.statusCode == 404) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  response.data.body,
+                                  textAlign: TextAlign.justify,
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+                                    String urlForm =
+                                        'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link';
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) => WebViewTela(
+                                                urlForm,
+                                                "Sugerir novo salão")));
+                                  },
+                                  child: Text(
+                                    "Sugerir novo salão",
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                )
+                              ],
                             ),
                             FlatButton(
                               onPressed: () {
