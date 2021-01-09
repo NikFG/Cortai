@@ -127,8 +127,7 @@ class _HomeTabState extends State<HomeTab> {
               );
             } else {
               // url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
-              param =
-                  "?cidade=Divinópolis&latitude=$latitude&longitude=$longitude";
+              param = "?cidade=$cidade&latitude=$latitude&longitude=$longitude";
 
               return ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
