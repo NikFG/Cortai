@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cortai/Telas/login_tela.dart';
+import 'package:sizer/sizer.dart';
 
 class StartScreen extends StatefulWidget {
   @override
@@ -14,13 +15,13 @@ class _StartScreenState extends State<StartScreen> {
 
   final tituloStyle = TextStyle(
     color: Colors.white,
-    fontSize: 26.0,
+    fontSize: 22.0.sp,
     height: 1.5,
   );
 
   final subTituloStyle = TextStyle(
     color: Colors.white,
-    fontSize: 18.0,
+    fontSize: 14.0.sp,
     height: 1.2,
   );
 
@@ -47,6 +48,8 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // var screenFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -76,13 +79,13 @@ class _StartScreenState extends State<StartScreen> {
                       'Pular',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20.0,
+                        fontSize: 18.0.sp,
                       ),
                     ),
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 1.4,
+                  height: 70.0.h,
                   child: PageView(
                     physics: ClampingScrollPhysics(),
                     controller: _pageController,
@@ -102,16 +105,17 @@ class _StartScreenState extends State<StartScreen> {
                                 image: AssetImage(
                                   'assets/images/BarberMan.png',
                                 ),
-                                height: 250.0,
-                                width: 250.0,
+                                fit: BoxFit.contain,
+                                height: 40.0.h,
+                                width: 100.0.w,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: 1.0.h),
                             Text(
                               'Encontre o profissional que você precisa',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: 1.0.h),
                             Text(
                               "Os melhores profissionais estão a alguns toques de distância.",
                               textAlign: TextAlign.justify,
@@ -130,16 +134,17 @@ class _StartScreenState extends State<StartScreen> {
                                 image: AssetImage(
                                   'assets/images/BarberMan2.png',
                                 ),
-                                height: 250.0,
-                                width: 250.0,
+                                fit: BoxFit.contain,
+                                height: 40.0.h,
+                                width: 100.0.w,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: 2.0.h),
                             Text(
                               'Quando você precisar\nEstaremos aqui!',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: 1.0.h),
                             Text(
                               'Os profissionais cadastrados recebem qualificações por seus serviços, não se esqueça de deixar a sua avaliação!',
                               textAlign: TextAlign.justify,
@@ -158,16 +163,17 @@ class _StartScreenState extends State<StartScreen> {
                                 image: AssetImage(
                                   'assets/images/Saude.png',
                                 ),
-                                height: 250.0,
-                                width: 250.0,
+                                fit: BoxFit.contain,
+                                height: 40.0.h,
+                                width: 100.0.w,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: 1.0.h),
                             Text(
                               'Saúde e Segurança\nem primeiro lugar',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: 1.0.h),
                             Text(
                               'Recomendamos a todos os profissionais e clientes a seguirem sempre as normas de saúde divulgadas pela OMS',
                               textAlign: TextAlign.justify,
@@ -202,14 +208,14 @@ class _StartScreenState extends State<StartScreen> {
                                   'Próximo',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 22.0,
+                                    fontSize: 18.0.sp,
                                   ),
                                 ),
                                 SizedBox(width: 10.0),
                                 Icon(
                                   Icons.arrow_forward,
                                   color: Colors.white,
-                                  size: 30.0,
+                                  size: 18.0.sp,
                                 ),
                               ],
                             ),
