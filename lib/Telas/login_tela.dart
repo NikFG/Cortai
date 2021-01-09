@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
 
 import 'home_tela.dart';
 import 'cadastro_tela.dart';
@@ -60,7 +61,7 @@ class _LoginTelaState extends State<LoginTela> {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 3,
+                          height: 30.0.h,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
@@ -83,8 +84,8 @@ class _LoginTelaState extends State<LoginTela> {
                                   image: AssetImage(
                                     'assets/icons/icon_white_transparent.png',
                                   ),
-                                  height: 200.0,
-                                  width: 200.0,
+                                  height: 30.0.h,
+                                  width: 30.0.h,
                                 ),
                               ),
                               Spacer(),
