@@ -14,15 +14,20 @@ class SalaoControle {
       {@required Login usuario,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-    await _firestore.collection('saloes').add(dados.toMap()).then((value) {
-      print(value);
-      Firestore.instance
-          .collection('usuarios')
-          .document(usuario.id)
-          .updateData({'salao': value.documentID, 'cabeleireiro': true});
-      usuario.isCabeleireiro = true;
-      usuario.isDonoSalao = true;
-      usuario.salao = value.documentID;
+    Dio dio = Dio();
+    Map<String, dynamic> map = dados.toMap();
+    if (imagem != null)
+      map["imagem"] = await MultipartFile.fromFile(imagem.path,
+          filename: imagem.path.split('/').last);
+    FormData formData = FormData.fromMap(map);
+
+    try {
+      var response = await dio.post(
+        _url + "store",
+        data: formData,
+        options: Options(headers: Util.token(token)),
+      );
+      usuario.salaoId = -1;
       onSuccess();
     }).catchError((e) {
       print(e);
