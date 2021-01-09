@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:sizer/sizer.dart';
 
 class SplashCustom extends StatefulWidget {
   final bool logado;
@@ -34,7 +35,7 @@ class _SplashCustomState extends State<SplashCustom> {
           navigateAfterSeconds: _telaInicial(model),
           //   title: Text("CortaÍ"),
           image: Image.asset('assets/icons/icon_white_transparent.png'),
-          photoSize: 150.0,
+          photoSize: 50.0.h,
 
           loaderColor: Colors.white,
           backgroundColor: Theme.of(context).primaryColor,
