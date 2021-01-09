@@ -14,8 +14,7 @@ class Util {
   static DateFormat timeFormat = DateFormat("HH:mm");
 
   // static const url = "http://192.168.0.108:8000/api/"; //Local
-  static const url =
-      "http://ec2-18-230-188-111.sa-east-1.compute.amazonaws.com/api/"; //AWS
+  static const url = "http://18.230.188.111/api/"; //AWS
   static const storage_url = "http://192.168.0.108:8000/";
 
   static Map<String, String> token(String token) {
