@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter/material.dart';
@@ -75,8 +76,7 @@ class _MapsTelaState extends State<MapsTela> {
               mapController = controller;
               if (widget.lat != null) {
                 mapController.animateCamera(CameraUpdate.newCameraPosition(
-                    CameraPosition(
-                        target: latLng, zoom: 20.0)));
+                    CameraPosition(target: latLng, zoom: 20.0)));
                 setState(() {
                   _markers.add(marker(LatLng(widget.lat, widget.lng)));
                 });
@@ -86,7 +86,6 @@ class _MapsTelaState extends State<MapsTela> {
             zoomControlsEnabled: false,
             mapType: MapType.normal,
             onTap: (latLng) async {
-
               setState(() {
                 this.latLng = latLng;
               });
@@ -150,8 +149,8 @@ class _MapsTelaState extends State<MapsTela> {
     PermissionStatus status = SharedPreferencesControle.getPermissionStatus();
     var latlng;
     if (status.isGranted) {
-      var location = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+      var location = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.best);
       latlng = LatLng(location.latitude, location.longitude);
     }
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -183,8 +182,8 @@ class _MapsTelaState extends State<MapsTela> {
       final lng = detail.result.geometry.location.lng;
 
       latLng = LatLng(lat, lng);
-      var geolocator = await Geolocator().placemarkFromCoordinates(lat, lng);
-      widget.cidadeChanged(geolocator.first.subAdministrativeArea);
+      List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+      widget.cidadeChanged(placemarks.first.subAdministrativeArea);
 
       procuraController.text = p.description;
       _marcarMapaPrevisao();

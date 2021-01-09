@@ -1,68 +1,63 @@
+import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/servico.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Util/util.dart';
+
+import 'cliente.dart';
 
 class Horario {
-  String id;
-  String horario;
+  int id;
+  String hora;
   String data;
   bool confirmado;
-  String cabeleireiro;
-  String cliente;
-  String servico;
+  Cabeleireiro cabeleireiro;
+  int cabeleireiroId;
+  Cliente cliente;
+  int clienteId;
+  List<Servico> servicos;
   bool pago;
-  String formaPagamento;
-  Servico servicoDados;
+  int formaPagamentoId;
 
   Horario();
 
-  Horario.fromDocument(DocumentSnapshot snapshot) {
-    id = snapshot.documentID;
-    horario = snapshot.data['horario'];
-    data = snapshot.data['data'];
-    cabeleireiro = snapshot.data['cabeleireiro'];
-    cliente = snapshot.data['cliente'];
-    confirmado = snapshot.data['confirmado'];
-    servico = snapshot.data['servico'];
-    pago = snapshot.data['pago'];
-    formaPagamento = snapshot.data['formaPagamento'];
-
-    servicoDados = Servico.fromMap(snapshot.data['servico_map'], servico);
-  }
-
   Horario.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    horario = json['data']['horario'];
-    data = json['data']['data'];
-    cabeleireiro = json['data']['cabeleireiro'];
-    cliente = json['data']['cliente'];
-    confirmado = json['data']['confirmado'];
-    servico = json['data']['servico'];
-    pago = json['data']['pago'];
-    formaPagamento = json['data']['formaPagamento'];
-    servicoDados = Servico.fromMap(json['data']['servico_map'], servico);
+    hora = json['hora'];
+    data = json['data'];
+    cabeleireiro = json['cabeleireiro'] != null
+        ? Cabeleireiro.fromJson(json['cabeleireiro'])
+        : Cabeleireiro();
+    cliente =
+        json['cliente'] != null ? Cliente.fromJson(json['cliente']) : Cliente();
+    confirmado = json['confirmado'] == 1;
+    servicos = json['servicos'] != null
+        ? json['servicos'].map<Servico>((s) {
+            return Servico.fromJsonApi(s);
+          }).toList()
+        : [];
+    pago = json['pago'] == 1;
+    formaPagamentoId = json['formaPagamento'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "cabeleireiro": cabeleireiro,
-      "cliente": cliente,
+      "cabeleireiro_id": cabeleireiroId,
+      "cliente_id": clienteId,
       "confirmado": confirmado,
-      "data": data,
-      "formaPagamento": formaPagamento,
-      "horario": horario,
+      "data": data.replaceAll("/", '-'),
+      "forma_pagamento_id": formaPagamentoId,
+      "hora": hora,
       "pago": pago,
-      "servico": servico,
-      'servico_map': servicoDados.toMap(),
+      "servicos": servicos.map((e) => e.toMap()).toList(),
     };
   }
 
   @override
   String toString() {
     return 'HorarioDados{id: $id, horario:'
-        ' $horario, data: $data, confirmado: '
+        ' $hora, data: $data, confirmado: '
         '$confirmado, cabeleireiro: $cabeleireiro, '
-        'cliente: $cliente, servico: $servico, pago:'
-        ' $pago, formaPagamento: $formaPagamento}';
+        'cliente: $cliente, pago:'
+        ' $pago, formaPagamento: $formaPagamentoId}';
   }
 
   @override

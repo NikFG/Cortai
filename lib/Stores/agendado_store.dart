@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cortai/Util/util.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,14 +20,15 @@ abstract class _AgendadoStore with Store {
   int statusCode = 400;
 
   @action
-  Future<void> getData(url) async {
+  Future<void> getData(String url, {String token}) async {
     isLoading = true;
-    var response = await http.get(url);
+    var response = await http.get(url, headers: Util.token(token));
     statusCode = response.statusCode;
     if (statusCode == 404) {
       data.add(response.body);
-    } else
-      data = json.decode(response.body);
+    } else {
+      data = json.decode(response.body)['horarios'];
+    }
     isLoading = false;
   }
 

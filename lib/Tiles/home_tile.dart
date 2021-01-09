@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Telas/servico_tela.dart';
@@ -12,9 +13,8 @@ import 'package:maps_launcher/maps_launcher.dart';
 
 class HomeTile extends StatefulWidget {
   final Salao dados;
-  final double distancia;
 
-  HomeTile(this.dados, this.distancia);
+  HomeTile(this.dados);
 
   @override
   _HomeTileState createState() => _HomeTileState();
@@ -29,9 +29,8 @@ class _HomeTileState extends State<HomeTile> {
   void initState() {
     super.initState();
     _distancia =
-        '${widget.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
-    if (widget.dados.quantidadeAvaliacao > 0)
-      _media = widget.dados.totalAvaliacao / widget.dados.quantidadeAvaliacao;
+        '${widget.dados.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
+    _media = widget.dados.mediaAvaliacao;
   }
 
   @override
@@ -39,21 +38,23 @@ class _HomeTileState extends State<HomeTile> {
     return CustomListTile(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              ServicoTela(dados: widget.dados, distancia: _distancia))),
+              ServicoTela(salao: widget.dados, distancia: _distancia))),
       leading: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => HeroCustom(
-                    imagemUrl: widget.dados.imagem,
-                    descricao: widget.dados.nome,
-                  )));
+          if (widget.dados.imagem != null) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => HeroCustom(
+                      imagemUrl: widget.dados.imagem,
+                      descricao: widget.dados.nome,
+                    )));
+          }
         },
         child: GFAvatar(
           shape: GFAvatarShape.circle,
           radius: 30,
           backgroundColor: Colors.transparent,
           backgroundImage: widget.dados.imagem != null
-              ? NetworkImage(widget.dados.imagem)
+              ? CachedNetworkImageProvider(widget.dados.imagem)
               : AssetImage("assets/images/shop.png"),
         ),
       ),

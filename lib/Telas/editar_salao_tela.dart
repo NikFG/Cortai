@@ -14,9 +14,8 @@ import 'package:scoped_model/scoped_model.dart';
 
 class EditarSalaoTela extends StatefulWidget {
   final Salao salao;
-  final String usuario;
 
-  EditarSalaoTela(this.usuario, {this.salao});
+  EditarSalaoTela({this.salao});
 
   @override
   _EditarSalaoTelaState createState() => _EditarSalaoTelaState();
@@ -27,7 +26,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   final pasta = 'Imagens saloes';
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();
-  var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
+  var _telefoneController = MaskedTextController(mask: '(00) 00000-0000');
   var latlng = LatLng(0, 0);
   Salao dados;
   File _imagem;
@@ -176,27 +175,18 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                   dados.telefone = _telefoneController.text;
                                   dados.cidade = _cidade;
                                   if (widget.salao == null) {
-                                    dados.menorValorServico = 0;
-                                    dados.maiorValorServico = 0;
-                                    dados.quantidadeAvaliacao = 0;
-                                    dados.totalAvaliacao = 0;
 
-                                    if (_imagem != null) {
-                                      dados.imagem = await Util.enviaImagem(
-                                          widget.usuario, _imagem, pasta);
-                                    }
                                     SalaoControle.store(dados,
                                         usuario: model.dados,
+                                        imagem: _imagem,
+                                        token: model.token,
                                         onSuccess: onSuccess,
                                         onFail: onFail);
                                   } else {
-                                    if (_imagem != null) {
-                                      if (dados.imagem != null)
-                                        await Util.deletaImagem(dados.imagem);
-                                      dados.imagem = await Util.enviaImagem(
-                                          widget.usuario, _imagem, pasta);
-                                    }
                                     SalaoControle.update(dados,
+                                        token: model.token,
+                                        imagem: _imagem,
+                                        usuario: model.dados,
                                         onSuccess: onSuccessEditar,
                                         onFail: onFailEditar);
                                   }
@@ -292,6 +282,9 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
     FlushbarHelper.createError(
             message: 'Houve algum erro ao criar o salão\nTente novamente!!')
         .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
   }
 
   void onSuccessEditar() async {

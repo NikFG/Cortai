@@ -21,7 +21,7 @@ class _CadastroTelaState extends State<CadastroTela> {
   final _emailControlador = TextEditingController();
   final _senhaControlador = TextEditingController();
   final _senhaConfirmaControlador = TextEditingController();
-  final _telefoneControlador = MaskedTextController(mask: '(00) 0 0000-0000');
+  final _telefoneControlador = MaskedTextController(mask: '(00) 00000-0000');
   final _nomeControlador = TextEditingController();
   bool _botaoHabilitado = true;
 
@@ -189,13 +189,14 @@ class _CadastroTelaState extends State<CadastroTela> {
                                           nome: _nomeControlador.text,
                                           telefone: _telefoneControlador.text,
                                           isCabeleireiro: false,
-                                          salao: null,
-                                          imagemUrl: null,
-                                          isDonoSalao: false);
+                                          salaoId: null,
+                                          imagem: null,
+                                          isDonoSalao: false,
+                                          senha:
+                                              _senhaConfirmaControlador.text);
 
                                       login.criarContaEmail(
                                           login: loginDados,
-                                          senha: _senhaControlador.text,
                                           onSuccess: onSuccess,
                                           onFail: onFail);
                                     }
@@ -255,5 +256,8 @@ class _CadastroTelaState extends State<CadastroTela> {
     await FlushbarHelper.createError(
             message: "Erro ao realizar o cadastro, teste novamente!")
         .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
   }
 }

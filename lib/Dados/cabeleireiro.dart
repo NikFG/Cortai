@@ -1,21 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Cabeleireiro {
-  String id;
+  int id;
   String nome;
-  String salao;
+  int salaoId;
 
-  Cabeleireiro.fromDocument(DocumentSnapshot snapshot) {
-    id = snapshot.documentID;
-    nome = snapshot.data["nome"];
-    salao = snapshot.data['salao'];
+  Cabeleireiro();
+
+  Cabeleireiro.fromJson(Map<String, dynamic> map) {
+    id = map['id'];
+    nome = map['nome'];
+    salaoId = map['salao_id'];
   }
 
   Map<String, dynamic> toMap() {
     return {
       "id": id,
       "nome": nome,
-      "salao": salao,
+      "salao": salaoId,
     };
   }
 

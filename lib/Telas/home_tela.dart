@@ -1,9 +1,8 @@
-import 'package:cortai/Controle/servico_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/editar_salao_tela.dart';
 import 'package:cortai/Tiles/home_tab.dart';
 import 'package:cortai/Telas/perfil_tela.dart';
-import 'package:cortai/Util/push_notification.dart';
+import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -23,10 +22,12 @@ class HomeTela extends StatefulWidget {
 
 class _HomeTelaState extends State<HomeTela> {
   int index;
+  OneSignalService oss;
 
   @override
   void initState() {
     super.initState();
+    oss = OneSignalService.init();
     index = widget.paginaInicial;
   }
 
@@ -35,199 +36,192 @@ class _HomeTelaState extends State<HomeTela> {
     final _pageController = PageController(initialPage: index);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
-        if (model != null) {
-          if (model.dados.isDonoSalao && model.dados.salao == null) {
-            return EditarSalaoTela(model.dados.id);
-          }
-         PushNotification.servico(model.dados.id, context);
-          return PageView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                this.index = index;
-              });
-            },
-            children: <Widget>[
-              Scaffold(
-                body: Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height / 20),
-                  child: HomeTab(),
-                ),
-                bottomNavigationBar: BottomCustom(_pageController, index,
-                    model.dados.isCabeleireiro, model.dados.id),
-              ),
-              DefaultTabController(
-                length: 2,
-                child: Scaffold(
-                  bottomNavigationBar: BottomCustom(_pageController, index,
-                      model.dados.isCabeleireiro, model.dados.id),
-                  body: AgendadoTela(),
-                  extendBodyBehindAppBar: true,
-                  appBar: AppBar(
-                    leading: Container(
-                      width: 0,
-                      height: 0,
-                    ),
-                    backgroundColor: Colors.white,
-                    elevation: 0,
-                    bottom: TabBar(
-                      indicatorColor: Theme.of(context).primaryColor,
-                      tabs: <Widget>[
-                        Tab(
-                          child: Text(
-                            "Em andamento",
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        ),
-                        Tab(
-                            child: Text(
-                          "Finalizados",
-                          style: TextStyle(color: Colors.black),
-                        ))
-                      ],
-                    ),
-                    title: Text(
-                      "Agenda",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    centerTitle: true,
-                    actions: <Widget>[
-                      PopupMenuButton(
-                        icon: Icon(FontAwesome.ellipsis_v),
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: 1,
-                            child: FlatButton(
-                              onPressed: () async {
-                                var snapshots =
-                                    await ServicoControle.get().getDocuments();
+        if (model.dados != null) {
+          oss.gravaIdExterna(model.dados.isCabeleireiro,
+              model.dados.isDonoSalao, model.dados.id);
 
-                                for (int i = 0;
-                                    i < snapshots.documents.length;
-                                    i++) {
-                                  ServicoControle.get()
-                                      .document(
-                                          snapshots.documents[i].documentID)
-                                      .updateData({
-                                    "confirmado": true,
-                                  });
-                                }
-                              },
-                              child: Text("Confirmar todos"),
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 2,
-                            child: FlatButton(
-                              onPressed: () {},
-                              child: Text("Cancelar todos"),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+          if (model.dados.isDonoSalao && model.dados.salaoId == null) {
+            return EditarSalaoTela();
+          }
+
+          return Scaffold(
+              bottomNavigationBar: BottomCustom(_pageController, index,
+                  model.dados.isCabeleireiro, model.dados.id, model.token),
+              body: PageView(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    this.index = index;
+                  });
+                },
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 20),
+                    child: HomeTab(),
                   ),
-                ),
-              ),
-              Scaffold(
-                bottomNavigationBar: BottomCustom(_pageController, index,
-                    model.dados.isCabeleireiro, model.dados.id),
-                body: PerfilTela(),
-              ),
-              DefaultTabController(
-                length: 2,
-                child: Scaffold(
-                  bottomNavigationBar: BottomCustom(_pageController, index,
-                      model.dados.isCabeleireiro, model.dados.id),
-                  body: ConfirmarTela(),
-                  extendBodyBehindAppBar: true,
-                  appBar: AppBar(
-                    leading: Container(
-                      width: 0,
-                      height: 0,
-                    ),
-                    backgroundColor: Colors.white,
-                    elevation: 0,
-                    bottom: TabBar(
-                      indicatorColor: Theme.of(context).primaryColor,
-                      tabs: <Widget>[
-                        Tab(
-                          child: Text(
-                            "A confirmar",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
+                  DefaultTabController(
+                    length: 2,
+                    child: Scaffold(
+                      body: AgendadoTela(),
+                      extendBodyBehindAppBar: true,
+                      appBar: AppBar(
+                        leading: Container(
+                          width: 0,
+                          height: 0,
                         ),
-                        Tab(
-                            child: Text(
-                          "Confirmados",
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        bottom: TabBar(
+                          indicatorColor: Theme.of(context).primaryColor,
+                          tabs: <Widget>[
+                            Tab(
+                              child: Text(
+                                "Em andamento",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                            Tab(
+                                child: Text(
+                              "Finalizados",
+                              style: TextStyle(color: Colors.black),
+                            ))
+                          ],
+                        ),
+                        title: Text(
+                          "Agenda",
                           style: TextStyle(
                             color: Colors.black,
                           ),
-                        ))
-                      ],
-                    ),
-                    title: Text(
-                      "Confirmar horários",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                    centerTitle: true,
-                    actions: <Widget>[
-                      PopupMenuButton(
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: 1,
-                            child: FlatButton(
-                              onPressed: () async {
-                                var snapshots =
-                                    await ServicoControle.get().getDocuments();
-
-                                for (int i = 0;
-                                    i < snapshots.documents.length;
-                                    i++) {
-                                  ServicoControle.get()
-                                      .document(
-                                          snapshots.documents[i].documentID)
-                                      .updateData({
-                                    "confirmado": true,
-                                  });
-                                }
-                              },
-                              child: Text("Confirmar todos"),
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 2,
-                            child: FlatButton(
-                              onPressed: () {},
-                              child: Text("Cancelar todos"),
-                            ),
+                        ),
+                        centerTitle: true,
+                        actions: <Widget>[
+                          PopupMenuButton(
+                            icon: Icon(FontAwesome.ellipsis_v),
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 1,
+                                child: FlatButton(
+                                  onPressed: () async {
+                                    // var snapshots =
+                                    //     await ServicoControle.get().getDocuments();
+                                    //
+                                    // for (int i = 0;
+                                    //     i < snapshots.documents.length;
+                                    //     i++) {
+                                    //   ServicoControle.get()
+                                    //       .document(
+                                    //           snapshots.documents[i].documentID)
+                                    //       .updateData({
+                                    //     "confirmado": true,
+                                    //   });
+                                    // }
+                                  },
+                                  child: Text("Confirmar todos"),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: FlatButton(
+                                  onPressed: () {},
+                                  child: Text("Cancelar todos"),
+                                ),
+                              )
+                            ],
                           )
                         ],
-                      )
-                    ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Scaffold(
-                bottomNavigationBar: BottomCustom(_pageController, index,
-                    model.dados.isCabeleireiro, model.dados.id),
-                body: Padding(
-                  padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height / 20),
-                  child: GerenciarServicoTela(),
-                ),
-              ),
-            ],
-          );
+
+                  model.dados.isCabeleireiro ? DefaultTabController(
+                    length: 2,
+                    child: Scaffold(
+                      body: ConfirmarTela(),
+                      extendBodyBehindAppBar: true,
+                      appBar: AppBar(
+                        leading: Container(
+                          width: 0,
+                          height: 0,
+                        ),
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        bottom: TabBar(
+                          indicatorColor: Theme.of(context).primaryColor,
+                          tabs: <Widget>[
+                            Tab(
+                              child: Text(
+                                "A confirmar",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            Tab(
+                                child: Text(
+                              "Confirmados",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ))
+                          ],
+                        ),
+                        title: Text(
+                          "Confirmar horários",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                        centerTitle: true,
+                        actions: <Widget>[
+                          PopupMenuButton(
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 1,
+                                child: FlatButton(
+                                  onPressed: () async {
+                                    //TODO: Confirmar todos de uma vez
+                                    // var snapshots =
+                                    //     await ServicoControle.get().getDocuments();
+                                    //
+                                    // for (int i = 0;
+                                    //     i < snapshots.documents.length;
+                                    //     i++) {
+                                    //   ServicoControle.get()
+                                    //       .document(
+                                    //           snapshots.documents[i].documentID)
+                                    //       .updateData({
+                                    //     "confirmado": true,
+                                    //   });
+                                    // }
+                                  },
+                                  child: Text("Confirmar todos"),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: FlatButton(
+                                  onPressed: () {},
+                                  child: Text("Cancelar todos"),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ) : PerfilTela(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height / 20),
+                    child: GerenciarServicoTela(),
+                  ),
+                  PerfilTela() ,
+                ],
+              ));
         } else {
+          model.listeners();
           return Center();
         }
       },

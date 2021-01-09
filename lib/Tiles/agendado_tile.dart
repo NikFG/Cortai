@@ -2,12 +2,10 @@ import 'package:cortai/Controle/avaliacao_controle.dart';
 import 'package:cortai/Dados/avaliacao.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Telas/detalhes_tela.dart';
-import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cortai/Widgets/custom_list_tile.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +14,16 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class AgendadoTile extends StatefulWidget {
   final Horario horario;
-  final bool pago;
-  final Login cabeleireiro;
   final Servico servico;
   final bool avaliado;
+
+  final String token;
 
   AgendadoTile(
       {@required this.horario,
       @required this.servico,
-      @required this.cabeleireiro,
-      @required this.pago,
-      this.avaliado});
+      @required this.token,
+      this.avaliado = false});
 
   @override
   _AgendadoTileState createState() => _AgendadoTileState();
@@ -55,14 +52,12 @@ class _AgendadoTileState extends State<AgendadoTile>
             builder: (context) => DetalhesTela(
                   horario: widget.horario,
                   servico: widget.servico,
-                  cabeleireiro: widget.cabeleireiro,
-                  pago: widget.pago,
                 )));
       },
-      title:
-          Text("${widget.servico.descricao} com ${widget.cabeleireiro.nome}"),
-      subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.horario}"),
-      trailing: widget.pago
+      title: Text(
+          "${widget.servico.descricao} com ${widget.horario.cabeleireiro.nome}"),
+      subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.hora}"),
+      trailing: widget.horario.pago
           ? FlatButton(
               child: Column(
                 children: <Widget>[
@@ -77,15 +72,14 @@ class _AgendadoTileState extends State<AgendadoTile>
                 ],
               ),
               onPressed: () {
-                _avaliarDialog(context);
+                _avaliarDialog(context, widget.token);
               })
           : confirmado(),
       leading: null,
     );
   }
 
-  _avaliarDialog(BuildContext context) async {
-    String salao = await getSalao();
+  _avaliarDialog(BuildContext context, String token) {
     bool confirmado = false;
     var _descricaoControlador = TextEditingController();
     try {
@@ -104,15 +98,25 @@ class _AgendadoTileState extends State<AgendadoTile>
                         allowHalfRating: true,
                         itemCount: 5,
                         itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
                         onRatingUpdate: (double value) {
                           setState(() {
                             _avaliacao = value;
                           });
                         },
+                        ratingWidget: RatingWidget(
+                          half: Icon(
+                            Icons.star_half,
+                            color: Colors.amber,
+                          ),
+                          empty: Icon(
+                            Icons.star,
+                            color: Colors.white,
+                          ),
+                          full: Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 10),
@@ -142,15 +146,13 @@ class _AgendadoTileState extends State<AgendadoTile>
                         if (_avaliacao > 1) {
                           var dataHora = DateTime.now();
                           Avaliacao dados = Avaliacao();
-                          dados.cabeleireiro = widget.horario.cabeleireiro;
-                          dados.avaliacao = _avaliacao;
-                          dados.descricao = _descricaoControlador.text;
-                          dados.salao = salao;
+                          dados.valor = _avaliacao;
+                          dados.observacao = _descricaoControlador.text;
                           dados.data = Util.dateFormat.format(dataHora);
-                          dados.hora = Util.timeFormat.format(dataHora);
-                          dados.horario = widget.horario.id;
+                          // dados.hora = Util.timeFormat.format(dataHora);
+                          dados.horarioId = widget.horario.id;
                           AvaliacaoControle.store(dados,
-                              onSuccess: () {}, onFail: () {});
+                              token: token, onSuccess: () {}, onFail: () {});
                           avaliado = true;
                           confirmado = true;
                           Navigator.of(context).pop();
@@ -171,15 +173,6 @@ class _AgendadoTileState extends State<AgendadoTile>
     } catch (e) {
       onFail();
     }
-  }
-
-  Future<String> getSalao() async {
-    var snapshot = await Firestore.instance
-        .collection('usuarios')
-        .document(widget.horario.cabeleireiro)
-        .get();
-    String salao = snapshot.data['salao'];
-    return salao;
   }
 
   Widget confirmado() {

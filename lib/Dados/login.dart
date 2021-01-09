@@ -1,67 +1,59 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Login {
-  String id;
+  int id;
   String nome;
-  String salao;
+  int salaoId;
   String telefone;
   String email;
-  String imagemUrl;
+  String imagem;
   bool isCabeleireiro;
   bool isDonoSalao;
+  bool isGoogle;
+  String senha;
 
-  Login.fromDocument(DocumentSnapshot dados) {
-    id = dados['uid'];
+  Login.fromJson(Map<String, dynamic> dados) {
+    id = dados['id'];
     nome = dados['nome'];
-    salao = dados['salao'];
+    salaoId = dados['salao_id'];
     telefone = dados['telefone'];
     email = dados['email'];
-    imagemUrl = dados['fotoURL'];
-    isCabeleireiro = dados['cabeleireiro'];
-    isDonoSalao = dados['donoSalao'];
+    imagem = dados['imagem'];
+    isCabeleireiro = dados['is_cabeleireiro'] == 1;
+    isDonoSalao = dados['is_dono_salao'] == 1;
   }
 
-  Login.fromHorarioJson(Map<String, dynamic> json) {
-    id = json['data']['usuario'];
-    nome = json['cabeleireiro']['nome'];
-    salao = json['cabeleireiro']['salao'];
-    telefone = json['cabeleireiro']['telefone'];
-    email = json['cabeleireiro']['email'];
-    imagemUrl = json['cabeleireiro']['fotoURL'];
-    isCabeleireiro = json['cabeleireiro']['cabeleireiro'];
-    isDonoSalao = json['cabeleireiro']['donoSalao'];
-  }
-
-  Login({
-    @required this.nome,
-    @required this.salao,
-    @required this.telefone,
-    @required this.email,
-    @required this.imagemUrl,
-    @required this.isCabeleireiro,
-    @required this.isDonoSalao,
-    this.id,
-  });
+  Login(
+      {@required this.nome,
+      this.salaoId,
+      this.telefone,
+      this.email,
+      this.imagem,
+      this.isCabeleireiro,
+      this.isDonoSalao,
+      this.id,
+      this.senha,
+      this.isGoogle = false});
 
   @override
   String toString() {
-    return 'LoginDados{id: $id, nome: $nome, salao: '
-        '$salao, telefone: $telefone, email: '
-        '$email, imagemUrl: $imagemUrl, isCabeleireiro: '
+    return 'LoginDados{id: $id, nome: $nome, telefone: $telefone, email: '
+        '$email, imagemUrl: $imagem, isCabeleireiro: '
         '$isCabeleireiro, isDonoSalao: $isDonoSalao}';
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'uid': id,
+      'id': id,
       'email': email,
-      'fotoURL': imagemUrl,
+      'password': senha,
+      'imagem': imagem,
       'nome': nome,
       'telefone': telefone,
-      'salao': salao,
-      'cabeleireiro': isCabeleireiro,
-      'donoSalao': isDonoSalao,
+      'salao_id': salaoId,
+      'is_cabeleireiro': isCabeleireiro,
+      'is_dono_salao': isDonoSalao,
+      'is_google': isGoogle
     };
   }
 }

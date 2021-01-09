@@ -1,65 +1,91 @@
-import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class FuncionamentoControle {
-  static Firestore _firestore = Firestore.instance;
+  static String _url = Util.url + 'funcionamento/';
 
-  static CollectionReference get(String salao) {
-    return SalaoControle.get().document(salao).collection('funcionamento');
+  static String get(int salao) {
+    return _url + "${salao.toString()}";
   }
 
-  static void update(Funcionamento dados, String salao,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await _firestore
-        .collection('saloes')
-        .document(salao)
-        .collection('funcionamento')
-        .document(dados.diaSemana)
-        .updateData(dados.toMap())
-        .then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
+  static String getDiaSemana(String diaSemana, int salao) {
+    return _url + "$diaSemana/${salao.toString()}";
   }
 
-  static void updateAll(List<Funcionamento> dados, String salao,
+  static void update(Funcionamento dados, String token,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     try {
-      dados.forEach((doc) async {
-        await get(salao)
-            .document(doc.diaSemana)
-            .setData(doc.toMap(), merge: true);
-      });
+      Dio dio = Dio();
+
+      var formData = FormData.fromMap(dados.toMap());
+      var response = await dio.post(
+        _url + "edit/${dados.id.toString()}",
+        data: formData,
+        options: Options(headers: Util.token(token)),
+      );
+      if (response.statusCode != 200) {
+        onFail();
+        return;
+      }
       onSuccess();
     } catch (e) {
       onFail();
     }
   }
 
-  static void delete(String diaSemana, String salao,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await get(salao).document(diaSemana).delete().then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
-
-  static void deleteAll(String salao,
+  static void updateAll(List<Funcionamento> dados, String token,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     try {
-      var docs =
-          await get(salao).getDocuments().then((value) => value.documents);
-      docs.forEach((element) {
-        get(salao).document(element.documentID).delete();
+      Dio dio = Dio();
+      dados.forEach((element) async {
+        var formData = FormData.fromMap(element.toMap());
+        var response = await dio.post(_url + "store",
+            data: formData, options: Options(headers: Util.token(token)));
+        if (response.statusCode != 200) {
+          onFail();
+          return;
+        }
       });
+
       onSuccess();
     } catch (e) {
+      onFail();
+    }
+  }
+
+  static void delete(int id, String token,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    try {
+      Dio dio = Dio();
+      var response = await dio.delete(_url + "delete/${id.toString()}",
+          options: Options(headers: Util.token(token)));
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else {
+        onFail();
+      }
+    } catch (e) {
+      print(e);
+      onFail();
+    }
+  }
+
+  static void deleteAll(String token,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    try {
+      Dio dio = Dio();
+      print(_url + "deleteAll");
+      var response = await dio.delete(_url + "deleteAll",
+          options: Options(headers: Util.token(token)));
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else {
+        onFail();
+      }
+    } catch (e) {
+      print(e);
       onFail();
     }
   }

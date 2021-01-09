@@ -9,10 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class DiaFuncionamentoTela extends StatefulWidget {
-  final String salao;
   final Funcionamento dados;
-
-  DiaFuncionamentoTela(this.dados, this.salao);
+  final String token;
+  DiaFuncionamentoTela(this.dados, this.token);
 
   @override
   _DiaFuncionamentoTelaState createState() => _DiaFuncionamentoTelaState();
@@ -127,12 +126,11 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                     setState(() {
                       _botaoHabilitado = false;
                     });
-                    Funcionamento f = Funcionamento();
-                    f.diaSemana = widget.dados.diaSemana;
+                    Funcionamento f = widget.dados;
                     f.intervalo = int.parse(_intervaloController.text);
                     f.horarioAbertura = _aberturaController.text;
                     f.horarioFechamento = _fechamentoController.text;
-                    FuncionamentoControle.update(f, widget.salao,
+                    FuncionamentoControle.update(f, widget.token,
                         onSuccess: onSuccess, onFail: onFail);
                   }
                 },
@@ -158,8 +156,8 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
     await FlushbarHelper.createSuccess(
             message: "Horarios alterados com sucesso")
         .show(context);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => CadastroFuncionamentoTela(widget.salao)));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => CadastroFuncionamentoTela()));
   }
 
   void onFail() async {

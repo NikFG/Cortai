@@ -1,12 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Util {
@@ -17,12 +17,8 @@ class Util {
   static const url = "http://18.230.188.111/api/"; //AWS
   static const storage_url = "http://192.168.0.108:8000/";
 
-  static Timestamp stringToTimestamp(String horario) {
-    horario = horario.substring(5);
-    horario = horario.replaceAll("/", "-");
-    horario = horario.replaceAll(",", "");
-    DateFormat format = new DateFormat('dd-MM-yyyy H:m');
-    return Timestamp.fromDate(format.parse(horario));
+  static Map<String, String> token(String token) {
+    return {"Authorization": "Bearer $token}"};
   }
 
   static dateTimeofDayToDateTime(DateTime dt, TimeOfDay time) {
@@ -87,20 +83,24 @@ class Util {
     }
   }
 
-  static Future<String> enviaImagem(String uid, File imagem, String pasta) async {
-    StorageUploadTask task = FirebaseStorage.instance
-        .ref().child(pasta)
-        .child(uid + DateTime.now().millisecondsSinceEpoch.toString())
-        .putFile(imagem);
-    StorageTaskSnapshot taskSnapshot = await task.onComplete;
-    String url = await taskSnapshot.ref.getDownloadURL();
-    return url;
+  static Future<String> enviaImagem(
+      String uid, File imagem, String pasta) async {
+    String base64Image = base64Encode(imagem.readAsBytesSync());
+    String fileName = imagem.path.split("/").last;
+    // StorageUploadTask task = FirebaseStorage.instance
+    //     .ref()
+    //     .child(pasta)
+    //     .child(uid + DateTime.now().millisecondsSinceEpoch.toString())
+    //     .putFile(imagem);
+    // StorageTaskSnapshot taskSnapshot = await task.onComplete;
+    // String url = await taskSnapshot.ref.getDownloadURL();
+    return base64Image + fileName;
   }
 
-  static deletaImagem(String url) async {
-    await FirebaseStorage.instance
-        .getReferenceFromUrl(url)
-        .then((value) => value.delete());
+  static List<String> imgToBase64(File imagem) {
+    String base64Image = base64Encode(imagem.readAsBytesSync());
+    String fileName = imagem.path.split("/").last;
+    return [base64Image, fileName];
   }
 
   static Widget leadingScaffold(BuildContext context,
@@ -120,11 +120,11 @@ class Util {
   }
 
   static setLocalizacao() async {
-    var position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    String cidade = await Geolocator()
-        .placemarkFromPosition(position)
-        .then((value) => value.first.subAdministrativeArea);
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    String cidade =
+        await placemarkFromCoordinates(position.latitude, position.longitude)
+            .then((value) => value.first.subAdministrativeArea);
 
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(

@@ -1,12 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Dados/cabeleireiro.dart';
+import 'package:cortai/Util/util.dart';
 
 class Servico {
-  String id;
+  int id;
   String descricao;
   double _valor;
-  String imagemUrl;
-  List<String> cabeleireiros;
-  String salao;
+  String imagem;
+  List<int> cabeleireiros;
+  List<Cabeleireiro> cabeleireirosApi;
+  int salao_id;
   String observacao;
   bool ativo;
 
@@ -25,50 +27,35 @@ class Servico {
     this._valor = double.parse(valor);
   }
 
-  Servico.fromDocument(DocumentSnapshot snapshot) {
-    id = snapshot.documentID;
-    descricao = snapshot.data["descricao"];
-    _valor = snapshot.data["valor"];
-    imagemUrl = snapshot.data["imagemUrl"];
-    cabeleireiros = List.from(snapshot.data['cabeleireiros']);
-    salao = snapshot.data['salao'];
-    observacao =
-        snapshot.data['observacao'] != null ? snapshot.data['observacao'] : '';
-    ativo = snapshot.data['ativo'];
-  }
-
-  Servico.fromHorarioJson(Map<String, dynamic> json) {
-    if (json['data']['servico'] != null &&
-        json['data']['servico_map'] != null) {
-      id = json['data']['servico'];
-      descricao = json['data']['servico_map']["descricao"];
-      _valor = (json['data']['servico_map']["valor"] as num).toDouble();
-      imagemUrl = json['data']['servico_map']["imagemUrl"];
-      cabeleireiros = List.from(json['data']['servico_map']['cabeleireiros']);
-      salao = json['data']['servico_map']['salao'];
-      observacao = json['data']['servico_map']['observacao'] != null
-          ? json['data']['servico_map']['observacao']
-          : '';
-      ativo = json['data']['servico_map']['ativo'];
+  Servico.fromJsonApi(Map<String, dynamic> servico) {
+    if (servico.containsKey('pivot')) {
+      print(servico['pivot']);
     }
-  }
-
-  Servico.fromMap(Map<String, dynamic> map, String id) {
-    this.id = id;
-    descricao = map["descricao"];
-    _valor = (map["valor"] as num).toDouble();
-    imagemUrl = map["imagemUrl"];
-    salao = map['salao'];
-    observacao = map['observacao'] != null ? map['observacao'] : '';
-    ativo = map['ativo'];
+    id = servico['id'];
+    descricao = servico.containsKey('pivot')
+        ? servico['pivot']['descricao']
+        : servico["nome"];
+    _valor = servico.containsKey('pivot')
+        ? (servico['pivot']['valor'] as num).toDouble()
+        : (servico["valor"] as num).toDouble();
+    imagem =
+        servico['imagem'] != null ? Util.storage_url + servico["imagem"] : null;
+    observacao = servico['observacao'];
+    cabeleireirosApi = servico['cabeleireiros'] != null
+        ? List.from(servico['cabeleireiros'])
+            .map((e) => Cabeleireiro.fromJson(e))
+            .toList()
+        : null;
+    ativo = servico['deleted_at'] == null;
+    salao_id = servico['salao_id'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "descricao": descricao,
+      "id": id,
+      "nome": descricao,
       "valor": _valor,
-      "imagemUrl": imagemUrl,
-      'salao': salao,
+      'salao_id': salao_id,
       'cabeleireiros': cabeleireiros,
       'observacao': observacao,
       'ativo': ativo,

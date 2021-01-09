@@ -144,7 +144,6 @@ class _StartScreenState extends State<StartScreen> {
                               'Os profissionais cadastrados recebem qualificações por seus serviços, não se esqueça de deixar a sua avaliação!',
                               textAlign: TextAlign.justify,
                               style: subTituloStyle,
-
                             ),
                           ],
                         ),

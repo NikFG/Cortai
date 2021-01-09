@@ -1,96 +1,109 @@
 import 'package:cortai/Dados/horario.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cortai/Util/api.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class HorarioControle {
-  static Firestore _firestore = Firestore.instance;
+  static String _url = Util.url + "horarios/";
 
-  static CollectionReference get() {
-    return _firestore.collection('horarios');
+  static String getNew(String tipo, int pago) {
+    return _url + "$tipo/${pago.toString()}";
   }
 
-  static void store(Horario dados,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
-    await get().add(dados.toMap()).then((value) {
-      print(value);
+  static String getData(String data, int cabeleireiroId) {
+    data = data.replaceAll("/", "-");
+    return _url + "cabeleireiro/${cabeleireiroId.toString()}/data/$data";
+  }
+
+  static String getCabeleireiro(String tipo, int confirmado) {
+    return _url + "$tipo/${confirmado.toString()}";
+  }
+
+  static String getCabeleireiroAux() {
+    return _url + "cabeleireiro";
+  }
+
+  static String getQuantidade(int id) {
+    return _url + "count/${id.toString()}";
+  }
+
+  static void store(
+      {@required Horario horario,
+      @required String token,
+      @required VoidCallback onSuccess,
+      @required Function onFail(String error)}) async {
+    try {
+      Api api = Api();
+      api.store(_url, horario.toMap(), token);
       onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
+    } catch (e) {
+      String error = "";
+      e.forEach((k, v) {
+        error +=
+            v.toString().replaceFirst('[', '').replaceFirst(']', '') + "\n";
+      });
+      onFail(error);
+    }
   }
 
   static void update(Horario dados,
       {@required VoidCallback onSuccess(context),
       @required VoidCallback onFail(context),
-      @required context}) async {
-    await get()
-        .document(dados.id)
-        .updateData(dados.toMap())
-        .then((value) {
-      onSuccess(context);
-    }).catchError((e) {
-      print(e);
-      onFail(context);
-    });
-  }
+      @required context}) async {}
 
   static delete(String id,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) {
-    _firestore.collection("horarios").document(id).delete().then((value) {
-      onSuccess();
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) {}
 
-  static confirmaAgendamento(String id,
+  static confirmaAgendamento(int id, String token,
       {@required VoidCallback onSuccess,
       @required VoidCallback onFail,
       @required BuildContext context}) async {
-    await _firestore.collection("horarios").document(id).updateData({
-      "confirmado": true,
-    }).then((value) {
-      onSuccess();
-    }).catchError((e) {
+    try {
+      Dio dio = Dio();
+      var response = await dio.put(_url + "confirma/${id.toString()}",
+          options: Options(headers: Util.token(token)));
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else
+        onFail();
+    } catch (e) {
       print(e);
       onFail();
-    });
+    }
   }
 
-  /*
-  * Recria o horário na coleção de horários excluídos para depois deletar.
-  * Feito para armazenar os dados e ter controle futuro após o cancelamento
-  * */
-
-  static cancelaAgendamento(Horario dados,
+  static cancelaAgendamento(int id, String token,
       {@required VoidCallback onSuccess,
       @required VoidCallback onFail,
-      clienteCancelou = false}) async {
-    Map<String, dynamic> horario = dados.toMap();
-    horario['clienteCancelou'] = clienteCancelou;
-    await Firestore.instance
-        .collection('horariosExcluidos')
-        .add(horario)
-        .catchError((e) {
+      bool clienteCancelou = false}) async {
+    try {
+      Dio dio = Dio(); //Falta tratar caso cliente cancele
+      var response = await dio.put(_url + "cancela/${id.toString()}",
+          options: Options(headers: Util.token(token)));
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else
+        onFail();
+    } catch (e) {
       print(e);
       onFail();
-    });
-    await delete(dados.id, onSuccess: onSuccess, onFail: onFail);
+    }
   }
 
-  static confirmaPagamento(String id,
-      {@required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
-    await _firestore.collection("horarios").document(id).updateData({
-      "pago": true,
-    }).then((value) {
-      print("Ok");
-      onSuccess();
-    }).catchError((e) {
+  static confirmaPagamento(int id, String token,
+      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+    try {
+      Dio dio = Dio();
+      var response = await dio.put(_url + "paga/${id.toString()}",
+          options: Options(headers: Util.token(token)));
+      if (response.statusCode == 200) {
+        onSuccess();
+      } else
+        onFail();
+    } catch (e) {
       print(e);
       onFail();
-    });
+    }
   }
 }

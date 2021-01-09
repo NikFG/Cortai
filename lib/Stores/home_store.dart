@@ -1,5 +1,3 @@
-import 'package:cortai/Controle/shared_preferences_controle.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 

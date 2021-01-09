@@ -1,39 +1,26 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Avaliacao {
-  String id;
-  double avaliacao;
-  String descricao;
+  int id;
+  double valor;
+  String observacao;
   String data;
-  String hora;
-  String cabeleireiro;
-  String salao;
-  String horario;
-
+  int horarioId;
 
   Avaliacao();
 
-  Avaliacao.fromDocument(DocumentSnapshot snapshot) {
-    id = snapshot.documentID;
-    avaliacao = snapshot.data["avaliacao"];
-    descricao =
-        snapshot.data["descricao"] == null ? "" : snapshot.data['descricao'];
-    data = snapshot.data["data"];
-    hora = snapshot.data["hora"];
-    cabeleireiro = snapshot.data["cabeleireiro"];
-    salao = snapshot.data['salao'];
-    horario = snapshot.data['horario'];
+  Avaliacao.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    valor = (json['valor'] as num).toDouble();
+    observacao = json['observacao'] != null ? json['observacao'] : '';
+    data = json['data'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "avaliacao": avaliacao,
-      "descricao": descricao,
-      "data": data,
-      "hora": hora,
-      "cabeleireiro": cabeleireiro,
-      "salao": salao,
-      "horario": horario,
+      "id": id,
+      "valor": valor,
+      "descricao": observacao,
+      "data": data.replaceAll("/", '-'),
+      "horario_id": horarioId,
     };
   }
 }

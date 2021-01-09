@@ -1,9 +1,13 @@
 import 'dart:convert';
+import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/home_store.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Tiles/home_tile.dart';
+import 'package:cortai/Util/api.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/carousel.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
@@ -15,6 +19,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -27,9 +32,10 @@ class _HomeTabState extends State<HomeTab> {
   var endereco = TextEditingController();
 
   String cidade = SharedPreferencesControle.getCidade();
-  var _link =
-      'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
-  var url = '';
+
+  // var _link =
+  //     'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
+  var param = '';
   String latitude;
   String longitude;
 
@@ -159,33 +165,20 @@ class _HomeTabState extends State<HomeTab> {
                                 )
                               ],
                             ),
-                            FlatButton(
-                              onPressed: () {
-                                String urlForm =
-                                    'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link';
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => WebViewTela(
-                                        urlForm, "Sugerir novo salão")));
-                              },
-                              child: Text(
-                                "Sugerir novo salão",
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    }
-                    List<dynamic> dados = json.decode(response.data.body);
-                    List<Widget> widgets = dados
-                        .map((s) => HomeTile(
-                            Salao.fromJson(s), s['distancia'] as double))
-                        .toList();
-                    return Column(
-                      children: widgets,
-                    );
-                  }
+                          );
+                        }
+
+                        List<dynamic> dados = json.decode(response.data.body);
+
+                        List<Widget> widgets = dados
+                            .map((s) => HomeTile(Salao.fromJson(s)))
+                            .toList();
+                        return Column(
+                          children: widgets,
+                        );
+                      }
+                    },
+                  );
                 },
               );
             }
