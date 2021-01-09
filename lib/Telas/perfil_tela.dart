@@ -21,6 +21,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+import 'package:sizer/sizer.dart';
 
 class PerfilTela extends StatefulWidget {
   @override
@@ -43,14 +44,14 @@ class _PerfilTelaState extends State<PerfilTela> {
                   ListTile(
                     title: Text(
                       model.dados.nome,
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontSize: 20.0.sp, fontWeight: FontWeight.w600),
                     ),
                     subtitle: InkWell(
                         child: Text(
                           'Editar Perfil',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 14.0.sp,
                           ),
                         ),
                         onTap: () {
@@ -118,7 +119,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Mudar endereço",
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 16.0.sp),
                           )
                         ],
                       )),
@@ -142,7 +143,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                           Text(
                             "Sugerir novo salão",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16.0.sp,
                             ),
                           ),
                         ],
@@ -205,7 +206,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                           Text(
                             "Sobre",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16.0.sp,
                             ),
                           ),
                         ],
@@ -231,7 +232,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                           Text(
                             "Logout",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16.0.sp,
                             ),
                           ),
                         ],
@@ -273,7 +274,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                 Text(
                   "Horário de funcionamento",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16.0.sp,
                   ),
                 ),
               ],
@@ -303,7 +304,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                         Text(
                           "Editar salão",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16.0.sp,
                           ),
                         ),
                       ],
@@ -318,7 +319,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                         Text(
                           "Criar salão",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16.0.sp,
                           ),
                         ),
                       ],
@@ -337,7 +338,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                   color: Colors.black54,
                 ),
                 SizedBox(width: 10),
-                Text("Cadastrar cabeleireiros", style: TextStyle(fontSize: 18))
+                Text("Cadastrar cabeleireiros",
+                    style: TextStyle(fontSize: 16.0.sp))
               ])),
           Divider(
             color: Colors.black45,
