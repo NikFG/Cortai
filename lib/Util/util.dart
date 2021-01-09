@@ -13,12 +13,9 @@ class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
   static DateFormat timeFormat = DateFormat("HH:mm");
 
-  static String timestampToString(Timestamp timestamp) {
-    var formatter = new DateFormat('dd/MM/yyyy, H:mm');
-    String formatted = formatter
-        .format(DateTime.parse(timestamp.toDate().toLocal().toString()));
-    return formatted;
-  }
+  // static const url = "http://192.168.0.108:8000/api/"; //Local
+  static const url = "http://18.230.188.111/api/"; //AWS
+  static const storage_url = "http://192.168.0.108:8000/";
 
   static Timestamp stringToTimestamp(String horario) {
     horario = horario.substring(5);
