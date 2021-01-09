@@ -26,7 +26,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   final pasta = 'Imagens saloes';
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();
-  var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
+  var _telefoneController = MaskedTextController(mask: '(00) 00000-0000');
   var latlng = LatLng(0, 0);
   Salao dados;
   File _imagem;
