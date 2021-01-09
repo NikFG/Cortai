@@ -21,7 +21,7 @@ class _CadastroTelaState extends State<CadastroTela> {
   final _emailControlador = TextEditingController();
   final _senhaControlador = TextEditingController();
   final _senhaConfirmaControlador = TextEditingController();
-  final _telefoneControlador = MaskedTextController(mask: '(00) 0 0000-0000');
+  final _telefoneControlador = MaskedTextController(mask: '(00) 00000-0000');
   final _nomeControlador = TextEditingController();
   bool _botaoHabilitado = true;
 

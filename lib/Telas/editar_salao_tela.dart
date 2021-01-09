@@ -26,7 +26,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   final pasta = 'Imagens saloes';
   var _nomeController = TextEditingController();
   var _enderecoController = TextEditingController();
-  var _telefoneController = MaskedTextController(mask: '(00) 0 0000-0000');
+  var _telefoneController = MaskedTextController(mask: '(00) 00000-0000');
   var latlng = LatLng(0, 0);
   Salao dados;
   File _imagem;
@@ -175,10 +175,6 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                   dados.telefone = _telefoneController.text;
                                   dados.cidade = _cidade;
                                   if (widget.salao == null) {
-                                    // dados.menorValorServico = 0;
-                                    // dados.maiorValorServico = 0;
-                                    // dados.quantidadeAvaliacao = 0;
-                                    // dados.totalAvaliacao = 0;
 
                                     SalaoControle.store(dados,
                                         usuario: model.dados,
