@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Util/util.dart';
@@ -44,7 +46,7 @@ class _HomeTileState extends State<HomeTile> {
           if (widget.dados.imagem != null) {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => HeroCustom(
-                      imagemUrl: widget.dados.imagem,
+                      imagemMemory: widget.dados.imagem,
                       descricao: widget.dados.nome,
                     )));
           }
@@ -54,7 +56,7 @@ class _HomeTileState extends State<HomeTile> {
           radius: 30,
           backgroundColor: Colors.transparent,
           backgroundImage: widget.dados.imagem != null
-              ? CachedNetworkImageProvider(widget.dados.imagem)
+              ? MemoryImage(base64Decode(widget.dados.imagem))
               : AssetImage("assets/images/shop.png"),
         ),
       ),

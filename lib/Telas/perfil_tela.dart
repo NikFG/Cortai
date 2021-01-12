@@ -13,6 +13,7 @@ import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/maps_tela.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
@@ -23,6 +24,8 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:sizer/sizer.dart';
 
+import 'home_tela.dart';
+
 class PerfilTela extends StatefulWidget {
   @override
   _PerfilTelaState createState() => _PerfilTelaState();
@@ -30,7 +33,6 @@ class PerfilTela extends StatefulWidget {
 
 class _PerfilTelaState extends State<PerfilTela> {
   File _imagem;
-  final pasta = 'Imagens perfis';
 
   @override
   Widget build(BuildContext context) {
@@ -62,22 +64,19 @@ class _PerfilTelaState extends State<PerfilTela> {
                     leading: GestureDetector(
                       onTap: () async {
                         await getImagem();
-                        // if (_imagem != null) {
-                        //   String url = await Util.enviaImagem(
-                        //       model.dados.id.toString(), _imagem, pasta);
-                        //   Firestore.instance
-                        //       .collection('usuarios')
-                        //       .document(model.dados.id.toString())
-                        //       .updateData({'fotoURL': url});
-                        //   model.dados.imagemUrl = url;
-                        //   setState(() {});
-                        // }
+                        if (_imagem != null) {
+                          model.atualizaImagem(
+                              file: _imagem,
+                              onSucess: onSuccess,
+                              onFail: onFail);
+
+                        }
                       },
                       child: CircleAvatar(
                         radius: 32,
                         backgroundImage: model.dados.imagem == null
                             ? AssetImage('assets/images/user.png')
-                            : NetworkImage(model.dados.imagem),
+                            : MemoryImage(base64Decode(model.dados.imagem)),
                         backgroundColor: Colors.transparent,
                       ),
                     ),
@@ -352,5 +351,16 @@ class _PerfilTelaState extends State<PerfilTela> {
         width: 0,
       );
     }
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Informações de usuário atualizadas com sucesso")
+        .show(context);
+    setState(() {});
+  }
+
+  void onFail(String error) async {
+    await FlushbarHelper.createError(message: error).show(context);
   }
 }
