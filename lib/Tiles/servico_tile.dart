@@ -22,7 +22,7 @@ class ServicoTile extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => HeroCustom(
-                    imagemUrl: dados.imagem != null ? dados.imagem : imgPadrao,
+                    imagemMemory: dados.imagem != null ? dados.imagem : imgPadrao,
                     descricao: dados.descricao,
                   )));
         },
