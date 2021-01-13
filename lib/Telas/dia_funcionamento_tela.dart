@@ -161,7 +161,7 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
   }
 
   void onFail() async {
-    await FlushbarHelper.createError(message: "Horarios alterados com sucesso")
+    await FlushbarHelper.createError(message: "Houve um erro ao alterar os horários")
         .show(context);
     setState(() {
       _botaoHabilitado = true;
