@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Dados/salao.dart';
@@ -148,7 +149,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                 height: 0,
                               )
                             : widget.salao.imagem != null
-                                ? Image.network(widget.salao.imagem)
+                                ? Image.memory(base64Decode(widget.salao.imagem))
                                 : Container(
                                     width: 0,
                                     height: 0,
@@ -175,7 +176,6 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                   dados.telefone = _telefoneController.text;
                                   dados.cidade = _cidade;
                                   if (widget.salao == null) {
-
                                     SalaoControle.store(dados,
                                         usuario: model.dados,
                                         imagem: _imagem,

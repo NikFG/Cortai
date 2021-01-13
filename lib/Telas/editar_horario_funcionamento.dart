@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
 
 class EditarFuncionamentoTela extends StatefulWidget {
   EditarFuncionamentoTela();
@@ -113,107 +114,123 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                 SizedBox(
                   height: 30,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text('DOM'),
-                        SizedBox(
-                          width: 42,
-                          height: 49,
-                          child: Checkbox(
-                            onChanged: (bool value) {
-                              setState(() {
-                                _diasSemana[0] = value;
-                              });
-                            },
-                            value: _diasSemana[0],
-                          ),
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 15.0.h, // <-- you should put some value here
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                  'DOM',
+                                  style: TextStyle(fontSize: 10.0.sp),
+                                ),
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _diasSemana[0] = value;
+                                    });
+                                  },
+                                  value: _diasSemana[0],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text('SEG',
+                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _diasSemana[1] = value;
+                                    });
+                                  },
+                                  value: _diasSemana[1],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text('TER',
+                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _diasSemana[2] = value;
+                                    });
+                                  },
+                                  value: _diasSemana[2],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text('QUA',
+                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _diasSemana[3] = value;
+                                    });
+                                  },
+                                  value: _diasSemana[3],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text('QUI',
+                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _diasSemana[4] = value;
+                                    });
+                                  },
+                                  value: _diasSemana[4],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text('SEX',
+                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _diasSemana[5] = value;
+                                    });
+                                  },
+                                  value: _diasSemana[5],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text('SAB',
+                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Checkbox(
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _diasSemana[6] = value;
+                                    });
+                                  },
+                                  value: _diasSemana[6],
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text('SEG'),
-                        Checkbox(
-                          onChanged: (bool value) {
-                            setState(() {
-                              _diasSemana[1] = value;
-                            });
-                          },
-                          value: _diasSemana[1],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text('TER'),
-                        Checkbox(
-                          onChanged: (bool value) {
-                            setState(() {
-                              _diasSemana[2] = value;
-                            });
-                          },
-                          value: _diasSemana[2],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text('QUA'),
-                        Checkbox(
-                          onChanged: (bool value) {
-                            setState(() {
-                              _diasSemana[3] = value;
-                            });
-                          },
-                          value: _diasSemana[3],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text('QUI'),
-                        Checkbox(
-                          onChanged: (bool value) {
-                            setState(() {
-                              _diasSemana[4] = value;
-                            });
-                          },
-                          value: _diasSemana[4],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text('SEX'),
-                        Checkbox(
-                          onChanged: (bool value) {
-                            setState(() {
-                              _diasSemana[5] = value;
-                            });
-                          },
-                          value: _diasSemana[5],
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Text('SAB'),
-                        Checkbox(
-                          onChanged: (bool value) {
-                            setState(() {
-                              _diasSemana[6] = value;
-                            });
-                          },
-                          value: _diasSemana[6],
-                        ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(height: 10.0.h),
                 CustomButton(
                   textoBotao: "Confirmar",
                   botaoHabilitado: _botaoHabilitado,

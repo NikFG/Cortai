@@ -38,8 +38,7 @@ class Servico {
     _valor = servico.containsKey('pivot')
         ? (servico['pivot']['valor'] as num).toDouble()
         : (servico["valor"] as num).toDouble();
-    imagem =
-        servico['imagem'] != null ? Util.storage_url + servico["imagem"] : null;
+    imagem = servico['imagem'];
     observacao = servico['observacao'];
     cabeleireirosApi = servico['cabeleireiros'] != null
         ? List.from(servico['cabeleireiros'])

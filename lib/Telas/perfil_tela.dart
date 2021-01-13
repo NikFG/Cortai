@@ -13,6 +13,7 @@ import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/maps_tela.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,6 +22,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+import 'package:sizer/sizer.dart';
+
+import 'home_tela.dart';
 
 class PerfilTela extends StatefulWidget {
   @override
@@ -29,7 +33,6 @@ class PerfilTela extends StatefulWidget {
 
 class _PerfilTelaState extends State<PerfilTela> {
   File _imagem;
-  final pasta = 'Imagens perfis';
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +46,14 @@ class _PerfilTelaState extends State<PerfilTela> {
                   ListTile(
                     title: Text(
                       model.dados.nome,
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontSize: 20.0.sp, fontWeight: FontWeight.w600),
                     ),
                     subtitle: InkWell(
                         child: Text(
                           'Editar Perfil',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 14.0.sp,
                           ),
                         ),
                         onTap: () {
@@ -61,22 +64,19 @@ class _PerfilTelaState extends State<PerfilTela> {
                     leading: GestureDetector(
                       onTap: () async {
                         await getImagem();
-                        // if (_imagem != null) {
-                        //   String url = await Util.enviaImagem(
-                        //       model.dados.id.toString(), _imagem, pasta);
-                        //   Firestore.instance
-                        //       .collection('usuarios')
-                        //       .document(model.dados.id.toString())
-                        //       .updateData({'fotoURL': url});
-                        //   model.dados.imagemUrl = url;
-                        //   setState(() {});
-                        // }
+                        if (_imagem != null) {
+                          model.atualizaImagem(
+                              file: _imagem,
+                              onSucess: onSuccess,
+                              onFail: onFail);
+
+                        }
                       },
                       child: CircleAvatar(
                         radius: 32,
                         backgroundImage: model.dados.imagem == null
                             ? AssetImage('assets/images/user.png')
-                            : NetworkImage(model.dados.imagem),
+                            : MemoryImage(base64Decode(model.dados.imagem)),
                         backgroundColor: Colors.transparent,
                       ),
                     ),
@@ -118,7 +118,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Mudar endereço",
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 16.0.sp),
                           )
                         ],
                       )),
@@ -142,7 +142,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                           Text(
                             "Sugerir novo salão",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16.0.sp,
                             ),
                           ),
                         ],
@@ -205,7 +205,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                           Text(
                             "Sobre",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16.0.sp,
                             ),
                           ),
                         ],
@@ -231,7 +231,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                           Text(
                             "Logout",
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 16.0.sp,
                             ),
                           ),
                         ],
@@ -273,7 +273,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                 Text(
                   "Horário de funcionamento",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16.0.sp,
                   ),
                 ),
               ],
@@ -303,7 +303,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                         Text(
                           "Editar salão",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16.0.sp,
                           ),
                         ),
                       ],
@@ -318,7 +318,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                         Text(
                           "Criar salão",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16.0.sp,
                           ),
                         ),
                       ],
@@ -337,7 +337,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                   color: Colors.black54,
                 ),
                 SizedBox(width: 10),
-                Text("Cadastrar cabeleireiros", style: TextStyle(fontSize: 18))
+                Text("Cadastrar cabeleireiros",
+                    style: TextStyle(fontSize: 16.0.sp))
               ])),
           Divider(
             color: Colors.black45,
@@ -350,5 +351,16 @@ class _PerfilTelaState extends State<PerfilTela> {
         width: 0,
       );
     }
+  }
+
+  void onSuccess() async {
+    await FlushbarHelper.createSuccess(
+            message: "Informações de usuário atualizadas com sucesso")
+        .show(context);
+    setState(() {});
+  }
+
+  void onFail(String error) async {
+    await FlushbarHelper.createError(message: error).show(context);
   }
 }

@@ -6,7 +6,6 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/home_store.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Tiles/home_tile.dart';
-import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/carousel.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
@@ -33,8 +32,6 @@ class _HomeTabState extends State<HomeTab> {
 
   String cidade = SharedPreferencesControle.getCidade();
 
-  // var _link =
-  //     'https://us-central1-cortai-349b0.cloudfunctions.net/calculaDistancia';
   var param = '';
   String latitude;
   String longitude;
@@ -48,7 +45,6 @@ class _HomeTabState extends State<HomeTab> {
     if (store.endereco.isNotEmpty) {
       latitude = SharedPreferencesControle.getPosition().latitude.toString();
       longitude = SharedPreferencesControle.getPosition().longitude.toString();
-//      url = "$_link?cidade=$cidade&lat=$latitude&lng=$longitude";
     }
   }
 
