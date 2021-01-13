@@ -15,7 +15,7 @@ class Util {
 
   // static const url = "http://192.168.0.108:8000/api/"; //Local
   static const url = "http://18.230.188.111/api/"; //AWS
-  static const storage_url = "http://192.168.0.108:8000/";
+
 
   static Map<String, String> token(String token) {
     return {"Authorization": "Bearer $token}"};
@@ -83,19 +83,6 @@ class Util {
     }
   }
 
-  static Future<String> enviaImagem(
-      String uid, File imagem, String pasta) async {
-    String base64Image = base64Encode(imagem.readAsBytesSync());
-    String fileName = imagem.path.split("/").last;
-    // StorageUploadTask task = FirebaseStorage.instance
-    //     .ref()
-    //     .child(pasta)
-    //     .child(uid + DateTime.now().millisecondsSinceEpoch.toString())
-    //     .putFile(imagem);
-    // StorageTaskSnapshot taskSnapshot = await task.onComplete;
-    // String url = await taskSnapshot.ref.getDownloadURL();
-    return base64Image + fileName;
-  }
 
   static List<String> imgToBase64(File imagem) {
     String base64Image = base64Encode(imagem.readAsBytesSync());
