@@ -61,7 +61,7 @@ class ServicoControle {
     print(formData);
     try {
       var response = await dio.post(
-        _url + "update/${dados.id.toString()}",
+        _url + "edit/${dados.id.toString()}",
         data: formData,
         options: Options(headers: Util.token(token)),
       );
