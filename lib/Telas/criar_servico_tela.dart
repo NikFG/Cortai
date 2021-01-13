@@ -270,14 +270,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                     selecionados.map((e) => e.id).toList();
 
                                 if (widget.dados != null) {
-                                  if (_imagem != null) {
-                                    dados.imagem = await Util.enviaImagem(
-                                        model.dados.id.toString().toString(),
-                                        _imagem,
-                                        pasta);
-                                  } else {
-                                    dados.imagem = widget.dados.imagem;
-                                  }
+
                                   dados.id = widget.dados.id;
                                   ServicoControle.update(
                                       dados: dados,
