@@ -16,7 +16,6 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:social_share_plugin/social_share_plugin.dart';
 
 class CriarServicoTela extends StatefulWidget {
   final Servico dados;
