@@ -304,7 +304,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
   }
 
   void onFail() async {
-    await FlushbarHelper.createError(message: "Horarios alterados com sucesso")
+    await FlushbarHelper.createError(message: "Houve um problema ao alterar os horarios")
         .show(context);
     setState(() {
       _botaoHabilitado = true;
