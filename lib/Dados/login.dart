@@ -1,18 +1,29 @@
+import 'package:cortai/Util/conversao.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'login.g.dart';
+
+@JsonSerializable()
 class Login {
   int id;
   String nome;
+  @JsonKey(name: 'salao_id')
   int salaoId;
   String telefone;
   String email;
   String imagem;
+  @JsonKey(name: 'is_cabeleireiro', fromJson: Conversao.trataBool)
   bool isCabeleireiro;
+  @JsonKey(name: 'is_dono_salao', fromJson: Conversao.trataBool)
   bool isDonoSalao;
+  @JsonKey(name: 'is_google', fromJson: Conversao.trataBool)
   bool isGoogle;
   String senha;
 
-  Login.fromJson(Map<String, dynamic> dados) {
+  factory Login.fromJson(Map<String, dynamic> json) => _$LoginFromJson(json);
+
+  Login.fromJson2(Map<String, dynamic> dados) {
     id = dados['id'];
     nome = dados['nome'];
     salaoId = dados['salao_id'];

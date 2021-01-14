@@ -1,13 +1,23 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:cortai/Util/conversao.dart';
+part 'avaliacao.g.dart';
+
+@JsonSerializable()
 class Avaliacao {
   int id;
+  @JsonKey(fromJson: Conversao.strToDouble)
   double valor;
+  @JsonKey(defaultValue: "")
   String observacao;
   String data;
+  @JsonKey(name: 'horario_id')
   int horarioId;
 
   Avaliacao();
 
-  Avaliacao.fromJson(Map<String, dynamic> json) {
+  factory Avaliacao.fromJson(Map<String, dynamic> json) => _$AvaliacaoFromJson(json);
+
+  Avaliacao.fromJson2(Map<String, dynamic> json) {
     id = json['id'];
     valor = (json['valor'] as num).toDouble();
     observacao = json['observacao'] != null ? json['observacao'] : '';

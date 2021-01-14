@@ -151,7 +151,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             onTap: () async {
                               var response = await http.get(
                                   FuncionamentoControle.get(
-                                      widget.servico.salao_id),
+                                      widget.servico.salaoId),
                                   headers: Util.token(model.token));
                               print(response.body);
                               List<Funcionamento> funcionamento =
@@ -206,7 +206,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   var response = await http.get(
                                       FuncionamentoControle.getDiaSemana(
                                           Util.weekdayToString(data),
-                                          widget.servico.salao_id),
+                                          widget.servico.salaoId),
                                       headers: Util.token(model.token));
                                   Funcionamento funcionamento =
                                       Funcionamento.fromJson(
@@ -255,8 +255,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                           padding: EdgeInsets.all(24),
                           child: GestureDetector(
                             onTap: () async {
-                              _metodoPagamentoBottomSheet(context,
-                                  widget.servico.salao_id, model.token);
+                              _metodoPagamentoBottomSheet(
+                                  context, widget.servico.salaoId, model.token);
                             },
                             child: AbsorbPointer(
                               child: CustomFormField(
@@ -361,7 +361,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                                   List<Servico>();
                                               horario.servicos
                                                   .add(widget.servico);
-                                              HorarioControle.store(
+                                              await HorarioControle.store(
                                                   horario: horario,
                                                   token: model.token,
                                                   onSuccess: onSuccess,
@@ -491,9 +491,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         context: context,
         builder: (bc) {
           return FutureBuilder<http.Response>(
-            future: Api.get(FormaPagamentoControle.get(salaoId), token, () {
-              return Center();
-            }),
+            future: Api.get(FormaPagamentoControle.get(salaoId), token),
             builder: (context, response) {
               if (!response.hasData) {
                 return Center(

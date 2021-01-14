@@ -262,7 +262,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                     : Servico();
                                 dados.descricao = _nomeControlador.text;
                                 dados.setValor(_precoControlador.text);
-                                dados.salao_id = model.dados.salaoId;
+                                dados.salaoId = model.dados.salaoId;
                                 dados.observacao = _observacaoControlador.text;
                                 dados.ativo = ativo;
                                 dados.cabeleireiros =

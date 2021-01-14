@@ -1,5 +1,4 @@
 import 'package:cortai/Dados/cabeleireiro.dart';
-import 'package:cortai/Util/util.dart';
 
 class Servico {
   int id;
@@ -8,7 +7,7 @@ class Servico {
   String imagem;
   List<int> cabeleireiros;
   List<Cabeleireiro> cabeleireirosApi;
-  int salao_id;
+  int salaoId;
   String observacao;
   bool ativo;
 
@@ -28,9 +27,6 @@ class Servico {
   }
 
   Servico.fromJsonApi(Map<String, dynamic> servico) {
-    if (servico.containsKey('pivot')) {
-      print(servico['pivot']);
-    }
     id = servico['id'];
     descricao = servico.containsKey('pivot')
         ? servico['pivot']['descricao']
@@ -46,7 +42,7 @@ class Servico {
             .toList()
         : null;
     ativo = servico['deleted_at'] == null;
-    salao_id = servico['salao_id'];
+    salaoId = servico['salao_id'];
   }
 
   Map<String, dynamic> toMap() {
@@ -54,7 +50,7 @@ class Servico {
       "id": id,
       "nome": descricao,
       "valor": _valor,
-      'salao_id': salao_id,
+      'salao_id': salaoId,
       'cabeleireiros': cabeleireiros,
       'observacao': observacao,
       'ativo': ativo,

@@ -1,37 +1,37 @@
 import 'dart:io';
+import 'package:cortai/Util/conversao.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-import 'package:cortai/Util/util.dart';
+part 'salao.g.dart';
 
+@JsonSerializable()
 class Salao {
   int id;
   String nome;
   String endereco;
   String telefone;
   String imagem;
-  File img;
   String cidade;
+  @JsonKey(fromJson: Conversao.strToDouble)
   double latitude;
+  @JsonKey(fromJson: Conversao.strToDouble)
   double longitude;
+  @JsonKey(name: 'menor_valor', fromJson: Conversao.strToDouble)
   double menorValorServico;
+  @JsonKey(name: 'maior_valor', fromJson: Conversao.strToDouble)
   double maiorValorServico;
+  @JsonKey(name: 'qtd_avaliacao')
   int quantidadeAvaliacao;
+  @JsonKey(name: 'media', fromJson: Conversao.strToDouble)
   double mediaAvaliacao;
+  @JsonKey(fromJson: Conversao.intToDouble)
   double distancia;
 
   Salao();
 
-  Map<String, dynamic> toMap() {
-    return {
-      "nome": nome,
-      "endereco": endereco,
-      "telefone": telefone,
-      "latitude": latitude,
-      "longitude": longitude,
-      "cidade": cidade,
-    };
-  }
+  factory Salao.fromJson(Map<String, dynamic> json) => _$SalaoFromJson(json);
 
-  Salao.fromJson(Map<String, dynamic> json) {
+  Salao.fromJson2(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
     endereco = json['endereco'];
@@ -63,5 +63,16 @@ class Salao {
     return 'SalaoDados{id: $id, nome: $nome, endereco: $endereco, '
         'telefone: $telefone, imagem: $imagem, cidade: $cidade, '
         'latitude: $latitude, longitude: $longitude}';
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "nome": nome,
+      "endereco": endereco,
+      "telefone": telefone,
+      "latitude": latitude,
+      "longitude": longitude,
+      "cidade": cidade,
+    };
   }
 }
