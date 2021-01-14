@@ -12,10 +12,10 @@ class Api {
   }
 
   static Future<http.Response> get(
-      String url, String token, FutureOr onTimeout) {
+      String url, String token) {
     return http
         .get(url, headers: Util.token(token))
-        .timeout(Duration(seconds: 10), onTimeout: onTimeout);
+        .timeout(Duration(seconds: 10));
   }
 
   Future<void> store(
