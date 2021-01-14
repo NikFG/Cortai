@@ -28,14 +28,14 @@ class HorarioControle {
     return _url + "count/${id.toString()}";
   }
 
-  static void store(
+  static Future<void> store(
       {@required Horario horario,
       @required String token,
       @required VoidCallback onSuccess,
-      @required Function onFail(String error)}) async {
+      void onFail(String error)}) async {
     try {
       Api api = Api();
-      api.store(_url, horario.toMap(), token);
+      await api.store(_url, horario.toMap(), token);
       onSuccess();
     } catch (e) {
       String error = "";
