@@ -39,6 +39,8 @@ dependencies:
   http: ^0.12.2
   image_picker: ^0.6.7+14
   intl: ^0.16.1
+  json_annotation: ^3.1.1
+
   maps_launcher: ^1.2.2+2
   mobx: ^1.2.1+4
   onesignal_flutter: ^2.6.1
@@ -68,6 +70,7 @@ dev_dependencies:
     sdk: flutter
   mobx_codegen: ^1.1.2
   build_runner: ^1.10.0
+  json_serializable: ^3.5.1
 
 
 flutter:
