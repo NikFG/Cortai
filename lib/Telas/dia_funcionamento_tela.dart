@@ -11,6 +11,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 class DiaFuncionamentoTela extends StatefulWidget {
   final Funcionamento dados;
   final String token;
+
   DiaFuncionamentoTela(this.dados, this.token);
 
   @override
@@ -160,8 +161,9 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
         MaterialPageRoute(builder: (context) => CadastroFuncionamentoTela()));
   }
 
-  void onFail() async {
-    await FlushbarHelper.createError(message: "Houve um erro ao alterar os horários")
+  void onFail(String error) async {
+    await FlushbarHelper.createError(
+            title: "Houve um erro ao alterar os horários", message: error)
         .show(context);
     setState(() {
       _botaoHabilitado = true;

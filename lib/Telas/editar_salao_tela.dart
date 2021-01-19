@@ -149,7 +149,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                 height: 0,
                               )
                             : widget.salao.imagem != null
-                                ? Image.memory(base64Decode(widget.salao.imagem))
+                                ? Image.memory(
+                                    base64Decode(widget.salao.imagem))
                                 : Container(
                                     width: 0,
                                     height: 0,
@@ -278,9 +279,10 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
         .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
   }
 
-  void onFail() async {
-    FlushbarHelper.createError(
-            message: 'Houve algum erro ao criar o salão\nTente novamente!!')
+  void onFail(String error) async {
+    await FlushbarHelper.createError(
+            title: 'Houve algum erro ao criar o salão\nTente novamente!!',
+            message: error)
         .show(context);
     setState(() {
       _botaoHabilitado = true;

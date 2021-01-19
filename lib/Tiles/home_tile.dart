@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Telas/servico_tela.dart';

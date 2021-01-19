@@ -38,12 +38,7 @@ class HorarioControle {
       await api.store(_url, horario.toMap(), token);
       onSuccess();
     } catch (e) {
-      String error = "";
-      e.forEach((k, v) {
-        error +=
-            v.toString().replaceFirst('[', '').replaceFirst(']', '') + "\n";
-      });
-      onFail(error);
+      onFail(e);
     }
   }
 
@@ -78,7 +73,7 @@ class HorarioControle {
       @required VoidCallback onFail,
       bool clienteCancelou = false}) async {
     try {
-      Dio dio = Dio(); //Falta tratar caso cliente cancele
+      Dio dio = Dio(); //TODO Falta tratar caso cliente cancele
       var response = await dio.put(_url + "cancela/${id.toString()}",
           options: Options(headers: Util.token(token)));
       if (response.statusCode == 200) {

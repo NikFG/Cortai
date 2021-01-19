@@ -1,5 +1,4 @@
 import 'package:cortai/Controle/horario_controle.dart';
-import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/confirmar_store.dart';
 import 'package:cortai/Tiles/confirmar_tile.dart';

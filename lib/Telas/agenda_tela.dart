@@ -589,7 +589,7 @@ class _AgendaTelaState extends State<AgendaTela> {
   /*
   * Cria o vetor de itens de horários disponíveis
   * */
-  List<String> _itensHorario(
+/*  List<String> _itensHorario(
       {@required String abertura,
       @required String fechamento,
       @required int intervalo,
@@ -617,7 +617,7 @@ class _AgendaTelaState extends State<AgendaTela> {
     }
 
     return listaHorarios;
-  }
+  }*/
 
   void onSuccess() async {
     await FlushbarHelper.createSuccess(

@@ -1,5 +1,4 @@
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Widgets/splash_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

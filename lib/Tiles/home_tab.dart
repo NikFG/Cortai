@@ -16,7 +16,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 
@@ -26,7 +25,6 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  PermissionStatus _permissionStatus;
   HomeStore store;
   var endereco = TextEditingController();
 
@@ -163,7 +161,7 @@ class _HomeTabState extends State<HomeTab> {
                             ),
                           );
                         }
-
+                          print(response.data.body);
                         List<dynamic> dados = json.decode(response.data.body);
 
                         List<Widget> widgets = dados

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cortai/Util/conversao.dart';
 import 'package:json_annotation/json_annotation.dart';
 

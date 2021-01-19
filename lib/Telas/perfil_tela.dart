@@ -24,7 +24,6 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:sizer/sizer.dart';
 
-import 'home_tela.dart';
 
 class PerfilTela extends StatefulWidget {
   @override
