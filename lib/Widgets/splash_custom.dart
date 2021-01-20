@@ -37,7 +37,9 @@ class _SplashCustomState extends State<SplashCustom> {
           photoSize: 50.0.h,
 
           loaderColor: Colors.white,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme
+              .of(context)
+              .primaryColor,
         );
       },
     );

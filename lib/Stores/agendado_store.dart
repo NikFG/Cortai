@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cortai/Util/util.dart';
-import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobx/mobx.dart';
 
 part 'agendado_store.g.dart';
 

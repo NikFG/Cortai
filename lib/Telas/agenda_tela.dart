@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Controle/forma_pagamento_controle.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
@@ -12,15 +13,16 @@ import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/agenda_store.dart';
 import 'package:cortai/Util/api.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:cortai/Util/util.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'home_tela.dart';
 import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
+
+import 'home_tela.dart';
 
 class AgendaTela extends StatefulWidget {
   final Servico servico;

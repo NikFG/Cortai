@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-
 import 'package:cortai/Dados/salao.dart';
-import 'package:cortai/Util/util.dart';
 import 'package:cortai/Telas/servico_tela.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:cortai/Widgets/hero_custom.dart';
 import 'package:flutter/cupertino.dart';

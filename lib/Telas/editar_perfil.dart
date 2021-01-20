@@ -1,6 +1,5 @@
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -166,9 +165,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
   }
 
   void onFail(String error) async {
-    await FlushbarHelper.createError(
-            message: error)
-        .show(context);
+    await FlushbarHelper.createError(message: error).show(context);
     setState(() {
       _botaoHabilitado = true;
     });

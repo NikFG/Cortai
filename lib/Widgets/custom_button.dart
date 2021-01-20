@@ -5,16 +5,18 @@ class CustomButton extends StatelessWidget {
   final bool botaoHabilitado;
   final VoidCallback onPressed;
 
-  CustomButton(
-      {@required this.textoBotao,
-      @required this.botaoHabilitado,
-      @required this.onPressed});
+  CustomButton({@required this.textoBotao,
+    @required this.botaoHabilitado,
+    @required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 46,
-      width: MediaQuery.of(context).size.width / 1.1,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width / 1.1,
       child: RaisedButton(
         onPressed: onPressed,
         shape: RoundedRectangleBorder(
@@ -22,12 +24,14 @@ class CustomButton extends StatelessWidget {
             side: BorderSide(color: Colors.red)),
         child: botaoHabilitado
             ? Text(
-                this.textoBotao,
-                style: TextStyle(fontSize: 18),
-              )
+          this.textoBotao,
+          style: TextStyle(fontSize: 18),
+        )
             : CircularProgressIndicator(),
         textColor: Colors.white,
-        color: Theme.of(context).primaryColor,
+        color: Theme
+            .of(context)
+            .primaryColor,
       ),
     );
   }

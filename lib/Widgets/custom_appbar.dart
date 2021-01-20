@@ -32,7 +32,9 @@ class _CustomAppbarState extends State<CustomAppbar> {
   }
 
   void _addListener() {
-    _position = Scrollable.of(context)?.position;
+    _position = Scrollable
+        .of(context)
+        ?.position;
     _position?.addListener(_positionListener);
     _positionListener();
   }
@@ -43,7 +45,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
 
   void _positionListener() {
     final FlexibleSpaceBarSettings settings =
-        context.dependOnInheritedWidgetOfExactType();
+    context.dependOnInheritedWidgetOfExactType();
     bool visible =
         settings == null || settings.currentExtent <= settings.minExtent;
     if (_visible != visible) {

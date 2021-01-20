@@ -5,8 +5,8 @@ import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Util/pusher_service.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobx/mobx.dart';
 
 part 'agenda_store.g.dart';
 
@@ -26,7 +26,6 @@ abstract class _AgendaStore with Store {
   @observable
   List<String> horariosTela = [];
 
-
   @observable
   bool isLoading = false;
 
@@ -37,7 +36,7 @@ abstract class _AgendaStore with Store {
   bool get isEmpty => horarios.isEmpty;
 
   @action
-  bool horarioOcupado(String horario){
+  bool horarioOcupado(String horario) {
     return horariosTela.contains(horario);
   }
 

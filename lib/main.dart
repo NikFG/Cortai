@@ -3,9 +3,9 @@ import 'package:cortai/Widgets/splash_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:scoped_model/scoped_model.dart';
 import 'Controle/shared_preferences_controle.dart';
 
 void main() async {

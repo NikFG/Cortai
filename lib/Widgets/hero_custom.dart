@@ -1,16 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-
 import 'package:photo_view/photo_view.dart';
 
 class HeroCustom extends StatelessWidget {
   final File imagemFile;
   final String descricao;
   final String imagemMemory;
-  HeroCustom({this.imagemFile, this.descricao,this.imagemMemory});
+
+  HeroCustom({this.imagemFile, this.descricao, this.imagemMemory});
 
   @override
   Widget build(BuildContext context) {

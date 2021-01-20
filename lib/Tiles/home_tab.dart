@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Dados/salao.dart';
@@ -161,7 +162,7 @@ class _HomeTabState extends State<HomeTab> {
                             ),
                           );
                         }
-                          print(response.data.body);
+                        print(response.data.body);
                         List<dynamic> dados = json.decode(response.data.body);
 
                         List<Widget> widgets = dados

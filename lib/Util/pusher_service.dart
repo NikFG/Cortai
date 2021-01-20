@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,6 @@ class PusherService {
   Event lastEvent;
   String lastConnectionState;
   Channel channel;
-
 
   Future<void> initPusher(String token) async {
     var auth = PusherAuth(URL, headers: Util.token(token));

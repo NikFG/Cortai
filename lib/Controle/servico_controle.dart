@@ -4,7 +4,6 @@ import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 
 class ServicoControle {
@@ -43,7 +42,6 @@ class ServicoControle {
       @required File imagem,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-
     Map<String, dynamic> map = dados.toMap();
     if (imagem != null)
       map["imagem"] = await MultipartFile.fromFile(imagem.path,

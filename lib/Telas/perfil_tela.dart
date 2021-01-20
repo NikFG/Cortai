@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
@@ -18,12 +19,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:http/http.dart' as http;
-import 'dart:io';
 import 'package:sizer/sizer.dart';
-
 
 class PerfilTela extends StatefulWidget {
   @override
@@ -68,7 +67,6 @@ class _PerfilTelaState extends State<PerfilTela> {
                               file: _imagem,
                               onSucess: onSuccess,
                               onFail: onFail);
-
                         }
                       },
                       child: CircleAvatar(
