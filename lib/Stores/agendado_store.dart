@@ -25,7 +25,7 @@ abstract class _AgendadoStore with Store {
     var response = await http.get(url, headers: Util.token(token));
     statusCode = response.statusCode;
     if (statusCode == 404) {
-      data.add(response.body);
+      data = json.decode(response.body);
     } else {
       data = json.decode(response.body)['horarios'];
     }
