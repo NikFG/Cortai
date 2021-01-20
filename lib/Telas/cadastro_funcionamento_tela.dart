@@ -102,8 +102,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                     if (!response.hasData) {
                       return CustomShimmer(4);
                     } else {
-                      print(response.data.body == '[]');
-                      if (response.data.body == '[]') {
+                      if (response.data.statusCode == 404) {
                         return Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height / 4),
