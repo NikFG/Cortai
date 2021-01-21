@@ -116,8 +116,8 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                 ),
                 SingleChildScrollView(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       SizedBox(
                         height: 15.0.h,
@@ -252,6 +252,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                           dados.add(f);
                         }
                       }
+                      print(dados);
                       FuncionamentoControle.updateAll(dados, model.token,
                           onSuccess: onSuccess, onFail: onFail);
                     }

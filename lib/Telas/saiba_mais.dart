@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
+import 'package:sizer/sizer.dart';
 
 class SaibaMaisTela extends StatelessWidget {
   final Salao salao;
@@ -66,10 +68,11 @@ class SaibaMaisTela extends StatelessWidget {
                           children: <Widget>[
                             Text(salao.nome,
                                 style: TextStyle(
-                                    fontSize: 32, fontWeight: FontWeight.w700)),
+                                    fontSize: 24.0.sp,
+                                    fontWeight: FontWeight.w700)),
                             Text("Horário de Funcionamento:",
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 18.0.sp,
                                   fontWeight: FontWeight.w700,
                                 )),
                             FutureBuilder<http.Response>(
@@ -97,7 +100,7 @@ class SaibaMaisTela extends StatelessWidget {
                                     return Text(
                                         "${dados.diaSemana}: ${dados.horarioAbertura} as ${dados.horarioFechamento}",
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 16.0.sp,
                                         ));
                                   }).toList();
                                   return Column(
@@ -109,7 +112,7 @@ class SaibaMaisTela extends StatelessWidget {
                             ),
                             Text("Endereço:",
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 18.0.sp,
                                   fontWeight: FontWeight.w700,
                                 )),
                             FlatButton(
@@ -119,7 +122,7 @@ class SaibaMaisTela extends StatelessWidget {
                               },
                               child: Text("${salao.endereco}",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 16.0.sp,
                                     color: Theme.of(context).primaryColor,
                                   )),
                             ),

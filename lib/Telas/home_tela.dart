@@ -10,7 +10,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
-import 'gerenciar_servico_tela.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeTela extends StatefulWidget {
   final int paginaInicial;
@@ -172,6 +172,7 @@ class _HomeTelaState extends State<HomeTela> {
                                 "Confirmar horários",
                                 style: TextStyle(
                                   color: Colors.black,
+                                  fontSize: 16.0.sp,
                                 ),
                               ),
                               centerTitle: true,

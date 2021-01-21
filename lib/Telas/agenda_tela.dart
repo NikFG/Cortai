@@ -13,7 +13,7 @@ import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/agenda_store.dart';
 import 'package:cortai/Util/api.dart';
-import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/custom_button.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +23,8 @@ import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 
 import 'home_tela.dart';
+import 'package:http/http.dart' as http;
+import 'package:sizer/sizer.dart';
 
 class AgendaTela extends StatefulWidget {
   final Servico servico;
@@ -74,15 +76,16 @@ class _AgendaTelaState extends State<AgendaTela> {
             child: IgnorePointer(
               ignoring: !_botaoHabilitado,
               child: ListView(
+                padding: EdgeInsets.only(bottom: 2.0.h),
                 children: <Widget>[
                   ListTile(
                     title: Text(
                       widget.servico.descricao,
-                      style: TextStyle(fontSize: 22),
+                      style: TextStyle(fontSize: 18.0.sp),
                     ),
                     subtitle: Text(
                         'R\$${widget.servico.valor.toStringAsFixed(2)}',
-                        style: TextStyle(fontSize: 16)),
+                        style: TextStyle(fontSize: 14.0.sp)),
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundImage: widget.servico.imagem != null
@@ -104,7 +107,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                               child: Text(
                                 "Selecione o Profissional :",
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 16.0.sp,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
@@ -141,7 +144,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             child: Text(
                               "Quando seria melhor para você ?",
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16.0.sp,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -188,7 +191,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             child: Text(
                               'Qual horario?',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16.0.sp,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -247,7 +250,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             child: Text(
                               'Como você gostaria de pagar?',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16.0.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -287,7 +290,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                 child: Text(
                                   'Você tem um código de desconto?',
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 16.0.sp,
                                       fontWeight: FontWeight.w700),
                                 ),
                               ),
@@ -315,76 +318,46 @@ class _AgendaTelaState extends State<AgendaTela> {
                         SizedBox(
                           height: 20,
                         ),
-                        Container(
-                            alignment: Alignment.topRight,
-                            width: MediaQuery.of(context).size.width - 20,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Theme.of(context).primaryColor),
-                            child: ScopedModelDescendant<LoginModelo>(
-                              builder: (context, child, model) {
-                                return FlatButton(
-                                  onPressed: _botaoHabilitado
-                                      ? () async {
-                                          if (_formKey.currentState
-                                              .validate()) {
-                                            setState(() {
-                                              _botaoHabilitado = false;
-                                            });
-                                            if (!store.horarioOcupado(
-                                                horarioController.text)) {
-                                              horarioController.text = "";
-                                              await FlushbarHelper
-                                                      .createInformation(
-                                                          message:
-                                                              "Horário ocupado",
-                                                          duration: Duration(
-                                                              seconds: 2))
-                                                  .show(context);
-                                              setState(() {
-                                                _botaoHabilitado = true;
-                                              });
-                                            } else {
-                                              Horario horario = Horario();
-                                              horario.cabeleireiroId =
-                                                  cabeleireiroSelecionado;
-                                              horario.clienteId =
-                                                  model.dados.id;
-                                              horario.confirmado = false;
-                                              horario.data =
-                                                  dataController.text;
-                                              horario.formaPagamentoId =
-                                                  pagamento;
-                                              horario.hora =
-                                                  horarioController.text;
-                                              horario.pago = false;
-                                              horario.servicos =
-                                                  List<Servico>();
-                                              horario.servicos
-                                                  .add(widget.servico);
-                                              await HorarioControle.store(
-                                                  horario: horario,
-                                                  token: model.token,
-                                                  onSuccess: onSuccess,
-                                                  onFail: onFail);
-                                            }
-                                          }
-                                        }
-                                      : null,
-                                  child: Center(
-                                      child: _botaoHabilitado
-                                          ? Text(
-                                              'Confirmar',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                              ),
-                                            )
-                                          : CircularProgressIndicator()),
-                                );
-                              },
-                            ))
+                        CustomButton(
+                            textoBotao: 'Confirmar',
+                            botaoHabilitado: _botaoHabilitado,
+                            onPressed: _botaoHabilitado
+                                ? () async {
+                                    if (_formKey.currentState.validate()) {
+                                      setState(() {
+                                        _botaoHabilitado = false;
+                                      });
+                                      if (!store.horarioOcupado(
+                                          horarioController.text)) {
+                                        horarioController.text = "";
+                                        await FlushbarHelper.createInformation(
+                                                message: "Horário ocupado",
+                                                duration: Duration(seconds: 2))
+                                            .show(context);
+                                        setState(() {
+                                          _botaoHabilitado = true;
+                                        });
+                                      } else {
+                                        Horario horario = Horario();
+                                        horario.cabeleireiroId =
+                                            cabeleireiroSelecionado;
+                                        horario.clienteId = model.dados.id;
+                                        horario.confirmado = false;
+                                        horario.data = dataController.text;
+                                        horario.formaPagamentoId = pagamento;
+                                        horario.hora = horarioController.text;
+                                        horario.pago = false;
+                                        horario.servicos = List<Servico>();
+                                        horario.servicos.add(widget.servico);
+                                        await HorarioControle.store(
+                                            horario: horario,
+                                            token: model.token,
+                                            onSuccess: onSuccess,
+                                            onFail: onFail);
+                                      }
+                                    }
+                                  }
+                                : null),
                       ],
                     ),
                   ),

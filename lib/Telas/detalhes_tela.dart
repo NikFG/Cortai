@@ -15,6 +15,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
 
 class DetalhesTela extends StatelessWidget {
   final Horario horario;
@@ -56,11 +57,12 @@ class DetalhesTela extends StatelessWidget {
                         children: <Widget>[
                           Text(salao.nome,
                               style: TextStyle(
-                                  fontSize: 32, fontWeight: FontWeight.w700)),
+                                  fontSize: 28.0.sp,
+                                  fontWeight: FontWeight.w700)),
                           horario.pago
                               ? Text("Realizado às 12:28 - 16/07/2020",
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12.0.sp,
                                   ))
                               : Container(
                                   height: 0,
@@ -68,7 +70,7 @@ class DetalhesTela extends StatelessWidget {
                                 ),
                           Text("Agendamento ${horario.id}",
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 12.0.sp,
                                 fontWeight: FontWeight.w700,
                               )),
                           ListTile(
@@ -89,18 +91,18 @@ class DetalhesTela extends StatelessWidget {
                                       ? "Confirmado"
                                       : "Não confirmado",
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12.0.sp,
                                   ))),
                           ListTile(
                             leading: Icon(FontAwesome.tag),
                             title: Text(servico.descricao,
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 12.0.sp,
                                 )),
                             trailing: Text(
                                 "R\$${servico.valor.toStringAsFixed(2).replaceAll('.', ',')}",
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 12.0.sp,
                                 )),
                           ),
                           Column(
@@ -111,7 +113,7 @@ class DetalhesTela extends StatelessWidget {
                                 padding: EdgeInsets.only(left: 15),
                                 child: Text("Endereço",
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.0.sp,
                                     )),
                               ),
                               FlatButton(
@@ -121,7 +123,7 @@ class DetalhesTela extends StatelessWidget {
                                 },
                                 child: Text("${salao.endereco}",
                                     style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 16.0.sp,
                                       color: Theme.of(context).primaryColor,
                                     )),
                               ),
@@ -130,22 +132,37 @@ class DetalhesTela extends StatelessWidget {
                           Container(
                             child: Row(
                               children: <Widget>[
-                                FlatButton(
-                                  child: Text(
-                                    "Cancelar Agendamento",
+                                Container(
+                                  width: 45.0.w,
+                                  child: FlatButton(
+                                    child: Container(
+                                      child: Text(
+                                        "Ligar para salão",
+                                        style: TextStyle(
+                                          fontSize: 12.0.sp,
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Util.ligacaoTelefonica(salao.telefone);
+                                    },
                                   ),
-                                  onPressed: () {
-                                    _cancelarDialog(context, model.token);
-                                  },
                                 ),
-                                FlatButton(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    "Ligar para salão",
+                                Container(
+                                  width: 45.0.w,
+                                  child: FlatButton(
+                                    child: Container(
+                                      child: Text(
+                                        "Cancelar Agendamento",
+                                        style: TextStyle(
+                                          fontSize: 12.0.sp,
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      _cancelarDialog(context, model.token);
+                                    },
                                   ),
-                                  onPressed: () {
-                                    Util.ligacaoTelefonica(salao.telefone);
-                                  },
                                 ),
                               ],
                             ),

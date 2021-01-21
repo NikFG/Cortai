@@ -14,6 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
+
+import 'galeria_tela.dart';
 
 class ServicoTela extends StatelessWidget {
   final Salao salao;
@@ -38,7 +41,7 @@ class ServicoTela extends StatelessWidget {
                 salao.nome,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20.0,
+                  fontSize: 18.0.sp,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
@@ -71,20 +74,43 @@ class ServicoTela extends StatelessWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => SaibaMaisTela(salao)));
                         },
-                        child: Column(
+                        child: Row(
+                          //  mainAxisAlignment: MainAxisAlignment.start,
+                          // crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Text(
-                              salao.nome,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 22),
-                              maxLines: 3,
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2.1,
+                              child: Text(
+                                salao.nome,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w100,
+                                    fontSize: 20.0.sp),
+                                maxLines: 2,
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width / 2.2,
+                              alignment: Alignment.bottomRight,
+                              padding: EdgeInsets.only(right: 1.0.h),
+                              child: FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                GaleriaTela()));
+                                  },
+                                  child: Text("Galeria >",
+                                      style: TextStyle(
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 13.0.sp,
+                                      ))),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 2.0.h),
                     Container(
                         child: GestureDetector(
                             onTap: () {
@@ -93,19 +119,17 @@ class ServicoTela extends StatelessWidget {
                             },
                             child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Container(
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                          bottom: 8.0, right: 8.0),
+                                          bottom: 2.0.h,
+                                          left: 1.0.h,
+                                          right: 1.0.h),
                                       child: Container(
                                         child: Row(
                                           children: <Widget>[
-                                            Container(
-                                                // child: Icon(),
-
-                                                ),
                                             SizedBox(
                                               width: 10,
                                             ),
@@ -113,8 +137,8 @@ class ServicoTela extends StatelessWidget {
                                               child: Text(
                                                 "$distancia",
                                                 style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 18,
+                                                  color: Colors.black87,
+                                                  fontSize: 14.0.sp,
                                                 ),
                                               ),
                                             )
@@ -124,37 +148,40 @@ class ServicoTela extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    padding:
-                                        EdgeInsets.only(bottom: 8.0, left: 8.0),
+                                    padding: EdgeInsets.only(
+                                        bottom: 2.0.h,
+                                        left: 1.0.h,
+                                        right: 1.0.h),
                                     child: Text(
                                       "R\$${salao.menorValorServico.toStringAsFixed(2)}"
-                                      "~ R\$${salao.maiorValorServico.toStringAsFixed(2)}",
+                                      " - "
+                                      "R\$${salao.maiorValorServico.toStringAsFixed(2)}",
                                       style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18.0,
+                                        color: Colors.black87,
+                                        fontSize: 14.0.sp,
                                       ),
                                     ),
                                   ),
                                   Container(
+                                    padding: EdgeInsets.only(bottom: 2.0.h),
                                     child: Row(
                                       children: <Widget>[
-                                        SizedBox(width: 2.0),
+                                        SizedBox(width: 1.0.w),
                                         Icon(Icons.star,
                                             color: Colors.amberAccent,
-                                            size: 16.0),
-                                        SizedBox(width: 5.0),
+                                            size: 14.0.sp),
                                         Text(
                                           media,
                                           style: TextStyle(
-                                            fontSize: 18.0,
+                                            fontSize: 14.0.sp,
                                             color: Colors.amber,
                                           ),
                                         ),
+                                        Icon(FontAwesome.angle_right),
                                       ],
                                     ),
                                   ),
-                                  Icon(FontAwesome.angle_right),
-                                ])))
+                                ]))),
                   ],
                 ),
               ),

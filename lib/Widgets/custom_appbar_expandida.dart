@@ -1,3 +1,4 @@
+import 'package:cortai/Telas/galeria_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -26,7 +27,10 @@ class CustomAppbarExpandida extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // Se quiser adicionar algum item diretamente a parte superior da AppBar utilizar este Widget
+            ],
           ),
         ),
         decoration: BoxDecoration(
