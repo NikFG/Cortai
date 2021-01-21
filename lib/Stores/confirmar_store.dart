@@ -26,6 +26,8 @@ abstract class _ConfirmarStore with Store {
   @action
   Future<void> getData(String url, String token) async {
     List<dynamic> data = [];
+    confirmados.clear();
+    naoConfirmados.clear();
     isLoading = true;
     var response = await http.get(url, headers: Util.token(token));
     statusCode = response.statusCode;
