@@ -34,8 +34,8 @@ class _SplashCustomState extends State<SplashCustom> {
           navigateAfterSeconds: _telaInicial(model),
           //   title: Text("CortaÍ"),
           image: Image.asset('assets/icons/icon_white_transparent.png'),
-          photoSize: 50.0.h,
-
+          photoSize: 30.0.w,
+          useLoader: false,
           loaderColor: Colors.white,
           backgroundColor: Theme
               .of(context)
