@@ -40,11 +40,11 @@ dependencies:
   image_picker: ^0.6.7+14
   intl: ^0.16.1
   json_annotation: ^3.1.1
-
   maps_launcher: ^1.2.2+2
   mobx: ^1.2.1+4
   onesignal_flutter: ^2.6.1
   password_strength: ^0.1.2
+  path_provider: ^1.6.27
   permission_handler: 5.0.1+1
   photo_view: ^0.10.3
   pusher_websocket_flutter: ^0.2.0
