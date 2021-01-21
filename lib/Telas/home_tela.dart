@@ -12,6 +12,8 @@ import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
 import 'package:sizer/sizer.dart';
 
+import 'gerenciar_servico_tela.dart';
+
 class HomeTela extends StatefulWidget {
   final int paginaInicial;
 

@@ -20,7 +20,6 @@ class AgendadoTela extends StatelessWidget {
             token: model.token);
         jsonTrue.getData(HorarioControle.getNew("cliente", 1),
             token: model.token);
-        // jsonTrue.getData(url + 'true');
         return TabBarView(
           children: <Widget>[
             Tab(
@@ -32,8 +31,9 @@ class AgendadoTela extends StatelessWidget {
                     return RefreshIndicator(
                       displacement: MediaQuery.of(context).size.width / 2,
                       color: Theme.of(context).primaryColor,
-                      onRefresh: () => jsonFalse
-                          .getData(HorarioControle.getNew("cliente", 0)),
+                      onRefresh: () => jsonFalse.getData(
+                          HorarioControle.getNew("cliente", 0),
+                          token: model.token),
                       child: jsonFalse.statusCode == 404
                           ? ListView(
                               physics: AlwaysScrollableScrollPhysics(),
@@ -75,8 +75,9 @@ class AgendadoTela extends StatelessWidget {
                     return RefreshIndicator(
                       displacement: MediaQuery.of(context).size.width / 2,
                       color: Theme.of(context).primaryColor,
-                      onRefresh: () => jsonTrue
-                          .getData(HorarioControle.getNew("cliente", 1)),
+                      onRefresh: () => jsonTrue.getData(
+                          HorarioControle.getNew("cliente", 1),
+                          token: model.token),
                       child: jsonTrue.statusCode == 404
                           ? ListView(
                               physics: AlwaysScrollableScrollPhysics(),
