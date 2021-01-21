@@ -46,7 +46,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: Colors.black,
-            fontSize: 20.0,
+            fontSize: 16.0,
           ),
         ),
         subtitle: Text(
