@@ -10,6 +10,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'gerenciar_servico_tela.dart';
 import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeTela extends StatefulWidget {
   final int paginaInicial;
@@ -134,90 +135,92 @@ class _HomeTelaState extends State<HomeTela> {
                       ),
                     ),
                   ),
-
-                  model.dados.isCabeleireiro ? DefaultTabController(
-                    length: 2,
-                    child: Scaffold(
-                      body: ConfirmarTela(),
-                      extendBodyBehindAppBar: true,
-                      appBar: AppBar(
-                        leading: Container(
-                          width: 0,
-                          height: 0,
-                        ),
-                        backgroundColor: Colors.white,
-                        elevation: 0,
-                        bottom: TabBar(
-                          indicatorColor: Theme.of(context).primaryColor,
-                          tabs: <Widget>[
-                            Tab(
-                              child: Text(
-                                "A confirmar",
+                  model.dados.isCabeleireiro
+                      ? DefaultTabController(
+                          length: 2,
+                          child: Scaffold(
+                            body: ConfirmarTela(),
+                            extendBodyBehindAppBar: true,
+                            appBar: AppBar(
+                              leading: Container(
+                                width: 0,
+                                height: 0,
+                              ),
+                              backgroundColor: Colors.white,
+                              elevation: 0,
+                              bottom: TabBar(
+                                indicatorColor: Theme.of(context).primaryColor,
+                                tabs: <Widget>[
+                                  Tab(
+                                    child: Text(
+                                      "A confirmar",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  Tab(
+                                      child: Text(
+                                    "Confirmados",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ))
+                                ],
+                              ),
+                              title: Text(
+                                "Confirmar horários",
                                 style: TextStyle(
                                   color: Colors.black,
+                                  fontSize: 16.0.sp,
                                 ),
                               ),
+                              centerTitle: true,
+                              actions: <Widget>[
+                                PopupMenuButton(
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      value: 1,
+                                      child: FlatButton(
+                                        onPressed: () async {
+                                          //TODO: Confirmar todos de uma vez
+                                          // var snapshots =
+                                          //     await ServicoControle.get().getDocuments();
+                                          //
+                                          // for (int i = 0;
+                                          //     i < snapshots.documents.length;
+                                          //     i++) {
+                                          //   ServicoControle.get()
+                                          //       .document(
+                                          //           snapshots.documents[i].documentID)
+                                          //       .updateData({
+                                          //     "confirmado": true,
+                                          //   });
+                                          // }
+                                        },
+                                        child: Text("Confirmar todos"),
+                                      ),
+                                    ),
+                                    PopupMenuItem(
+                                      value: 2,
+                                      child: FlatButton(
+                                        onPressed: () {},
+                                        child: Text("Cancelar todos"),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
                             ),
-                            Tab(
-                                child: Text(
-                              "Confirmados",
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ))
-                          ],
-                        ),
-                        title: Text(
-                          "Confirmar horários",
-                          style: TextStyle(
-                            color: Colors.black,
                           ),
-                        ),
-                        centerTitle: true,
-                        actions: <Widget>[
-                          PopupMenuButton(
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                value: 1,
-                                child: FlatButton(
-                                  onPressed: () async {
-                                    //TODO: Confirmar todos de uma vez
-                                    // var snapshots =
-                                    //     await ServicoControle.get().getDocuments();
-                                    //
-                                    // for (int i = 0;
-                                    //     i < snapshots.documents.length;
-                                    //     i++) {
-                                    //   ServicoControle.get()
-                                    //       .document(
-                                    //           snapshots.documents[i].documentID)
-                                    //       .updateData({
-                                    //     "confirmado": true,
-                                    //   });
-                                    // }
-                                  },
-                                  child: Text("Confirmar todos"),
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: 2,
-                                child: FlatButton(
-                                  onPressed: () {},
-                                  child: Text("Cancelar todos"),
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ) : PerfilTela(),
+                        )
+                      : PerfilTela(),
                   Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height / 20),
                     child: GerenciarServicoTela(),
                   ),
-                  PerfilTela() ,
+                  PerfilTela(),
                 ],
               ));
         } else {
