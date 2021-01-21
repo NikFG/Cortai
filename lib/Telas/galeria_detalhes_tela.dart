@@ -1,23 +1,40 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:cortai/Dados/galeria.dart';
+import 'package:cortai/Util/share_redes_sociais.dart';
+import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:sizer/sizer.dart';
 
 class DetalhesGaleria extends StatelessWidget {
-  final String imagePath;
-  final String title;
-  final String price;
-  final String details;
-  final int index;
-  DetalhesGaleria(
-      {@required this.imagePath,
-      @required this.title,
-      @required this.price,
-      @required this.details,
-      @required this.index});
+  final Galeria galeria;
+
+  DetalhesGaleria(this.galeria);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nome do Salao'),
+        title: Text(galeria.salao.nome),
+        leading: Util.leadingScaffold(context),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              Directory tempDir = await getTemporaryDirectory();
+              String tempPath = tempDir.path;
+              final decodedBytes = base64Decode(galeria.imagem);
+              var file = File(tempPath + '/temp.png');
+              file.writeAsBytesSync(decodedBytes);
+              ShareRedesSociais().compartilharGeral(file,
+                  comentario:
+                      "Corte feito no Cortaí por ${galeria.cabeleireiro.nome}");
+            },
+            icon: Icon(Icons.share_outlined),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -25,16 +42,14 @@ class DetalhesGaleria extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Expanded(
-                child: Hero(
-                  tag: 'logo$index',
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(imagePath),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
+                child: PhotoView(
+                  minScale: PhotoViewComputedScale.contained,
+                  heroAttributes: PhotoViewHeroAttributes(
+                      tag: 'logo${galeria.id.toString()}',
+                      transitionOnUserGestures: true),
+                  backgroundDecoration:
+                      BoxDecoration(color: Colors.transparent),
+                  imageProvider: MemoryImage(base64Decode(galeria.imagem)),
                 ),
               ),
               Container(
@@ -48,7 +63,7 @@ class DetalhesGaleria extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            title,
+                            galeria.servico.descricao,
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
                               fontSize: 20.0.sp,
@@ -56,7 +71,7 @@ class DetalhesGaleria extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            price,
+                            'R\$${galeria.servico.valor.toStringAsFixed(2)}',
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
                               fontSize: 16.0.sp,
@@ -69,16 +84,10 @@ class DetalhesGaleria extends StatelessWidget {
                           Container(
                             width: MediaQuery.of(context).size.width / 1.1,
                             child: Text(
-                              details,
+                              galeria.descricao,
                               style: TextStyle(
                                 fontSize: 12.0.sp,
                               ),
-                            ),
-                          ),
-                          Container(
-                            child: FlatButton(
-                              onPressed: () {},
-                              child: Icon(Icons.share_outlined),
                             ),
                           ),
                           Container(height: 2.0.h),
