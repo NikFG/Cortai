@@ -28,7 +28,6 @@ class _BottomCustomState extends State<BottomCustom> {
 
   @override
   void initState() {
-
     itensUsuario();
     if (widget.isCabeleireiro) {
       itensCabeleireiro(widget.usuario);
@@ -47,7 +46,6 @@ class _BottomCustomState extends State<BottomCustom> {
 
   @override
   Widget build(BuildContext context) {
-
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       currentIndex: widget.index,

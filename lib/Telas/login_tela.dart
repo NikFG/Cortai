@@ -10,8 +10,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 
-import 'home_tela.dart';
 import 'cadastro_tela.dart';
+import 'home_tela.dart';
 
 class LoginTela extends StatefulWidget {
   @override

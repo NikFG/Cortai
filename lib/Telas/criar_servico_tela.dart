@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/servico_controle.dart';
@@ -13,9 +14,9 @@ import 'package:cortai/Widgets/hero_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:http/http.dart' as http;
 
 class CriarServicoTela extends StatefulWidget {
   final Servico dados;
@@ -223,7 +224,8 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => HeroCustom(
-                                              imagemMemory: widget.dados.imagem)));
+                                              imagemMemory:
+                                                  widget.dados.imagem)));
                                 },
                                 child: CachedNetworkImage(
                                     imageUrl: widget.dados.imagem))
@@ -269,7 +271,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                     selecionados.map((e) => e.id).toList();
 
                                 if (widget.dados != null) {
-
                                   dados.id = widget.dados.id;
                                   ServicoControle.update(
                                       dados: dados,

@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:cortai/Dados/servico.dart';
+import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 
 class ServicoControle {
@@ -23,25 +23,15 @@ class ServicoControle {
       @required File imagem,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-    Dio dio = Dio();
     Map<String, dynamic> map = dados.toMap();
     if (imagem != null)
       map["imagem"] = await MultipartFile.fromFile(imagem.path,
           filename: imagem.path.split('/').last);
-    FormData formData = FormData.fromMap(map);
     try {
-      var response = await dio.post(
-        _url + "store",
-        data: formData,
-        options: Options(headers: Util.token(token)),
-      );
-      print(response.data);
-      if (response.statusCode == 500) {
-        onFail();
-      } else
-        onSuccess();
+      Api api = Api();
+      await api.store(_url, map, token);
+      onSuccess();
     } catch (e) {
-      print(e);
       onFail();
     }
   }
@@ -52,24 +42,14 @@ class ServicoControle {
       @required File imagem,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-    Dio dio = Dio();
     Map<String, dynamic> map = dados.toMap();
     if (imagem != null)
       map["imagem"] = await MultipartFile.fromFile(imagem.path,
           filename: imagem.path.split('/').last);
-    FormData formData = FormData.fromMap(map);
-    print(formData);
+    Api api = Api();
     try {
-      var response = await dio.post(
-        _url + "edit/${dados.id.toString()}",
-        data: formData,
-        options: Options(headers: Util.token(token)),
-      );
-      print(response.data);
-      if (response.statusCode == 500) {
-        onFail();
-      } else
-        onSuccess();
+      await api.update(_url, map, token, dados.id);
+      onSuccess();
     } catch (e) {
       print(e);
       onFail();

@@ -1,4 +1,5 @@
 import 'package:cortai/Dados/avaliacao.dart';
+import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,10 @@ class AvaliacaoControle {
       {@required token,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-    Dio dio = Dio();
-    FormData data = FormData.fromMap(dados.toMap());
-    var response = await dio.post(_url + "store",
-        data: data, options: Options(headers: Util.token(token)));
-    if (response.statusCode == 200) {
-      onSuccess();
-    } else {
+    try {
+      Api api = Api();
+      await api.store(_url, dados.toMap(), token);
+    } catch (e) {
       onFail();
     }
   }

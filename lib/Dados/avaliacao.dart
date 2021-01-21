@@ -1,5 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:cortai/Util/conversao.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 part 'avaliacao.g.dart';
 
 @JsonSerializable()
@@ -15,7 +16,8 @@ class Avaliacao {
 
   Avaliacao();
 
-  factory Avaliacao.fromJson(Map<String, dynamic> json) => _$AvaliacaoFromJson(json);
+  factory Avaliacao.fromJson(Map<String, dynamic> json) =>
+      _$AvaliacaoFromJson(json);
 
   Avaliacao.fromJson2(Map<String, dynamic> json) {
     id = json['id'];

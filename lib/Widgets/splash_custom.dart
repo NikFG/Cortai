@@ -2,7 +2,6 @@ import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/home_tela.dart';
 import 'package:cortai/Tiles/start_screen.dart';
-import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -38,7 +37,9 @@ class _SplashCustomState extends State<SplashCustom> {
           photoSize: 50.0.h,
 
           loaderColor: Colors.white,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme
+              .of(context)
+              .primaryColor,
         );
       },
     );

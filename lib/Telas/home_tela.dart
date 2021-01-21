@@ -1,13 +1,13 @@
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/editar_salao_tela.dart';
-import 'package:cortai/Tiles/home_tab.dart';
 import 'package:cortai/Telas/perfil_tela.dart';
+import 'package:cortai/Tiles/home_tab.dart';
 import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'gerenciar_servico_tela.dart';
+
 import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
 import 'package:sizer/sizer.dart';

@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:cortai/Controle/servico_controle.dart';
-import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/saiba_mais.dart';
 import 'package:cortai/Tiles/servico_tile.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_shimmer.dart';
-import 'package:flutter/material.dart';
 import 'package:cortai/Widgets/custom_appbar.dart';
 import 'package:cortai/Widgets/custom_appbar_expandida.dart';
+import 'package:cortai/Widgets/custom_shimmer.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';

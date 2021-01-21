@@ -8,7 +8,10 @@ class Cliente {
   String nome;
 
   Cliente();
-  factory Cliente.fromJson(Map<String, dynamic> json) => _$ClienteFromJson(json);
+
+  factory Cliente.fromJson(Map<String, dynamic> json) =>
+      _$ClienteFromJson(json);
+
   Cliente.fromJson2(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];

@@ -26,7 +26,9 @@ class CustomButton extends StatelessWidget {
               )
             : CircularProgressIndicator(),
         textColor: Colors.white,
-        color: Theme.of(context).primaryColor,
+        color: Theme
+            .of(context)
+            .primaryColor,
       ),
     );
   }

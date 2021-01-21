@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Controle/forma_pagamento_controle.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
@@ -16,10 +17,11 @@ import 'package:cortai/Widgets/custom_button.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:cortai/Util/util.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
+
 import 'home_tela.dart';
 import 'package:http/http.dart' as http;
 import 'package:sizer/sizer.dart';
@@ -562,7 +564,7 @@ class _AgendaTelaState extends State<AgendaTela> {
   /*
   * Cria o vetor de itens de horários disponíveis
   * */
-  List<String> _itensHorario(
+/*  List<String> _itensHorario(
       {@required String abertura,
       @required String fechamento,
       @required int intervalo,
@@ -590,7 +592,7 @@ class _AgendaTelaState extends State<AgendaTela> {
     }
 
     return listaHorarios;
-  }
+  }*/
 
   void onSuccess() async {
     await FlushbarHelper.createSuccess(

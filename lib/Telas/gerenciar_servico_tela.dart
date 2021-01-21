@@ -8,9 +8,10 @@ import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'criar_servico_tela.dart';
 import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
+
+import 'criar_servico_tela.dart';
 
 class GerenciarServicoTela extends StatelessWidget {
   @override

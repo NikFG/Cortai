@@ -1,4 +1,5 @@
 import 'package:cortai/Dados/funcionamento.dart';
+import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -15,40 +16,24 @@ class FuncionamentoControle {
   }
 
   static void update(Funcionamento dados, String token,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {@required VoidCallback onSuccess,
+      @required void onFail(String error)}) async {
     try {
-      Dio dio = Dio();
-
-      var formData = FormData.fromMap(dados.toMap());
-      var response = await dio.post(
-        _url + "edit/${dados.id.toString()}",
-        data: formData,
-        options: Options(headers: Util.token(token)),
-      );
-      if (response.statusCode != 200) {
-        onFail();
-        return;
-      }
+      Api api = Api();
+      await api.update(_url, dados.toMap(), token, dados.id);
       onSuccess();
     } catch (e) {
-      onFail();
+      onFail(e);
     }
   }
 
   static void updateAll(List<Funcionamento> dados, String token,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     try {
-      Dio dio = Dio();
+      Api api = Api();
       dados.forEach((element) async {
-        var formData = FormData.fromMap(element.toMap());
-        var response = await dio.post(_url + "store",
-            data: formData, options: Options(headers: Util.token(token)));
-        if (response.statusCode != 200) {
-          onFail();
-          return;
-        }
+        await api.store(_url, element.toMap(), token);
       });
-
       onSuccess();
     } catch (e) {
       onFail();
@@ -58,14 +43,8 @@ class FuncionamentoControle {
   static void delete(int id, String token,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     try {
-      Dio dio = Dio();
-      var response = await dio.delete(_url + "delete/${id.toString()}",
-          options: Options(headers: Util.token(token)));
-      if (response.statusCode == 200) {
-        onSuccess();
-      } else {
-        onFail();
-      }
+      Api api = Api();
+      api.delete(_url, token, id);
     } catch (e) {
       print(e);
       onFail();
@@ -85,7 +64,6 @@ class FuncionamentoControle {
         onFail();
       }
     } catch (e) {
-      print(e);
       onFail();
     }
   }

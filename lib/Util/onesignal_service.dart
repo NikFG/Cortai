@@ -36,7 +36,6 @@ class OneSignalService {
   }
 
   void gravaIdExterna(bool isCabeleireiro, bool isDonoSalao, int id) async {
-
     await OneSignal.shared.setExternalUserId(id.toString());
     await OneSignal.shared.sendTags({
       "cabeleireiro": isCabeleireiro.toString(),

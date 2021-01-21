@@ -120,7 +120,8 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       SizedBox(
-                        height: 15.0.h, // <-- you should put some value here
+                        height: 15.0.h,
+                        // <-- you should put some value here
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
