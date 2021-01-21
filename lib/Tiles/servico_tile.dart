@@ -22,7 +22,8 @@ class ServicoTile extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => HeroCustom(
-                    imagemMemory: dados.imagem != null ? dados.imagem : imgPadrao,
+                    imagemMemory:
+                        dados.imagem != null ? dados.imagem : imgPadrao,
                     descricao: dados.descricao,
                   )));
         },
@@ -30,7 +31,7 @@ class ServicoTile extends StatelessWidget {
           backgroundColor: Colors.transparent,
           radius: 30,
           backgroundImage: dados.imagem != null
-              ? NetworkImage(dados.imagem, scale: 2.0)
+              ? NetworkImage(dados.imagem, scale: 1.0)
               : AssetImage("assets/images/barbearia.png"),
         ),
       ),
