@@ -35,7 +35,7 @@ class Servico {
         ? (servico['pivot']['valor'] as num).toDouble()
         : (servico["valor"] as num).toDouble();
     imagem = servico['imagem'];
-    observacao = servico['observacao'];
+    observacao = servico["observacao"];
     cabeleireirosApi = servico['cabeleireiros'] != null
         ? List.from(servico['cabeleireiros'])
             .map((e) => Cabeleireiro.fromJson(e))
