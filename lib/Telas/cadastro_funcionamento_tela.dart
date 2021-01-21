@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/dia_funcionamento_tela.dart';
 import 'package:cortai/Telas/editar_horario_funcionamento.dart';
+import 'package:cortai/Tiles/cadastro_funcionamento_tile.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -95,6 +94,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
             key: _formKey,
             child: ListView(
               padding: EdgeInsets.all(5),
+              physics: ScrollPhysics(),
               children: <Widget>[
                 FutureBuilder<http.Response>(
                   future: http.get(
@@ -145,92 +145,11 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                               .compareTo(Util.ordenarDiasSemana(b.diaSemana)));
                       return ListView.builder(
                         shrinkWrap: true,
+                        physics: ScrollPhysics(),
                         itemCount: listaFuncionamento.length,
                         itemBuilder: (context, index) {
                           var dados = listaFuncionamento[index];
-                          return CustomListTile(
-                              leading: null,
-                              title: Text("${dados.diaSemana}",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700)),
-                              subtitle: Text(
-                                  "${dados.horarioAbertura} - ${dados.horarioFechamento}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  )),
-                              onTap: () {
-                                _bottomSheetOpcoes(context, dados, model.token);
-                              });
-                          /*
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("${dados.diaSemana}:",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700)),
-                              Text(
-                                  "${dados.horarioAbertura} - ${dados.horarioFechamento}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  )),
-                              Expanded(
-                                child: FlatButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DiaFuncionamentoTela(
-                                                    dados, model.token)));
-                                  },
-                                  child: Text(
-                                    "Editar",
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontSize: 16),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: FlatButton(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                              content: Text(
-                                                  "Deseja realmente remover este horário do salão?"),
-                                              actions: <Widget>[
-                                                FlatButton(
-                                                  onPressed: () {
-                                                    FuncionamentoControle.delete(
-                                                        dados.id, model.token,
-                                                        onSuccess:
-                                                            onSuccessDeletado,
-                                                        onFail: onFailDeletado);
-                                                    setState(() {});
-                                                  },
-                                                  child: Text("Sim"),
-                                                ),
-                                                FlatButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text("Não"),
-                                                ),
-                                              ],
-                                            ));
-                                  },
-                                  child: Text(
-                                    "Remover",
-                                    style: TextStyle(
-                                        color: Colors.red, fontSize: 16),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );*/
+                          return CadastroFuncionamentoTile(dados, model.token);
                         },
                       );
                     }
@@ -255,31 +174,5 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
             message: "Houve um erro ao deletar horário")
         .show(context);
     Navigator.of(context).pop();
-  }
-
-  _bottomSheetOpcoes(context, dados, token) async {
-    await showModalBottomSheet(
-        isDismissible: true,
-        context: context,
-        builder: (bc) {
-          return Container(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                    leading: Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                    ),
-                    title: Text('Editar Horário'),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              DiaFuncionamentoTela(dados, token)));
-                    }),
-              ],
-            ),
-          );
-        });
-    setState(() {});
   }
 }
