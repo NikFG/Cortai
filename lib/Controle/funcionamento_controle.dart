@@ -40,11 +40,11 @@ class FuncionamentoControle {
     }
   }
 
-  static void delete(int id, String token,
+  static Future<void> delete(int id, String token,
       {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
     try {
       Api api = Api();
-      api.delete(_url, token, id);
+      await api.delete(_url, token, id);
     } catch (e) {
       print(e);
       onFail();

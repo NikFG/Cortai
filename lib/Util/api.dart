@@ -49,7 +49,7 @@ class Api {
     }
   }
 
-  void delete(String url, String token, int id) async {
+  Future<void> delete(String url, String token, int id) async {
     var response = await _dio.delete(url + "delete/" + id.toString(),
         options: Options(
             headers: Util.token(token),
