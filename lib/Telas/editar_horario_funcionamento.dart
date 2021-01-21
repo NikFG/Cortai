@@ -252,7 +252,6 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                           dados.add(f);
                         }
                       }
-                      print(dados);
                       FuncionamentoControle.updateAll(dados, model.token,
                           onSuccess: onSuccess, onFail: onFail);
                     }

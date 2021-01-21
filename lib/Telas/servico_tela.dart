@@ -98,7 +98,7 @@ class ServicoTela extends StatelessWidget {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                GaleriaTela()));
+                                                GaleriaTela(salao.id)));
                                   },
                                   child: Text("Galeria >",
                                       style: TextStyle(
