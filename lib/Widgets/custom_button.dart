@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 10.0.h, // 46 ;)
+      height: 46, // 46 ;)
       width: MediaQuery.of(context).size.width / 1.1,
       child: RaisedButton(
         onPressed: onPressed,
@@ -26,9 +26,7 @@ class CustomButton extends StatelessWidget {
               )
             : CircularProgressIndicator(),
         textColor: Colors.white,
-        color: Theme
-            .of(context)
-            .primaryColor,
+        color: Theme.of(context).primaryColor,
       ),
     );
   }

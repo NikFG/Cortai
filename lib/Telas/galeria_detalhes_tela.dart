@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:sizer/sizer.dart';
+import 'package:photo_view/photo_view.dart';
 
 class DetalhesGaleria extends StatelessWidget {
   final Galeria galeria;

@@ -93,6 +93,8 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
           body: Form(
             key: _formKey,
             child: ListView(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
               padding: EdgeInsets.all(5),
               physics: ScrollPhysics(),
               children: <Widget>[
@@ -174,5 +176,32 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
             message: "Houve um erro ao deletar horário")
         .show(context);
     Navigator.of(context).pop();
+  }
+
+  _bottomSheetOpcoes(context, dados, token) async {
+    await showModalBottomSheet(
+        isDismissible: true,
+        context: context,
+        builder: (bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                    title: Text('Editar Horário'),
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              DiaFuncionamentoTela(dados, token)));
+                    }),
+                ListTile(),
+              ],
+            ),
+          );
+        });
+    setState(() {});
   }
 }
