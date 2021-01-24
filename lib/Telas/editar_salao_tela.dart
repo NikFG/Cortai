@@ -16,6 +16,8 @@ import 'package:sizer/sizer.dart';
 
 import 'package:cortai/Widgets/custom_button.dart';
 
+import 'cadastro_funcionamento_tela.dart';
+
 class EditarSalaoTela extends StatefulWidget {
   final Salao salao;
 
@@ -312,8 +314,8 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
       message: "Salão criado com sucesso",
     ).show(context);
 
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => CadastroFuncionamentoTela()));
   }
 
   void onFail(String error) async {

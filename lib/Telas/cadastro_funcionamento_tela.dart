@@ -15,6 +15,8 @@ import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 
+import 'dia_funcionamento_tela.dart';
+
 class CadastroFuncionamentoTela extends StatefulWidget {
   CadastroFuncionamentoTela();
 
@@ -96,7 +98,6 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
               shrinkWrap: true,
               physics: ScrollPhysics(),
               padding: EdgeInsets.all(5),
-              physics: ScrollPhysics(),
               children: <Widget>[
                 FutureBuilder<http.Response>(
                   future: http.get(

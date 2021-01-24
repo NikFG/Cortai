@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:sizer/sizer.dart';
-import 'package:photo_view/photo_view.dart';
 
 class DetalhesGaleria extends StatelessWidget {
   final Galeria galeria;
@@ -39,18 +38,21 @@ class DetalhesGaleria extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height / 1.2,
           child: Column(
             children: <Widget>[
               Expanded(
-                child: PhotoView(
-                  minScale: PhotoViewComputedScale.contained,
-                  heroAttributes: PhotoViewHeroAttributes(
-                      tag: 'logo${galeria.id.toString()}',
-                      transitionOnUserGestures: true),
-                  backgroundDecoration:
-                      BoxDecoration(color: Colors.transparent),
-                  imageProvider: MemoryImage(base64Decode(galeria.imagem)),
+                child: Container(
+                  height: 30.0.h,
+                  width: MediaQuery.of(context).size.width,
+                  child: PhotoView(
+                    minScale: PhotoViewComputedScale.contained,
+                    maxScale: PhotoViewComputedScale.contained * 1.8,
+                    backgroundDecoration: BoxDecoration(color: Colors.black12),
+                    imageProvider: MemoryImage(base64Decode(galeria.imagem)),
+                    initialScale: PhotoViewComputedScale.contained,
+                    basePosition: Alignment.center,
+                  ),
                 ),
               ),
               Container(

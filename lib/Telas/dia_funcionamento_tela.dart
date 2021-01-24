@@ -7,6 +7,7 @@ import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:sizer/sizer.dart';
 
 class DiaFuncionamentoTela extends StatefulWidget {
   final Funcionamento dados;
@@ -55,6 +56,13 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                      child: Text(
+                        "Horario de Abertura:",
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () => _selectTime(
                           context, _aberturaController, 'Horário de abertura'),
@@ -75,6 +83,13 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                     ),
                     SizedBox(
                       height: 20,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                      child: Text(
+                        "Horario de Fechamento:",
+                        style: TextStyle(fontSize: 15.0),
+                      ),
                     ),
                     GestureDetector(
                       onTap: () => _selectTime(context, _fechamentoController,
@@ -100,6 +115,13 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
               SizedBox(
                 height: 20,
               ),
+              Container(
+                padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                child: Text(
+                  "Intervalo entre horários:",
+                  style: TextStyle(fontSize: 15.0),
+                ),
+              ),
               CustomFormField(
                 controller: _intervaloController,
                 inputType: TextInputType.number,
@@ -116,7 +138,7 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                 icon: Icon(Icons.settings_backup_restore),
               ),
               SizedBox(
-                height: 30,
+                height: 5.0.h,
               ),
               SizedBox(height: 50),
               CustomButton(

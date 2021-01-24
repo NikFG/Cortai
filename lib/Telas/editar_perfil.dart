@@ -1,6 +1,7 @@
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/custom_button.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -113,38 +114,26 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                     Padding(
                       padding: EdgeInsets.all(20),
                       child: Container(
-                        height: 45,
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        child: RaisedButton(
-                          color: Color(0xFFf45d27),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              setState(() {
-                                _botaoHabilitado = false;
-                              });
+                          height: 45,
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          child: CustomButton(
+                            textoBotao: 'Confirmar',
+                            botaoHabilitado: _botaoHabilitado,
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                setState(() {
+                                  _botaoHabilitado = false;
+                                });
 
-                              await model.atualizaDados(
-                                  telefone: _telefoneControlador.text,
-                                  nome: _nomeControlador.text,
-                                  token: model.token,
-                                  onSucess: onSuccess,
-                                  onFail: onFail);
-                            }
-                          },
-                          child: _botaoHabilitado
-                              ? Text(
-                                  'Confirmar',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              : CircularProgressIndicator(),
-                        ),
-                      ),
+                                await model.atualizaDados(
+                                    telefone: _telefoneControlador.text,
+                                    nome: _nomeControlador.text,
+                                    token: model.token,
+                                    onSucess: onSuccess,
+                                    onFail: onFail);
+                              }
+                            },
+                          )),
                     ),
                   ],
                 ),

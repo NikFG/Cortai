@@ -47,6 +47,7 @@ dependencies:
   path_provider: ^1.6.27
   permission_handler: 5.0.1+1
   photo_view: ^0.10.3
+  progress_indicators: ^0.1.5
   pusher_websocket_flutter: ^0.2.0
   rxdart: ^0.24.1
   scoped_model: ^1.1.0

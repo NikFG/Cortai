@@ -1,10 +1,12 @@
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Widgets/custom_button.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
 
 import 'home_tela.dart';
 
@@ -51,39 +53,25 @@ class _SolicitacaoCabeleireiroTelaState
                     },
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 50.0.h,
                   ),
-                  Container(
-                    height: 45,
-                    child: RaisedButton(
-                      color: Color(0xFFf45d27),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      onPressed: _botaoHabilitado
-                          ? () async {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  _botaoHabilitado = false;
-                                });
-                                await SalaoControle.adicionaCabeleireiro(
-                                    email: _emailControlador.text,
-                                    token: model.token,
-                                    onSuccess: onSuccess,
-                                    onFail: onFail);
-                              }
+                  CustomButton(
+                    textoBotao: 'Confirmar',
+                    botaoHabilitado: _botaoHabilitado,
+                    onPressed: _botaoHabilitado
+                        ? () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                _botaoHabilitado = false;
+                              });
+                              await SalaoControle.adicionaCabeleireiro(
+                                  email: _emailControlador.text,
+                                  token: model.token,
+                                  onSuccess: onSuccess,
+                                  onFail: onFail);
                             }
-                          : null,
-                      child: _botaoHabilitado
-                          ? Text(
-                              'Confirmar',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : CircularProgressIndicator(),
-                    ),
+                          }
+                        : null,
                   )
                 ],
               ),

@@ -9,6 +9,7 @@ import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/home_tela.dart';
 import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/custom_button.dart';
 import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:cortai/Widgets/hero_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
@@ -236,68 +237,54 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 SizedBox(
                   height: 25,
                 ),
-                SizedBox(
-                  //TODO: botão padrão
-                  height: 44,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: _botaoHabilitado
-                        ? Text(
-                            "Confirmar",
-                            style: TextStyle(fontSize: 18),
-                          )
-                        : CircularProgressIndicator(
-                            backgroundColor: Colors.white70,
-                          ),
-                    textColor: Colors.white,
-                    color: Theme.of(context).primaryColor,
-                    onPressed: _botaoHabilitado
-                        ? () async {
-                            try {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  _botaoHabilitado = false;
-                                });
-                                Servico dados = widget.dados != null
-                                    ? widget.dados
-                                    : Servico();
-                                dados.descricao = _nomeControlador.text;
-                                dados.setValor(_precoControlador.text);
-                                dados.salaoId = model.dados.salaoId;
-                                dados.observacao = _observacaoControlador.text;
-                                dados.ativo = ativo;
-                                dados.cabeleireiros =
-                                    selecionados.map((e) => e.id).toList();
+                CustomButton(
+                  textoBotao: "Confirmar",
+                  botaoHabilitado: _botaoHabilitado,
+                  onPressed: _botaoHabilitado
+                      ? () async {
+                          try {
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                _botaoHabilitado = false;
+                              });
+                              Servico dados = widget.dados != null
+                                  ? widget.dados
+                                  : Servico();
+                              dados.descricao = _nomeControlador.text;
+                              dados.setValor(_precoControlador.text);
+                              dados.salaoId = model.dados.salaoId;
+                              dados.observacao = _observacaoControlador.text;
+                              dados.ativo = ativo;
+                              dados.cabeleireiros =
+                                  selecionados.map((e) => e.id).toList();
 
-                                if (widget.dados != null) {
-                                  dados.id = widget.dados.id;
-                                  ServicoControle.update(
-                                      dados: dados,
-                                      token: model.token,
-                                      imagem: _imagem,
-                                      onSuccess: onUpdateSuccess,
-                                      onFail: onFail);
-                                } else {
-                                  //Caso seja apenas um cabeleireiro irá adicionar o serviço apenas para si
-                                  if (!model.dados.isDonoSalao)
-                                    dados.cabeleireiros.add(model.dados.id);
-                                  ServicoControle.store(
-                                      dados: dados,
-                                      token: model.token,
-                                      imagem: _imagem,
-                                      onSuccess: onSuccess,
-                                      onFail: onFail);
-                                }
+                              if (widget.dados != null) {
+                                dados.id = widget.dados.id;
+                                ServicoControle.update(
+                                    dados: dados,
+                                    token: model.token,
+                                    imagem: _imagem,
+                                    onSuccess: onUpdateSuccess,
+                                    onFail: onFail);
+                              } else {
+                                //Caso seja apenas um cabeleireiro irá adicionar o serviço apenas para si
+                                if (!model.dados.isDonoSalao)
+                                  dados.cabeleireiros.add(model.dados.id);
+                                ServicoControle.store(
+                                    dados: dados,
+                                    token: model.token,
+                                    imagem: _imagem,
+                                    onSuccess: onSuccess,
+                                    onFail: onFail);
                               }
-                            } catch (e) {
-                              print(e);
-                              onFail();
                             }
+                          } catch (e) {
+                            print(e);
+                            onFail();
                           }
-                        : null,
-                  ),
-                )
+                        }
+                      : null,
+                ),
               ],
             ),
           ),
