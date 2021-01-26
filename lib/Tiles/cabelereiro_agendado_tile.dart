@@ -2,6 +2,7 @@ import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/servico.dart';
+import 'package:cortai/Telas/detalhes_cabelereiro_agendado_tela.dart';
 import 'package:cortai/Telas/detalhes_tela.dart';
 import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,13 +49,18 @@ class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
     return CustomListTile(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => DetalhesTela(
+            builder: (context) => DetalhesCabelereiroTela(
                   horario: widget.horario,
                   servico: widget.servico,
                 )));
       },
       title: Container(
-        child: Text("${widget.servico.descricao} feito(a) em ${cliente.nome}"),
+        child: Text(
+          "${widget.servico.descricao} feito(a) em ${cliente.nome}",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 15.0.sp),
+        ),
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,19 +68,25 @@ class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
           Container(
             child: Text(
               "Dia ${widget.horario.data} às ${widget.horario.hora}",
-              style: TextStyle(fontSize: 15.0),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 13.0.sp),
             ),
           ),
           SizedBox(width: 2.0),
           Container(
               child: Text(
             "Valor :R\$${widget.servico.valor}",
-            style: TextStyle(fontSize: 15),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 13.0.sp),
           )),
           Container(
             child: Text(
               "Realizado por : ${widget.servico.id}",
-              style: TextStyle(fontSize: 15.0),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 13.0.sp),
             ),
           ),
         ],
@@ -87,7 +99,7 @@ class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
           SizedBox(width: 5.0),
           Text(
             "4.8",
-            style: TextStyle(fontSize: 15.0),
+            style: TextStyle(fontSize: 15.0.sp),
           ),
         ],
       ),
