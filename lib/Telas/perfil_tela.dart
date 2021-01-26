@@ -24,6 +24,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 
+import 'gerenciar_servico_tela.dart';
+
 class PerfilTela extends StatefulWidget {
   @override
   _PerfilTelaState createState() => _PerfilTelaState();
@@ -320,6 +322,22 @@ class _PerfilTelaState extends State<PerfilTela> {
                         ),
                       ],
                     )),
+          Divider(
+            color: Colors.black45,
+          ),
+          FlatButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => GerenciarServicoTela()));
+              },
+              child: Row(children: <Widget>[
+                Icon(
+                  FontAwesome.scissors,
+                  color: Colors.black54,
+                ),
+                SizedBox(width: 10),
+                Text("Editar Serviços", style: TextStyle(fontSize: 16.0.sp))
+              ])),
           Divider(
             color: Colors.black45,
           ),

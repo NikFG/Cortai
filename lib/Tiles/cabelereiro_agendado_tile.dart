@@ -2,6 +2,7 @@ import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/servico.dart';
+import 'package:cortai/Telas/detalhes_cabelereiro_agendado_tela.dart';
 import 'package:cortai/Telas/detalhes_tela.dart';
 import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,7 +49,7 @@ class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
     return CustomListTile(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => DetalhesTela(
+            builder: (context) => DetalhesCabelereiroTela(
                   horario: widget.horario,
                   servico: widget.servico,
                 )));

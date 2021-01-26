@@ -18,35 +18,40 @@ class GerenciarServicoTela extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
-        return FutureBuilder<http.Response>(
-          future: http.get(ServicoControle.getServicoCabeleireiro(),
-              headers: Util.token(model.token)),
-          builder: (context, response) {
-            if (!response.hasData) {
-              return CustomShimmer(5);
-            } else {
-              print(response.data.body);
-              List<Widget> lista = [
-                CustomListTile(
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          CriarServicoTela(titulo: "Criar serviço"))),
-                  leading: Icon(
-                    Icons.add_circle_outline,
-                    size: 35,
-                    color: Theme.of(context).primaryColor,
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Editar Serviços"),
+          ),
+          body: FutureBuilder<http.Response>(
+            future: http.get(ServicoControle.getServicoCabeleireiro(),
+                headers: Util.token(model.token)),
+            builder: (context, response) {
+              if (!response.hasData) {
+                return CustomShimmer(5);
+              } else {
+                print(response.data.body);
+                List<Widget> lista = [
+                  CustomListTile(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            CriarServicoTela(titulo: "Criar serviço"))),
+                    leading: Icon(
+                      Icons.add_circle_outline,
+                      size: 35,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    title: Text("Adicionar novo serviço"),
                   ),
-                  title: Text("Adicionar novo serviço"),
-                ),
-              ];
-              lista.addAll(json.decode(response.data.body).map<Widget>((doc) {
-                return GerenciaServicoTile(
-                  dados: Servico.fromJsonApi(doc),
-                );
-              }).toList());
-              return ListView(children: lista);
-            }
-          },
+                ];
+                lista.addAll(json.decode(response.data.body).map<Widget>((doc) {
+                  return GerenciaServicoTile(
+                    dados: Servico.fromJsonApi(doc),
+                  );
+                }).toList());
+                return ListView(children: lista);
+              }
+            },
+          ),
         );
       },
     );
