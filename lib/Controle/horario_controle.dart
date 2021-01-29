@@ -10,14 +10,13 @@ class HorarioControle {
   static String getNew(String tipo, int pago) {
     return _url + "$tipo/${pago.toString()}";
   }
+  static String getCalendario() {
+    return _url + "cabeleireiro/false";
+  }
 
   static String getData(String data, int cabeleireiroId) {
     data = data.replaceAll("/", "-");
     return _url + "cabeleireiro/${cabeleireiroId.toString()}/data/$data";
-  }
-
-  static String getCabeleireiro(String tipo, int confirmado) {
-    return _url + "$tipo/${confirmado.toString()}";
   }
 
   static String getCabeleireiroAux() {
