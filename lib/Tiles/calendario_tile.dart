@@ -8,26 +8,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class CabelereiroAgendadoTile extends StatefulWidget {
+class CalendarioTile extends StatefulWidget {
   final Horario horario;
   final Servico servico;
   final bool avaliado;
 
   final String token;
 
-  CabelereiroAgendadoTile(
+  CalendarioTile(
       {@required this.horario,
       @required this.servico,
       @required this.token,
       this.avaliado = false});
 
   @override
-  _CabelereiroAgendadoTileState createState() =>
-      _CabelereiroAgendadoTileState();
+  _CalendarioTileState createState() =>
+      _CalendarioTileState();
 }
 
-class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
-    with AutomaticKeepAliveClientMixin<CabelereiroAgendadoTile> {
+class _CalendarioTileState extends State<CalendarioTile>
+    with AutomaticKeepAliveClientMixin<CalendarioTile> {
   double _avaliacao;
   bool avaliado;
 

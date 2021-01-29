@@ -1,7 +1,7 @@
 import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/calendario_store.dart';
-import 'package:cortai/Tiles/cabelereiro_agendado_tile.dart';
+import 'package:cortai/Tiles/calendario_tile.dart';
 import 'package:cortai/Widgets/custom_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +67,7 @@ class CalendarioTela extends StatelessWidget {
                           itemCount: store.horariosHoje.length,
                           itemBuilder: (context, index) {
                             var horario = store.horariosHoje[index];
-                            return CabelereiroAgendadoTile(
+                            return CalendarioTile(
                               horario: horario,
                               servico: horario.servicos.first,
                               token: model.token,
@@ -99,7 +99,7 @@ class CalendarioTela extends StatelessWidget {
                           itemCount: store.horariosSete.length,
                           itemBuilder: (context, index) {
                             var horario = store.horariosSete[index];
-                            return CabelereiroAgendadoTile(
+                            return CalendarioTile(
                               horario: horario,
                               servico: horario.servicos.first,
                               token: model.token,
@@ -131,7 +131,7 @@ class CalendarioTela extends StatelessWidget {
                       itemCount: store.horariosMes.length,
                       itemBuilder: (context, index) {
                         var horario = store.horariosMes[index];
-                        return CabelereiroAgendadoTile(
+                        return CalendarioTile(
                           horario: horario,
                           servico: horario.servicos.first,
                           token: model.token,
@@ -147,96 +147,4 @@ class CalendarioTela extends StatelessWidget {
   }
 }
 
-/*ListView(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(2.0.h),
-                    child: Text(
-                      "Hoje",
-                      style: TextStyle(
-                        fontSize: 16.0.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 5,
-                    thickness: 2,
-                    color: Colors.black87,
-                  ),
-                  //ListView que carrega as Tiles de HOJE
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: jsonFalse.data.length,
-                      itemBuilder: (context, index) {
-                        var dado = jsonFalse.data[index];
-                        var horario = Horario.fromJson(dado);
-                        return CabelereiroAgendadoTile(
-                          horario: horario,
-                          servico: horario.servicos.first,
-                          token: model.token,
-                        );
-                      }),
-                  Container(
-                    padding: EdgeInsets.all(2.0.h),
-                    child: Text(
-                      "Essa Semana",
-                      style: TextStyle(
-                        fontSize: 16.0.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 5,
-                    thickness: 2,
-                    color: Colors.black87,
-                  ),
-                  //ListView que carrega as Tiles dessa SEMANA
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: jsonFalse.data.length,
-                      itemBuilder: (context, index) {
-                        var dado = jsonFalse.data[index];
-                        var horario = Horario.fromJson(dado);
-                        return CabelereiroAgendadoTile(
-                          horario: horario,
-                          servico: horario.servicos.first,
-                          token: model.token,
-                        );
-                      }),
-                  Container(
-                    padding: EdgeInsets.all(2.0.h),
-                    child: Text(
-                      "Este mês",
-                      style: TextStyle(
-                        fontSize: 16.0.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 5,
-                    thickness: 2,
-                    color: Colors.black87,
-                  ),
-                  //ListView que carrega as Tiles desse MÊS
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: jsonFalse.data.length,
-                      itemBuilder: (context, index) {
-                        var dado = jsonFalse.data[index];
-                        var horario = Horario.fromJson(dado);
-                        return CabelereiroAgendadoTile(
-                          horario: horario,
-                          servico: horario.servicos.first,
-                          token: model.token,
-                        );
-                      }),
-                ],
-              );*/
+
