@@ -1,34 +1,33 @@
-import 'package:cortai/Dados/horario.dart';
-import 'package:cortai/Controle/horario_controle.dart';
+import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/cliente.dart';
+import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Telas/detalhes_cabelereiro_agendado_tela.dart';
-import 'package:cortai/Telas/detalhes_tela.dart';
 import 'package:cortai/Widgets/custom_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class CabelereiroAgendadoTile extends StatefulWidget {
+class CalendarioTile extends StatefulWidget {
   final Horario horario;
   final Servico servico;
   final bool avaliado;
 
   final String token;
 
-  CabelereiroAgendadoTile(
+  CalendarioTile(
       {@required this.horario,
       @required this.servico,
       @required this.token,
       this.avaliado = false});
 
   @override
-  _CabelereiroAgendadoTileState createState() =>
-      _CabelereiroAgendadoTileState();
+  _CalendarioTileState createState() =>
+      _CalendarioTileState();
 }
 
-class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
-    with AutomaticKeepAliveClientMixin<CabelereiroAgendadoTile> {
+class _CalendarioTileState extends State<CalendarioTile>
+    with AutomaticKeepAliveClientMixin<CalendarioTile> {
   double _avaliacao;
   bool avaliado;
 
@@ -44,6 +43,7 @@ class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
   @override
   Widget build(BuildContext context) {
     Cliente cliente = widget.horario.cliente;
+    Cabeleireiro cabeleireiro = widget.horario.cabeleireiro;
 
     super.build(context);
     return CustomListTile(
@@ -56,7 +56,7 @@ class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
       },
       title: Container(
         child: Text(
-          "${widget.servico.descricao} feito(a) em ${cliente.nome}",
+          "Serviço ${widget.servico.descricao}",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontSize: 15.0.sp),
@@ -76,14 +76,14 @@ class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
           SizedBox(width: 2.0),
           Container(
               child: Text(
-            "Valor :R\$${widget.servico.valor}",
+            "Valor: R\$${widget.servico.valor.toStringAsFixed(2)}",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 13.0.sp),
           )),
           Container(
             child: Text(
-              "Realizado por : ${widget.servico.id}",
+              "Cliente: ${cliente.nome}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 13.0.sp),
@@ -91,18 +91,18 @@ class _CabelereiroAgendadoTileState extends State<CabelereiroAgendadoTile>
           ),
         ],
       ),
-      trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(Icons.star, color: Colors.amber, size: 3.0.h),
-          SizedBox(width: 5.0),
-          Text(
-            "4.8",
-            style: TextStyle(fontSize: 15.0.sp),
-          ),
-        ],
-      ),
+      // trailing: Column(
+      //   crossAxisAlignment: CrossAxisAlignment.center,
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: <Widget>[
+      //     Icon(Icons.star, color: Colors.amber, size: 3.0.h),
+      //     SizedBox(width: 5.0),
+      //     Text(
+      //       "4.8",
+      //       style: TextStyle(fontSize: 15.0.sp),
+      //     ),
+      //   ],
+      // ),
       leading: null,
     );
   }

@@ -1,5 +1,5 @@
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/cabelereiro_agendado_tela.dart';
+import 'package:cortai/Telas/calendario_tela.dart';
 import 'package:cortai/Telas/editar_salao_tela.dart';
 import 'package:cortai/Telas/perfil_tela.dart';
 import 'package:cortai/Tiles/home_tab.dart';
@@ -221,7 +221,7 @@ class _HomeTelaState extends State<HomeTela> {
                   Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height / 20),
-                    child: CabelereiroAgendado(),
+                    child: CalendarioTela(),
                   ),
                   PerfilTela(),
                 ],
