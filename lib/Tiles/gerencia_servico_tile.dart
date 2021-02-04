@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/criar_servico_tela.dart';
-import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/shape/gf_avatar_shape.dart';
@@ -17,7 +17,7 @@ class GerenciaServicoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
-        return CustomListTile(
+        return ListTileCustom(
           color: dados.ativo ? Theme.of(context).cardColor : Colors.grey[300],
           onTap: () {
             if (model.dados.isDonoSalao ||

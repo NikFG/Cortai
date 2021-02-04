@@ -2,7 +2,7 @@ import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
+import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
@@ -85,7 +85,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                     padding: EdgeInsets.only(top: 30),
                     child: Column(
                       children: <Widget>[
-                        CustomFormField(
+                        FormFieldCustom(
                             hint: "Nome completo",
                             icon: Icon(
                               Icons.person_pin,
@@ -103,7 +103,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                         SizedBox(
                           height: 15,
                         ),
-                        CustomFormField(
+                        FormFieldCustom(
                             hint: "Email",
                             inputType: TextInputType.emailAddress,
                             icon: Icon(Icons.email, color: Colors.grey),
@@ -118,7 +118,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                         SizedBox(
                           height: 15,
                         ),
-                        CustomFormField(
+                        FormFieldCustom(
                             hint: "Telefone",
                             icon: Icon(
                               Icons.phone,
@@ -135,7 +135,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                         SizedBox(
                           height: 15,
                         ),
-                        CustomFormField(
+                        FormFieldCustom(
                             hint: "Senha",
                             icon: Icon(Icons.vpn_key, color: Colors.grey),
                             controller: _senhaControlador,
@@ -155,7 +155,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                         SizedBox(
                           height: 15,
                         ),
-                        CustomFormField(
+                        FormFieldCustom(
                             hint: "Confirmar Senha",
                             icon: Icon(Icons.vpn_key, color: Colors.grey),
                             controller: _senhaConfirmaControlador,

@@ -13,7 +13,7 @@ import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/maps_tela.dart';
+import 'file:///C:/Users/Nikollas/AndroidStudioProjects/Cortai/lib/Telas/maps_tela.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';

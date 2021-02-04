@@ -7,7 +7,7 @@ import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -200,7 +200,7 @@ class DetalhesTela extends StatelessWidget {
               await HorarioControle.cancelaAgendamento(horario.id, token,
                   onSuccess: onSuccess, onFail: onFail, clienteCancelou: true);
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => HomeTela()));
+                  MaterialPageRoute(builder: (context) => IndexTela()));
             },
           ),
         ],

@@ -1,6 +1,6 @@
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Telas/agenda_tela.dart';
-import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:cortai/Widgets/hero_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class ServicoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomListTile(
+    return ListTileCustom(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => AgendaTela(this.dados, this.nomeSalao))),
       leading: GestureDetector(

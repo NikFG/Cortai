@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomFormField extends StatefulWidget {
+class FormFieldCustom extends StatefulWidget {
   final String hint;
   final Icon icon;
   final TextEditingController controller;
@@ -12,7 +12,7 @@ class CustomFormField extends StatefulWidget {
   final int maxLines;
   final bool isPreco;
 
-  CustomFormField({
+  FormFieldCustom({
     @required this.hint,
     @required this.icon,
     @required this.controller,
@@ -26,10 +26,10 @@ class CustomFormField extends StatefulWidget {
   });
 
   @override
-  _CustomFormFieldState createState() => _CustomFormFieldState();
+  _FormFieldCustomState createState() => _FormFieldCustomState();
 }
 
-class _CustomFormFieldState extends State<CustomFormField> {
+class _FormFieldCustomState extends State<FormFieldCustom> {
   @override
   Widget build(BuildContext context) {
     return Container(

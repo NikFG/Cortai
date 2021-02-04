@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
-import 'galeria_detalhes_tela.dart';
 
 class GaleriaTela extends StatefulWidget {
   final int salaoId;

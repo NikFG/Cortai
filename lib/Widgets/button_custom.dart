@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:sizer/sizer.dart';
 
-class CustomButton extends StatelessWidget {
+class ButtonCustom extends StatelessWidget {
   final String textoBotao;
   final bool botaoHabilitado;
   final VoidCallback onPressed;
 
-  CustomButton({
+  ButtonCustom({
     @required this.textoBotao,
     @required this.botaoHabilitado,
     @required this.onPressed,

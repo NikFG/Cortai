@@ -2,7 +2,7 @@ import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -34,7 +34,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
     super.build(context);
     Cliente cliente = widget.horario.cliente;
     return ScopedModelDescendant<LoginModelo>(
-      builder: (context, child, model) => CustomListTile(
+      builder: (context, child, model) => ListTileCustom(
         onTap: () => !widget.horario.confirmado
             ? _bottomSheetOpcoes(context, model.token)
             : !widget.horario.pago
