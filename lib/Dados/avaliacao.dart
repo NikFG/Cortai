@@ -19,14 +19,5 @@ class Avaliacao {
   factory Avaliacao.fromJson(Map<String, dynamic> json) =>
       _$AvaliacaoFromJson(json);
 
-
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "valor": valor,
-      "descricao": observacao,
-      "data": data.replaceAll("/", '-'),
-      "horario_id": horarioId,
-    };
-  }
+  Map<String, dynamic> toJson() => _$AvaliacaoToJson(this);
 }

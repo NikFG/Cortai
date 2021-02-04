@@ -15,8 +15,9 @@ Galeria _$GaleriaFromJson(Map<String, dynamic> json) {
     ..salaoId = json['salao_id'] as int
     ..servicoId = json['servico_id'] as int
     ..clienteId = json['cliente_id'] as int
-    ..servico = Galeria._servicoFromJSon(json['servico'])
-    ..salao = Galeria._salaoFromJson(json['salao'])
+    ..servico =
+        Galeria._servicoFromJSon(json['servico'] as Map<String, dynamic>)
+    ..salao = Galeria._salaoFromJson(json['salao'] as Map<String, dynamic>)
     ..cabeleireiro = json['cabeleireiro'] == null
         ? null
         : Cabeleireiro.fromJson(json['cabeleireiro'] as Map<String, dynamic>);
@@ -31,6 +32,6 @@ Map<String, dynamic> _$GaleriaToJson(Galeria instance) => <String, dynamic>{
       'servico_id': instance.servicoId,
       'cliente_id': instance.clienteId,
       'servico': Galeria._servicoToJson(instance.servico),
-      'salao': instance.salao,
+      'salao': Galeria._salaoToJson(instance.salao),
       'cabeleireiro': instance.cabeleireiro,
     };

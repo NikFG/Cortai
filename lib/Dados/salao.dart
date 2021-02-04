@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'salao.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Salao {
   int id;
   String nome;
@@ -49,7 +49,7 @@ class Salao {
         'latitude: $latitude, longitude: $longitude}';
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       "nome": nome,
       "endereco": endereco,

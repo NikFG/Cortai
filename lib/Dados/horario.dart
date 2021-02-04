@@ -48,11 +48,11 @@ class Horario {
       : [];
 
   static _servicoToJson(List<Servico> servicos) =>
-      servicos.map((e) => e.toMap()).toList();
+      servicos.map((e) => e.toJson()).toList();
 
   static String _dataToJson(String data) => data.replaceAll("/", "-");
 
-  Map<String, dynamic> toMap() => _$HorarioToJson(this);
+  Map<String, dynamic> toJson() => _$HorarioToJson(this);
 
   @override
   String toString() {

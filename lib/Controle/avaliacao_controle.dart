@@ -17,7 +17,7 @@ class AvaliacaoControle {
       @required VoidCallback onFail}) async {
     try {
       Api api = Api();
-      await api.store(_url, dados.toMap(), token);
+      await api.store(_url, dados.toJson(), token);
     } catch (e) {
       onFail();
     }

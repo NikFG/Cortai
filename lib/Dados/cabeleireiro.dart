@@ -14,13 +14,7 @@ class Cabeleireiro {
   factory Cabeleireiro.fromJson(Map<String, dynamic> json) =>
       _$CabeleireiroFromJson(json);
 
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "nome": nome,
-      "salao": salaoId,
-    };
-  }
+  Map<String, dynamic> toJson() => _$CabeleireiroToJson(this);
 
   @override
   bool operator ==(dados) {

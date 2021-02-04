@@ -20,15 +20,6 @@ class Funcionamento {
   factory Funcionamento.fromJson(Map<String, dynamic> json) =>
       _$FuncionamentoFromJson(json);
 
+  Map<String, dynamic> toJson() => _$FuncionamentoToJson(this);
 
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "dia_semana": diaSemana,
-      "horario_abertura": horarioAbertura,
-      "horario_fechamento": horarioFechamento,
-      "intervalo": intervalo,
-      "salao_id": salaoId
-    };
-  }
 }

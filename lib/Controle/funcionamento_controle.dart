@@ -20,7 +20,7 @@ class FuncionamentoControle {
       @required void onFail(String error)}) async {
     try {
       Api api = Api();
-      await api.update(_url, dados.toMap(), token, dados.id);
+      await api.update(_url, dados.toJson(), token, dados.id);
       onSuccess();
     } catch (e) {
       onFail(e.toString());
@@ -32,7 +32,7 @@ class FuncionamentoControle {
     try {
       Api api = Api();
       dados.forEach((element) async {
-        await api.store(_url, element.toMap(), token);
+        await api.store(_url, element.toJson(), token);
       });
       onSuccess();
     } catch (e) {

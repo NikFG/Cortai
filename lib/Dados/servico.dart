@@ -45,7 +45,7 @@ class Servico {
     salaoId = servico["salao_id"];
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       "id": id,
       "nome": descricao,

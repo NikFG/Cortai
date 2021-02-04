@@ -41,19 +41,6 @@ class Login {
         "$email, imagemUrl: $imagem, isCabeleireiro: "
         "$isCabeleireiro, isDonoSalao: $isDonoSalao}";
   }
+  Map<String, dynamic> toJson() => _$LoginToJson(this);
 
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "email": email,
-      "password": senha,
-      "imagem": imagem,
-      "nome": nome,
-      "telefone": telefone,
-      "salao_id": salaoId,
-      "is_cabeleireiro": isCabeleireiro,
-      "is_dono_salao": isDonoSalao,
-      "is_google": isGoogle
-    };
-  }
 }

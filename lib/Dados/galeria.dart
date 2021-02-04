@@ -20,7 +20,7 @@ class Galeria {
   int clienteId;
   @JsonKey(fromJson: _servicoFromJSon, toJson: _servicoToJson)
   Servico servico;
-  @JsonKey(fromJson: _salaoFromJson)
+  @JsonKey(fromJson: _salaoFromJson, toJson: _salaoToJson)
   Salao salao;
   Cabeleireiro cabeleireiro;
 
@@ -34,8 +34,10 @@ class Galeria {
   static Servico _servicoFromJSon(Map<String, dynamic> servico) =>
       Servico.fromJsonApi(servico);
 
-  static _servicoToJson(Servico servico) => servico.toMap();
+  static _servicoToJson(Servico servico) => servico.toJson();
 
   static Salao _salaoFromJson(Map<String, dynamic> salao) =>
       Salao.fromJsonApiDados(salao);
+
+  static _salaoToJson(Salao salao) => salao.toJson();
 }
