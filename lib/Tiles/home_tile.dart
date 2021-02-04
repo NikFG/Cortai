@@ -128,7 +128,7 @@ class _HomeTileState extends State<HomeTile> {
               ),
               FlatButton(
                 onPressed: () {
-                  Util.ligacaoTelefonica("tel:" + widget.dados.telefone);
+                  Util.ligacaoTelefonica(widget.dados.telefone);
                 },
                 child: Text("Ligar para salão"),
               ),

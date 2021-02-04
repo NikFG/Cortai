@@ -23,16 +23,19 @@ class Galeria {
   @JsonKey(fromJson: _salaoFromJson)
   Salao salao;
   Cabeleireiro cabeleireiro;
+
   Galeria();
 
   factory Galeria.fromJson(Map<String, dynamic> json) =>
       _$GaleriaFromJson(json);
 
-  toJson() => _$GaleriaToJson(this);
+  Map<String, dynamic> toJson() => _$GaleriaToJson(this);
 
-  static Servico _servicoFromJSon(servico) => Servico.fromJsonApi(servico);
+  static Servico _servicoFromJSon(Map<String, dynamic> servico) =>
+      Servico.fromJsonApi(servico);
 
   static _servicoToJson(Servico servico) => servico.toMap();
 
-  static Salao _salaoFromJson(salao) => Salao.fromJsonApiDados(salao);
+  static Salao _salaoFromJson(Map<String, dynamic> salao) =>
+      Salao.fromJsonApiDados(salao);
 }

@@ -23,7 +23,7 @@ class FuncionamentoControle {
       await api.update(_url, dados.toMap(), token, dados.id);
       onSuccess();
     } catch (e) {
-      onFail(e);
+      onFail(e.toString());
     }
   }
 

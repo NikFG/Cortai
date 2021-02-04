@@ -1,24 +1,18 @@
-import 'package:json_annotation/json_annotation.dart';
+import "package:json_annotation/json_annotation.dart";
 
-part 'cabeleireiro.g.dart';
+part "cabeleireiro.g.dart";
 
 @JsonSerializable()
 class Cabeleireiro {
   int id;
   String nome;
-  @JsonKey(name: 'salao_id')
+  @JsonKey(name: "salao_id")
   int salaoId;
 
   Cabeleireiro();
 
   factory Cabeleireiro.fromJson(Map<String, dynamic> json) =>
       _$CabeleireiroFromJson(json);
-
-  Cabeleireiro.fromJson2(Map<String, dynamic> map) {
-    id = map['id'];
-    nome = map['nome'];
-    salaoId = map['salao_id'];
-  }
 
   Map<String, dynamic> toMap() {
     return {

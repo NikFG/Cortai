@@ -37,7 +37,7 @@ class HorarioControle {
       await api.store(_url, horario.toMap(), token);
       onSuccess();
     } catch (e) {
-      onFail(e);
+      onFail(e.toString());
     }
   }
 
