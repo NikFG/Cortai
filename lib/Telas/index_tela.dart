@@ -2,7 +2,6 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/calendario_tela.dart';
 import 'package:cortai/Telas/editar_salao_tela.dart';
 import 'package:cortai/Telas/perfil_tela.dart';
-import 'file:///C:/Users/Nikollas/AndroidStudioProjects/Cortai/lib/Telas/home_tela.dart';
 import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,8 @@ import 'package:scoped_model/scoped_model.dart';
 import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
 import 'package:sizer/sizer.dart';
+
+import 'home_tela.dart';
 
 class IndexTela extends StatefulWidget {
   final int paginaInicial;
