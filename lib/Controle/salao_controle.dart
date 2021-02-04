@@ -27,17 +27,18 @@ class SalaoControle {
       @required File imagem,
       @required String token,
       @required VoidCallback onSuccess,
-      @required void onFail(String error)}) async {
+      @required void Function(String error) onFail}) async {
     Api api = Api();
     try {
       Map<String, dynamic> map = dados.toMap();
-      if (imagem != null)
+      if (imagem != null) {
         map["imagem"] = await MultipartFile.fromFile(imagem.path,
-            filename: imagem.path.split('/').last);
-      usuario.salaoId = await api.store(_url, map, token);
+            filename: imagem.path.split("/").last);
+      }
+      usuario.salaoId = await api.store(_url, map, token) as int;
       onSuccess();
     } catch (e) {
-      onFail(e);
+      onFail(e.toString());
     }
   }
 

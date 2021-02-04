@@ -110,12 +110,12 @@ class Util {
         desiredAccuracy: LocationAccuracy.best);
     String cidade =
         await placemarkFromCoordinates(position.latitude, position.longitude)
-            .then((value) => value.first.subAdministrativeArea);
+            .then((List<Placemark> value) => value.first.subAdministrativeArea);
 
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(
             Coordinates(position.latitude, position.longitude))
-        .then((value) => value.first.addressLine);
+        .then((List<Address> value) => value.first.addressLine);
     await SharedPreferencesControle.setCidade(cidade);
     await SharedPreferencesControle.setPosition(position);
     await SharedPreferencesControle.setEndereco(endereco);

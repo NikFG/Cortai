@@ -1,11 +1,11 @@
-import 'package:cortai/Dados/cabeleireiro.dart';
-import 'package:cortai/Dados/servico.dart';
-import 'package:cortai/Util/conversao.dart';
-import 'package:json_annotation/json_annotation.dart';
+import "package:cortai/Dados/cabeleireiro.dart";
+import "package:cortai/Dados/servico.dart";
+import "package:cortai/Util/conversao.dart";
+import "package:json_annotation/json_annotation.dart";
 
-import 'cliente.dart';
+import "cliente.dart";
 
-part 'horario.g.dart';
+part "horario.g.dart";
 
 @JsonSerializable()
 class Horario {
@@ -17,17 +17,17 @@ class Horario {
   bool confirmado;
   @JsonKey(fromJson: _cabeleireiroFromJson)
   Cabeleireiro cabeleireiro;
-  @JsonKey(name: 'cabeleireiro_id')
+  @JsonKey(name: "cabeleireiro_id")
   int cabeleireiroId;
   @JsonKey(fromJson: _clienteFromJson)
   Cliente cliente;
-  @JsonKey(name: 'cliente_id')
+  @JsonKey(name: "cliente_id")
   int clienteId;
   @JsonKey(fromJson: _servicoFromJSon, toJson: _servicoToJson)
   List<Servico> servicos;
   @JsonKey(fromJson: Conversao.trataBool)
   bool pago;
-  @JsonKey(name: 'forma_pagamento_id')
+  @JsonKey(name: "forma_pagamento_id")
   int formaPagamentoId;
 
   Horario();
@@ -56,11 +56,11 @@ class Horario {
 
   @override
   String toString() {
-    return 'HorarioDados{id: $id, horario:'
-        ' $hora, data: $data, confirmado: '
-        '$confirmado, cabeleireiro: $cabeleireiro, '
-        'cliente: $cliente, pago:'
-        ' $pago, formaPagamento: $formaPagamentoId}';
+    return "HorarioDados{id: $id, horario:"
+        " $hora, data: $data, confirmado: "
+        "$confirmado, cabeleireiro: $cabeleireiro, "
+        "cliente: $cliente, pago:"
+        " $pago, formaPagamento: $formaPagamentoId}";
   }
 
   @override

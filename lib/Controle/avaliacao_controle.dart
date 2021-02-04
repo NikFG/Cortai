@@ -12,7 +12,7 @@ class AvaliacaoControle {
   }
 
   static void store(Avaliacao dados,
-      {@required token,
+      {@required String token,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
     try {

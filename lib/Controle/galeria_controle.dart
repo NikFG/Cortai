@@ -18,7 +18,7 @@ class GaleriaControle {
       await api.store(_url, dados.toJson(), token);
       onSuccess();
     } catch (e) {
-      onFail(e);
+      onFail(e.toString());
     }
   }
 }
