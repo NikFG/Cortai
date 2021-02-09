@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Controle/forma_pagamento_controle.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Controle/horario_controle.dart';
@@ -22,8 +21,9 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'index_tela.dart';
 import 'package:sizer/sizer.dart';
+
+import 'index_tela.dart';
 
 class AgendaTela extends StatefulWidget {
   final Servico servico;
@@ -88,8 +88,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundImage: widget.servico.imagem != null
-                          ? CachedNetworkImageProvider(widget.servico.imagem)
-                          : null, //definir imagem padrão
+                          ? MemoryImage(base64Decode(widget.servico.imagem))
+                          : AssetImage("assets/images/barbearia.png"),
                       backgroundColor: Colors.transparent,
                     ),
                   ),

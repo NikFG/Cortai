@@ -19,6 +19,7 @@ class Login {
   bool isDonoSalao;
   @JsonKey(name: "is_google", fromJson: Conversao.trataBool)
   bool isGoogle;
+  @JsonKey(name: 'password')
   String senha;
 
   Login(
