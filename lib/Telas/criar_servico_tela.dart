@@ -7,10 +7,10 @@ import 'package:cortai/Controle/servico_controle.dart';
 import 'package:cortai/Dados/cabeleireiro.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
+import 'package:cortai/Widgets/button_custom.dart';
+import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:cortai/Widgets/hero_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +81,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                     ),
                   ],
                 ),
-                CustomFormField(
+                FormFieldCustom(
                   controller: _nomeControlador,
                   inputType: TextInputType.text,
                   isFrase: true,
@@ -97,7 +97,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 SizedBox(
                   height: 25,
                 ),
-                CustomFormField(
+                FormFieldCustom(
                   controller: _precoControlador,
                   inputType: TextInputType.number,
                   hint: "Preço do serviço",
@@ -153,7 +153,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                   ));
                         },
                         child: AbsorbPointer(
-                          child: CustomFormField(
+                          child: FormFieldCustom(
                             icon: null,
                             validator: (value) {
                               return null;
@@ -172,7 +172,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 SizedBox(
                   height: 10,
                 ),
-                CustomFormField(
+                FormFieldCustom(
                   controller: _observacaoControlador,
                   inputType: TextInputType.multiline,
                   minLines: 1,
@@ -237,7 +237,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 SizedBox(
                   height: 25,
                 ),
-                CustomButton(
+                ButtonCustom(
                   textoBotao: "Confirmar",
                   botaoHabilitado: _botaoHabilitado,
                   onPressed: _botaoHabilitado
@@ -328,7 +328,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
             duration: Duration(milliseconds: 1200))
         .show(context);
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => IndexTela()));
   }
 
   onUpdateSuccess() async {
@@ -337,7 +337,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
             duration: Duration(milliseconds: 1200))
         .show(context);
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => IndexTela()));
   }
 
   onFail() async {

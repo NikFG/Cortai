@@ -4,8 +4,8 @@ import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Telas/detalhes_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
-import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Widgets/form_field_custom.dart';
+import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +46,7 @@ class _AgendadoTileState extends State<AgendadoTile>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return CustomListTile(
+    return ListTileCustom(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => DetalhesTela(
@@ -120,7 +120,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 10),
-                        child: CustomFormField(
+                        child: FormFieldCustom(
                           validator: (value) {
                             return null;
                           },

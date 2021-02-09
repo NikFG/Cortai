@@ -1,9 +1,9 @@
-import 'package:cortai/Dados/cabeleireiro.dart';
+
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Telas/detalhes_cabelereiro_agendado_tela.dart';
-import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -28,7 +28,6 @@ class CalendarioTile extends StatefulWidget {
 
 class _CalendarioTileState extends State<CalendarioTile>
     with AutomaticKeepAliveClientMixin<CalendarioTile> {
-  double _avaliacao;
   bool avaliado;
 
   @override
@@ -43,10 +42,9 @@ class _CalendarioTileState extends State<CalendarioTile>
   @override
   Widget build(BuildContext context) {
     Cliente cliente = widget.horario.cliente;
-    Cabeleireiro cabeleireiro = widget.horario.cabeleireiro;
 
     super.build(context);
-    return CustomListTile(
+    return ListTileCustom(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => DetalhesCabelereiroTela(

@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:cortai/Controle/shared_preferences_controle.dart';
@@ -19,10 +19,6 @@ class Util {
 
   static Map<String, String> token(String token) {
     return {"Authorization": "Bearer $token}"};
-  }
-
-  static dateTimeofDayToDateTime(DateTime dt, TimeOfDay time) {
-    return new DateTime(dt.year, dt.month, dt.day, time.hour, time.minute);
   }
 
   static ligacaoTelefonica(String telefone) async {
@@ -83,11 +79,6 @@ class Util {
     }
   }
 
-  static List<String> imgToBase64(File imagem) {
-    String base64Image = base64Encode(imagem.readAsBytesSync());
-    String fileName = imagem.path.split("/").last;
-    return [base64Image, fileName];
-  }
 
   static Widget leadingScaffold(BuildContext context,
       {Color color = Colors.white}) {
@@ -110,12 +101,12 @@ class Util {
         desiredAccuracy: LocationAccuracy.best);
     String cidade =
         await placemarkFromCoordinates(position.latitude, position.longitude)
-            .then((value) => value.first.subAdministrativeArea);
+            .then((List<Placemark> value) => value.first.subAdministrativeArea);
 
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(
             Coordinates(position.latitude, position.longitude))
-        .then((value) => value.first.addressLine);
+        .then((List<Address> value) => value.first.addressLine);
     await SharedPreferencesControle.setCidade(cidade);
     await SharedPreferencesControle.setPosition(position);
     await SharedPreferencesControle.setEndereco(endereco);

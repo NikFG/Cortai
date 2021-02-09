@@ -47,7 +47,7 @@ class LoginModelo extends Model {
     var dio = Dio();
 
     try {
-      FormData formData = new FormData.fromMap(login.toMap());
+      FormData formData = new FormData.fromMap(login.toJson());
       var response = await dio.post(_url + "user/create", data: formData);
       if (response.statusCode == 200)
         onSuccess();
@@ -115,12 +115,12 @@ class LoginModelo extends Model {
   }
 
   Future<Null> _salvarDadosUsuarioGoogle(
-      GoogleSignInAccount user, String google_token) async {
+      GoogleSignInAccount user, String googleToken) async {
     Login login = Login(
       nome: user.displayName,
       email: user.email,
       imagem: user.photoUrl,
-      senha: google_token,
+      senha: googleToken,
       isCabeleireiro: false,
       salaoId: null,
       isDonoSalao: false,
@@ -128,11 +128,11 @@ class LoginModelo extends Model {
     );
     try {
       Dio dio = Dio();
-      FormData data = FormData.fromMap(login.toMap());
+      FormData data = FormData.fromMap(login.toJson());
       var response = await dio.post(_url + "login/google", data: data);
 
       _salvarDados(
-          response.data['user'], response.data['access_token'], google_token,
+          response.data['user'], response.data['access_token'], googleToken,
           isGoogle: true);
     } catch (e) {
       print(e);

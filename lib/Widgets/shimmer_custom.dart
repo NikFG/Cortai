@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'custom_list_tile.dart';
+import 'list_tile_custom.dart';
 
-class CustomShimmer extends StatelessWidget {
+class ShimmerCustom extends StatelessWidget {
   final int itemCount;
 
-  CustomShimmer(this.itemCount);
+  ShimmerCustom(this.itemCount);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class CustomShimmer extends StatelessWidget {
         itemCount: itemCount,
         itemBuilder: (context, index) {
           return Shimmer.fromColors(
-              child: CustomListTile(
+              child: ListTileCustom(
                 leading: null,
                 title: null,
                 onTap: () {},

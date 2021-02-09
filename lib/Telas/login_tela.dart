@@ -1,7 +1,7 @@
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
+import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 
 import 'cadastro_tela.dart';
-import 'home_tela.dart';
+import 'index_tela.dart';
 
 class LoginTela extends StatefulWidget {
   @override
@@ -97,7 +97,7 @@ class _LoginTelaState extends State<LoginTela> {
                           padding: EdgeInsets.only(top: 62),
                           child: Column(
                             children: <Widget>[
-                              CustomFormField(
+                              FormFieldCustom(
                                   hint: "Email",
                                   icon: Icon(
                                     Icons.email,
@@ -117,7 +117,7 @@ class _LoginTelaState extends State<LoginTela> {
                               SizedBox(
                                 height: 15,
                               ),
-                              CustomFormField(
+                              FormFieldCustom(
                                 controller: _senhaControlador,
                                 inputType: TextInputType.visiblePassword,
                                 icon: Icon(
@@ -286,7 +286,7 @@ class _LoginTelaState extends State<LoginTela> {
     if (SharedPreferencesControle.getPermissionStatus() ==
         PermissionStatus.granted) await Util.setLocalizacao();
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomeTela()));
+        context, MaterialPageRoute(builder: (context) => IndexTela()));
   }
 
   void onFail() async {

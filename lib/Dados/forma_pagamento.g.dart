@@ -12,10 +12,3 @@ FormaPagamento _$FormaPagamentoFromJson(Map<String, dynamic> json) {
     ..icone = json['imagem'] as String ?? ''
     ..descricao = json['descricao'] as String;
 }
-
-Map<String, dynamic> _$FormaPagamentoToJson(FormaPagamento instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'imagem': instance.icone,
-      'descricao': instance.descricao,
-    };

@@ -1,15 +1,15 @@
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
+import 'package:cortai/Widgets/button_custom.dart';
+import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'home_tela.dart';
+import 'index_tela.dart';
 
 class EditarPerfilTela extends StatefulWidget {
   final Login login;
@@ -61,7 +61,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                                 color: Colors.grey,
                               )),
                           SizedBox(height: 5),
-                          CustomFormField(
+                          FormFieldCustom(
                               hint: "Nome Completo",
                               icon: Icon(
                                 FontAwesome.user,
@@ -79,7 +79,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                                 color: Colors.grey,
                               )),
                           SizedBox(height: 5),
-                          CustomFormField(
+                          FormFieldCustom(
                               hint: "(99) 99999-9999",
                               icon: Icon(
                                 FontAwesome.phone,
@@ -116,7 +116,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                       child: Container(
                           height: 45,
                           width: MediaQuery.of(context).size.width / 1.2,
-                          child: CustomButton(
+                          child: ButtonCustom(
                             textoBotao: 'Confirmar',
                             botaoHabilitado: _botaoHabilitado,
                             onPressed: () async {
@@ -150,7 +150,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
             message: "Informações de usuário atualizadas com sucesso")
         .show(context);
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => IndexTela()));
   }
 
   void onFail(String error) async {

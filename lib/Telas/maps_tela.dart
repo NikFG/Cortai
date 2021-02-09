@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';

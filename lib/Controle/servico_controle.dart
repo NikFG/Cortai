@@ -23,7 +23,7 @@ class ServicoControle {
       @required File imagem,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-    Map<String, dynamic> map = dados.toMap();
+    Map<String, dynamic> map = dados.toJson();
     if (imagem != null)
       map["imagem"] = await MultipartFile.fromFile(imagem.path,
           filename: imagem.path.split('/').last);
@@ -42,7 +42,7 @@ class ServicoControle {
       @required File imagem,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-    Map<String, dynamic> map = dados.toMap();
+    Map<String, dynamic> map = dados.toJson();
     if (imagem != null)
       map["imagem"] = await MultipartFile.fromFile(imagem.path,
           filename: imagem.path.split('/').last);

@@ -3,9 +3,8 @@ import 'dart:io';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/maps_tela.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -14,9 +13,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:cortai/Widgets/custom_button.dart';
+import 'package:cortai/Widgets/button_custom.dart';
 
 import 'cadastro_funcionamento_tela.dart';
+import 'maps_tela.dart';
 
 class EditarSalaoTela extends StatefulWidget {
   final Salao salao;
@@ -164,7 +164,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                     SizedBox(
                       height: 30.0.h,
                     ),
-                    CustomButton(
+                    ButtonCustom(
                       textoBotao: "Confirmar",
                       botaoHabilitado: _botaoHabilitado,
                       onPressed: _botaoHabilitado
@@ -334,7 +334,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
     ).show(context);
 
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => IndexTela()));
   }
 
   void onFailEditar() async {

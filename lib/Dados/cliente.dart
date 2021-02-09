@@ -12,8 +12,5 @@ class Cliente {
   factory Cliente.fromJson(Map<String, dynamic> json) =>
       _$ClienteFromJson(json);
 
-  Cliente.fromJson2(Map<String, dynamic> json) {
-    id = json['id'];
-    nome = json['nome'];
-  }
+  Map<String, dynamic> toJson() => _$ClienteToJson(this);
 }

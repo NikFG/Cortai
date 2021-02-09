@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Controle/forma_pagamento_controle.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Controle/horario_controle.dart';
@@ -14,18 +13,17 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/agenda_store.dart';
 import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
+import 'package:cortai/Widgets/button_custom.dart';
+import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-
-import 'home_tela.dart';
-import 'package:http/http.dart' as http;
 import 'package:sizer/sizer.dart';
+
+import 'index_tela.dart';
 
 class AgendaTela extends StatefulWidget {
   final Servico servico;
@@ -90,8 +88,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundImage: widget.servico.imagem != null
-                          ? CachedNetworkImageProvider(widget.servico.imagem)
-                          : null, //definir imagem padrão
+                          ? MemoryImage(base64Decode(widget.servico.imagem))
+                          : AssetImage("assets/images/barbearia.png"),
                       backgroundColor: Colors.transparent,
                     ),
                   ),
@@ -123,7 +121,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   context, widget.servico.cabeleireirosApi);
                             },
                             child: AbsorbPointer(
-                              child: CustomFormField(
+                              child: FormFieldCustom(
                                 hint: 'Profissional',
                                 icon: Icon(Icons.content_cut),
                                 controller: profissionalController,
@@ -170,7 +168,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                               await _calendario(context, diasSemana);
                             },
                             child: AbsorbPointer(
-                              child: CustomFormField(
+                              child: FormFieldCustom(
                                 icon: Icon(FontAwesome.calendar),
                                 hint: 'Data',
                                 controller: dataController,
@@ -228,7 +226,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                 }
                               },
                               child: AbsorbPointer(
-                                child: CustomFormField(
+                                child: FormFieldCustom(
                                   icon: Icon(Icons.access_time),
                                   hint: 'Horário',
                                   controller: horarioController,
@@ -265,7 +263,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   context, widget.servico.salaoId, model.token);
                             },
                             child: AbsorbPointer(
-                              child: CustomFormField(
+                              child: FormFieldCustom(
                                 icon: pagamento == null
                                     ? null
                                     : listaIcons[indexPagamento],
@@ -319,7 +317,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                         SizedBox(
                           height: 20,
                         ),
-                        CustomButton(
+                        ButtonCustom(
                             textoBotao: 'Confirmar',
                             botaoHabilitado: _botaoHabilitado,
                             onPressed: _botaoHabilitado
@@ -601,7 +599,7 @@ class _AgendaTelaState extends State<AgendaTela> {
             duration: Duration(milliseconds: 1500))
         .show(context);
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomeTela()));
+        context, MaterialPageRoute(builder: (context) => IndexTela()));
   }
 
   void onFail(String error) async {

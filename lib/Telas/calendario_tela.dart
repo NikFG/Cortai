@@ -2,7 +2,7 @@ import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/calendario_store.dart';
 import 'package:cortai/Tiles/calendario_tile.dart';
-import 'package:cortai/Widgets/custom_shimmer.dart';
+import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -36,7 +36,7 @@ class CalendarioTela extends StatelessWidget {
         body: Observer(
           builder: (context) {
             if (store.isLoading) {
-              return CustomShimmer(4);
+              return ShimmerCustom(4);
             } else {
               return ListView(
                 shrinkWrap: true,

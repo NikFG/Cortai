@@ -7,9 +7,9 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/saiba_mais.dart';
 import 'package:cortai/Tiles/servico_tile.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_appbar.dart';
-import 'package:cortai/Widgets/custom_appbar_expandida.dart';
-import 'package:cortai/Widgets/custom_shimmer.dart';
+import 'package:cortai/Widgets/appbar_custom.dart';
+import 'package:cortai/Widgets/appbar_extendida_custom.dart';
+import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +36,7 @@ class ServicoTela extends StatelessWidget {
           SliverAppBar(
               backgroundColor: Colors.white,
               leading: Util.leadingScaffold(context),
-              title: CustomAppbar(
+              title: AppbarCustom(
                   child: Text(
                 salao.nome,
                 style: TextStyle(
@@ -51,7 +51,7 @@ class ServicoTela extends StatelessWidget {
               centerTitle: true,
               expandedHeight: 90.0,
               flexibleSpace: FlexibleSpaceBar(
-                background: CustomAppbarExpandida(
+                background: AppbarExtendidaCustom(
                     nomeSalao: salao.nome,
                     enderecoSalao: salao.endereco,
                     menorValor: salao.menorValorServico,
@@ -192,7 +192,7 @@ class ServicoTela extends StatelessWidget {
                         headers: Util.token(model.token)),
                     builder: (context, response) {
                       if (!response.hasData) {
-                        return CustomShimmer(4);
+                        return ShimmerCustom(4);
                       } else {
                         print(response.data.body);
                         List<dynamic> dados = json.decode(response.data.body);

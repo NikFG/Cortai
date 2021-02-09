@@ -1,8 +1,7 @@
-import 'package:cortai/Telas/galeria_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class CustomAppbarExpandida extends StatelessWidget {
+class AppbarExtendidaCustom extends StatelessWidget {
   final double appBarHeight = 66.0;
   final double menorValor;
   final double maiorValor;
@@ -10,7 +9,7 @@ class CustomAppbarExpandida extends StatelessWidget {
   final String nomeSalao;
   final String enderecoSalao;
 
-  CustomAppbarExpandida(
+  AppbarExtendidaCustom(
       {@required this.nomeSalao,
       @required this.enderecoSalao,
       @required this.menorValor,

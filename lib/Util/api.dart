@@ -19,7 +19,7 @@ class Api {
 
   Future<dynamic> store(
       String url, Map<String, dynamic> data, String token) async {
-    var response = await _dio.post(url + "store",
+    Response response = await _dio.post("${url}store",
         data: FormData.fromMap(data),
         options: Options(
             headers: Util.token(token),

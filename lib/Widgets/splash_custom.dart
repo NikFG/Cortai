@@ -1,6 +1,6 @@
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Tiles/start_screen.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +47,7 @@ class _SplashCustomState extends State<SplashCustom> {
   Widget _telaInicial(LoginModelo model) {
     if (widget.logado) {
       model.carregarDados();
-      return HomeTela();
+      return IndexTela();
     } else {
       return StartScreen();
     }

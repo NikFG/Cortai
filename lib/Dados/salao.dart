@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'salao.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Salao {
   int id;
   String nome;
@@ -30,21 +30,6 @@ class Salao {
 
   factory Salao.fromJson(Map<String, dynamic> json) => _$SalaoFromJson(json);
 
-  Salao.fromJson2(Map<String, dynamic> json) {
-    id = json['id'];
-    nome = json['nome'];
-    endereco = json['endereco'];
-    telefone = json['telefone'];
-    imagem = json['imagem'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    cidade = json['cidade'];
-    menorValorServico = (json['menor_valor'] as num).toDouble();
-    maiorValorServico = (json['maior_valor'] as num).toDouble();
-    quantidadeAvaliacao = json['qtd_avaliacao'];
-    mediaAvaliacao = (json['media'] as num).toDouble();
-    distancia = double.parse(json['distancia']);
-  }
 
   Salao.fromJsonApiDados(Map<String, dynamic> json) {
     id = json['id'];
@@ -64,7 +49,7 @@ class Salao {
         'latitude: $latitude, longitude: $longitude}';
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       "nome": nome,
       "endereco": endereco,

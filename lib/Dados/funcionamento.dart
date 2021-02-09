@@ -20,23 +20,6 @@ class Funcionamento {
   factory Funcionamento.fromJson(Map<String, dynamic> json) =>
       _$FuncionamentoFromJson(json);
 
-  Funcionamento.fromJson2(Map<String, dynamic> json) {
-    id = json['id'];
-    diaSemana = json['dia_semana'];
-    horarioAbertura = json['horario_abertura'];
-    horarioFechamento = json['horario_fechamento'];
-    intervalo = json['intervalo'];
-    salaoId = json['salao_id'];
-  }
+  Map<String, dynamic> toJson() => _$FuncionamentoToJson(this);
 
-  Map<String, dynamic> toMap() {
-    return {
-      "id": id,
-      "dia_semana": diaSemana,
-      "horario_abertura": horarioAbertura,
-      "horario_fechamento": horarioFechamento,
-      "intervalo": intervalo,
-      "salao_id": salaoId
-    };
-  }
 }

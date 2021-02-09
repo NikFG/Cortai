@@ -16,7 +16,7 @@ Login _$LoginFromJson(Map<String, dynamic> json) {
     isCabeleireiro: Conversao.trataBool(json['is_cabeleireiro']),
     isDonoSalao: Conversao.trataBool(json['is_dono_salao']),
     id: json['id'] as int,
-    senha: json['senha'] as String,
+    senha: json['password'] as String,
     isGoogle: Conversao.trataBool(json['is_google']),
   );
 }
@@ -31,5 +31,5 @@ Map<String, dynamic> _$LoginToJson(Login instance) => <String, dynamic>{
       'is_cabeleireiro': instance.isCabeleireiro,
       'is_dono_salao': instance.isDonoSalao,
       'is_google': instance.isGoogle,
-      'senha': instance.senha,
+      'password': instance.senha,
     };

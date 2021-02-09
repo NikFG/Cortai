@@ -6,16 +6,14 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/editar_horario_funcionamento.dart';
 import 'package:cortai/Tiles/cadastro_funcionamento_tile.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_shimmer.dart';
+import 'package:cortai/Widgets/button_custom.dart';
+import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
-
-import 'dia_funcionamento_tela.dart';
 
 class CadastroFuncionamentoTela extends StatefulWidget {
   CadastroFuncionamentoTela();
@@ -105,7 +103,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                       headers: Util.token(model.token)),
                   builder: (context, response) {
                     if (!response.hasData) {
-                      return CustomShimmer(4);
+                      return ShimmerCustom(4);
                     } else {
                       if (response.data.statusCode == 404) {
                         return Padding(
@@ -125,7 +123,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                               Padding(
                                 padding: EdgeInsets.only(bottom: 2.0.h),
                                 child: Container(
-                                  child: CustomButton(
+                                  child: ButtonCustom(
                                     textoBotao: "Criar horários",
                                     botaoHabilitado: true,
                                     onPressed: () => Navigator.of(context).push(
@@ -177,32 +175,5 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
             message: "Houve um erro ao deletar horário")
         .show(context);
     Navigator.of(context).pop();
-  }
-
-  _bottomSheetOpcoes(context, dados, token) async {
-    await showModalBottomSheet(
-        isDismissible: true,
-        context: context,
-        builder: (bc) {
-          return Container(
-            child: Wrap(
-              children: <Widget>[
-                ListTile(
-                    leading: Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                    ),
-                    title: Text('Editar Horário'),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              DiaFuncionamentoTela(dados, token)));
-                    }),
-                ListTile(),
-              ],
-            ),
-          );
-        });
-    setState(() {});
   }
 }

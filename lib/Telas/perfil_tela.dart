@@ -13,7 +13,6 @@ import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/maps_tela.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -25,6 +24,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 
 import 'gerenciar_servico_tela.dart';
+import 'maps_tela.dart';
 
 class PerfilTela extends StatefulWidget {
   @override

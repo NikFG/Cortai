@@ -22,19 +22,3 @@ Salao _$SalaoFromJson(Map<String, dynamic> json) {
     ..mediaAvaliacao = Conversao.strToDouble(json['media'])
     ..distancia = Conversao.intToDouble(json['distancia']);
 }
-
-Map<String, dynamic> _$SalaoToJson(Salao instance) => <String, dynamic>{
-      'id': instance.id,
-      'nome': instance.nome,
-      'endereco': instance.endereco,
-      'telefone': instance.telefone,
-      'imagem': instance.imagem,
-      'cidade': instance.cidade,
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
-      'menor_valor': instance.menorValorServico,
-      'maior_valor': instance.maiorValorServico,
-      'qtd_avaliacao': instance.quantidadeAvaliacao,
-      'media': instance.mediaAvaliacao,
-      'distancia': instance.distancia,
-    };

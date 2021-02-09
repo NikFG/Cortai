@@ -12,12 +12,12 @@ class AvaliacaoControle {
   }
 
   static void store(Avaliacao dados,
-      {@required token,
+      {@required String token,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
     try {
       Api api = Api();
-      await api.store(_url, dados.toMap(), token);
+      await api.store(_url, dados.toJson(), token);
     } catch (e) {
       onFail();
     }

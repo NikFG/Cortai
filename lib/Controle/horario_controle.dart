@@ -34,10 +34,10 @@ class HorarioControle {
       void onFail(String error)}) async {
     try {
       Api api = Api();
-      await api.store(_url, horario.toMap(), token);
+      await api.store(_url, horario.toJson(), token);
       onSuccess();
     } catch (e) {
-      onFail(e);
+      onFail(e.toString());
     }
   }
 
