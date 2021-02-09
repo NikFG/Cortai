@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomListTile extends StatelessWidget {
+class ListTileCustom extends StatelessWidget {
   final GestureTapCallback onTap;
   final Widget leading;
   final Widget title;
@@ -9,7 +9,7 @@ class CustomListTile extends StatelessWidget {
   final GestureLongPressCallback onLongPress;
   final Color color;
 
-  CustomListTile(
+  ListTileCustom(
       {@required this.leading,
       @required this.title,
       @required this.onTap,

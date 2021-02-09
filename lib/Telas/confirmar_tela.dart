@@ -1,13 +1,11 @@
 import 'package:cortai/Controle/horario_controle.dart';
-import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Stores/confirmar_store.dart';
 import 'package:cortai/Tiles/confirmar_tile.dart';
-import 'package:cortai/Widgets/custom_shimmer.dart';
+import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ConfirmarTela extends StatelessWidget {
   @override
@@ -22,7 +20,7 @@ class ConfirmarTela extends StatelessWidget {
               Tab(
                 child: Observer(builder: (context) {
                   if (store.isLoading) {
-                    return CustomShimmer(4);
+                    return ShimmerCustom(4);
                   } else {
                     return RefreshIndicator(
                         displacement: MediaQuery.of(context).size.width / 2,
@@ -55,7 +53,7 @@ class ConfirmarTela extends StatelessWidget {
               Tab(
                 child: Observer(builder: (context) {
                   if (store.isLoading) {
-                    return CustomShimmer(4);
+                    return ShimmerCustom(4);
                   } else {
                     return RefreshIndicator(
                         displacement: MediaQuery.of(context).size.width / 2,

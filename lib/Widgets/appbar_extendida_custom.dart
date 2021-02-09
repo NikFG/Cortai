@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class CustomAppbarExpandida extends StatelessWidget {
+class AppbarExtendidaCustom extends StatelessWidget {
   final double appBarHeight = 66.0;
   final double menorValor;
   final double maiorValor;
@@ -9,7 +9,7 @@ class CustomAppbarExpandida extends StatelessWidget {
   final String nomeSalao;
   final String enderecoSalao;
 
-  CustomAppbarExpandida(
+  AppbarExtendidaCustom(
       {@required this.nomeSalao,
       @required this.enderecoSalao,
       @required this.menorValor,
@@ -26,7 +26,10 @@ class CustomAppbarExpandida extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[],
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // Se quiser adicionar algum item diretamente a parte superior da AppBar utilizar este Widget
+            ],
           ),
         ),
         decoration: BoxDecoration(

@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 
-class Carousel extends StatefulWidget {
+class CarouselCustom extends StatefulWidget {
   @override
-  _CarouselState createState() => _CarouselState();
+  _CarouselCustomState createState() => _CarouselCustomState();
 }
 
-class _CarouselState extends State<Carousel> {
+class _CarouselCustomState extends State<CarouselCustom> {
   int _index = 0;
   List<String> imgList = [
     'assets/images/Saude.png',

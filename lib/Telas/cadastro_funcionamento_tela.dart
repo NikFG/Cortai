@@ -3,16 +3,17 @@ import 'dart:convert';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/dia_funcionamento_tela.dart';
 import 'package:cortai/Telas/editar_horario_funcionamento.dart';
+import 'package:cortai/Tiles/cadastro_funcionamento_tile.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_shimmer.dart';
+import 'package:cortai/Widgets/button_custom.dart';
+import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
 
 class CadastroFuncionamentoTela extends StatefulWidget {
   CadastroFuncionamentoTela();
@@ -92,6 +93,8 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
           body: Form(
             key: _formKey,
             child: ListView(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
               padding: EdgeInsets.all(5),
               children: <Widget>[
                 FutureBuilder<http.Response>(
@@ -100,20 +103,37 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                       headers: Util.token(model.token)),
                   builder: (context, response) {
                     if (!response.hasData) {
-                      return CustomShimmer(4);
+                      return ShimmerCustom(4);
                     } else {
-                      print(response.data.body == '[]');
-                      if (response.data.body == '[]') {
+                      if (response.data.statusCode == 404) {
                         return Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height / 4),
-                          child: CustomButton(
-                            textoBotao: "Criar horários",
-                            botaoHabilitado: true,
-                            onPressed: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditarFuncionamentoTela())),
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width - 10,
+                                child: Text(
+                                    "Parece que você ainda não definiu nenhum horário de funcionamento :/"),
+                              ),
+                              SizedBox(
+                                height: 45.0.h,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 2.0.h),
+                                child: Container(
+                                  child: ButtonCustom(
+                                    textoBotao: "Criar horários",
+                                    botaoHabilitado: true,
+                                    onPressed: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditarFuncionamentoTela())),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       }
@@ -126,77 +146,11 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                               .compareTo(Util.ordenarDiasSemana(b.diaSemana)));
                       return ListView.builder(
                         shrinkWrap: true,
+                        physics: ScrollPhysics(),
                         itemCount: listaFuncionamento.length,
                         itemBuilder: (context, index) {
                           var dados = listaFuncionamento[index];
-                          return Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("${dados.diaSemana}:",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700)),
-                              Text(
-                                  "${dados.horarioAbertura} - ${dados.horarioFechamento}",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  )),
-                              Expanded(
-                                child: FlatButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DiaFuncionamentoTela(
-                                                    dados, model.token)));
-                                  },
-                                  child: Text(
-                                    "Editar",
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontSize: 16),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: FlatButton(
-                                  onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                              content: Text(
-                                                  "Deseja realmente remover este horário do salão?"),
-                                              actions: <Widget>[
-                                                FlatButton(
-                                                  onPressed: () {
-                                                    FuncionamentoControle.delete(
-                                                        dados.id, model.token,
-                                                        onSuccess:
-                                                            onSuccessDeletado,
-                                                        onFail: onFailDeletado);
-                                                    setState(() {});
-                                                  },
-                                                  child: Text("Sim"),
-                                                ),
-                                                FlatButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text("Não"),
-                                                ),
-                                              ],
-                                            ));
-                                  },
-                                  child: Text(
-                                    "Remover",
-                                    style: TextStyle(
-                                        color: Colors.red, fontSize: 16),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
+                          return CadastroFuncionamentoTile(dados, model.token);
                         },
                       );
                     }

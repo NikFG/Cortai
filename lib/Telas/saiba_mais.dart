@@ -1,16 +1,18 @@
 import 'dart:convert';
+
 import 'package:cortai/Controle/avaliacao_controle.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/avaliacao.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Widgets/custom_list_tile.dart';
-import 'package:flutter/material.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:maps_launcher/maps_launcher.dart';
+import 'package:cortai/Widgets/list_tile_custom.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
 
 class SaibaMaisTela extends StatelessWidget {
   final Salao salao;
@@ -65,10 +67,11 @@ class SaibaMaisTela extends StatelessWidget {
                           children: <Widget>[
                             Text(salao.nome,
                                 style: TextStyle(
-                                    fontSize: 32, fontWeight: FontWeight.w700)),
+                                    fontSize: 24.0.sp,
+                                    fontWeight: FontWeight.w700)),
                             Text("Horário de Funcionamento:",
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 18.0.sp,
                                   fontWeight: FontWeight.w700,
                                 )),
                             FutureBuilder<http.Response>(
@@ -96,7 +99,7 @@ class SaibaMaisTela extends StatelessWidget {
                                     return Text(
                                         "${dados.diaSemana}: ${dados.horarioAbertura} as ${dados.horarioFechamento}",
                                         style: TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 16.0.sp,
                                         ));
                                   }).toList();
                                   return Column(
@@ -108,7 +111,7 @@ class SaibaMaisTela extends StatelessWidget {
                             ),
                             Text("Endereço:",
                                 style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 18.0.sp,
                                   fontWeight: FontWeight.w700,
                                 )),
                             FlatButton(
@@ -118,7 +121,7 @@ class SaibaMaisTela extends StatelessWidget {
                               },
                               child: Text("${salao.endereco}",
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 16.0.sp,
                                     color: Theme.of(context).primaryColor,
                                   )),
                             ),
@@ -144,7 +147,7 @@ class SaibaMaisTela extends StatelessWidget {
                           itemCount: avaliacoes.length,
                           itemBuilder: (context, index) {
                             Avaliacao avaliacao = avaliacoes[index];
-                            return CustomListTile(
+                            return ListTileCustom(
                               onTap: () {},
                               leading: Text(avaliacao.valor.toStringAsFixed(2)),
                               title: Text(avaliacao.observacao),

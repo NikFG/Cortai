@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
@@ -12,19 +13,18 @@ import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/maps_tela.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:http/http.dart' as http;
-import 'dart:io';
 import 'package:sizer/sizer.dart';
 
-import 'home_tela.dart';
+import 'gerenciar_servico_tela.dart';
+import 'maps_tela.dart';
 
 class PerfilTela extends StatefulWidget {
   @override
@@ -69,7 +69,6 @@ class _PerfilTelaState extends State<PerfilTela> {
                               file: _imagem,
                               onSucess: onSuccess,
                               onFail: onFail);
-
                         }
                       },
                       child: CircleAvatar(
@@ -323,6 +322,22 @@ class _PerfilTelaState extends State<PerfilTela> {
                         ),
                       ],
                     )),
+          Divider(
+            color: Colors.black45,
+          ),
+          FlatButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => GerenciarServicoTela()));
+              },
+              child: Row(children: <Widget>[
+                Icon(
+                  FontAwesome.scissors,
+                  color: Colors.black54,
+                ),
+                SizedBox(width: 10),
+                Text("Editar Serviços", style: TextStyle(fontSize: 16.0.sp))
+              ])),
           Divider(
             color: Colors.black45,
           ),

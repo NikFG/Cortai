@@ -4,6 +4,6 @@ class FormaPagamentoControle {
   static String _url = Util.url + "formaPagamento/";
 
   static String get(int salaoId) {
-    return _url;
+    return _url + salaoId.toString();
   }
 }

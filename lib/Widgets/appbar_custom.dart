@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class CustomAppbar extends StatefulWidget {
+class AppbarCustom extends StatefulWidget {
   final Widget child;
 
-  const CustomAppbar({
+  const AppbarCustom({
     Key key,
     @required this.child,
   }) : super(key: key);
 
   @override
-  _CustomAppbarState createState() {
-    return new _CustomAppbarState();
+  _AppbarCustomState createState() {
+    return new _AppbarCustomState();
   }
 }
 
-class _CustomAppbarState extends State<CustomAppbar> {
+class _AppbarCustomState extends State<AppbarCustom> {
   ScrollPosition _position;
   bool _visible;
 
@@ -32,7 +32,9 @@ class _CustomAppbarState extends State<CustomAppbar> {
   }
 
   void _addListener() {
-    _position = Scrollable.of(context)?.position;
+    _position = Scrollable
+        .of(context)
+        ?.position;
     _position?.addListener(_positionListener);
     _positionListener();
   }
@@ -43,7 +45,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
 
   void _positionListener() {
     final FlexibleSpaceBarSettings settings =
-        context.dependOnInheritedWidgetOfExactType();
+    context.dependOnInheritedWidgetOfExactType();
     bool visible =
         settings == null || settings.currentExtent <= settings.minExtent;
     if (_visible != visible) {

@@ -1,5 +1,6 @@
-import 'dart:convert';
+
 import 'dart:io';
+
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,16 +14,11 @@ class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
   static DateFormat timeFormat = DateFormat("HH:mm");
 
-  // static const url = "http://192.168.0.108:8000/api/"; //Local
+  //static const url = "http://192.168.0.108:8000/api/"; //Local
   static const url = "http://18.230.188.111/api/"; //AWS
-
 
   static Map<String, String> token(String token) {
     return {"Authorization": "Bearer $token}"};
-  }
-
-  static dateTimeofDayToDateTime(DateTime dt, TimeOfDay time) {
-    return new DateTime(dt.year, dt.month, dt.day, time.hour, time.minute);
   }
 
   static ligacaoTelefonica(String telefone) async {
@@ -84,12 +80,6 @@ class Util {
   }
 
 
-  static List<String> imgToBase64(File imagem) {
-    String base64Image = base64Encode(imagem.readAsBytesSync());
-    String fileName = imagem.path.split("/").last;
-    return [base64Image, fileName];
-  }
-
   static Widget leadingScaffold(BuildContext context,
       {Color color = Colors.white}) {
     return IconButton(
@@ -111,12 +101,12 @@ class Util {
         desiredAccuracy: LocationAccuracy.best);
     String cidade =
         await placemarkFromCoordinates(position.latitude, position.longitude)
-            .then((value) => value.first.subAdministrativeArea);
+            .then((List<Placemark> value) => value.first.subAdministrativeArea);
 
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(
             Coordinates(position.latitude, position.longitude))
-        .then((value) => value.first.addressLine);
+        .then((List<Address> value) => value.first.addressLine);
     await SharedPreferencesControle.setCidade(cidade);
     await SharedPreferencesControle.setPosition(position);
     await SharedPreferencesControle.setEndereco(endereco);

@@ -10,14 +10,13 @@ class HorarioControle {
   static String getNew(String tipo, int pago) {
     return _url + "$tipo/${pago.toString()}";
   }
+  static String getCalendario() {
+    return _url + "cabeleireiro/false";
+  }
 
   static String getData(String data, int cabeleireiroId) {
     data = data.replaceAll("/", "-");
     return _url + "cabeleireiro/${cabeleireiroId.toString()}/data/$data";
-  }
-
-  static String getCabeleireiro(String tipo, int confirmado) {
-    return _url + "$tipo/${confirmado.toString()}";
   }
 
   static String getCabeleireiroAux() {
@@ -28,22 +27,17 @@ class HorarioControle {
     return _url + "count/${id.toString()}";
   }
 
-  static void store(
+  static Future<void> store(
       {@required Horario horario,
       @required String token,
       @required VoidCallback onSuccess,
-      @required Function onFail(String error)}) async {
+      void onFail(String error)}) async {
     try {
       Api api = Api();
-      api.store(_url, horario.toMap(), token);
+      await api.store(_url, horario.toJson(), token);
       onSuccess();
     } catch (e) {
-      String error = "";
-      e.forEach((k, v) {
-        error +=
-            v.toString().replaceFirst('[', '').replaceFirst(']', '') + "\n";
-      });
-      onFail(error);
+      onFail(e.toString());
     }
   }
 
@@ -78,7 +72,7 @@ class HorarioControle {
       @required VoidCallback onFail,
       bool clienteCancelou = false}) async {
     try {
-      Dio dio = Dio(); //Falta tratar caso cliente cancele
+      Dio dio = Dio(); //TODO Falta tratar caso cliente cancele
       var response = await dio.put(_url + "cancela/${id.toString()}",
           options: Options(headers: Util.token(token)));
       if (response.statusCode == 200) {

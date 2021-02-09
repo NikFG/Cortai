@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Dados/salao.dart';
-import 'package:cortai/Util/util.dart';
 import 'package:cortai/Telas/servico_tela.dart';
-import 'package:cortai/Widgets/custom_list_tile.dart';
+import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:cortai/Widgets/hero_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +36,7 @@ class _HomeTileState extends State<HomeTile> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomListTile(
+    return ListTileCustom(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
               ServicoTela(salao: widget.dados, distancia: _distancia))),
@@ -129,7 +128,7 @@ class _HomeTileState extends State<HomeTile> {
               ),
               FlatButton(
                 onPressed: () {
-                  Util.ligacaoTelefonica("tel:" + widget.dados.telefone);
+                  Util.ligacaoTelefonica(widget.dados.telefone);
                 },
                 child: Text("Ligar para salão"),
               ),

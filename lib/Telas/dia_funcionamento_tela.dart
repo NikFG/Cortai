@@ -1,16 +1,18 @@
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Telas/cadastro_funcionamento_tela.dart';
-import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
+import 'package:cortai/Widgets/button_custom.dart';
+import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:sizer/sizer.dart';
 
 class DiaFuncionamentoTela extends StatefulWidget {
   final Funcionamento dados;
   final String token;
+
   DiaFuncionamentoTela(this.dados, this.token);
 
   @override
@@ -54,11 +56,18 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                      child: Text(
+                        "Horario de Abertura:",
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () => _selectTime(
                           context, _aberturaController, 'Horário de abertura'),
                       child: AbsorbPointer(
-                        child: CustomFormField(
+                        child: FormFieldCustom(
                           controller: _aberturaController,
                           hint: 'Horário de abertura',
                           icon: Icon(Icons.access_time),
@@ -75,11 +84,18 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                     SizedBox(
                       height: 20,
                     ),
+                    Container(
+                      padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                      child: Text(
+                        "Horario de Fechamento:",
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () => _selectTime(context, _fechamentoController,
                           'Horário de fechamento'),
                       child: AbsorbPointer(
-                        child: CustomFormField(
+                        child: FormFieldCustom(
                           controller: _fechamentoController,
                           hint: 'Inserir Horário de fechamento',
                           icon: Icon(Icons.access_time),
@@ -99,7 +115,14 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
               SizedBox(
                 height: 20,
               ),
-              CustomFormField(
+              Container(
+                padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                child: Text(
+                  "Intervalo entre horários:",
+                  style: TextStyle(fontSize: 15.0),
+                ),
+              ),
+              FormFieldCustom(
                 controller: _intervaloController,
                 inputType: TextInputType.number,
                 hint: "Intervalo entre horários",
@@ -115,10 +138,10 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                 icon: Icon(Icons.settings_backup_restore),
               ),
               SizedBox(
-                height: 30,
+                height: 5.0.h,
               ),
               SizedBox(height: 50),
-              CustomButton(
+              ButtonCustom(
                 textoBotao: "Confirmar",
                 botaoHabilitado: _botaoHabilitado,
                 onPressed: () {
@@ -160,8 +183,9 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
         MaterialPageRoute(builder: (context) => CadastroFuncionamentoTela()));
   }
 
-  void onFail() async {
-    await FlushbarHelper.createError(message: "Houve um erro ao alterar os horários")
+  void onFail(String error) async {
+    await FlushbarHelper.createError(
+            title: "Houve um erro ao alterar os horários", message: error)
         .show(context);
     setState(() {
       _botaoHabilitado = true;

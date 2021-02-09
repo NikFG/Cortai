@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Dados/salao.dart';
+import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,10 @@ class SalaoControle {
     return _url + "home";
   }
 
+  static String getCabeleireiros() {
+    return _url + "cabeleireiros";
+  }
+
   static String show(int id) {
     return _url + "show/${id.toString()}";
   }
@@ -22,25 +27,18 @@ class SalaoControle {
       @required File imagem,
       @required String token,
       @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
-    Dio dio = Dio();
-    Map<String, dynamic> map = dados.toMap();
-    if (imagem != null)
-      map["imagem"] = await MultipartFile.fromFile(imagem.path,
-          filename: imagem.path.split('/').last);
-    FormData formData = FormData.fromMap(map);
-
+      @required void Function(String error) onFail}) async {
+    Api api = Api();
     try {
-      var response = await dio.post(
-        _url + "store",
-        data: formData,
-        options: Options(headers: Util.token(token)),
-      );
-      usuario.salaoId = -1;
+      Map<String, dynamic> map = dados.toJson();
+      if (imagem != null) {
+        map["imagem"] = await MultipartFile.fromFile(imagem.path,
+            filename: imagem.path.split("/").last);
+      }
+      usuario.salaoId = await api.store(_url, map, token) as int;
       onSuccess();
     } catch (e) {
-      print(e);
-      onFail();
+      onFail(e.toString());
     }
   }
 
@@ -50,22 +48,15 @@ class SalaoControle {
       @required String token,
       @required VoidCallback onSuccess,
       @required VoidCallback onFail}) async {
-    Dio dio = Dio();
-    Map<String, dynamic> map = dados.toMap();
-    if (imagem != null)
-      map["imagem"] = await MultipartFile.fromFile(imagem.path,
-          filename: imagem.path.split('/').last);
-    FormData formData = FormData.fromMap(map);
     try {
-      var response = await dio.post(
-        _url + "edit/${dados.id.toString()}",
-        data: formData,
-        options: Options(headers: Util.token(token)),
-      );
-      print(response.data);
+      Api api = Api();
+      Map<String, dynamic> map = dados.toJson();
+      if (imagem != null)
+        map["imagem"] = await MultipartFile.fromFile(imagem.path,
+            filename: imagem.path.split('/').last);
+      await api.update(_url, map, token, dados.id);
       onSuccess();
     } catch (e) {
-      print(e);
       onFail();
     }
   }
@@ -89,9 +80,5 @@ class SalaoControle {
       print(e);
       onFail();
     }
-  }
-
-  static String getCabeleireiros() {
-    return _url + "cabeleireiros";
   }
 }

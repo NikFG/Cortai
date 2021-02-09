@@ -1,9 +1,9 @@
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/home_tela.dart';
-import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
+import 'package:cortai/Telas/index_tela.dart';
+import 'package:cortai/Widgets/button_custom.dart';
+import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                         onTap: () => _selectTime(context, _aberturaController,
                             'Horário de abertura'),
                         child: AbsorbPointer(
-                          child: CustomFormField(
+                          child: FormFieldCustom(
                             controller: _aberturaController,
                             hint: 'Horário de abertura',
                             icon: Icon(Icons.access_time),
@@ -76,7 +76,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                         onTap: () => _selectTime(context, _fechamentoController,
                             'Horário de fechamento'),
                         child: AbsorbPointer(
-                          child: CustomFormField(
+                          child: FormFieldCustom(
                             controller: _fechamentoController,
                             hint: 'Inserir Horário de fechamento',
                             icon: Icon(Icons.access_time),
@@ -96,7 +96,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                 SizedBox(
                   height: 20,
                 ),
-                CustomFormField(
+                FormFieldCustom(
                   controller: _intervaloController,
                   inputType: TextInputType.number,
                   hint: "Intervalo entre horários",
@@ -116,11 +116,12 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                 ),
                 SingleChildScrollView(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       SizedBox(
-                        height: 15.0.h, // <-- you should put some value here
+                        height: 15.0.h,
+                        // <-- you should put some value here
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
@@ -231,7 +232,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                   ),
                 ),
                 SizedBox(height: 10.0.h),
-                CustomButton(
+                ButtonCustom(
                   textoBotao: "Confirmar",
                   botaoHabilitado: _botaoHabilitado,
                   onPressed: () {
@@ -300,11 +301,12 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
             message: "Horarios alterados com sucesso")
         .show(context);
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => IndexTela()));
   }
 
   void onFail() async {
-    await FlushbarHelper.createError(message: "Houve um problema ao alterar os horarios")
+    await FlushbarHelper.createError(
+            message: "Houve um problema ao alterar os horarios")
         .show(context);
     setState(() {
       _botaoHabilitado = true;

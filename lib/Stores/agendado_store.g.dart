@@ -64,7 +64,7 @@ mixin _$AgendadoStore on _AgendadoStore, Store {
   final _$getDataAsyncAction = AsyncAction('_AgendadoStore.getData');
 
   @override
-  Future<void> getData(String url, {String token}) {
+  Future<void> getData(String url, {@required String token}) {
     return _$getDataAsyncAction.run(() => super.getData(url, token: token));
   }
 

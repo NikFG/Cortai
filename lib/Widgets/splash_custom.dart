@@ -1,8 +1,7 @@
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Tiles/start_screen.dart';
-import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -31,11 +30,12 @@ class _SplashCustomState extends State<SplashCustom> {
           requestPermission(Permission.location);
 
         return SplashScreen(
-          seconds: 5,
+          seconds: 3,
+          useLoader: false,
           navigateAfterSeconds: _telaInicial(model),
           //   title: Text("CortaÍ"),
           image: Image.asset('assets/icons/icon_white_transparent.png'),
-          photoSize: 50.0.h,
+          photoSize: 30.0.w,
 
           loaderColor: Colors.white,
           backgroundColor: Theme.of(context).primaryColor,
@@ -47,7 +47,7 @@ class _SplashCustomState extends State<SplashCustom> {
   Widget _telaInicial(LoginModelo model) {
     if (widget.logado) {
       model.carregarDados();
-      return HomeTela();
+      return IndexTela();
     } else {
       return StartScreen();
     }

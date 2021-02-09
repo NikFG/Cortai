@@ -3,15 +3,20 @@ import 'dart:io';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Telas/home_tela.dart';
+import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/maps_tela.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sizer/sizer.dart';
+
+import 'package:cortai/Widgets/button_custom.dart';
+
+import 'cadastro_funcionamento_tela.dart';
+import 'maps_tela.dart';
 
 class EditarSalaoTela extends StatefulWidget {
   final Salao salao;
@@ -33,6 +38,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   File _imagem;
   bool _botaoHabilitado = true;
   String _cidade;
+  String botao = 'Confirmar';
 
   @override
   void initState() {
@@ -56,7 +62,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
               child: IgnorePointer(
                 ignoring: !_botaoHabilitado,
                 child: ListView(
-                  padding: EdgeInsets.all(30),
+                  padding: EdgeInsets.all(3.0.h),
                   children: <Widget>[
                     TextFormField(
                       controller: _nomeController,
@@ -149,17 +155,53 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                 height: 0,
                               )
                             : widget.salao.imagem != null
-                                ? Image.memory(base64Decode(widget.salao.imagem))
+                                ? Image.memory(
+                                    base64Decode(widget.salao.imagem))
                                 : Container(
                                     width: 0,
                                     height: 0,
                                   ),
                     SizedBox(
-                      height: 20,
+                      height: 30.0.h,
                     ),
+                    ButtonCustom(
+                      textoBotao: "Confirmar",
+                      botaoHabilitado: _botaoHabilitado,
+                      onPressed: _botaoHabilitado
+                          ? () async {
+                              if (_formKey.currentState.validate()) {
+                                setState(() {
+                                  _botaoHabilitado = false;
+                                });
+
+                                dados.latitude = latlng.latitude;
+                                dados.longitude = latlng.longitude;
+                                dados.nome = _nomeController.text;
+                                dados.endereco = _enderecoController.text;
+                                dados.telefone = _telefoneController.text;
+                                dados.cidade = _cidade;
+                                if (widget.salao == null) {
+                                  SalaoControle.store(dados,
+                                      usuario: model.dados,
+                                      imagem: _imagem,
+                                      token: model.token,
+                                      onSuccess: onSuccess,
+                                      onFail: onFail);
+                                } else {
+                                  SalaoControle.update(dados,
+                                      token: model.token,
+                                      imagem: _imagem,
+                                      usuario: model.dados,
+                                      onSuccess: onSuccessEditar,
+                                      onFail: onFailEditar);
+                                }
+                              }
+                            }
+                          : null,
+                    ),
+                    /*
                     SizedBox(
-                      height: 40,
-                      width: 20,
+                      height: 10.0.h,
                       child: RaisedButton(
                         padding: EdgeInsets.all(8),
                         onPressed: _botaoHabilitado
@@ -194,19 +236,17 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                               }
                             : null,
                         child: _botaoHabilitado
-                            ? Text(
-                                "Confirmar",
-                                style: TextStyle(fontSize: 18),
+                            ? Center(
+                                child: Text(
+                                  "Confirmar",
+                                  style: TextStyle(fontSize: 16.0.sp),
+                                ),
                               )
                             : CircularProgressIndicator(),
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: Colors.red),
-                        ),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),
@@ -274,13 +314,14 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
       message: "Salão criado com sucesso",
     ).show(context);
 
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => CadastroFuncionamentoTela()));
   }
 
-  void onFail() async {
-    FlushbarHelper.createError(
-            message: 'Houve algum erro ao criar o salão\nTente novamente!!')
+  void onFail(String error) async {
+    await FlushbarHelper.createError(
+            title: 'Houve algum erro ao criar o salão\nTente novamente!!',
+            message: error)
         .show(context);
     setState(() {
       _botaoHabilitado = true;
@@ -293,7 +334,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
     ).show(context);
 
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeTela()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => IndexTela()));
   }
 
   void onFailEditar() async {

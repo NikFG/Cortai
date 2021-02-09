@@ -17,14 +17,15 @@ class ServicoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomListTile(
+    return ListTileCustom(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => AgendaTela(this.dados, this.nomeSalao))),
       leading: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => HeroCustom(
-                    imagemMemory: dados.imagem != null ? dados.imagem : imgPadrao,
+                    imagemMemory:
+                        dados.imagem != null ? dados.imagem : imgPadrao,
                     descricao: dados.descricao,
                   )));
         },
