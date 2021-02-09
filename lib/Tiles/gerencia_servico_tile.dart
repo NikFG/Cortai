@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/criar_servico_tela.dart';
@@ -51,7 +52,7 @@ class GerenciaServicoTile extends StatelessWidget {
                   radius: 30,
                   backgroundColor: Colors.transparent,
                   backgroundImage: dados.imagem != null
-                      ? CachedNetworkImageProvider(dados.imagem)
+                      ? MemoryImage(base64Decode(dados.imagem))
                       : AssetImage("assets/images/shop.png"),
                 )
               : CircleAvatar(

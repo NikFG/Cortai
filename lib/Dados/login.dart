@@ -10,6 +10,7 @@ class Login {
   bool isCabeleireiro;
   bool isDonoSalao;
   bool isGoogle;
+  @JsonKey(name: 'password')
   String senha;
 
   Login.fromJson(Map<String, dynamic> dados) {
