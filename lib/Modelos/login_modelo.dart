@@ -142,7 +142,7 @@ class LoginModelo extends Model {
   Future<Null> logout() async {
     Dio dio = Dio();
     await dio.post(Util.url + "auth/logout",
-        options: Options(headers: Util.token(token!)));
+        options: Options(headers: Util.token(token)));
     dados = null;
     token = "";
     await _apagarDados();

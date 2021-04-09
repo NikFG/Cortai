@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 class AvaliacaoControle {
   static String _url = Util.url + "avaliacoes/";
 
-  static String get(int salaoId) {
-    return _url + "${salaoId.toString()}";
+  static Uri get(int salaoId) {
+    return Uri.parse(_url + "${salaoId.toString()}");
   }
 
   static void store(Avaliacao dados,

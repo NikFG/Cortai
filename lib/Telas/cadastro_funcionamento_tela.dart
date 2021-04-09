@@ -56,7 +56,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                   ),
                   PopupMenuItem(
                     value: 2,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
                         showDialog(
                             context: context,
@@ -64,7 +64,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                   content: Text(
                                       "Deseja realmente remover todos os horários do salão?"),
                                   actions: <Widget>[
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () {
                                         FuncionamentoControle.deleteAll(
                                             model.token,
@@ -74,7 +74,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                       },
                                       child: Text("Sim"),
                                     ),
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
@@ -138,12 +138,12 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                         );
                       }
                       List<Funcionamento> listaFuncionamento = json
-                          .decode(response.data.body)
+                          .decode(response.data!.body)
                           .map<Funcionamento>((f) => Funcionamento.fromJson(f))
                           .toList();
                       listaFuncionamento.sort((a, b) =>
-                          Util.ordenarDiasSemana(a.diaSemana)
-                              .compareTo(Util.ordenarDiasSemana(b.diaSemana)));
+                          Util.ordenarDiasSemana(a.diaSemana)!
+                              .compareTo(Util.ordenarDiasSemana(b.diaSemana)!));
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: ScrollPhysics(),

@@ -4,9 +4,8 @@ class AppbarCustom extends StatefulWidget {
   final Widget child;
 
   const AppbarCustom({
-    Key key,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   _AppbarCustomState createState() {
@@ -42,8 +41,8 @@ class _AppbarCustomState extends State<AppbarCustom> {
   }
 
   void _positionListener() {
-    final InheritedWidget? settings =
-        context.dependOnInheritedWidgetOfExactType();
+    final settings =
+        context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
 
     bool visible =
         settings == null || settings.currentExtent <= settings.minExtent;

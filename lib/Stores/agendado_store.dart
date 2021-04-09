@@ -20,9 +20,9 @@ abstract class _AgendadoStore with Store {
   int statusCode = 400;
 
   @action
-  Future<void> getData(String url, {required String token}) async {
+  Future<void> getData(Uri uri, {required String token}) async {
     isLoading = true;
-    var response = await http.get(Uri.parse(url), headers: Util.token(token));
+    var response = await http.get(uri, headers: Util.token(token));
     statusCode = response.statusCode;
     if (statusCode == 404) {
       data = json.decode(response.body);

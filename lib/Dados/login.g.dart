@@ -12,7 +12,7 @@ Login _$LoginFromJson(Map<String, dynamic> json) {
     salaoId: json['salao_id'] as int?,
     telefone: json['telefone'] as String?,
     email: json['email'] as String,
-    imagem: json['imagem'] as String,
+    imagem: json['imagem'] as String?,
     isCabeleireiro: Conversao.trataBool(json['is_cabeleireiro'] as int?),
     isDonoSalao: Conversao.trataBool(json['is_dono_salao'] as int?),
     id: json['id'] as int?,

@@ -11,7 +11,7 @@ class Login {
   int? salaoId;
   String? telefone;
   String email;
-  String imagem;
+  String? imagem;
   @JsonKey(name: "is_cabeleireiro", fromJson: Conversao.trataBool)
   bool isCabeleireiro;
   @JsonKey(name: "is_dono_salao", fromJson: Conversao.trataBool)

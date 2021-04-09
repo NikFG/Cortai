@@ -27,14 +27,14 @@ class HomeTela extends StatefulWidget {
 }
 
 class _HomeTelaState extends State<HomeTela> {
-  HomeStore store;
+  late HomeStore store;
   var endereco = TextEditingController();
 
   String cidade = SharedPreferencesControle.getCidade();
 
   var param = '';
-  String latitude;
-  String longitude;
+  late String latitude;
+  late String longitude;
 
   @override
   void initState() {
@@ -90,8 +90,15 @@ class _HomeTelaState extends State<HomeTela> {
                                 latLngChanged: (LatLng value) async {
                                   await SharedPreferencesControle.setPosition(
                                       Position(
-                                          latitude: value.latitude,
-                                          longitude: value.longitude));
+                                    latitude: value.latitude,
+                                    longitude: value.longitude,
+                                    speedAccuracy: 0,
+                                    accuracy: 100,
+                                    altitude: 0,
+                                    timestamp: null,
+                                    speed: 0,
+                                    heading: 0,
+                                  ));
                                   latitude = value.latitude.toString();
                                   longitude = value.longitude.toString();
                                 },
@@ -127,23 +134,23 @@ class _HomeTelaState extends State<HomeTela> {
               return ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
                   return FutureBuilder<http.Response>(
-                    future: http.get(SalaoControle.get() + param,
+                    future: http.get(SalaoControle.get(param),
                         headers: Util.token(model.token)),
                     builder: (context, response) {
                       if (!response.hasData) {
                         return ShimmerCustom(3);
                       } else {
-                        if (response.data.statusCode == 404) {
+                        if (response.data!.statusCode == 404) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  response.data.body,
+                                  response.data!.body,
                                   textAlign: TextAlign.justify,
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     String urlForm =
                                         'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link';
@@ -163,8 +170,8 @@ class _HomeTelaState extends State<HomeTela> {
                             ),
                           );
                         }
-                        print(response.data.body);
-                        List<dynamic> dados = json.decode(response.data.body);
+                        print(response.data!.body);
+                        List<dynamic> dados = json.decode(response.data!.body);
 
                         List<Widget> widgets = dados
                             .map((s) => HomeTile(Salao.fromJson(s)))

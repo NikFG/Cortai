@@ -15,10 +15,10 @@ class GerenciaServicoTile extends StatelessWidget {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return ListTileCustom(
-          color: dados.ativo ? Theme.of(context).cardColor : Colors.grey[300],
+          color: dados.ativo! ? Theme.of(context).cardColor : Colors.grey[300]!,
           onTap: () {
-            if (model.dados.isDonoSalao ||
-                dados.cabeleireiros.contains(model.dados.id))
+            if (model.dados!.isDonoSalao ||
+                dados.cabeleireiros!.contains(model.dados!.id))
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => CriarServicoTela(
                         dados: dados,
@@ -32,7 +32,7 @@ class GerenciaServicoTile extends StatelessWidget {
                         content: Text(
                             "Peça permissão ao gerente para poder acessar este corte e editá-lo"),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -56,7 +56,7 @@ class GerenciaServicoTile extends StatelessWidget {
                   radius: 30,
                 ),
           title: Text(
-            dados.descricao,
+            dados.descricao!,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: Colors.black,
@@ -64,7 +64,7 @@ class GerenciaServicoTile extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            dados.observacao,
+            dados.observacao!,
             style: TextStyle(),
             maxLines: 3,
           ),

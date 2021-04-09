@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
 class HeroCustom extends StatelessWidget {
-  final File imagemFile;
-  final String descricao;
-  final String imagemMemory;
+  final File? imagemFile;
+  final String? descricao;
+  final String? imagemMemory;
 
   HeroCustom({this.imagemFile, this.descricao, this.imagemMemory});
 
@@ -21,7 +21,7 @@ class HeroCustom extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: descricao != null
             ? Text(
-                this.descricao,
+                this.descricao!,
                 style: TextStyle(fontWeight: FontWeight.w600),
               )
             : Container(
@@ -39,9 +39,9 @@ class HeroCustom extends StatelessWidget {
           ),
           imageProvider: this.imagemFile == null
               ? MemoryImage(
-                  base64Decode(this.imagemMemory),
+                  base64Decode(this.imagemMemory!),
                 )
-              : FileImage(this.imagemFile),
+              : FileImage(this.imagemFile!) as ImageProvider,
         ),
       ),
     );

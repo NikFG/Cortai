@@ -26,7 +26,7 @@ class CalendarioTile extends StatefulWidget {
 
 class _CalendarioTileState extends State<CalendarioTile>
     with AutomaticKeepAliveClientMixin<CalendarioTile> {
-  bool avaliado;
+  late bool avaliado;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _CalendarioTileState extends State<CalendarioTile>
 
   @override
   Widget build(BuildContext context) {
-    Cliente cliente = widget.horario.cliente;
+    Cliente cliente = widget.horario.cliente!;
 
     super.build(context);
     return ListTileCustom(

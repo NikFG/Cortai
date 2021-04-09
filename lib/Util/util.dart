@@ -33,25 +33,25 @@ class Util {
     switch (data.weekday) {
       case 1:
         return 'SEG';
-        break;
+
       case 2:
         return 'TER';
-        break;
+
       case 3:
         return 'QUA';
-        break;
+
       case 4:
         return 'QUI';
-        break;
+
       case 5:
         return 'SEX';
-        break;
+
       case 6:
         return 'SAB';
-        break;
+
       case 7:
         return 'DOM';
-        break;
+
       default:
         return '';
     }
@@ -97,9 +97,9 @@ class Util {
   static setLocalizacao() async {
     var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
-    String cidade =
-        await placemarkFromCoordinates(position.latitude, position.longitude)
-            .then((List<Placemark> value) => value.first.subAdministrativeArea);
+    String cidade = await placemarkFromCoordinates(
+            position.latitude, position.longitude)
+        .then((List<Placemark> value) => value.first.subAdministrativeArea!);
 
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(

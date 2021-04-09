@@ -24,8 +24,8 @@ class IndexTela extends StatefulWidget {
 }
 
 class _IndexTelaState extends State<IndexTela> {
-  int index;
-  OneSignalService oss;
+  late int index;
+  late OneSignalService oss;
 
   @override
   void initState() {
@@ -40,16 +40,16 @@ class _IndexTelaState extends State<IndexTela> {
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         if (model.dados != null) {
-          oss.gravaIdExterna(model.dados.isCabeleireiro,
-              model.dados.isDonoSalao, model.dados.id);
+          oss.gravaIdExterna(model.dados!.isCabeleireiro,
+              model.dados!.isDonoSalao, model.dados!.id!);
 
-          if (model.dados.isDonoSalao && model.dados.salaoId == null) {
+          if (model.dados!.isDonoSalao && model.dados!.salaoId == null) {
             return EditarSalaoTela();
           }
 
           return Scaffold(
               bottomNavigationBar: BottomCustom(_pageController, index,
-                  model.dados.isCabeleireiro, model.dados.id, model.token),
+                  model.dados!.isCabeleireiro, model.dados!.id!, model.token),
               body: PageView(
                 physics: NeverScrollableScrollPhysics(),
                 controller: _pageController,
@@ -105,7 +105,7 @@ class _IndexTelaState extends State<IndexTela> {
                             itemBuilder: (context) => [
                               PopupMenuItem(
                                 value: 1,
-                                child: FlatButton(
+                                child: TextButton(
                                   onPressed: () async {
                                     // var snapshots =
                                     //     await ServicoControle.get().getDocuments();
@@ -126,7 +126,7 @@ class _IndexTelaState extends State<IndexTela> {
                               ),
                               PopupMenuItem(
                                 value: 2,
-                                child: FlatButton(
+                                child: TextButton(
                                   onPressed: () {},
                                   child: Text("Cancelar todos"),
                                 ),
@@ -137,7 +137,7 @@ class _IndexTelaState extends State<IndexTela> {
                       ),
                     ),
                   ),
-                  model.dados.isCabeleireiro
+                  model.dados!.isCabeleireiro
                       ? DefaultTabController(
                           length: 2,
                           child: Scaffold(
@@ -183,7 +183,7 @@ class _IndexTelaState extends State<IndexTela> {
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
                                       value: 1,
-                                      child: FlatButton(
+                                      child: TextButton(
                                         onPressed: () async {
                                           //TODO: Confirmar todos de uma vez
                                           // var snapshots =
@@ -205,7 +205,7 @@ class _IndexTelaState extends State<IndexTela> {
                                     ),
                                     PopupMenuItem(
                                       value: 2,
-                                      child: FlatButton(
+                                      child: TextButton(
                                         onPressed: () {},
                                         child: Text("Cancelar todos"),
                                       ),

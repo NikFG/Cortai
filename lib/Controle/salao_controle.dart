@@ -10,21 +10,21 @@ import 'package:flutter/material.dart';
 class SalaoControle {
   static final _url = Util.url + "saloes/";
 
-  static String get() {
-    return _url + "home";
+  static Uri get(String param) {
+    return Uri.parse(_url + "home"+param);
   }
 
-  static String getCabeleireiros() {
-    return _url + "cabeleireiros";
+  static Uri getCabeleireiros() {
+    return Uri.parse(_url + "cabeleireiros");
   }
 
-  static String show(int id) {
-    return _url + "show/${id.toString()}";
+  static Uri show(int id) {
+    return Uri.parse(_url + "show/${id.toString()}");
   }
 
   static void store(Salao dados,
       {required Login usuario,
-      required File imagem,
+      required File? imagem,
       required String token,
       required VoidCallback onSuccess,
       required void Function(String error) onFail}) async {
@@ -44,7 +44,7 @@ class SalaoControle {
 
   static void update(Salao dados,
       {required Login usuario,
-      required File imagem,
+      required File? imagem,
       required String token,
       required VoidCallback onSuccess,
       required VoidCallback onFail}) async {

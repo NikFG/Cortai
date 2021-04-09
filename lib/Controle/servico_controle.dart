@@ -9,18 +9,18 @@ import 'package:flutter/material.dart';
 class ServicoControle {
   static const _url = Util.url + "servicos/";
 
-  static String getServicoCabeleireiro() {
-    return _url + 'cabeleireiro';
+  static Uri getServicoCabeleireiro() {
+    return Uri.parse(_url + 'cabeleireiro');
   }
 
-  static String getBySalao(int salaoId) {
-    return _url + "salao/" + salaoId.toString();
+  static Uri getBySalao(int salaoId) {
+    return Uri.parse(_url + "salao/" + salaoId.toString());
   }
 
   static void store(
       {required Servico dados,
       required String token,
-      required File imagem,
+      required File? imagem,
       required VoidCallback onSuccess,
       required VoidCallback onFail}) async {
     Map<String, dynamic> map = dados.toJson();
@@ -39,7 +39,7 @@ class ServicoControle {
   static void update(
       {required Servico dados,
       required String token,
-      required File imagem,
+      required File? imagem,
       required VoidCallback onSuccess,
       required VoidCallback onFail}) async {
     Map<String, dynamic> map = dados.toJson();

@@ -94,8 +94,8 @@ mixin _$CalendarioStore on _CalendarioStore, Store {
   final _$filtraDataAsyncAction = AsyncAction('_CalendarioStore.filtraData');
 
   @override
-  Future<Null> filtraData(String url, String token) {
-    return _$filtraDataAsyncAction.run(() => super.filtraData(url, token));
+  Future<Null> filtraData(Uri uri, String token) {
+    return _$filtraDataAsyncAction.run(() => super.filtraData(uri, token));
   }
 
   @override

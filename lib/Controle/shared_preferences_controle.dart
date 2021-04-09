@@ -4,7 +4,7 @@ import "package:permission_handler/permission_handler.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class SharedPreferencesControle {
-   static late SharedPreferences _prefs;
+  static late SharedPreferences _prefs;
 
   SharedPreferencesControle() {
     try {
@@ -25,7 +25,7 @@ class SharedPreferencesControle {
   static String getEndereco() {
     String endereco;
     try {
-      endereco = _prefs.getString("endereco");
+      endereco = _prefs.getString("endereco")!;
       return endereco;
     } catch (e) {
       print(e);
@@ -38,7 +38,7 @@ class SharedPreferencesControle {
   }
 
   static String getCidade() {
-    String cidade;
+    String? cidade;
     try {
       cidade = _prefs.getString("cidade");
       if (cidade == null) return "";
@@ -69,7 +69,7 @@ class SharedPreferencesControle {
 
   static getPermissionStatus() {
     try {
-      return PermissionStatus.values[_prefs.getInt("status")];
+      return PermissionStatus.values[_prefs.getInt("status")!];
     } catch (e) {
       return -1;
     }

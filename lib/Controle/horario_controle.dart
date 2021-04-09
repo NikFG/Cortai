@@ -7,25 +7,26 @@ import 'package:flutter/material.dart';
 class HorarioControle {
   static String _url = Util.url + "horarios/";
 
-  static String getNew(String tipo, int pago) {
-    return _url + "$tipo/${pago.toString()}";
+  static Uri getNew(String tipo, int pago) {
+    return Uri.parse(_url + "$tipo/${pago.toString()}");
   }
 
-  static String getCalendario() {
-    return _url + "cabeleireiro/false";
+  static Uri getCalendario() {
+    return Uri.parse(_url + "cabeleireiro/false");
   }
 
-  static String getData(String data, int cabeleireiroId) {
+  static Uri getData(String data, int cabeleireiroId) {
     data = data.replaceAll("/", "-");
-    return _url + "cabeleireiro/${cabeleireiroId.toString()}/data/$data";
+    return Uri.parse(
+        _url + "cabeleireiro/${cabeleireiroId.toString()}/data/$data");
   }
 
-  static String getCabeleireiroAux() {
-    return _url + "cabeleireiro";
+  static Uri getCabeleireiroAux() {
+    return Uri.parse(_url + "cabeleireiro");
   }
 
-  static String getQuantidade(int id) {
-    return _url + "count/${id.toString()}";
+  static Uri getQuantidade(int id) {
+    return Uri.parse(_url + "count/${id.toString()}");
   }
 
   static Future<void> store(

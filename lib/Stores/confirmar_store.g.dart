@@ -87,8 +87,8 @@ mixin _$ConfirmarStore on _ConfirmarStore, Store {
   final _$getDataAsyncAction = AsyncAction('_ConfirmarStore.getData');
 
   @override
-  Future<void> getData(String url, String token) {
-    return _$getDataAsyncAction.run(() => super.getData(url, token));
+  Future<void> getData(Uri uri, String token) {
+    return _$getDataAsyncAction.run(() => super.getData(uri, token));
   }
 
   final _$_ConfirmarStoreActionController =

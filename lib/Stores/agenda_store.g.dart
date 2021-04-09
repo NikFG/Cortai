@@ -64,13 +64,13 @@ mixin _$AgendaStore on _AgendaStore, Store {
   final _$streamAtom = Atom(name: '_AgendaStore.stream');
 
   @override
-  ObservableStream<dynamic> get stream {
+  ObservableStream<dynamic>? get stream {
     _$streamAtom.reportRead();
     return super.stream;
   }
 
   @override
-  set stream(ObservableStream<dynamic> value) {
+  set stream(ObservableStream<dynamic>? value) {
     _$streamAtom.reportWrite(value, super.stream, () {
       super.stream = value;
     });
@@ -79,16 +79,8 @@ mixin _$AgendaStore on _AgendaStore, Store {
   final _$getDataAsyncAction = AsyncAction('_AgendaStore.getData');
 
   @override
-  Future<void> getData(String url, String token) {
-    return _$getDataAsyncAction.run(() => super.getData(url, token));
-  }
-
-  final _$firePusherAsyncAction = AsyncAction('_AgendaStore.firePusher');
-
-  @override
-  Future<void> firePusher(int cabeleireiro, String token) {
-    return _$firePusherAsyncAction
-        .run(() => super.firePusher(cabeleireiro, token));
+  Future<void> getData(Uri uri, String token) {
+    return _$getDataAsyncAction.run(() => super.getData(uri, token));
   }
 
   final _$_AgendaStoreActionController = ActionController(name: '_AgendaStore');
@@ -99,17 +91,6 @@ mixin _$AgendaStore on _AgendaStore, Store {
         name: '_AgendaStore.horarioOcupado');
     try {
       return super.horarioOcupado(horario);
-    } finally {
-      _$_AgendaStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void unbindEvent(String eventName) {
-    final _$actionInfo = _$_AgendaStoreActionController.startAction(
-        name: '_AgendaStore.unbindEvent');
-    try {
-      return super.unbindEvent(eventName);
     } finally {
       _$_AgendaStoreActionController.endAction(_$actionInfo);
     }
@@ -131,7 +112,7 @@ mixin _$AgendaStore on _AgendaStore, Store {
       {required String abertura,
       required String fechamento,
       required int intervalo,
-      required DateTime horarioAtual}) {
+      required DateTime? horarioAtual}) {
     final _$actionInfo = _$_AgendaStoreActionController.startAction(
         name: '_AgendaStore.itensHorario');
     try {

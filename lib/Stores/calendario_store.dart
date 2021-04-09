@@ -32,10 +32,10 @@ abstract class _CalendarioStore with Store {
   bool get isMesEmpty => horariosMes.isEmpty;
 
   @action
-  Future<Null> filtraData(String url, String token) async {
+  Future<Null> filtraData(Uri uri, String token) async {
     isLoading = true;
     List<dynamic> dados = [];
-    var response = await http.get(Uri.parse(url), headers: Util.token(token));
+    var response = await http.get(uri, headers: Util.token(token));
     dados = json.decode(response.body);
     List<Horario> horarios =
         dados.map<Horario>((h) => Horario.fromJson(h)).toList();

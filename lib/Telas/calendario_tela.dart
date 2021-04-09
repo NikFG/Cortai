@@ -69,7 +69,7 @@ class CalendarioTela extends StatelessWidget {
                             var horario = store.horariosHoje[index];
                             return CalendarioTile(
                               horario: horario,
-                              servico: horario.servicos.first,
+                              servico: horario.servicos!.first,
                               token: model.token,
                             );
                           }),
@@ -100,7 +100,7 @@ class CalendarioTela extends StatelessWidget {
                             var horario = store.horariosSete[index];
                             return CalendarioTile(
                               horario: horario,
-                              servico: horario.servicos.first,
+                              servico: horario.servicos!.first,
                               token: model.token,
                             );
                           }),
@@ -131,7 +131,7 @@ class CalendarioTela extends StatelessWidget {
                             var horario = store.horariosMes[index];
                             return CalendarioTile(
                               horario: horario,
-                              servico: horario.servicos.first,
+                              servico: horario.servicos!.first,
                               token: model.token,
                             );
                           }),

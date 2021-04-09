@@ -94,9 +94,9 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                                 return null;
                               }),
                           SizedBox(height: 5),
-                          FlatButton(
+                          TextButton(
                             onPressed: () async {
-                              await model.recuperarSenha(model.dados.email);
+                              await model.recuperarSenha(model.dados!.email);
                               await FlushbarHelper.createInformation(
                                       message:
                                           "Verifique seu email para mais sobre a alteração")
@@ -120,7 +120,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                             textoBotao: 'Confirmar',
                             botaoHabilitado: _botaoHabilitado,
                             onPressed: () async {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   _botaoHabilitado = false;
                                 });

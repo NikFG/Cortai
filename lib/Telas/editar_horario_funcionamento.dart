@@ -132,7 +132,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                                   style: TextStyle(fontSize: 10.0.sp),
                                 ),
                                 Checkbox(
-                                  onChanged: (bool value) {
+                                  onChanged: (bool? value) {
                                     setState(() {
                                       _diasSemana[0] = value;
                                     });
@@ -146,7 +146,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                                 Text('SEG',
                                     style: TextStyle(fontSize: 10.0.sp)),
                                 Checkbox(
-                                  onChanged: (bool value) {
+                                  onChanged: (bool? value) {
                                     setState(() {
                                       _diasSemana[1] = value;
                                     });
@@ -160,7 +160,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                                 Text('TER',
                                     style: TextStyle(fontSize: 10.0.sp)),
                                 Checkbox(
-                                  onChanged: (bool value) {
+                                  onChanged: (bool? value) {
                                     setState(() {
                                       _diasSemana[2] = value;
                                     });
@@ -174,7 +174,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                                 Text('QUA',
                                     style: TextStyle(fontSize: 10.0.sp)),
                                 Checkbox(
-                                  onChanged: (bool value) {
+                                  onChanged: (bool? value) {
                                     setState(() {
                                       _diasSemana[3] = value;
                                     });
@@ -188,7 +188,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                                 Text('QUI',
                                     style: TextStyle(fontSize: 10.0.sp)),
                                 Checkbox(
-                                  onChanged: (bool value) {
+                                  onChanged: (bool? value) {
                                     setState(() {
                                       _diasSemana[4] = value;
                                     });
@@ -202,7 +202,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                                 Text('SEX',
                                     style: TextStyle(fontSize: 10.0.sp)),
                                 Checkbox(
-                                  onChanged: (bool value) {
+                                  onChanged: (bool? value) {
                                     setState(() {
                                       _diasSemana[5] = value;
                                     });
@@ -216,7 +216,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                                 Text('SAB',
                                     style: TextStyle(fontSize: 10.0.sp)),
                                 Checkbox(
-                                  onChanged: (bool value) {
+                                  onChanged: (bool? value) {
                                     setState(() {
                                       _diasSemana[6] = value;
                                     });
@@ -236,7 +236,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                   textoBotao: "Confirmar",
                   botaoHabilitado: _botaoHabilitado,
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       setState(() {
                         _botaoHabilitado = false;
                       });
@@ -248,7 +248,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                           f.horarioAbertura = _aberturaController.text;
                           f.horarioFechamento = _fechamentoController.text;
                           f.intervalo = int.parse(_intervaloController.text);
-                          f.salaoId = model.dados.salaoId;
+                          f.salaoId = model.dados!.salaoId!;
                           dados.add(f);
                         }
                       }
@@ -267,7 +267,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
 
   Future<Null> _selectTime(BuildContext context,
       TextEditingController timeController, String helpText) async {
-    final TimeOfDay picked = await showTimePicker(
+    final TimeOfDay? picked = await showTimePicker(
         context: context, initialTime: TimeOfDay.now(), helpText: helpText);
     if (picked != null)
       setState(() {

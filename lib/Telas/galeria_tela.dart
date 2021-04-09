@@ -45,7 +45,7 @@ class _GaleriaTelaState extends State<GaleriaTela> {
                   if (!response.hasData) {
                     return CircularProgressIndicator();
                   } else {
-                    List<dynamic> dados = json.decode(response.data.body);
+                    List<dynamic> dados = json.decode(response.data!.body);
                     print(dados);
                     return GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

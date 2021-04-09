@@ -18,16 +18,16 @@ class HomeTile extends StatefulWidget {
 }
 
 class _HomeTileState extends State<HomeTile> {
-  double _media = 0;
+  late double _media = 0;
 
-  String _distancia;
+  late String _distancia;
 
   @override
   void initState() {
     super.initState();
     _distancia =
-        '${widget.dados.distancia.toStringAsFixed(1)}km'.replaceAll('.', ',');
-    _media = widget.dados.mediaAvaliacao;
+        '${widget.dados.distancia!.toStringAsFixed(1)}km'.replaceAll('.', ',');
+    _media = widget.dados.mediaAvaliacao!;
   }
 
   @override
@@ -60,7 +60,7 @@ class _HomeTileState extends State<HomeTile> {
         _dialogDados(context);
       },
       title: Text(
-        widget.dados.nome,
+        widget.dados.nome!,
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.left,
         softWrap: false,
@@ -95,7 +95,7 @@ class _HomeTileState extends State<HomeTile> {
           Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(
-                "Entre R\$${widget.dados.menorValorServico.toStringAsFixed(2)} ~ R\$${widget.dados.maiorValorServico.toStringAsFixed(2)} ",
+                "Entre R\$${widget.dados.menorValorServico!.toStringAsFixed(2)} ~ R\$${widget.dados.maiorValorServico!.toStringAsFixed(2)} ",
                 style: TextStyle(fontSize: 15),
               )),
         ],
@@ -109,23 +109,23 @@ class _HomeTileState extends State<HomeTile> {
         builder: (context) {
           return AlertDialog(
             title: Text("Mais informações"),
-            content: FlatButton(
+            content: TextButton(
               onPressed: () {
-                MapsLauncher.launchCoordinates(widget.dados.latitude,
-                    widget.dados.longitude, widget.dados.nome);
+                MapsLauncher.launchCoordinates(widget.dados.latitude!,
+                    widget.dados.longitude!, widget.dados.nome);
               },
               child: Text("${widget.dados.endereco}"),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
                 child: Text("Cancelar"),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
-                  Util.ligacaoTelefonica(widget.dados.telefone);
+                  Util.ligacaoTelefonica(widget.dados.telefone!);
                 },
                 child: Text("Ligar para salão"),
               ),

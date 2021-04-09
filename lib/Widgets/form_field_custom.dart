@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 class FormFieldCustom extends StatefulWidget {
   final String hint;
-  final Icon icon;
+  final Icon? icon;
   final TextEditingController controller;
   final FormFieldValidator validator;
   final TextInputType inputType;
   final bool isFrase;
   final bool isSenha;
   final int minLines;
-  final int maxLines;
+  final int? maxLines;
   final bool isPreco;
 
   FormFieldCustom({
     required this.hint,
-    required this.icon,
+    this.icon,
     required this.controller,
     required this.validator,
     required this.inputType,
