@@ -11,8 +11,8 @@ class GaleriaControle {
   }
 
   static Future<void> store(Galeria dados, String token,
-      {@required VoidCallback onSuccess,
-      @required void onFail(String error)}) async {
+      {required VoidCallback onSuccess,
+      required void onFail(String error)}) async {
     Api api = Api();
     try {
       await api.store(_url, dados.toJson(), token);

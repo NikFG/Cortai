@@ -21,9 +21,9 @@ class MapsTela extends StatefulWidget {
   final double lng;
 
   MapsTela(
-      {@required this.enderecoChanged,
-      @required this.latLngChanged,
-      @required this.cidadeChanged,
+      {required this.enderecoChanged,
+      required this.latLngChanged,
+      required this.cidadeChanged,
       this.endereco = "",
       this.lat = 0,
       this.lng = 0});

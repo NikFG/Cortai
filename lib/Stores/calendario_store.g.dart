@@ -9,21 +9,21 @@ part of 'calendario_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CalendarioStore on _CalendarioStore, Store {
-  Computed<bool> _$isHojeEmptyComputed;
+  Computed<bool>? _$isHojeEmptyComputed;
 
   @override
   bool get isHojeEmpty =>
       (_$isHojeEmptyComputed ??= Computed<bool>(() => super.isHojeEmpty,
               name: '_CalendarioStore.isHojeEmpty'))
           .value;
-  Computed<bool> _$isSeteEmptyComputed;
+  Computed<bool>? _$isSeteEmptyComputed;
 
   @override
   bool get isSeteEmpty =>
       (_$isSeteEmptyComputed ??= Computed<bool>(() => super.isSeteEmpty,
               name: '_CalendarioStore.isSeteEmpty'))
           .value;
-  Computed<bool> _$isMesEmptyComputed;
+  Computed<bool>? _$isMesEmptyComputed;
 
   @override
   bool get isMesEmpty =>

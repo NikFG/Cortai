@@ -217,14 +217,14 @@ class _ConfirmarTileState extends State<ConfirmarTile>
     await FlushbarHelper.createError(
             message: "Horário cancelado com sucesso",
             duration: Duration(seconds: 2))
-        .show(Scaffold.of(context).context);
+        .show(Scaffold.maybeOf(context).context);
   }
 
   void onFailCancelar() async {
     await FlushbarHelper.createError(
             message: "Houve algum erro ao cancelar o horário",
             duration: Duration(seconds: 2))
-        .show(Scaffold.of(context).context);
+        .show(Scaffold.maybeOf(context).context);
   }
 
   @override

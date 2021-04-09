@@ -21,7 +21,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
 
   final Servico servico;
 
-  DetalhesCabelereiroTela({@required this.horario, this.servico});
+  DetalhesCabelereiroTela({required this.horario, this.servico});
 
   @override
   Widget build(BuildContext context) {

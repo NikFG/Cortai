@@ -23,7 +23,7 @@ class CriarServicoTela extends StatefulWidget {
   final Servico dados;
   final String titulo;
 
-  CriarServicoTela({this.dados, @required this.titulo});
+  CriarServicoTela({this.dados, required this.titulo});
 
   @override
   _CriarServicoTelaState createState() => _CriarServicoTelaState();
@@ -380,9 +380,9 @@ class _MyDialog extends StatefulWidget {
   final ValueChanged<List<Cabeleireiro>> onSelectedDadosChanged;
 
   const _MyDialog(
-      {@required this.dados,
-      @required this.selecionados,
-      @required this.onSelectedDadosChanged});
+      {required this.dados,
+      required this.selecionados,
+      required this.onSelectedDadosChanged});
 
   @override
   _MyDialogState createState() => _MyDialogState();

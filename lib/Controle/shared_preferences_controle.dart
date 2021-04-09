@@ -4,7 +4,7 @@ import "package:permission_handler/permission_handler.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class SharedPreferencesControle {
-  static SharedPreferences _prefs;
+   static late SharedPreferences _prefs;
 
   SharedPreferencesControle() {
     try {

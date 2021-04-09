@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Util/pusher_service.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobx/mobx.dart';
 
@@ -43,7 +42,7 @@ abstract class _AgendaStore with Store {
   @action
   Future<void> getData(String url, String token) async {
     isLoading = true;
-    var response = await http.get(url, headers: Util.token(token));
+    var response = await http.get(Uri.parse(url), headers: Util.token(token));
     var statusCode = response.statusCode;
     if (statusCode == 404) {
       print("erro");
@@ -77,10 +76,10 @@ abstract class _AgendaStore with Store {
   * */
   @action
   void itensHorario(
-      {@required String abertura,
-      @required String fechamento,
-      @required int intervalo,
-      @required DateTime horarioAtual}) {
+      {required String abertura,
+      required String fechamento,
+      required int intervalo,
+      required DateTime horarioAtual}) {
     DateTime inicial = Util.timeFormat.parse(abertura);
     DateTime atual = Util.timeFormat.parse(abertura);
     DateTime fecha = Util.timeFormat.parse(fechamento);

@@ -7,22 +7,22 @@ part 'galeria.g.dart';
 
 @JsonSerializable()
 class Galeria {
-  int id;
-  String descricao;
-  String imagem;
+  late int id;
+  late String descricao;
+  late String imagem;
   @JsonKey(name: 'cabeleireiro_id')
-  int cabeleireiroId;
+  late int cabeleireiroId;
   @JsonKey(name: 'salao_id')
-  int salaoId;
+  late int salaoId;
   @JsonKey(name: 'servico_id')
-  int servicoId;
+  late int servicoId;
   @JsonKey(name: 'cliente_id')
-  int clienteId;
+  late int clienteId;
   @JsonKey(fromJson: _servicoFromJSon, toJson: _servicoToJson)
-  Servico servico;
+  late Servico servico;
   @JsonKey(fromJson: _salaoFromJson, toJson: _salaoToJson)
-  Salao salao;
-  Cabeleireiro cabeleireiro;
+  late Salao salao;
+  late Cabeleireiro cabeleireiro;
 
   Galeria();
 

@@ -12,9 +12,9 @@ class AvaliacaoControle {
   }
 
   static void store(Avaliacao dados,
-      {@required String token,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      {required String token,
+      required VoidCallback onSuccess,
+      required VoidCallback onFail}) async {
     try {
       Api api = Api();
       await api.store(_url, dados.toJson(), token);
@@ -24,6 +24,5 @@ class AvaliacaoControle {
   }
 
   static void update(Avaliacao dados,
-      {@required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {}
+      {required VoidCallback onSuccess, required VoidCallback onFail}) async {}
 }

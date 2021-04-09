@@ -9,14 +9,14 @@ part of 'confirmar_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ConfirmarStore on _ConfirmarStore, Store {
-  Computed<int> _$contConfirmadosComputed;
+  Computed<int>? _$contConfirmadosComputed;
 
   @override
   int get contConfirmados =>
       (_$contConfirmadosComputed ??= Computed<int>(() => super.contConfirmados,
               name: '_ConfirmarStore.contConfirmados'))
           .value;
-  Computed<int> _$contNaoConfirmadosComputed;
+  Computed<int>? _$contNaoConfirmadosComputed;
 
   @override
   int get contNaoConfirmados => (_$contNaoConfirmadosComputed ??= Computed<int>(

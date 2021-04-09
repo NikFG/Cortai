@@ -29,7 +29,7 @@ abstract class _ConfirmarStore with Store {
     confirmados.clear();
     naoConfirmados.clear();
     isLoading = true;
-    var response = await http.get(url, headers: Util.token(token));
+    var response = await http.get(Uri.parse(url), headers: Util.token(token));
     statusCode = response.statusCode;
     print(response.body);
     data = json.decode(response.body);

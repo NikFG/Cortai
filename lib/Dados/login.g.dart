@@ -9,15 +9,15 @@ part of 'login.dart';
 Login _$LoginFromJson(Map<String, dynamic> json) {
   return Login(
     nome: json['nome'] as String,
-    salaoId: json['salao_id'] as int,
-    telefone: json['telefone'] as String,
+    salaoId: json['salao_id'] as int?,
+    telefone: json['telefone'] as String?,
     email: json['email'] as String,
     imagem: json['imagem'] as String,
-    isCabeleireiro: Conversao.trataBool(json['is_cabeleireiro']),
-    isDonoSalao: Conversao.trataBool(json['is_dono_salao']),
-    id: json['id'] as int,
+    isCabeleireiro: Conversao.trataBool(json['is_cabeleireiro'] as int?),
+    isDonoSalao: Conversao.trataBool(json['is_dono_salao'] as int?),
+    id: json['id'] as int?,
     senha: json['password'] as String,
-    isGoogle: Conversao.trataBool(json['is_google']),
+    isGoogle: Conversao.trataBool(json['is_google'] as int?),
   );
 }
 

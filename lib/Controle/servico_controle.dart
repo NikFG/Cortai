@@ -18,11 +18,11 @@ class ServicoControle {
   }
 
   static void store(
-      {@required Servico dados,
-      @required String token,
-      @required File imagem,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      {required Servico dados,
+      required String token,
+      required File imagem,
+      required VoidCallback onSuccess,
+      required VoidCallback onFail}) async {
     Map<String, dynamic> map = dados.toJson();
     if (imagem != null)
       map["imagem"] = await MultipartFile.fromFile(imagem.path,
@@ -37,18 +37,18 @@ class ServicoControle {
   }
 
   static void update(
-      {@required Servico dados,
-      @required String token,
-      @required File imagem,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      {required Servico dados,
+      required String token,
+      required File imagem,
+      required VoidCallback onSuccess,
+      required VoidCallback onFail}) async {
     Map<String, dynamic> map = dados.toJson();
     if (imagem != null)
       map["imagem"] = await MultipartFile.fromFile(imagem.path,
           filename: imagem.path.split('/').last);
     Api api = Api();
     try {
-      await api.update(_url, map, token, dados.id);
+      await api.update(_url, map, token, dados.id!);
       onSuccess();
     } catch (e) {
       print(e);

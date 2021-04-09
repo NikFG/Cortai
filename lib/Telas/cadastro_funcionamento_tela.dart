@@ -43,7 +43,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: 1,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -99,13 +99,13 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
               children: <Widget>[
                 FutureBuilder<http.Response>(
                   future: http.get(
-                      FuncionamentoControle.get(model.dados.salaoId),
+                      FuncionamentoControle.get(model.dados!.salaoId!),
                       headers: Util.token(model.token)),
                   builder: (context, response) {
                     if (!response.hasData) {
                       return ShimmerCustom(4);
                     } else {
-                      if (response.data.statusCode == 404) {
+                      if (response.data!.statusCode == 404) {
                         return Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height / 4),

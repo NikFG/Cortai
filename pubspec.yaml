@@ -4,7 +4,7 @@ description: Agendamento para cabeleireiros
 version: 1.0.4+104
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -13,51 +13,51 @@ dependencies:
     sdk: flutter
 
 
-  badges: ^1.1.4
+  badges: ^1.1.6
   cached_network_image: ^2.4.1
-  carousel_slider: 2.3.1
-  cupertino_icons: ^1.0.0
+  carousel_slider: ^3.0.0
+  cupertino_icons: ^1.0.2
   custom_radio_button: ^0.0.3
-  dio: ^3.0.10
-  email_validator: ^1.0.6
+  dio: ^4.0.0-beta7
+  email_validator: ^2.0.1
   flushbar: 1.10.4
   flutter_auth_buttons: 0.10.0
   flutter_bcrypt: ^1.0.5
-  flutter_google_places: ^0.2.6
+  flutter_google_places: ^0.2.8
   flutter_icons: ^1.1.0
-  flutter_launcher_icons: ^0.8.1
+  flutter_launcher_icons: ^0.9.0
   flutter_masked_text: ^0.8.0
-  flutter_mobx: ^1.1.0+2
-  flutter_rating_bar: ^3.2.0+1
-  flutter_secure_storage: ^3.3.5
+  flutter_mobx: ^2.0.0
+  flutter_rating_bar: ^4.0.0
+  flutter_secure_storage: ^4.0.0
   geocoder: ^0.2.1
   geocoding: ^1.0.5
-  geolocator: ^6.1.9
-  getflutter: ^1.1.3
-  google_maps_flutter: ^1.0.6
-  google_sign_in: ^4.5.6
-  http: ^0.12.2
-  image_picker: ^0.6.7+14
-  intl: ^0.16.1
-  json_annotation: ^3.1.1
+  geolocator: ^6.2.1
+  google_maps_flutter: ^2.0.1
+  google_sign_in: ^5.0.0
+  http: ^0.13.0
+  image_picker: ^0.7.2+1
+  intl: ^0.17.0
+  json_annotation: ^4.0.1
   maps_launcher: ^1.2.2+2
-  mobx: ^1.2.1+4
-  onesignal_flutter: ^2.6.1
-  password_strength: ^0.1.2
+  mobx: ^2.0.1
+  onesignal_flutter: ^2.6.3
+  password_strength: ^0.1.3
   path_provider: ^1.6.27
-  permission_handler: 5.0.1+1
-  photo_view: ^0.10.3
+  permission_handler: ^5.1.0+2
+  photo_view: ^0.11.1
   progress_indicators: ^0.1.5
-  pusher_websocket_flutter: ^0.2.0
-  rxdart: ^0.24.1
+#  pusher_websocket_flutter: ^0.2.0
+  rxdart: ^0.25.0
   scoped_model: ^1.1.0
   shared_preferences: ^0.5.12+4
   shimmer: ^1.1.2
   splashscreen: ^1.3.5
   social_share: ^2.0.5
   url_launcher: ^5.4.10
-  webview_flutter: ^1.0.7
+  webview_flutter: ^2.0.1
   sizer: ^1.1.8
+  pusher_client: ^1.1.3
 
 
 flutter_icons:
@@ -69,9 +69,9 @@ flutter_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mobx_codegen: ^1.1.2
-  build_runner: ^1.10.0
-  json_serializable: ^3.5.1
+  mobx_codegen: ^2.0.1+2
+  build_runner: ^1.11.5
+  json_serializable: ^4.1.0
 
 
 flutter:

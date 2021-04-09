@@ -1,15 +1,11 @@
-import 'dart:convert';
-
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Telas/servico_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:cortai/Widgets/hero_custom.dart';
+import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:getflutter/components/avatar/gf_avatar.dart';
-import 'package:getflutter/shape/gf_avatar_shape.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
 class HomeTile extends StatefulWidget {
@@ -50,14 +46,15 @@ class _HomeTileState extends State<HomeTile> {
                     )));
           }
         },
-        child: GFAvatar(
-          shape: GFAvatarShape.circle,
-          radius: 30,
-          backgroundColor: Colors.transparent,
-          backgroundImage: widget.dados.imagem != null
-              ? MemoryImage(base64Decode(widget.dados.imagem))
-              : AssetImage("assets/images/shop.png"),
-        ),
+        // child: GFAvatar(
+        //   shape: GFAvatarShape.circle,
+        //   radius: 30,
+        //   backgroundColor: Colors.transparent,
+        //   backgroundImage: widget.dados.imagem != null
+        //       ? MemoryImage(base64Decode(widget.dados.imagem))
+        //       : AssetImage("assets/images/shop.png"),
+        // ),
+        child: Center(),
       ),
       onLongPress: () {
         _dialogDados(context);

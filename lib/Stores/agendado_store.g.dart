@@ -9,7 +9,7 @@ part of 'agendado_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AgendadoStore on _AgendadoStore, Store {
-  Computed<int> _$countComputed;
+  Computed<int>? _$countComputed;
 
   @override
   int get count => (_$countComputed ??=
@@ -64,7 +64,7 @@ mixin _$AgendadoStore on _AgendadoStore, Store {
   final _$getDataAsyncAction = AsyncAction('_AgendadoStore.getData');
 
   @override
-  Future<void> getData(String url, {@required String token}) {
+  Future<void> getData(String url, {required String token}) {
     return _$getDataAsyncAction.run(() => super.getData(url, token: token));
   }
 

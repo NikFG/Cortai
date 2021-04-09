@@ -1,18 +1,14 @@
-import 'dart:convert';
-
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/criar_servico_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:getflutter/components/avatar/gf_avatar.dart';
-import 'package:getflutter/shape/gf_avatar_shape.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class GerenciaServicoTile extends StatelessWidget {
   final Servico dados;
 
-  GerenciaServicoTile({@required this.dados});
+  GerenciaServicoTile({required this.dados});
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +43,15 @@ class GerenciaServicoTile extends StatelessWidget {
             }
           },
           leading: dados.imagem != null
-              ? GFAvatar(
-                  shape: GFAvatarShape.circle,
-                  radius: 30,
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: dados.imagem != null
-                      ? MemoryImage(base64Decode(dados.imagem))
-                      : AssetImage("assets/images/shop.png"),
-                )
+              ?
+              // ? GFAvatar(
+              //     shape: GFAvatarShape.circle,
+              //     radius: 30,
+              //     backgroundColor: Colors.transparent,
+              //     backgroundImage: dados.imagem != null
+              //         ? MemoryImage(base64Decode(dados.imagem))
+              //         : AssetImage("assets/images/shop.png"),
+              Center()
               : CircleAvatar(
                   radius: 30,
                 ),

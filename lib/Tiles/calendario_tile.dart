@@ -1,4 +1,3 @@
-
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
@@ -16,14 +15,13 @@ class CalendarioTile extends StatefulWidget {
   final String token;
 
   CalendarioTile(
-      {@required this.horario,
-      @required this.servico,
-      @required this.token,
+      {required this.horario,
+      required this.servico,
+      required this.token,
       this.avaliado = false});
 
   @override
-  _CalendarioTileState createState() =>
-      _CalendarioTileState();
+  _CalendarioTileState createState() => _CalendarioTileState();
 }
 
 class _CalendarioTileState extends State<CalendarioTile>

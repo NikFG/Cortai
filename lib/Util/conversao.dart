@@ -3,5 +3,5 @@ class Conversao {
 
   static double intToDouble(str) => double.parse(str);
 
-  static bool trataBool(b) => b == 1;
+  static bool trataBool(int? b) => b! == 1;
 }

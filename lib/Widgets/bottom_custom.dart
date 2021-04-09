@@ -93,7 +93,7 @@ class _BottomCustomState extends State<BottomCustom> {
                   if (!response.hasData) {
                     return Icon(FontAwesome5.calendar_check);
                   } else {
-                    var dados = json.decode(response.data.body);
+                    var dados = json.decode(response.data!.body);
                     int numeroConfirmacoes = dados['quantidade'];
                     return Badge(
                       badgeColor: Theme.of(context).primaryColor,
@@ -110,7 +110,7 @@ class _BottomCustomState extends State<BottomCustom> {
                 },
               );
             } else {
-              var dados = json.decode(event.data);
+              var dados = json.decode(event.data.toString());
               int numeroConfirmacoes = dados['quantidade'];
 
               return Badge(

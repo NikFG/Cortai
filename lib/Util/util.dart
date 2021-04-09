@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cortai/Controle/shared_preferences_controle.dart';
@@ -58,7 +57,7 @@ class Util {
     }
   }
 
-  static int ordenarDiasSemana(String dia) {
+  static int? ordenarDiasSemana(String dia) {
     switch (dia) {
       case 'DOM':
         return 0;
@@ -78,7 +77,6 @@ class Util {
         return null;
     }
   }
-
 
   static Widget leadingScaffold(BuildContext context,
       {Color color = Colors.white}) {

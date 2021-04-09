@@ -8,9 +8,9 @@ class ButtonCustom extends StatelessWidget {
   final VoidCallback onPressed;
 
   ButtonCustom({
-    @required this.textoBotao,
-    @required this.botaoHabilitado,
-    @required this.onPressed,
+    required this.textoBotao,
+    required this.botaoHabilitado,
+    required this.onPressed,
   });
 
   @override

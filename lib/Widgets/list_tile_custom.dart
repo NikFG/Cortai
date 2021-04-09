@@ -10,9 +10,9 @@ class ListTileCustom extends StatelessWidget {
   final Color color;
 
   ListTileCustom(
-      {@required this.leading,
-      @required this.title,
-      @required this.onTap,
+      {required this.leading,
+      required this.title,
+      required this.onTap,
       this.subtitle,
       this.trailing,
       this.onLongPress,

@@ -41,14 +41,14 @@ class _AgendaTelaState extends State<AgendaTela> {
   var profissionalController = TextEditingController();
   var pagamentoController = TextEditingController();
   AgendaStore store = AgendaStore();
-  int pagamento;
-  int cabeleireiroSelecionado;
-  DateTime data;
+  int? pagamento;
+  late int cabeleireiroSelecionado;
+  DateTime? data;
   bool _botaoHabilitado = true;
   var _formKey = GlobalKey<FormState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  int indexPagamento;
+  late int indexPagamento;
   final List<Icon> listaIcons = [
     Icon(FontAwesome.credit_card),
     Icon(FontAwesome.credit_card_alt),
@@ -79,7 +79,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                      widget.servico.descricao,
+                      widget.servico.descricao!,
                       style: TextStyle(fontSize: 18.0.sp),
                     ),
                     subtitle: Text(
@@ -88,8 +88,9 @@ class _AgendaTelaState extends State<AgendaTela> {
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundImage: widget.servico.imagem != null
-                          ? MemoryImage(base64Decode(widget.servico.imagem))
-                          : AssetImage("assets/images/barbearia.png"),
+                          ? MemoryImage(base64Decode(widget.servico.imagem!))
+                          : AssetImage("assets/images/barbearia.png")
+                              as ImageProvider,
                       backgroundColor: Colors.transparent,
                     ),
                   ),
@@ -118,7 +119,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                           child: GestureDetector(
                             onTap: () async {
                               _profissionalBottomSheet(
-                                  context, widget.servico.cabeleireirosApi);
+                                  context, widget.servico.cabeleireirosApi!);
                             },
                             child: AbsorbPointer(
                               child: FormFieldCustom(
@@ -155,7 +156,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             onTap: () async {
                               var response = await http.get(
                                   FuncionamentoControle.get(
-                                      widget.servico.salaoId),
+                                      widget.servico.salaoId!),
                                   headers: Util.token(model.token));
                               print(response.body);
                               List<Funcionamento> funcionamento =
@@ -209,8 +210,8 @@ class _AgendaTelaState extends State<AgendaTela> {
                                 if (this.data != null) {
                                   var response = await http.get(
                                       FuncionamentoControle.getDiaSemana(
-                                          Util.weekdayToString(data),
-                                          widget.servico.salaoId),
+                                          Util.weekdayToString(data!),
+                                          widget.servico.salaoId!),
                                       headers: Util.token(model.token));
                                   Funcionamento funcionamento =
                                       Funcionamento.fromJson(
@@ -259,13 +260,13 @@ class _AgendaTelaState extends State<AgendaTela> {
                           padding: EdgeInsets.all(24),
                           child: GestureDetector(
                             onTap: () async {
-                              _metodoPagamentoBottomSheet(
-                                  context, widget.servico.salaoId, model.token);
+                              _metodoPagamentoBottomSheet(context,
+                                  widget.servico.salaoId!, model.token);
                             },
                             child: AbsorbPointer(
                               child: FormFieldCustom(
                                 icon: pagamento == null
-                                    ? null
+                                    ? Icon(Icons.add)
                                     : listaIcons[indexPagamento],
                                 hint: 'Método de pagamento',
                                 controller: pagamentoController,
@@ -320,43 +321,41 @@ class _AgendaTelaState extends State<AgendaTela> {
                         ButtonCustom(
                             textoBotao: 'Confirmar',
                             botaoHabilitado: _botaoHabilitado,
-                            onPressed: _botaoHabilitado
-                                ? () async {
-                                    if (_formKey.currentState.validate()) {
-                                      setState(() {
-                                        _botaoHabilitado = false;
-                                      });
-                                      if (!store.horarioOcupado(
-                                          horarioController.text)) {
-                                        horarioController.text = "";
-                                        await FlushbarHelper.createInformation(
-                                                message: "Horário ocupado",
-                                                duration: Duration(seconds: 2))
-                                            .show(context);
-                                        setState(() {
-                                          _botaoHabilitado = true;
-                                        });
-                                      } else {
-                                        Horario horario = Horario();
-                                        horario.cabeleireiroId =
-                                            cabeleireiroSelecionado;
-                                        horario.clienteId = model.dados.id;
-                                        horario.confirmado = false;
-                                        horario.data = dataController.text;
-                                        horario.formaPagamentoId = pagamento;
-                                        horario.hora = horarioController.text;
-                                        horario.pago = false;
-                                        horario.servicos = List<Servico>();
-                                        horario.servicos.add(widget.servico);
-                                        await HorarioControle.store(
-                                            horario: horario,
-                                            token: model.token,
-                                            onSuccess: onSuccess,
-                                            onFail: onFail);
-                                      }
-                                    }
-                                  }
-                                : null),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _botaoHabilitado = false;
+                                });
+                                if (!store
+                                    .horarioOcupado(horarioController.text)) {
+                                  horarioController.text = "";
+                                  await FlushbarHelper.createInformation(
+                                          message: "Horário ocupado",
+                                          duration: Duration(seconds: 2))
+                                      .show(context);
+                                  setState(() {
+                                    _botaoHabilitado = true;
+                                  });
+                                } else {
+                                  Horario horario = Horario();
+                                  horario.cabeleireiroId =
+                                      cabeleireiroSelecionado;
+                                  horario.clienteId = model.dados!.id;
+                                  horario.confirmado = false;
+                                  horario.data = dataController.text;
+                                  horario.formaPagamentoId = pagamento;
+                                  horario.hora = horarioController.text;
+                                  horario.pago = false;
+                                  horario.servicos = List<Servico>.empty();
+                                  horario.servicos!.add(widget.servico);
+                                  await HorarioControle.store(
+                                      horario: horario,
+                                      token: model.token,
+                                      onSuccess: onSuccess,
+                                      onFail: onFail);
+                                }
+                              }
+                            }),
                       ],
                     ),
                   ),
@@ -384,10 +383,10 @@ class _AgendaTelaState extends State<AgendaTela> {
             return CircularProgressIndicator();
           } else {
             DateTime dataAgora = DateTime.now();
-            DateTime horarioAtual;
-            if (data.day == dataAgora.day &&
-                dataAgora.month == data.month &&
-                data.year == dataAgora.year) {
+            late DateTime horarioAtual;
+            if (data!.day == dataAgora.day &&
+                dataAgora.month == data!.month &&
+                data!.year == dataAgora.year) {
               horarioAtual = Util.timeFormat
                   .parse("${dataAgora.hour}:${dataAgora.minute}");
             }
@@ -472,9 +471,10 @@ class _AgendaTelaState extends State<AgendaTela> {
                   child: CircularProgressIndicator(),
                 );
               } else {
-                List<FormaPagamento> pagamentos = jsonDecode(response.data.body)
-                    .map<FormaPagamento>((p) => FormaPagamento.fromJson(p))
-                    .toList();
+                List<FormaPagamento> pagamentos =
+                    jsonDecode(response.data!.body)
+                        .map<FormaPagamento>((p) => FormaPagamento.fromJson(p))
+                        .toList();
                 return ListView.builder(
                     itemCount: pagamentos.length,
                     itemBuilder: (context, index) {
@@ -539,7 +539,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         break;
       }
     }
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
         selectableDayPredicate: (DateTime val) =>
             diasSemana[val.weekday - 1] ? true : false,
@@ -564,11 +564,11 @@ class _AgendaTelaState extends State<AgendaTela> {
   * Cria o vetor de itens de horários disponíveis
   * */
 /*  List<String> _itensHorario(
-      {@required String abertura,
-      @required String fechamento,
-      @required int intervalo,
-      @required List<Horario> horarios,
-      @required DateTime horarioAtual}) {
+      {required String abertura,
+      required String fechamento,
+      required int intervalo,
+      required List<Horario> horarios,
+      required DateTime horarioAtual}) {
     DateTime inicial = Util.timeFormat.parse(abertura);
     DateTime atual = Util.timeFormat.parse(abertura);
     DateTime fecha = Util.timeFormat.parse(fechamento);

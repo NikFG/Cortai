@@ -20,9 +20,9 @@ class AgendadoTile extends StatefulWidget {
   final String token;
 
   AgendadoTile(
-      {@required this.horario,
-      @required this.servico,
-      @required this.token,
+      {required this.horario,
+      required this.servico,
+      required this.token,
       this.avaliado = false});
 
   @override

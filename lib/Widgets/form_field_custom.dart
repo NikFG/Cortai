@@ -13,11 +13,11 @@ class FormFieldCustom extends StatefulWidget {
   final bool isPreco;
 
   FormFieldCustom({
-    @required this.hint,
-    @required this.icon,
-    @required this.controller,
-    @required this.validator,
-    @required this.inputType,
+    required this.hint,
+    required this.icon,
+    required this.controller,
+    required this.validator,
+    required this.inputType,
     this.isFrase = false,
     this.isSenha = false,
     this.minLines = 1,

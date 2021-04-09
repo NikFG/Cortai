@@ -22,7 +22,7 @@ class DetalhesTela extends StatelessWidget {
 
   final Servico servico;
 
-  DetalhesTela({@required this.horario, this.servico});
+  DetalhesTela({required this.horario, this.servico});
 
   @override
   Widget build(BuildContext context) {

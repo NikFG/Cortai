@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 class FuncionamentoControle {
   static String _url = Util.url + 'funcionamento/';
 
-  static String get(int salao) {
-    return _url + "${salao.toString()}";
+  static Uri get(int salao) {
+    return Uri.parse(_url + "${salao.toString()}");
   }
 
-  static String getDiaSemana(String diaSemana, int salao) {
-    return _url + "$diaSemana/${salao.toString()}";
+  static Uri getDiaSemana(String diaSemana, int salao) {
+    return Uri.parse(_url + "$diaSemana/${salao.toString()}");
   }
 
   static void update(Funcionamento dados, String token,
-      {@required VoidCallback onSuccess,
-      @required void onFail(String error)}) async {
+      {required VoidCallback onSuccess,
+      required void onFail(String error)}) async {
     try {
       Api api = Api();
       await api.update(_url, dados.toJson(), token, dados.id);
@@ -28,7 +28,7 @@ class FuncionamentoControle {
   }
 
   static void updateAll(List<Funcionamento> dados, String token,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {required VoidCallback onSuccess, required VoidCallback onFail}) async {
     try {
       Api api = Api();
       dados.forEach((element) async {
@@ -41,7 +41,7 @@ class FuncionamentoControle {
   }
 
   static Future<void> delete(int id, String token,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {required VoidCallback onSuccess, required VoidCallback onFail}) async {
     try {
       Api api = Api();
       await api.delete(_url, token, id);
@@ -52,7 +52,7 @@ class FuncionamentoControle {
   }
 
   static void deleteAll(String token,
-      {@required VoidCallback onSuccess, @required VoidCallback onFail}) async {
+      {required VoidCallback onSuccess, required VoidCallback onFail}) async {
     try {
       Dio dio = Dio();
       print(_url + "deleteAll");

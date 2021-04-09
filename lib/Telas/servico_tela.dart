@@ -22,7 +22,7 @@ class ServicoTela extends StatelessWidget {
   final Salao salao;
   final String distancia;
 
-  ServicoTela({@required this.salao, @required this.distancia});
+  ServicoTela({required this.salao, required this.distancia});
 
   @override
   Widget build(BuildContext context) {
