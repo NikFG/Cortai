@@ -21,6 +21,8 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'maps_tela.dart';
 
+import 'gerenciar_servico_tela.dart';
+
 class HomeTela extends StatefulWidget {
   @override
   _HomeTelaState createState() => _HomeTelaState();
