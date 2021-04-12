@@ -32,7 +32,7 @@ class PerfilTela extends StatefulWidget {
 }
 
 class _PerfilTelaState extends State<PerfilTela> {
-  File _imagem;
+  File? _imagem;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                      model.dados.nome,
+                      model.dados!.nome,
                       style: TextStyle(
                           fontSize: 20.0.sp, fontWeight: FontWeight.w600),
                     ),
@@ -59,23 +59,24 @@ class _PerfilTelaState extends State<PerfilTela> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  EditarPerfilTela(model.dados)));
+                                  EditarPerfilTela(model.dados!)));
                         }),
                     leading: GestureDetector(
                       onTap: () async {
                         await getImagem();
                         if (_imagem != null) {
                           model.atualizaImagem(
-                              file: _imagem,
+                              file: _imagem!,
                               onSucess: onSuccess,
                               onFail: onFail);
                         }
                       },
                       child: CircleAvatar(
                         radius: 32,
-                        backgroundImage: model.dados.imagem == null
+                        backgroundImage: model.dados!.imagem == null
                             ? AssetImage('assets/images/user.png')
-                            : MemoryImage(base64Decode(model.dados.imagem)),
+                            : MemoryImage(base64Decode(model.dados!.imagem!))
+                                as ImageProvider,
                         backgroundColor: Colors.transparent,
                       ),
                     ),
@@ -83,7 +84,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   SizedBox(
                     height: 20,
                   ),
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => MapsTela(
@@ -94,8 +95,15 @@ class _PerfilTelaState extends State<PerfilTela> {
                                   latLngChanged: (LatLng value) {
                                     SharedPreferencesControle.setPosition(
                                         Position(
-                                            latitude: value.latitude,
-                                            longitude: value.longitude));
+                                      latitude: value.latitude,
+                                      longitude: value.longitude,
+                                      speedAccuracy: 0,
+                                      accuracy: 100,
+                                      altitude: 0,
+                                      timestamp: null,
+                                      speed: 0,
+                                      heading: 0,
+                                    ));
                                   },
                                   cidadeChanged: (String value) {
                                     SharedPreferencesControle.setCidade(value);
@@ -124,7 +132,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   Divider(
                     color: Colors.black87,
                   ),
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => WebViewTela(
@@ -149,15 +157,15 @@ class _PerfilTelaState extends State<PerfilTela> {
                   Divider(
                     color: Colors.black87,
                   ),
-                  _widgetsDonoSalao(model.dados, model),
-                  FlatButton(
+                  _widgetsDonoSalao(model.dados!, model),
+                  TextButton(
                       onPressed: () {
                         showAboutDialog(
                             context: context,
                             applicationName: "Cortaí",
                             applicationVersion: "1.0",
                             children: <Widget>[
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => WebViewTela(
@@ -167,7 +175,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                                 child: Text(
                                     "Vetores criados por stories - br.freepik.com"),
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => WebViewTela(
@@ -177,7 +185,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                                 child:
                                     Text("Illustration by Stories by Freepik"),
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => WebViewTela(
@@ -212,7 +220,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   Divider(
                     color: Colors.black45,
                   ),
-                  FlatButton(
+                  TextButton(
                       onPressed: () async {
                         await model.logout();
                         Navigator.pushReplacement(
@@ -257,7 +265,7 @@ class _PerfilTelaState extends State<PerfilTela> {
     if (login.isDonoSalao) {
       return Column(
         children: <Widget>[
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => CadastroFuncionamentoTela()));
@@ -281,9 +289,10 @@ class _PerfilTelaState extends State<PerfilTela> {
           Divider(
             color: Colors.black45,
           ),
-          FlatButton(
+          TextButton(
               onPressed: () async {
-                var response = await http.get(SalaoControle.show(login.salaoId),
+                var response = await http.get(
+                    SalaoControle.show(login.salaoId!),
                     headers: Util.token(model.token));
                 print(response.body);
                 Salao salao =
@@ -325,7 +334,7 @@ class _PerfilTelaState extends State<PerfilTela> {
           Divider(
             color: Colors.black45,
           ),
-          FlatButton(
+          TextButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => GerenciarServicoTela()));
@@ -341,7 +350,7 @@ class _PerfilTelaState extends State<PerfilTela> {
           Divider(
             color: Colors.black45,
           ),
-          FlatButton(
+          TextButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => SolicitacaoCabeleireiroTela()));

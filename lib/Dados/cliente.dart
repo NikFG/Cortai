@@ -4,8 +4,8 @@ part 'cliente.g.dart';
 
 @JsonSerializable()
 class Cliente {
-  int id;
-  String nome;
+  late int id;
+  late String nome;
 
   Cliente();
 

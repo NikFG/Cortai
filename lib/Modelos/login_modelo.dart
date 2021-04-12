@@ -22,7 +22,7 @@ class LoginModelo extends Model {
   final _storage = fss.FlutterSecureStorage();
 
   bool isCarregando = false;
-  Login dados;
+  Login? dados;
   String token = "";
 
   static LoginModelo of(BuildContext context) =>
@@ -40,9 +40,9 @@ class LoginModelo extends Model {
 
   //Criar conta com email e senha
   void criarContaEmail(
-      {@required Login login,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      {required Login login,
+      required VoidCallback onSuccess,
+      required VoidCallback onFail}) async {
     notifyListeners();
     var dio = Dio();
 
@@ -61,11 +61,11 @@ class LoginModelo extends Model {
 
   //Login no firebase via email/senha
   void logarEmail(
-      {@required String email,
-      @required String senha,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail,
-      @required VoidCallback onVerifyEmail}) async {
+      {required String email,
+      required String senha,
+      required VoidCallback onSuccess,
+      required VoidCallback onFail,
+      required VoidCallback onVerifyEmail}) async {
     isCarregando = true;
     notifyListeners();
     var dio = Dio();
@@ -76,7 +76,7 @@ class LoginModelo extends Model {
           options: Options(
               followRedirects: false,
               validateStatus: (status) {
-                return status <= 500;
+                return status! <= 500;
               }));
       if (response.statusCode == 403) {
         onVerifyEmail();
@@ -100,12 +100,12 @@ class LoginModelo extends Model {
     try {
       var googleUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication auth =
-          await googleUser.authentication.catchError((e) => null);
-      if (googleUser == null) {
+          await googleUser!.authentication.catchError((e) {
         isCarregando = false;
         throw Exception("Erro ao logar");
-      }
-      _salvarDadosUsuarioGoogle(googleUser, auth.accessToken);
+      });
+
+      _salvarDadosUsuarioGoogle(googleUser, auth.accessToken!);
       onSucess();
     } on DioError catch (error) {
       print(error);
@@ -117,9 +117,9 @@ class LoginModelo extends Model {
   Future<Null> _salvarDadosUsuarioGoogle(
       GoogleSignInAccount user, String googleToken) async {
     Login login = Login(
-      nome: user.displayName,
+      nome: user.displayName!,
       email: user.email,
-      imagem: user.photoUrl,
+      imagem: user.photoUrl!,
       senha: googleToken,
       isCabeleireiro: false,
       salaoId: null,
@@ -144,7 +144,7 @@ class LoginModelo extends Model {
     await dio.post(Util.url + "auth/logout",
         options: Options(headers: Util.token(token)));
     dados = null;
-    token = null;
+    token = "";
     await _apagarDados();
     notifyListeners();
   }
@@ -153,7 +153,7 @@ class LoginModelo extends Model {
       {bool isGoogle = false}) {
     this.token = token;
     dados = Login.fromJson(login);
-    _storage.write(key: 'login', value: dados.email);
+    _storage.write(key: 'login', value: dados!.email);
     _storage.write(key: 'senha', value: senha);
     _storage.write(key: 'isGoogle', value: isGoogle.toString());
   }
@@ -164,8 +164,8 @@ class LoginModelo extends Model {
 
   Future<Null> carregarDados() async {
     isCarregando = true;
-    String email = await _storage.read(key: 'login');
-    String senha = await _storage.read(key: 'senha');
+    String? email = await _storage.read(key: 'login');
+    String? senha = await _storage.read(key: 'senha');
     bool isGoogle = await _storage.read(key: 'isGoogle') == 'true';
     if (email != null && senha != null) {
       Dio dio = Dio();
@@ -192,42 +192,42 @@ class LoginModelo extends Model {
   }
 
   atualizaDados(
-      {@required String telefone,
-      @required String nome,
-      @required String token,
-      @required VoidCallback onSucess,
-      @required void onFail(String error)}) async {
+      {required String telefone,
+      required String nome,
+      required String token,
+      required VoidCallback onSucess,
+      required void onFail(String error)}) async {
     try {
       Api api = Api();
       await api.update(
-          _url, {'telefone': telefone, 'nome': nome}, token, dados.id);
-      dados.telefone = telefone;
-      dados.nome = nome;
+          _url, {'telefone': telefone, 'nome': nome}, token, dados!.id!);
+      dados!.telefone = telefone;
+      dados!.nome = nome;
       onSucess();
     } catch (e) {
-      String error = "";
-      e.forEach((k, v) {
-        error +=
-            v.toString().replaceFirst('[', '').replaceFirst(']', '') + "\n";
-      });
+      String error = e.toString();
+      // e.forEach((k, v) {
+      //   error +=
+      //       v.toString().replaceFirst('[', '').replaceFirst(']', '') + "\n";
+      // });
       onFail(error);
     }
   }
 
   atualizaImagem(
-      {@required File file,
-      @required VoidCallback onSucess,
-      @required void onFail(String error)}) async {
+      {required File file,
+      required VoidCallback onSucess,
+      required void onFail(String error)}) async {
     Dio dio = Dio();
     var imagem = await MultipartFile.fromFile(file.path,
         filename: file.path.split('/').last);
-    var response = await dio.post(_url + "edit/imagem/" + dados.id.toString(),
+    var response = await dio.post(_url + "edit/imagem/" + dados!.id.toString(),
         data: FormData.fromMap({'imagem': imagem}),
         options: Options(
             headers: Util.token(token),
             followRedirects: false,
             validateStatus: (status) {
-              return status <= 500;
+              return status! <= 500;
             }));
     if (response.statusCode == 200) {
       await carregarDados();

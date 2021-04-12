@@ -65,7 +65,7 @@ class _CadastroFuncionamentoTileState extends State<CadastroFuncionamentoTile> {
                                 content: Text(
                                     "Deseja realmente remover este horário do salão?"),
                                 actions: <Widget>[
-                                  FlatButton(
+                                  TextButton(
                                     onPressed: () async {
                                       await FuncionamentoControle.delete(
                                           dados.id, token,
@@ -75,7 +75,7 @@ class _CadastroFuncionamentoTileState extends State<CadastroFuncionamentoTile> {
                                     },
                                     child: Text("Sim"),
                                   ),
-                                  FlatButton(
+                                  TextButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },

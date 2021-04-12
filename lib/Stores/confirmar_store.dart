@@ -24,12 +24,12 @@ abstract class _ConfirmarStore with Store {
   int statusCode = 400;
 
   @action
-  Future<void> getData(String url, String token) async {
+  Future<void> getData(Uri uri, String token) async {
     List<dynamic> data = [];
     confirmados.clear();
     naoConfirmados.clear();
     isLoading = true;
-    var response = await http.get(url, headers: Util.token(token));
+    var response = await http.get(uri, headers: Util.token(token));
     statusCode = response.statusCode;
     print(response.body);
     data = json.decode(response.body);

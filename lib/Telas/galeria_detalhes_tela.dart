@@ -18,7 +18,7 @@ class DetalhesGaleria extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(galeria.salao.nome),
+        title: Text(galeria.salao.nome!),
         leading: Util.leadingScaffold(context),
         actions: [
           IconButton(
@@ -66,7 +66,7 @@ class DetalhesGaleria extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            galeria.servico.descricao,
+                            galeria.servico.descricao!,
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
                               fontSize: 20.0.sp,

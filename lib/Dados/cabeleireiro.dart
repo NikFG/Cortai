@@ -4,10 +4,10 @@ part "cabeleireiro.g.dart";
 
 @JsonSerializable()
 class Cabeleireiro {
-  int id;
-  String nome;
+  late int id;
+  late String nome;
   @JsonKey(name: "salao_id")
-  int salaoId;
+  late int salaoId;
 
   Cabeleireiro();
 

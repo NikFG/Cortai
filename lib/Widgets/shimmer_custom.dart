@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+
 import 'list_tile_custom.dart';
 
 class ShimmerCustom extends StatelessWidget {
@@ -19,7 +20,7 @@ class ShimmerCustom extends StatelessWidget {
                 title: null,
                 onTap: () {},
               ),
-              baseColor: Colors.grey[300],
+              baseColor: Colors.grey[300]!,
               highlightColor: Colors.white);
         });
   }

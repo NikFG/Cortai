@@ -43,7 +43,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: 1,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -56,7 +56,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                   ),
                   PopupMenuItem(
                     value: 2,
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () {
                         showDialog(
                             context: context,
@@ -64,7 +64,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                   content: Text(
                                       "Deseja realmente remover todos os horários do salão?"),
                                   actions: <Widget>[
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () {
                                         FuncionamentoControle.deleteAll(
                                             model.token,
@@ -74,7 +74,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                       },
                                       child: Text("Sim"),
                                     ),
-                                    FlatButton(
+                                    TextButton(
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
@@ -99,13 +99,13 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
               children: <Widget>[
                 FutureBuilder<http.Response>(
                   future: http.get(
-                      FuncionamentoControle.get(model.dados.salaoId),
+                      FuncionamentoControle.get(model.dados!.salaoId!),
                       headers: Util.token(model.token)),
                   builder: (context, response) {
                     if (!response.hasData) {
                       return ShimmerCustom(4);
                     } else {
-                      if (response.data.statusCode == 404) {
+                      if (response.data!.statusCode == 404) {
                         return Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height / 4),
@@ -138,12 +138,12 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                         );
                       }
                       List<Funcionamento> listaFuncionamento = json
-                          .decode(response.data.body)
+                          .decode(response.data!.body)
                           .map<Funcionamento>((f) => Funcionamento.fromJson(f))
                           .toList();
                       listaFuncionamento.sort((a, b) =>
-                          Util.ordenarDiasSemana(a.diaSemana)
-                              .compareTo(Util.ordenarDiasSemana(b.diaSemana)));
+                          Util.ordenarDiasSemana(a.diaSemana)!
+                              .compareTo(Util.ordenarDiasSemana(b.diaSemana)!));
                       return ListView.builder(
                         shrinkWrap: true,
                         physics: ScrollPhysics(),

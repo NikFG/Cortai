@@ -10,7 +10,7 @@ Avaliacao _$AvaliacaoFromJson(Map<String, dynamic> json) {
   return Avaliacao()
     ..id = json['id'] as int
     ..valor = Conversao.strToDouble(json['valor'])
-    ..observacao = json['observacao'] as String ?? ''
+    ..observacao = json['observacao'] as String? ?? ''
     ..data = json['data'] as String
     ..horarioId = json['horario_id'] as int;
 }

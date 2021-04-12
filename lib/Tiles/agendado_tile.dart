@@ -20,9 +20,9 @@ class AgendadoTile extends StatefulWidget {
   final String token;
 
   AgendadoTile(
-      {@required this.horario,
-      @required this.servico,
-      @required this.token,
+      {required this.horario,
+      required this.servico,
+      required this.token,
       this.avaliado = false});
 
   @override
@@ -31,8 +31,8 @@ class AgendadoTile extends StatefulWidget {
 
 class _AgendadoTileState extends State<AgendadoTile>
     with AutomaticKeepAliveClientMixin<AgendadoTile> {
-  double _avaliacao;
-  bool avaliado;
+  late double _avaliacao;
+  late bool avaliado;
 
   @override
   void initState() {
@@ -55,10 +55,10 @@ class _AgendadoTileState extends State<AgendadoTile>
                 )));
       },
       title: Text(
-          "${widget.servico.descricao} com ${widget.horario.cabeleireiro.nome}"),
+          "${widget.servico.descricao} com ${widget.horario.cabeleireiro!.nome}"),
       subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.hora}"),
-      trailing: widget.horario.pago
-          ? FlatButton(
+      trailing: widget.horario.pago!
+          ? TextButton(
               child: Column(
                 children: <Widget>[
                   Icon(
@@ -134,13 +134,13 @@ class _AgendadoTileState extends State<AgendadoTile>
                     ],
                   ),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       child: Text("Cancelar"),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
-                    FlatButton(
+                    TextButton(
                       child: Text("Confirmar"),
                       onPressed: () {
                         if (_avaliacao > 1) {
@@ -150,7 +150,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                           dados.observacao = _descricaoControlador.text;
                           dados.data = Util.dateFormat.format(dataHora);
                           // dados.hora = Util.timeFormat.format(dataHora);
-                          dados.horarioId = widget.horario.id;
+                          dados.horarioId = widget.horario.id!;
                           AvaliacaoControle.store(dados,
                               token: token, onSuccess: () {}, onFail: () {});
                           avaliado = true;
@@ -179,7 +179,7 @@ class _AgendadoTileState extends State<AgendadoTile>
     return Column(
       children: <Widget>[
         Text("Confirmado:"),
-        widget.horario.confirmado
+        widget.horario.confirmado!
             ? Icon(
                 FontAwesome.check_circle_o,
                 color: Colors.green,

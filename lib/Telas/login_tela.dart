@@ -144,8 +144,7 @@ class _LoginTelaState extends State<LoginTela> {
                                         MaterialTapTargetSize.shrinkWrap,
                                     minWidth: 0,
                                     height: 0,
-                                    child: FlatButton(
-                                      padding: EdgeInsets.zero,
+                                    child: TextButton(
                                       onPressed: () async {
                                         if (_emailControlador.text.isNotEmpty) {
                                           bool result =
@@ -184,7 +183,7 @@ class _LoginTelaState extends State<LoginTela> {
                                 child: RaisedButton(
                                   onPressed: _botaoHabilitado
                                       ? () {
-                                          if (_formKey.currentState
+                                          if (_formKey.currentState!
                                               .validate()) {
                                             setState(() {
                                               _botaoHabilitado = false;
@@ -249,7 +248,7 @@ class _LoginTelaState extends State<LoginTela> {
                               ),
                               Container(
                                 child: Center(
-                                  child: FlatButton(
+                                  child: TextButton(
                                       onPressed: () {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(

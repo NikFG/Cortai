@@ -58,20 +58,18 @@ class _SolicitacaoCabeleireiroTelaState
                   ButtonCustom(
                     textoBotao: 'Confirmar',
                     botaoHabilitado: _botaoHabilitado,
-                    onPressed: _botaoHabilitado
-                        ? () async {
-                            if (_formKey.currentState.validate()) {
-                              setState(() {
-                                _botaoHabilitado = false;
-                              });
-                              await SalaoControle.adicionaCabeleireiro(
-                                  email: _emailControlador.text,
-                                  token: model.token,
-                                  onSuccess: onSuccess,
-                                  onFail: onFail);
-                            }
-                          }
-                        : null,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          _botaoHabilitado = false;
+                        });
+                        await SalaoControle.adicionaCabeleireiro(
+                            email: _emailControlador.text,
+                            token: model.token,
+                            onSuccess: onSuccess,
+                            onFail: onFail);
+                      }
+                    },
                   )
                 ],
               ),

@@ -4,8 +4,8 @@ import 'package:social_share/social_share.dart';
 
 class ShareRedesSociais {
   Future<Null> compartilharStoryInstagram(File file) async {
-    var a = await SocialShare.shareInstagramStory(
-        file.path, "#ffffff", "#000000", "");
+    var a = await SocialShare.shareInstagramStory(file.path,
+        backgroundBottomColor: "#ffffff", backgroundTopColor: "#000");
     print(a);
   }
 

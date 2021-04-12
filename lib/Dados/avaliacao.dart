@@ -5,14 +5,14 @@ part 'avaliacao.g.dart';
 
 @JsonSerializable()
 class Avaliacao {
-  int id;
+  late int id;
   @JsonKey(fromJson: Conversao.strToDouble)
-  double valor;
+  late double valor;
   @JsonKey(defaultValue: "")
-  String observacao;
-  String data;
+  late String observacao;
+  late String data;
   @JsonKey(name: 'horario_id')
-  int horarioId;
+  late int horarioId;
 
   Avaliacao();
 

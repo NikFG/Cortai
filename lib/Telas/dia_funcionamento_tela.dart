@@ -145,7 +145,7 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                 textoBotao: "Confirmar",
                 botaoHabilitado: _botaoHabilitado,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     setState(() {
                       _botaoHabilitado = false;
                     });
@@ -167,7 +167,7 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
 
   Future<Null> _selectTime(BuildContext context,
       TextEditingController timeController, String helpText) async {
-    final TimeOfDay picked = await showTimePicker(
+    final TimeOfDay? picked = await showTimePicker(
         context: context, initialTime: TimeOfDay.now(), helpText: helpText);
     if (picked != null)
       setState(() {

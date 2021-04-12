@@ -18,9 +18,8 @@ Galeria _$GaleriaFromJson(Map<String, dynamic> json) {
     ..servico =
         Galeria._servicoFromJSon(json['servico'] as Map<String, dynamic>)
     ..salao = Galeria._salaoFromJson(json['salao'] as Map<String, dynamic>)
-    ..cabeleireiro = json['cabeleireiro'] == null
-        ? null
-        : Cabeleireiro.fromJson(json['cabeleireiro'] as Map<String, dynamic>);
+    ..cabeleireiro =
+        Cabeleireiro.fromJson(json['cabeleireiro'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$GaleriaToJson(Galeria instance) => <String, dynamic>{

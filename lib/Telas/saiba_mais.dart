@@ -65,7 +65,7 @@ class SaibaMaisTela extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(salao.nome,
+                            Text(salao.nome!,
                                 style: TextStyle(
                                     fontSize: 24.0.sp,
                                     fontWeight: FontWeight.w700)),
@@ -76,7 +76,7 @@ class SaibaMaisTela extends StatelessWidget {
                                 )),
                             FutureBuilder<http.Response>(
                               future: http.get(
-                                  FuncionamentoControle.get(salao.id),
+                                  FuncionamentoControle.get(salao.id!),
                                   headers: Util.token(model.token)),
                               builder: (context, response) {
                                 if (!response.hasData) {
@@ -85,15 +85,15 @@ class SaibaMaisTela extends StatelessWidget {
                                   );
                                 } else {
                                   List<Funcionamento> listaFuncionamento =
-                                      jsonDecode(response.data.body)
+                                      jsonDecode(response.data!.body)
                                           .map<Funcionamento>(
                                               (f) => Funcionamento.fromJson(f))
                                           .toList();
 
-                                  listaFuncionamento.sort((a, b) => Util
-                                          .ordenarDiasSemana(a.diaSemana)
-                                      .compareTo(
-                                          Util.ordenarDiasSemana(b.diaSemana)));
+                                  listaFuncionamento.sort((a, b) =>
+                                      Util.ordenarDiasSemana(a.diaSemana)!
+                                          .compareTo(Util.ordenarDiasSemana(
+                                              b.diaSemana)!));
                                   var listaWidgets =
                                       listaFuncionamento.map((dados) {
                                     return Text(
@@ -114,10 +114,10 @@ class SaibaMaisTela extends StatelessWidget {
                                   fontSize: 18.0.sp,
                                   fontWeight: FontWeight.w700,
                                 )),
-                            FlatButton(
+                            TextButton(
                               onPressed: () async {
                                 await MapsLauncher.launchCoordinates(
-                                    salao.latitude, salao.longitude);
+                                    salao.latitude!, salao.longitude!);
                               },
                               child: Text("${salao.endereco}",
                                   style: TextStyle(
@@ -131,7 +131,7 @@ class SaibaMaisTela extends StatelessWidget {
                     ],
                   ),
                   FutureBuilder<http.Response>(
-                    future: http.get(AvaliacaoControle.get(salao.id),
+                    future: http.get(AvaliacaoControle.get(salao.id!),
                         headers: Util.token(model.token)),
                     builder: (context, response) {
                       if (!response.hasData) {
@@ -140,7 +140,7 @@ class SaibaMaisTela extends StatelessWidget {
                         );
                       } else {
                         List<Avaliacao> avaliacoes =
-                            jsonDecode(response.data.body)
+                            jsonDecode(response.data!.body)
                                 .map<Avaliacao>((a) => Avaliacao.fromJson(a))
                                 .toList();
                         return ListView.builder(

@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 class AvaliacaoControle {
   static String _url = Util.url + "avaliacoes/";
 
-  static String get(int salaoId) {
-    return _url + "${salaoId.toString()}";
+  static Uri get(int salaoId) {
+    return Uri.parse(_url + "${salaoId.toString()}");
   }
 
   static void store(Avaliacao dados,
-      {@required String token,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      {required String token,
+      required VoidCallback onSuccess,
+      required VoidCallback onFail}) async {
     try {
       Api api = Api();
       await api.store(_url, dados.toJson(), token);
@@ -24,6 +24,5 @@ class AvaliacaoControle {
   }
 
   static void update(Avaliacao dados,
-      {@required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {}
+      {required VoidCallback onSuccess, required VoidCallback onFail}) async {}
 }

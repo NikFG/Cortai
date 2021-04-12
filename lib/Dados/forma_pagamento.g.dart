@@ -9,6 +9,6 @@ part of 'forma_pagamento.dart';
 FormaPagamento _$FormaPagamentoFromJson(Map<String, dynamic> json) {
   return FormaPagamento()
     ..id = json['id'] as int
-    ..icone = json['imagem'] as String ?? ''
+    ..icone = json['imagem'] as String? ?? ''
     ..descricao = json['descricao'] as String;
 }

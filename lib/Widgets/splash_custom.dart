@@ -6,8 +6,8 @@ import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:splashscreen/splashscreen.dart';
 import 'package:sizer/sizer.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 class SplashCustom extends StatefulWidget {
   final bool logado;
@@ -19,14 +19,14 @@ class SplashCustom extends StatefulWidget {
 }
 
 class _SplashCustomState extends State<SplashCustom> {
-  var _permissionStatus = PermissionStatus.undetermined;
+  var _permissionStatus = PermissionStatus.denied;
 
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<LoginModelo>(
-      builder: (BuildContext context, Widget child, LoginModelo model) {
+      builder: (BuildContext? context, Widget? child, LoginModelo model) {
         requestPermission(Permission.notification);
-        if (_permissionStatus.isUndetermined)
+        if (_permissionStatus.isDenied)
           requestPermission(Permission.location);
 
         return SplashScreen(
@@ -38,7 +38,7 @@ class _SplashCustomState extends State<SplashCustom> {
           photoSize: 30.0.w,
 
           loaderColor: Colors.white,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context!).primaryColor,
         );
       },
     );

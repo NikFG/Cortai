@@ -1,4 +1,3 @@
-
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
@@ -16,19 +15,18 @@ class CalendarioTile extends StatefulWidget {
   final String token;
 
   CalendarioTile(
-      {@required this.horario,
-      @required this.servico,
-      @required this.token,
+      {required this.horario,
+      required this.servico,
+      required this.token,
       this.avaliado = false});
 
   @override
-  _CalendarioTileState createState() =>
-      _CalendarioTileState();
+  _CalendarioTileState createState() => _CalendarioTileState();
 }
 
 class _CalendarioTileState extends State<CalendarioTile>
     with AutomaticKeepAliveClientMixin<CalendarioTile> {
-  bool avaliado;
+  late bool avaliado;
 
   @override
   void initState() {
@@ -41,7 +39,7 @@ class _CalendarioTileState extends State<CalendarioTile>
 
   @override
   Widget build(BuildContext context) {
-    Cliente cliente = widget.horario.cliente;
+    Cliente cliente = widget.horario.cliente!;
 
     super.build(context);
     return ListTileCustom(

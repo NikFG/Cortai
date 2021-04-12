@@ -20,10 +20,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CriarServicoTela extends StatefulWidget {
-  final Servico dados;
+  final Servico? dados;
   final String titulo;
 
-  CriarServicoTela({this.dados, @required this.titulo});
+  CriarServicoTela({this.dados, required this.titulo});
 
   @override
   _CriarServicoTelaState createState() => _CriarServicoTelaState();
@@ -37,7 +37,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   var _precoControlador = MoneyMaskedTextController(
       decimalSeparator: ',', thousandSeparator: '.', leftSymbol: 'R\$');
   var ativo = true;
-  File _imagem;
+  File? _imagem;
   List<Cabeleireiro> selecionados = [];
   bool _botaoHabilitado = true;
   final pasta = 'Imagens servicos';
@@ -92,7 +92,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                     }
                     return null;
                   },
-                  icon: null,
                 ),
                 SizedBox(
                   height: 25,
@@ -116,7 +115,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 SizedBox(
                   height: 20,
                 ),
-                model.dados.isDonoSalao
+                model.dados!.isDonoSalao
                     ? GestureDetector(
                         onTap: () async {
                           var response = await http.get(
@@ -195,7 +194,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                         getImagem(true);
                       },
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         getImagem(false);
                       },
@@ -210,11 +209,11 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      HeroCustom(imagemFile: _imagem)));
+                                      HeroCustom(imagemFile: _imagem!)));
                         },
-                        child: Image.file(_imagem))
+                        child: Image.file(_imagem!))
                     : widget.dados != null
-                        ? widget.dados.imagem == null
+                        ? widget.dados!.imagem == null
                             ? Container(
                                 width: 0,
                                 height: 0,
@@ -226,10 +225,10 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                       MaterialPageRoute(
                                           builder: (context) => HeroCustom(
                                               imagemMemory:
-                                                  widget.dados.imagem)));
+                                                  widget.dados!.imagem!)));
                                 },
                                 child: CachedNetworkImage(
-                                    imageUrl: widget.dados.imagem))
+                                    imageUrl: widget.dados!.imagem!))
                         : Container(
                             width: 0,
                             height: 0,
@@ -240,50 +239,47 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                 ButtonCustom(
                   textoBotao: "Confirmar",
                   botaoHabilitado: _botaoHabilitado,
-                  onPressed: _botaoHabilitado
-                      ? () async {
-                          try {
-                            if (_formKey.currentState.validate()) {
-                              setState(() {
-                                _botaoHabilitado = false;
-                              });
-                              Servico dados = widget.dados != null
-                                  ? widget.dados
-                                  : Servico();
-                              dados.descricao = _nomeControlador.text;
-                              dados.setValor(_precoControlador.text);
-                              dados.salaoId = model.dados.salaoId;
-                              dados.observacao = _observacaoControlador.text;
-                              dados.ativo = ativo;
-                              dados.cabeleireiros =
-                                  selecionados.map((e) => e.id).toList();
+                  onPressed: () async {
+                    try {
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          _botaoHabilitado = false;
+                        });
+                        Servico dados =
+                            (widget.dados != null ? widget.dados : Servico())!;
+                        dados.descricao = _nomeControlador.text;
+                        dados.setValor(_precoControlador.text);
+                        dados.salaoId = model.dados!.salaoId;
+                        dados.observacao = _observacaoControlador.text;
+                        dados.ativo = ativo;
+                        dados.cabeleireiros =
+                            selecionados.map((e) => e.id).toList();
 
-                              if (widget.dados != null) {
-                                dados.id = widget.dados.id;
-                                ServicoControle.update(
-                                    dados: dados,
-                                    token: model.token,
-                                    imagem: _imagem,
-                                    onSuccess: onUpdateSuccess,
-                                    onFail: onFail);
-                              } else {
-                                //Caso seja apenas um cabeleireiro irá adicionar o serviço apenas para si
-                                if (!model.dados.isDonoSalao)
-                                  dados.cabeleireiros.add(model.dados.id);
-                                ServicoControle.store(
-                                    dados: dados,
-                                    token: model.token,
-                                    imagem: _imagem,
-                                    onSuccess: onSuccess,
-                                    onFail: onFail);
-                              }
-                            }
-                          } catch (e) {
-                            print(e);
-                            onFail();
-                          }
+                        if (widget.dados != null) {
+                          dados.id = widget.dados!.id;
+                          ServicoControle.update(
+                              dados: dados,
+                              token: model.token,
+                              imagem: _imagem!,
+                              onSuccess: onUpdateSuccess,
+                              onFail: onFail);
+                        } else {
+                          //Caso seja apenas um cabeleireiro irá adicionar o serviço apenas para si
+                          if (!model.dados!.isDonoSalao)
+                            dados.cabeleireiros!.add(model.dados!.id!);
+                          ServicoControle.store(
+                              dados: dados,
+                              token: model.token,
+                              imagem: _imagem!,
+                              onSuccess: onSuccess,
+                              onFail: onFail);
                         }
-                      : null,
+                      }
+                    } catch (e) {
+                      print(e);
+                      onFail();
+                    }
+                  },
                 ),
               ],
             ),
@@ -306,12 +302,12 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
   }
 
   Future<Null> _verificaEditar() async {
-    _nomeControlador.text = widget.dados.descricao;
-    _precoControlador.text = widget.dados.valor.toStringAsFixed(2);
-    _observacaoControlador.text = widget.dados.observacao;
-    ativo = widget.dados.ativo;
+    _nomeControlador.text = widget.dados!.descricao!;
+    _precoControlador.text = widget.dados!.valor.toStringAsFixed(2);
+    _observacaoControlador.text = widget.dados!.observacao!;
+    ativo = widget.dados!.ativo!;
 
-    selecionados = widget.dados.cabeleireirosApi;
+    selecionados = widget.dados!.cabeleireirosApi!;
 
     _cabeleireirosControlador.text = "";
     for (int i = 0; i < selecionados.length; i++) {
@@ -360,7 +356,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
         texto = "Altere a imagem caso necessário";
       }
     } else {
-      if (widget.dados.imagem == null) {
+      if (widget.dados!.imagem == null) {
         if (_imagem == null) {
           texto = "Selecione uma imagem";
         } else {
@@ -380,9 +376,9 @@ class _MyDialog extends StatefulWidget {
   final ValueChanged<List<Cabeleireiro>> onSelectedDadosChanged;
 
   const _MyDialog(
-      {@required this.dados,
-      @required this.selecionados,
-      @required this.onSelectedDadosChanged});
+      {required this.dados,
+      required this.selecionados,
+      required this.onSelectedDadosChanged});
 
   @override
   _MyDialogState createState() => _MyDialogState();
@@ -424,7 +420,7 @@ class _MyDialogState extends State<_MyDialog> {
                     title: Text(nome),
                     value: _tempSelecionados.contains(widget.dados[index]),
                     onChanged: (value) {
-                      if (value) {
+                      if (value!) {
                         if (!_tempSelecionados.contains(widget.dados[index])) {
                           setState(() {
                             _tempSelecionados.add(widget.dados[index]);
@@ -451,7 +447,7 @@ class _MyDialogState extends State<_MyDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -461,7 +457,7 @@ class _MyDialogState extends State<_MyDialog> {
                       fontSize: 15, color: Theme.of(context).primaryColor),
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   widget.onSelectedDadosChanged(_tempSelecionados);
                   Navigator.of(context).pop();

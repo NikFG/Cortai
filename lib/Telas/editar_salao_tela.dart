@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/button_custom.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
@@ -13,13 +15,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sizer/sizer.dart';
 
-import 'package:cortai/Widgets/button_custom.dart';
-
 import 'cadastro_funcionamento_tela.dart';
 import 'maps_tela.dart';
 
 class EditarSalaoTela extends StatefulWidget {
-  final Salao salao;
+  final Salao? salao;
 
   EditarSalaoTela({this.salao});
 
@@ -34,10 +34,10 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
   var _enderecoController = TextEditingController();
   var _telefoneController = MaskedTextController(mask: '(00) 00000-0000');
   var latlng = LatLng(0, 0);
-  Salao dados;
-  File _imagem;
+  late Salao dados;
+  File? _imagem;
   bool _botaoHabilitado = true;
-  String _cidade;
+  late String _cidade;
   String botao = 'Confirmar';
 
   @override
@@ -75,9 +75,9 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                         if (widget.salao != null) {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => MapsTela(
-                                    endereco: widget.salao.endereco,
-                                    lat: widget.salao.latitude,
-                                    lng: widget.salao.longitude,
+                                    endereco: widget.salao!.endereco!,
+                                    lat: widget.salao!.latitude!,
+                                    lng: widget.salao!.longitude!,
                                     enderecoChanged: (value) {
                                       _enderecoController.text = value;
                                     },
@@ -139,7 +139,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                 getImagem(true);
                               },
                             ),
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 getImagem(false);
                               },
@@ -148,15 +148,15 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           ],
                         )),
                     _imagem != null
-                        ? Image.file(_imagem)
+                        ? Image.file(_imagem!)
                         : widget.salao == null
                             ? Container(
                                 width: 0,
                                 height: 0,
                               )
-                            : widget.salao.imagem != null
+                            : widget.salao!.imagem != null
                                 ? Image.memory(
-                                    base64Decode(widget.salao.imagem))
+                                    base64Decode(widget.salao!.imagem!))
                                 : Container(
                                     width: 0,
                                     height: 0,
@@ -167,37 +167,35 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                     ButtonCustom(
                       textoBotao: "Confirmar",
                       botaoHabilitado: _botaoHabilitado,
-                      onPressed: _botaoHabilitado
-                          ? () async {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  _botaoHabilitado = false;
-                                });
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            _botaoHabilitado = false;
+                          });
 
-                                dados.latitude = latlng.latitude;
-                                dados.longitude = latlng.longitude;
-                                dados.nome = _nomeController.text;
-                                dados.endereco = _enderecoController.text;
-                                dados.telefone = _telefoneController.text;
-                                dados.cidade = _cidade;
-                                if (widget.salao == null) {
-                                  SalaoControle.store(dados,
-                                      usuario: model.dados,
-                                      imagem: _imagem,
-                                      token: model.token,
-                                      onSuccess: onSuccess,
-                                      onFail: onFail);
-                                } else {
-                                  SalaoControle.update(dados,
-                                      token: model.token,
-                                      imagem: _imagem,
-                                      usuario: model.dados,
-                                      onSuccess: onSuccessEditar,
-                                      onFail: onFailEditar);
-                                }
-                              }
-                            }
-                          : null,
+                          dados.latitude = latlng.latitude;
+                          dados.longitude = latlng.longitude;
+                          dados.nome = _nomeController.text;
+                          dados.endereco = _enderecoController.text;
+                          dados.telefone = _telefoneController.text;
+                          dados.cidade = _cidade;
+                          if (widget.salao == null) {
+                            SalaoControle.store(dados,
+                                usuario: model.dados!,
+                                imagem: _imagem!,
+                                token: model.token,
+                                onSuccess: onSuccess,
+                                onFail: onFail);
+                          } else {
+                            SalaoControle.update(dados,
+                                token: model.token,
+                                imagem: _imagem!,
+                                usuario: model.dados!,
+                                onSuccess: onSuccessEditar,
+                                onFail: onFailEditar);
+                          }
+                        }
+                      },
                     ),
                     /*
                     SizedBox(
@@ -261,12 +259,12 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
 
   verificaSalao() {
     if (widget.salao != null) {
-      this.dados = widget.salao;
-      _nomeController.text = dados.nome;
-      _enderecoController.text = dados.endereco;
+      this.dados = widget.salao!;
+      _nomeController.text = dados.nome!;
+      _enderecoController.text = dados.endereco!;
       _telefoneController.text = dados.telefone;
-      latlng = LatLng(this.dados.latitude, this.dados.longitude);
-      _cidade = this.dados.cidade;
+      latlng = LatLng(this.dados.latitude!, this.dados.longitude!);
+      _cidade = this.dados.cidade!;
     } else {
       dados = Salao();
     }
@@ -293,7 +291,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
         texto = "Altere a imagem caso necessário";
       }
     } else {
-      if (widget.salao.imagem == null) {
+      if (widget.salao!.imagem == null) {
         if (_imagem == null) {
           texto = "Selecione uma imagem";
         } else {

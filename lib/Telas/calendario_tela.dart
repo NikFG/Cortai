@@ -69,7 +69,7 @@ class CalendarioTela extends StatelessWidget {
                             var horario = store.horariosHoje[index];
                             return CalendarioTile(
                               horario: horario,
-                              servico: horario.servicos.first,
+                              servico: horario.servicos!.first,
                               token: model.token,
                             );
                           }),
@@ -88,7 +88,6 @@ class CalendarioTela extends StatelessWidget {
                     thickness: 2,
                     color: Colors.black87,
                   ),
-
                   store.isSeteEmpty
                       ? Text("Não há horários para os próximos sete dias")
                       :
@@ -101,11 +100,10 @@ class CalendarioTela extends StatelessWidget {
                             var horario = store.horariosSete[index];
                             return CalendarioTile(
                               horario: horario,
-                              servico: horario.servicos.first,
+                              servico: horario.servicos!.first,
                               token: model.token,
                             );
                           }),
-
                   Container(
                     padding: EdgeInsets.all(2.0.h),
                     child: Text(
@@ -124,19 +122,19 @@ class CalendarioTela extends StatelessWidget {
                   store.isMesEmpty
                       ? Text("Não há horários futuros")
                       :
-                  //ListView que carrega as Tiles desse MÊS
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: store.horariosMes.length,
-                      itemBuilder: (context, index) {
-                        var horario = store.horariosMes[index];
-                        return CalendarioTile(
-                          horario: horario,
-                          servico: horario.servicos.first,
-                          token: model.token,
-                        );
-                      }),
+                      //ListView que carrega as Tiles desse MÊS
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: ScrollPhysics(),
+                          itemCount: store.horariosMes.length,
+                          itemBuilder: (context, index) {
+                            var horario = store.horariosMes[index];
+                            return CalendarioTile(
+                              horario: horario,
+                              servico: horario.servicos!.first,
+                              token: model.token,
+                            );
+                          }),
                 ],
               );
             }
@@ -146,5 +144,3 @@ class CalendarioTela extends StatelessWidget {
     });
   }
 }
-
-

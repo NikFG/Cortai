@@ -20,13 +20,13 @@ import 'package:sizer/sizer.dart';
 class DetalhesTela extends StatelessWidget {
   final Horario horario;
 
-  final Servico servico;
+  final Servico? servico;
 
-  DetalhesTela({@required this.horario, this.servico});
+  DetalhesTela({required this.horario, this.servico});
 
   @override
   Widget build(BuildContext context) {
-    Cabeleireiro cabeleireiro = horario.cabeleireiro;
+    Cabeleireiro cabeleireiro = horario.cabeleireiro!;
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return Scaffold(
@@ -47,7 +47,7 @@ class DetalhesTela extends StatelessWidget {
                 );
               } else {
                 Salao salao = Salao.fromJsonApiDados(jsonDecode(
-                    response.data.body)); //Salao.fromDocument(snapshot.data);
+                    response.data!.body)); //Salao.fromDocument(snapshot.data);
                 return ListView(
                   children: <Widget>[
                     Container(
@@ -55,11 +55,11 @@ class DetalhesTela extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(salao.nome,
+                          Text(salao.nome!,
                               style: TextStyle(
                                   fontSize: 28.0.sp,
                                   fontWeight: FontWeight.w700)),
-                          horario.pago
+                          horario.pago!
                               ? Text("Realizado às 12:28 - 16/07/2020",
                                   style: TextStyle(
                                     fontSize: 12.0.sp,
@@ -74,7 +74,7 @@ class DetalhesTela extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                               )),
                           ListTile(
-                              leading: horario.confirmado
+                              leading: horario.confirmado!
                                   ? Icon(
                                       FontAwesome.check_circle_o,
                                       color: Colors.green,
@@ -87,7 +87,7 @@ class DetalhesTela extends StatelessWidget {
                                     ),
                               title: Text(cabeleireiro.nome),
                               trailing: Text(
-                                  horario.confirmado
+                                  horario.confirmado!
                                       ? "Confirmado"
                                       : "Não confirmado",
                                   style: TextStyle(
@@ -95,12 +95,12 @@ class DetalhesTela extends StatelessWidget {
                                   ))),
                           ListTile(
                             leading: Icon(FontAwesome.tag),
-                            title: Text(servico.descricao,
+                            title: Text(servico!.descricao!,
                                 style: TextStyle(
                                   fontSize: 12.0.sp,
                                 )),
                             trailing: Text(
-                                "R\$${servico.valor.toStringAsFixed(2).replaceAll('.', ',')}",
+                                "R\$${servico!.valor.toStringAsFixed(2).replaceAll('.', ',')}",
                                 style: TextStyle(
                                   fontSize: 12.0.sp,
                                 )),
@@ -116,10 +116,10 @@ class DetalhesTela extends StatelessWidget {
                                       fontSize: 16.0.sp,
                                     )),
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () async {
                                   await MapsLauncher.launchCoordinates(
-                                      salao.latitude, salao.longitude);
+                                      salao.latitude!, salao.longitude!);
                                 },
                                 child: Text("${salao.endereco}",
                                     style: TextStyle(
@@ -134,7 +134,7 @@ class DetalhesTela extends StatelessWidget {
                               children: <Widget>[
                                 Container(
                                   width: 45.0.w,
-                                  child: FlatButton(
+                                  child: TextButton(
                                     child: Container(
                                       child: Text(
                                         "Ligar para salão",
@@ -144,13 +144,13 @@ class DetalhesTela extends StatelessWidget {
                                       ),
                                     ),
                                     onPressed: () {
-                                      Util.ligacaoTelefonica(salao.telefone);
+                                      Util.ligacaoTelefonica(salao.telefone!);
                                     },
                                   ),
                                 ),
                                 Container(
                                   width: 45.0.w,
-                                  child: FlatButton(
+                                  child: TextButton(
                                     child: Container(
                                       child: Text(
                                         "Cancelar Agendamento",
@@ -188,16 +188,16 @@ class DetalhesTela extends StatelessWidget {
         content: Text(
             "Caso cancele o agendamento, poderão ser cobradas taxas extras"),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text("Voltar"),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text("Confirmar"),
             onPressed: () async {
-              await HorarioControle.cancelaAgendamento(horario.id, token,
+              await HorarioControle.cancelaAgendamento(horario.id!, token,
                   onSuccess: onSuccess, onFail: onFail, clienteCancelou: true);
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => IndexTela()));

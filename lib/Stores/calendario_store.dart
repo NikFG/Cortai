@@ -32,10 +32,10 @@ abstract class _CalendarioStore with Store {
   bool get isMesEmpty => horariosMes.isEmpty;
 
   @action
-  Future<Null> filtraData(String url, String token) async {
+  Future<Null> filtraData(Uri uri, String token) async {
     isLoading = true;
     List<dynamic> dados = [];
-    var response = await http.get(url, headers: Util.token(token));
+    var response = await http.get(uri, headers: Util.token(token));
     dados = json.decode(response.body);
     List<Horario> horarios =
         dados.map<Horario>((h) => Horario.fromJson(h)).toList();
@@ -45,14 +45,14 @@ abstract class _CalendarioStore with Store {
     final mes = hoje.add(Duration(days: 7));
 
     horariosHoje = horarios
-        .where((element) => Util.dateFormat.parse(element.data) == hoje)
+        .where((element) => Util.dateFormat.parse(element.data!) == hoje)
         .toList();
     horariosSete = horarios.where((element) {
-      var data = Util.dateFormat.parse(element.data);
+      var data = Util.dateFormat.parse(element.data!);
       return data.isAfter(hoje) && data.isBefore(semana);
     }).toList();
     horariosMes = horarios.where((element) {
-      var data = Util.dateFormat.parse(element.data);
+      var data = Util.dateFormat.parse(element.data!);
       return data.isAfter(mes);
     }).toList();
     isLoading = false;

@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 
 import 'package:cortai/Util/util.dart';
@@ -15,9 +16,9 @@ class PusherService {
   Sink get _inEventData => _eventData.sink;
 
   Stream get eventStream => _eventData.stream;
-  Event lastEvent;
-  String lastConnectionState;
-  Channel channel;
+  late Event lastEvent;
+  late String lastConnectionState;
+  late Channel channel;
 
   Future<void> initPusher(String token) async {
     var auth = PusherAuth(URL, headers: Util.token(token));
@@ -29,7 +30,7 @@ class PusherService {
     try {
       await Pusher.init(APP_KEY, options, enableLogging: true);
     } on PlatformException catch (e) {
-      print("Erro de auth" + e.message);
+      print("Erro de auth" + e.message.toString());
     }
   }
 
@@ -63,9 +64,9 @@ class PusherService {
   }
 
   Future<void> firePusher({
-    @required String channelName,
-    @required String eventName,
-    @required token,
+    required String channelName,
+    required String eventName,
+    required token,
   }) async {
     print(channelName);
     await initPusher(token);
@@ -74,3 +75,4 @@ class PusherService {
     bindEvent(eventName);
   }
 }
+*/

@@ -22,12 +22,12 @@ class ServicoTela extends StatelessWidget {
   final Salao salao;
   final String distancia;
 
-  ServicoTela({@required this.salao, @required this.distancia});
+  ServicoTela({required this.salao, required this.distancia});
 
   @override
   Widget build(BuildContext context) {
-    String media = salao.quantidadeAvaliacao > 0
-        ? salao.mediaAvaliacao.toStringAsFixed(1)
+    String media = salao.quantidadeAvaliacao! > 0
+        ? salao.mediaAvaliacao!.toStringAsFixed(1)
         : '0.0';
     return Scaffold(
       body: CustomScrollView(
@@ -38,7 +38,7 @@ class ServicoTela extends StatelessWidget {
               leading: Util.leadingScaffold(context),
               title: AppbarCustom(
                   child: Text(
-                salao.nome,
+                salao.nome!,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18.0.sp,
@@ -52,10 +52,10 @@ class ServicoTela extends StatelessWidget {
               expandedHeight: 90.0,
               flexibleSpace: FlexibleSpaceBar(
                 background: AppbarExtendidaCustom(
-                    nomeSalao: salao.nome,
-                    enderecoSalao: salao.endereco,
-                    menorValor: salao.menorValorServico,
-                    maiorValor: salao.maiorValorServico,
+                    nomeSalao: salao.nome!,
+                    enderecoSalao: salao.endereco!,
+                    menorValor: salao.menorValorServico!,
+                    maiorValor: salao.maiorValorServico!,
                     distancia: distancia),
               )),
           SliverList(
@@ -81,7 +81,7 @@ class ServicoTela extends StatelessWidget {
                             Container(
                               width: MediaQuery.of(context).size.width / 2.1,
                               child: Text(
-                                salao.nome,
+                                salao.nome!,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w100,
@@ -93,12 +93,12 @@ class ServicoTela extends StatelessWidget {
                               width: MediaQuery.of(context).size.width / 2.2,
                               alignment: Alignment.bottomRight,
                               padding: EdgeInsets.only(right: 1.0.h),
-                              child: FlatButton(
+                              child: TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                GaleriaTela(salao.id)));
+                                                GaleriaTela(salao.id!)));
                                   },
                                   child: Text("Galeria >",
                                       style: TextStyle(
@@ -153,9 +153,9 @@ class ServicoTela extends StatelessWidget {
                                         left: 1.0.h,
                                         right: 1.0.h),
                                     child: Text(
-                                      "R\$${salao.menorValorServico.toStringAsFixed(2)}"
+                                      "R\$${salao.menorValorServico!.toStringAsFixed(2)}"
                                       " - "
-                                      "R\$${salao.maiorValorServico.toStringAsFixed(2)}",
+                                      "R\$${salao.maiorValorServico!.toStringAsFixed(2)}",
                                       style: TextStyle(
                                         color: Colors.black87,
                                         fontSize: 14.0.sp,
@@ -188,17 +188,17 @@ class ServicoTela extends StatelessWidget {
               ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
                   return FutureBuilder<http.Response>(
-                    future: http.get(ServicoControle.getBySalao(this.salao.id),
+                    future: http.get(ServicoControle.getBySalao(this.salao.id!),
                         headers: Util.token(model.token)),
                     builder: (context, response) {
                       if (!response.hasData) {
                         return ShimmerCustom(4);
                       } else {
-                        print(response.data.body);
-                        List<dynamic> dados = json.decode(response.data.body);
+                        print(response.data!.body);
+                        List<dynamic> dados = json.decode(response.data!.body);
                         var widgets = dados
                             .map((doc) => ServicoTile(
-                                Servico.fromJsonApi(doc), this.salao.nome))
+                                Servico.fromJsonApi(doc), this.salao.nome!))
                             .toList();
                         return Column(
                           children: widgets,

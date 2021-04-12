@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:cortai/Controle/shared_preferences_controle.dart';
@@ -34,31 +33,31 @@ class Util {
     switch (data.weekday) {
       case 1:
         return 'SEG';
-        break;
+
       case 2:
         return 'TER';
-        break;
+
       case 3:
         return 'QUA';
-        break;
+
       case 4:
         return 'QUI';
-        break;
+
       case 5:
         return 'SEX';
-        break;
+
       case 6:
         return 'SAB';
-        break;
+
       case 7:
         return 'DOM';
-        break;
+
       default:
         return '';
     }
   }
 
-  static int ordenarDiasSemana(String dia) {
+  static int? ordenarDiasSemana(String dia) {
     switch (dia) {
       case 'DOM':
         return 0;
@@ -79,7 +78,6 @@ class Util {
     }
   }
 
-
   static Widget leadingScaffold(BuildContext context,
       {Color color = Colors.white}) {
     return IconButton(
@@ -99,9 +97,9 @@ class Util {
   static setLocalizacao() async {
     var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
-    String cidade =
-        await placemarkFromCoordinates(position.latitude, position.longitude)
-            .then((List<Placemark> value) => value.first.subAdministrativeArea);
+    String cidade = await placemarkFromCoordinates(
+            position.latitude, position.longitude)
+        .then((List<Placemark> value) => value.first.subAdministrativeArea!);
 
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(

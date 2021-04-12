@@ -8,17 +8,17 @@ part of 'horario.dart';
 
 Horario _$HorarioFromJson(Map<String, dynamic> json) {
   return Horario()
-    ..id = json['id'] as int
-    ..hora = json['hora'] as String
-    ..data = json['data'] as String
-    ..confirmado = Conversao.trataBool(json['confirmado'])
+    ..id = json['id'] as int?
+    ..hora = json['hora'] as String?
+    ..data = json['data'] as String?
+    ..confirmado = Conversao.trataBool(json['confirmado'] as int?)
     ..cabeleireiro = Horario._cabeleireiroFromJson(json['cabeleireiro'])
-    ..cabeleireiroId = json['cabeleireiro_id'] as int
+    ..cabeleireiroId = json['cabeleireiro_id'] as int?
     ..cliente = Horario._clienteFromJson(json['cliente'])
-    ..clienteId = json['cliente_id'] as int
-    ..servicos = Horario._servicoFromJSon(json['servicos'])
-    ..pago = Conversao.trataBool(json['pago'])
-    ..formaPagamentoId = json['forma_pagamento_id'] as int;
+    ..clienteId = json['cliente_id'] as int?
+    ..servicos = Horario._servicoFromJSon(json['servicos'] as List?)
+    ..pago = Conversao.trataBool(json['pago'] as int?)
+    ..formaPagamentoId = json['forma_pagamento_id'] as int?;
 }
 
 Map<String, dynamic> _$HorarioToJson(Horario instance) => <String, dynamic>{

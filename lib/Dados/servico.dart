@@ -1,15 +1,15 @@
 import "package:cortai/Dados/cabeleireiro.dart";
 
 class Servico {
-  int id;
-  String descricao;
-  double _valor;
-  String imagem;
-  List<int> cabeleireiros;
-  List<Cabeleireiro> cabeleireirosApi;
-  int salaoId;
-  String observacao;
-  bool ativo;
+  int? id;
+  String? descricao;
+  late double _valor;
+  String? imagem;
+  List<int>? cabeleireiros;
+  List<Cabeleireiro>? cabeleireirosApi;
+  int? salaoId;
+  String? observacao;
+  bool? ativo;
 
   Servico();
 

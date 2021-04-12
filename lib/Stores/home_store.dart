@@ -10,7 +10,7 @@ abstract class _HomeStore with Store {
   String endereco = '';
 
   @observable
-  PermissionStatus status;
+  late PermissionStatus status;
 
   @action
   setEndereco(String endereco) async {

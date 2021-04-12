@@ -10,24 +10,24 @@ import 'package:flutter/material.dart';
 class SalaoControle {
   static final _url = Util.url + "saloes/";
 
-  static String get() {
-    return _url + "home";
+  static Uri get(String param) {
+    return Uri.parse(_url + "home"+param);
   }
 
-  static String getCabeleireiros() {
-    return _url + "cabeleireiros";
+  static Uri getCabeleireiros() {
+    return Uri.parse(_url + "cabeleireiros");
   }
 
-  static String show(int id) {
-    return _url + "show/${id.toString()}";
+  static Uri show(int id) {
+    return Uri.parse(_url + "show/${id.toString()}");
   }
 
   static void store(Salao dados,
-      {@required Login usuario,
-      @required File imagem,
-      @required String token,
-      @required VoidCallback onSuccess,
-      @required void Function(String error) onFail}) async {
+      {required Login usuario,
+      required File? imagem,
+      required String token,
+      required VoidCallback onSuccess,
+      required void Function(String error) onFail}) async {
     Api api = Api();
     try {
       Map<String, dynamic> map = dados.toJson();
@@ -43,18 +43,18 @@ class SalaoControle {
   }
 
   static void update(Salao dados,
-      {@required Login usuario,
-      @required File imagem,
-      @required String token,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      {required Login usuario,
+      required File? imagem,
+      required String token,
+      required VoidCallback onSuccess,
+      required VoidCallback onFail}) async {
     try {
       Api api = Api();
       Map<String, dynamic> map = dados.toJson();
       if (imagem != null)
         map["imagem"] = await MultipartFile.fromFile(imagem.path,
             filename: imagem.path.split('/').last);
-      await api.update(_url, map, token, dados.id);
+      await api.update(_url, map, token, dados.id!);
       onSuccess();
     } catch (e) {
       onFail();
@@ -62,10 +62,10 @@ class SalaoControle {
   }
 
   static Future<Null> adicionaCabeleireiro(
-      {@required String email,
-      @required String token,
-      @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      {required String email,
+      required String token,
+      required VoidCallback onSuccess,
+      required VoidCallback onFail}) async {
     Dio dio = Dio();
     try {
       var response = await dio.patch(_url + "edit/cabeleireiro/$email",

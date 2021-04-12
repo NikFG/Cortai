@@ -179,7 +179,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                                 borderRadius: BorderRadius.circular(50)),
                             onPressed: _botaoHabilitado
                                 ? () {
-                                    if (_formKey.currentState.validate()) {
+                                    if (_formKey.currentState!.validate()) {
                                       setState(() {
                                         _botaoHabilitado = false;
                                       });
@@ -216,7 +216,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                         ),
                         Container(
                           child: Center(
-                            child: FlatButton(
+                            child: TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => LoginTela()));
