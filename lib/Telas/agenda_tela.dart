@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:cortai/Controle/forma_pagamento_controle.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Controle/horario_controle.dart';
@@ -15,8 +14,6 @@ import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
-import 'package:cortai/Widgets/custom_button.dart';
-import 'package:cortai/Widgets/custom_form_field.dart';
 import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';

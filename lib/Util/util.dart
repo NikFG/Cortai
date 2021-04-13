@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -104,7 +104,7 @@ class Util {
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(
             Coordinates(position.latitude, position.longitude))
-        .then((List<Address> value) => value.first.addressLine);
+        .then((List<Address> value) => value.first.addressLine!);
     await SharedPreferencesControle.setCidade(cidade);
     await SharedPreferencesControle.setPosition(position);
     await SharedPreferencesControle.setEndereco(endereco);

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -96,8 +96,8 @@ class _MapsTelaState extends State<MapsTela> {
                   new Coordinates(latLng.latitude, latLng.longitude);
               var endereco = await Geocoder.local
                   .findAddressesFromCoordinates(coordinates);
-              procuraController.text = endereco.first.addressLine;
-              widget.cidadeChanged(endereco.first.subAdminArea);
+              procuraController.text = endereco.first.addressLine!;
+              widget.cidadeChanged(endereco.first.subAdminArea!);
             },
             initialCameraPosition: CameraPosition(target: latLng, zoom: 1),
             markers: _markers,

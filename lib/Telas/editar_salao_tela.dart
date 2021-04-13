@@ -182,7 +182,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           if (widget.salao == null) {
                             SalaoControle.store(dados,
                                 usuario: model.dados!,
-                                imagem: _imagem!,
+                                imagem: _imagem,
                                 token: model.token,
                                 onSuccess: onSuccess,
                                 onFail: onFail);
