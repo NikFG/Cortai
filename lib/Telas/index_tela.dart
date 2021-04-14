@@ -39,6 +39,7 @@ class _IndexTelaState extends State<IndexTela> {
     final _pageController = PageController(initialPage: index);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
+
         if (model.dados != null) {
           oss.gravaIdExterna(model.dados!.isCabeleireiro,
               model.dados!.isDonoSalao, model.dados!.id!);
