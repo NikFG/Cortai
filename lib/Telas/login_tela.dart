@@ -233,18 +233,14 @@ class _LoginTelaState extends State<LoginTela> {
                               SizedBox(
                                 height: 5,
                               ),
-                              GoogleSignInButton(
-                                darkMode: false,
-                                text: "Entre com o Google",
-                                onPressed: _botaoHabilitado
-                                    ? () {
-                                        setState(() {
-                                          _botaoHabilitado = false;
-                                        });
-                                        model.logarGoogle(onSuccess, onFail);
-                                      }
-                                    : null,
-                                borderRadius: 50,
+                              TextButton(
+                                onPressed: ()async {
+                                  setState(() {
+                                    _botaoHabilitado = false;
+                                  });
+                                  await model.logarGoogle(onSuccess, onFail);
+                                },
+                                child: Text("Entre com o Google"),
                               ),
                               Container(
                                 child: Center(

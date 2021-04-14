@@ -45,6 +45,7 @@ class Api {
             }));
 
     if (response.statusCode != 200) {
+      print(response.data);
       throw _formataErro(response.data);
     }
   }

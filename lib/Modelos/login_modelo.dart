@@ -105,9 +105,9 @@ class LoginModelo extends Model {
         throw Exception("Erro ao logar");
       });
 
-      _salvarDadosUsuarioGoogle(googleUser, auth.accessToken!);
+      await _salvarDadosUsuarioGoogle(googleUser, auth.accessToken!);
       onSucess();
-    } on DioError catch (error) {
+    } on Exception catch (error) {
       print(error);
       onFail();
       isCarregando = false;
@@ -116,27 +116,24 @@ class LoginModelo extends Model {
 
   Future<Null> _salvarDadosUsuarioGoogle(
       GoogleSignInAccount user, String googleToken) async {
-    Login login = Login(
-      nome: user.displayName!,
-      email: user.email,
-      imagem: user.photoUrl!,
-      senha: googleToken,
-      isCabeleireiro: false,
-      salaoId: null,
-      isDonoSalao: false,
-      isGoogle: true,
-    );
-    try {
-      Dio dio = Dio();
-      FormData data = FormData.fromMap(login.toJson());
-      var response = await dio.post(_url + "login/google", data: data);
-
+    Dio dio = Dio();
+    FormData data = FormData.fromMap({
+      "email": user.email,
+      "token": googleToken,
+    });
+    var response = await dio.post(_url + "login/google",
+        data: data,
+        options: Options(
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! <= 500;
+            }));
+    if (response.statusCode != 200) {
+      throw Exception("Erro no login");
+    } else
       _salvarDados(
           response.data['user'], response.data['access_token'], googleToken,
           isGoogle: true);
-    } catch (e) {
-      print(e);
-    }
   }
 
   Future<Null> logout() async {
