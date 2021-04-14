@@ -41,13 +41,13 @@ class _HomeTelaState extends State<HomeTela> {
   @override
   void initState() {
     store = HomeStore();
-    super.initState();
     store.status = SharedPreferencesControle.getPermissionStatus();
     store.setEndereco(SharedPreferencesControle.getEndereco());
     if (store.endereco.isNotEmpty) {
       latitude = SharedPreferencesControle.getPosition().latitude.toString();
       longitude = SharedPreferencesControle.getPosition().longitude.toString();
     }
+    super.initState();
   }
 
   @override
@@ -142,14 +142,14 @@ class _HomeTelaState extends State<HomeTela> {
                       if (!response.hasData) {
                         return ShimmerCustom(3);
                       } else {
-                        if (response.data!.statusCode == 404) {
+                        if (response.data!.statusCode == 204) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  response.data!.body,
+                                  "Não há salões para a sua cidade atualmente",
                                   textAlign: TextAlign.justify,
                                 ),
                                 TextButton(

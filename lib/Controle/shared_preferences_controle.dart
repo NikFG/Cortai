@@ -67,11 +67,13 @@ class SharedPreferencesControle {
     return await _prefs.setInt("status", status);
   }
 
-  static getPermissionStatus() {
+  static PermissionStatus getPermissionStatus() {
     try {
+      print(_prefs.getInt("status"));
+      print(PermissionStatus.values[_prefs.getInt("status")!]);
       return PermissionStatus.values[_prefs.getInt("status")!];
     } catch (e) {
-      return -1;
+      return PermissionStatus.denied;
     }
   }
 }
