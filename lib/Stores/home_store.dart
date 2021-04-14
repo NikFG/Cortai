@@ -10,7 +10,7 @@ abstract class _HomeStore with Store {
   String endereco = '';
 
   @observable
-  late PermissionStatus status;
+  PermissionStatus? status;
 
   @action
   setEndereco(String endereco) async {
@@ -23,7 +23,7 @@ abstract class _HomeStore with Store {
   bool get getPermissao => _showTela();
 
   bool _showTela() {
-    if (endereco.isEmpty && (status.isDenied || status.isPermanentlyDenied)) {
+    if (endereco.isEmpty && (status!.isDenied || status!.isPermanentlyDenied)) {
       return true;
     }
     return false;

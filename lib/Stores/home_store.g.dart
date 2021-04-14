@@ -35,13 +35,13 @@ mixin _$HomeStore on _HomeStore, Store {
   final _$statusAtom = Atom(name: '_HomeStore.status');
 
   @override
-  PermissionStatus get status {
+  PermissionStatus? get status {
     _$statusAtom.reportRead();
     return super.status;
   }
 
   @override
-  set status(PermissionStatus value) {
+  set status(PermissionStatus? value) {
     _$statusAtom.reportWrite(value, super.status, () {
       super.status = value;
     });
