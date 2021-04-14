@@ -151,7 +151,11 @@ class LoginModelo extends Model {
     this.token = token;
     dados = Login.fromJson(login);
     _storage.write(key: 'login', value: dados!.email);
-    _storage.write(key: 'senha', value: senha);
+    if (isGoogle) {
+      _storage.write(key: "token", value: senha);
+    } else {
+      _storage.write(key: 'senha', value: senha);
+    }
     _storage.write(key: 'isGoogle', value: isGoogle.toString());
   }
 
@@ -163,14 +167,22 @@ class LoginModelo extends Model {
     isCarregando = true;
     String? email = await _storage.read(key: 'login');
     String? senha = await _storage.read(key: 'senha');
+    String? token = await _storage.read(key: "token");
     bool isGoogle = await _storage.read(key: 'isGoogle') == 'true';
-    if (email != null && senha != null) {
+    if (email != null && (senha != null || token != null)) {
       Dio dio = Dio();
-      FormData formData = FormData.fromMap({"email": email, "password": senha});
+      late Map<String, dynamic> map;
+      if (isGoogle) {
+        map = {"email": email, "token": token};
+      } else {
+        map = {"email": email, "password": senha};
+      }
+      FormData formData = FormData.fromMap(map);
       String google = isGoogle ? "/google" : "";
 
       var response = await dio.post(_url + "login" + google, data: formData);
-      _salvarDados(response.data['user'], response.data['access_token'], senha,
+      _salvarDados(response.data['user'], response.data['access_token'],
+          isGoogle ? token! : senha!,
           isGoogle: isGoogle);
     }
     isCarregando = false;
