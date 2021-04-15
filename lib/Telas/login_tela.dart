@@ -3,12 +3,11 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'cadastro_tela.dart';
 import 'index_tela.dart';
@@ -26,6 +25,7 @@ class _LoginTelaState extends State<LoginTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     Util.corPrimariaStatusBar(context);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
@@ -60,8 +60,8 @@ class _LoginTelaState extends State<LoginTela> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 30.0.h,
+                          width: deviceInfo.size.width,
+                          height: 30.5.h,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
@@ -85,7 +85,7 @@ class _LoginTelaState extends State<LoginTela> {
                                     'assets/icons/icon_white_transparent.png',
                                   ),
                                   height: 30.0.h,
-                                  width: 30.0.h,
+                                  width: 30.0.w,
                                 ),
                               ),
                               Spacer(),
@@ -93,7 +93,7 @@ class _LoginTelaState extends State<LoginTela> {
                           ),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width,
+                          width: deviceInfo.size.width,
                           padding: EdgeInsets.only(top: 62),
                           child: Column(
                             children: <Widget>[
@@ -143,7 +143,6 @@ class _LoginTelaState extends State<LoginTela> {
                                     materialTapTargetSize:
                                         MaterialTapTargetSize.shrinkWrap,
                                     minWidth: 0,
-                                    height: 0,
                                     child: TextButton(
                                       onPressed: () async {
                                         if (_emailControlador.text.isNotEmpty) {
@@ -179,8 +178,8 @@ class _LoginTelaState extends State<LoginTela> {
                               ),
                               Container(
                                 height: 45,
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                child: RaisedButton(
+                                width: deviceInfo.size.width / 1.2,
+                                child: ElevatedButton(
                                   onPressed: _botaoHabilitado
                                       ? () {
                                           if (_formKey.currentState!
@@ -209,9 +208,12 @@ class _LoginTelaState extends State<LoginTela> {
                                       : Center(
                                           child: CircularProgressIndicator(),
                                         ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50)),
-                                  color: Color(0xFFf45d27),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xFFf45d27),
+                                    shape: const BeveledRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                  ),
                                 ),
                               ),
                               SizedBox(
@@ -234,7 +236,7 @@ class _LoginTelaState extends State<LoginTela> {
                                 height: 5,
                               ),
                               TextButton(
-                                onPressed: ()async {
+                                onPressed: () async {
                                   setState(() {
                                     _botaoHabilitado = false;
                                   });
