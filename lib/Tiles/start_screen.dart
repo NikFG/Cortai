@@ -38,7 +38,9 @@ class _StartScreenState extends State<StartScreen> {
       duration: Duration(milliseconds: 150),
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       height: 8.0,
-      width: isActive ? 24.0 : 16.0,
+      width: isActive
+          ? MediaQuery.of(context).size.width * 24 / 100
+          : MediaQuery.of(context).size.width * 16 / 100,
       decoration: BoxDecoration(
         color: isActive ? Colors.white : Theme.of(context).primaryColor,
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -50,6 +52,7 @@ class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
     // var screenFactor = MediaQuery.of(context).textScaleFactor;
 
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -79,13 +82,13 @@ class _StartScreenState extends State<StartScreen> {
                       'Pular',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18.0,
+                        fontSize: 18,
                       ),
                     ),
                   ),
                 ),
                 Container(
-                  height: 70.0,
+                  height: deviceInfo.size.height * 7 / 10,
                   child: PageView(
                     physics: ClampingScrollPhysics(),
                     controller: _pageController,
@@ -106,16 +109,16 @@ class _StartScreenState extends State<StartScreen> {
                                   'assets/images/BarberMan.png',
                                 ),
                                 fit: BoxFit.contain,
-                                height: 40.0,
-                                width: 100.0,
+                                height: deviceInfo.size.height * 4 / 10,
+                                width: deviceInfo.size.width,
                               ),
                             ),
-                            SizedBox(height: 1.0),
+                            SizedBox(height: 10),
                             Text(
                               'Encontre o profissional que você precisa',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 1.0),
+                            SizedBox(height: 10),
                             Text(
                               "Os melhores profissionais estão a alguns toques de distância.",
                               textAlign: TextAlign.justify,
@@ -135,16 +138,16 @@ class _StartScreenState extends State<StartScreen> {
                                   'assets/images/BarberMan2.png',
                                 ),
                                 fit: BoxFit.contain,
-                                height: 40.0,
-                                width: 100.0,
+                                height: deviceInfo.size.height * 4 / 10,
+                                width: deviceInfo.size.width,
                               ),
                             ),
-                            SizedBox(height: 2.0),
+                            SizedBox(height: deviceInfo.size.height * 2 / 100),
                             Text(
                               'Quando você precisar\nEstaremos aqui!',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 1.0),
+                            SizedBox(height: deviceInfo.size.height * 1 / 100),
                             Text(
                               'Os profissionais cadastrados recebem qualificações por seus serviços, não se esqueça de deixar a sua avaliação!',
                               textAlign: TextAlign.justify,
@@ -164,16 +167,16 @@ class _StartScreenState extends State<StartScreen> {
                                   'assets/images/Saude.png',
                                 ),
                                 fit: BoxFit.contain,
-                                height: 40.0,
-                                width: 100.0,
+                                height: deviceInfo.size.height * 4 / 10,
+                                width: deviceInfo.size.width,
                               ),
                             ),
-                            SizedBox(height: 1.0),
+                            SizedBox(height: deviceInfo.size.height * 1 / 100),
                             Text(
                               'Saúde e Segurança\nem primeiro lugar',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 1.0),
+                            SizedBox(height: deviceInfo.size.height * 1 / 100),
                             Text(
                               'Recomendamos a todos os profissionais e clientes a seguirem sempre as normas de saúde divulgadas pela OMS',
                               textAlign: TextAlign.justify,
