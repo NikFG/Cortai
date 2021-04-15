@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
 
 import 'Controle/shared_preferences_controle.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesControle.getInstace();
-  bool logado = await FlutterSecureStorage().containsKey(key: "senha") || await FlutterSecureStorage().containsKey(key: "token");
+  bool logado = await FlutterSecureStorage().containsKey(key: "senha") ||
+      await FlutterSecureStorage().containsKey(key: "token");
 
   runApp(MyApp(logado));
 }
@@ -31,8 +31,6 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           //return OrientationBuilder necessário para o uso da biblioteca Sizer!
           builder: (context, orientation) {
-            //initialize SizerUtil() necessário para o uso da biblioteca Sizer!
-            SizerUtil().init(constraints, orientation);
             return ScopedModel<LoginModelo>(
               model: LoginModelo(),
               child: MaterialApp(
