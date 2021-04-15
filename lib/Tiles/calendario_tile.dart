@@ -5,7 +5,7 @@ import 'package:cortai/Telas/detalhes_cabelereiro_agendado_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CalendarioTile extends StatefulWidget {
   final Horario horario;
