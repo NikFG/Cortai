@@ -68,7 +68,7 @@ class _CadastroFuncionamentoTileState extends State<CadastroFuncionamentoTile> {
                                   TextButton(
                                     onPressed: () async {
                                       await FuncionamentoControle.delete(
-                                          dados.id, token,
+                                          dados.id!, token,
                                           onSuccess: onSuccessDeletado,
                                           onFail: onFailDeletado);
                                       Navigator.of(context).pop();

@@ -20,7 +20,7 @@ class FuncionamentoControle {
       required void onFail(String error)}) async {
     try {
       Api api = Api();
-      await api.update(_url, dados.toJson(), token, dados.id);
+      await api.update(_url, dados.toJson(), token, dados.id!);
       onSuccess();
     } catch (e) {
       onFail(e.toString());
