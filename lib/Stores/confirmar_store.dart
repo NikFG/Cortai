@@ -31,15 +31,16 @@ abstract class _ConfirmarStore with Store {
     isLoading = true;
     var response = await http.get(uri, headers: Util.token(token));
     statusCode = response.statusCode;
-    print(response.body);
-    data = json.decode(response.body);
-    data.forEach((element) {
-      if (element['confirmado'] == 1) {
-        confirmados.add(Horario.fromJson(element));
-      } else {
-        naoConfirmados.add(Horario.fromJson(element));
-      }
-    });
+    if (statusCode == 200) {
+      data = json.decode(response.body);
+      data.forEach((element) {
+        if (element['confirmado'] == 1) {
+          confirmados.add(Horario.fromJson(element));
+        } else {
+          naoConfirmados.add(Horario.fromJson(element));
+        }
+      });
+    }
     // horarios =
     //     data.map<Horario>((h) => Horario.fromJson(h)).toList().asObservable();
     isLoading = false;
