@@ -14,14 +14,14 @@ import 'package:cortai/Util/api.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
-
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'index_tela.dart';
 
 class AgendaTela extends StatefulWidget {
@@ -199,7 +199,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                         Padding(
                           padding: EdgeInsets.all(24),
                           child: Observer(builder: (context) {
-                           /* if (store.isEmpty &&
+                            /* if (store.isEmpty &&
                                 cabeleireiroSelecionado != null) {
                               store.firePusher(
                                   cabeleireiroSelecionado, model.token);
