@@ -38,6 +38,11 @@ class CalendarioTela extends StatelessWidget {
             if (store.isLoading) {
               return ShimmerCustom(4);
             } else {
+              if (store.isAllEmpty) {
+                return Center(
+                  child: Text("Não há horários no calendário"),
+                );
+              }
               return ListView(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),

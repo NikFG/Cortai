@@ -26,25 +26,33 @@ class ConfirmarTela extends StatelessWidget {
                         displacement: MediaQuery.of(context).size.width / 2,
                         color: Theme.of(context).primaryColor,
                         onRefresh: () => store.getData(
-                            HorarioControle.getCabeleireiroAux(), model.token),
+                            HorarioControle.getCabeleireiroAux(),
+                            model.token),
                         // child: store.statusCode == 200?
                         child: Observer(
                           builder: (context) {
-                            var widgets = store.naoConfirmados
-                                .map<Widget>((h) => ConfirmarTile(
-                                      h,
-                                      confirmadoChanged: (int value) {
-                                        int index = store.naoConfirmados
-                                            .indexWhere((element) =>
-                                                element.id == value);
-                                        store.mudaLista(index);
-                                      },
-                                    ))
-                                .toList();
-                            return ListView(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              children: widgets,
-                            );
+                            if (store.statusCode == 204 ||
+                                store.contNaoConfirmados == 0) {
+                              return Center(
+                                child: Text("Não há horários para confirmar"),
+                              );
+                            } else {
+                              var widgets = store.naoConfirmados
+                                  .map<Widget>((h) => ConfirmarTile(
+                                        h,
+                                        confirmadoChanged: (int value) {
+                                          int index = store.naoConfirmados
+                                              .indexWhere((element) =>
+                                                  element.id == value);
+                                          store.mudaLista(index);
+                                        },
+                                      ))
+                                  .toList();
+                              return ListView(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                children: widgets,
+                              );
+                            }
                           },
                         ));
                   }
@@ -62,15 +70,22 @@ class ConfirmarTela extends StatelessWidget {
                             HorarioControle.getCabeleireiroAux(), model.token),
                         child: Observer(
                           builder: (context) {
-                            var widgets = store.confirmados
-                                .map<Widget>((h) => ConfirmarTile(
-                                      h,
-                                    ))
-                                .toList();
-                            return ListView(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              children: widgets,
-                            );
+                            if (store.statusCode == 204 ||
+                                store.contConfirmados == 0) {
+                              return Center(
+                                child: Text("Não há horários confirmados"),
+                              );
+                            } else {
+                              var widgets = store.confirmados
+                                  .map<Widget>((h) => ConfirmarTile(
+                                        h,
+                                      ))
+                                  .toList();
+                              return ListView(
+                                physics: AlwaysScrollableScrollPhysics(),
+                                children: widgets,
+                              );
+                            }
                           },
                         ));
                   }

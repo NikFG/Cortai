@@ -8,7 +8,7 @@ part of 'funcionamento.dart';
 
 Funcionamento _$FuncionamentoFromJson(Map<String, dynamic> json) {
   return Funcionamento()
-    ..id = json['id'] as int
+    ..id = json['id'] as int?
     ..diaSemana = json['dia_semana'] as String
     ..horarioAbertura = json['horario_abertura'] as String
     ..horarioFechamento = json['horario_fechamento'] as String

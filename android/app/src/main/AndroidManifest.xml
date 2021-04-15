@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBN_mWl_3BjJLCPkKzCKaCqu2Wv8pe0UFw" />
+            android:value="AIzaSyAtWVw-2Emv3dq2VxuDiDILFPoYrcvh8K8" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_teste" />

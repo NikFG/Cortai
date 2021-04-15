@@ -195,7 +195,12 @@ class LoginModelo extends Model {
   Future<bool> recuperarSenha(String email) async {
     Dio dio = Dio();
     var response = await dio.post(_url + "login/reset",
-        data: FormData.fromMap({'email': email}));
+        data: FormData.fromMap({'email': email}),
+        options: Options(
+            followRedirects: false,
+            validateStatus: (status) {
+              return status! <= 500;
+            }));
     print(response.data);
     return response.statusCode == 200;
   }

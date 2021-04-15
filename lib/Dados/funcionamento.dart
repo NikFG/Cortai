@@ -4,7 +4,7 @@ part 'funcionamento.g.dart';
 
 @JsonSerializable()
 class Funcionamento {
-  late int id;
+  int? id;
   @JsonKey(name: 'dia_semana')
   late String diaSemana;
   @JsonKey(name: 'horario_abertura')

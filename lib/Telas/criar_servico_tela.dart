@@ -246,7 +246,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                           _botaoHabilitado = false;
                         });
                         Servico dados =
-                            (widget.dados != null ? widget.dados : Servico())!;
+                            widget.dados != null ? widget.dados! : Servico();
                         dados.descricao = _nomeControlador.text;
                         dados.setValor(_precoControlador.text);
                         dados.salaoId = model.dados!.salaoId;
@@ -260,7 +260,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                           ServicoControle.update(
                               dados: dados,
                               token: model.token,
-                              imagem: _imagem!,
+                              imagem: _imagem,
                               onSuccess: onUpdateSuccess,
                               onFail: onFail);
                         } else {
@@ -270,7 +270,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                           ServicoControle.store(
                               dados: dados,
                               token: model.token,
-                              imagem: _imagem!,
+                              imagem: _imagem,
                               onSuccess: onSuccess,
                               onFail: onFail);
                         }
