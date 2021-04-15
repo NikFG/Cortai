@@ -251,7 +251,7 @@ class LoginModelo extends Model {
             validateStatus: (status) {
               return status! <= 500;
             }));
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       await carregarDados();
       onSucess();
     } else {
