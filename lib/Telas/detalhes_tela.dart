@@ -11,11 +11,12 @@ import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DetalhesTela extends StatelessWidget {
   final Horario horario;
@@ -76,12 +77,12 @@ class DetalhesTela extends StatelessWidget {
                           ListTile(
                               leading: horario.confirmado!
                                   ? Icon(
-                                      FontAwesome.check_circle_o,
+                                      FontAwesome5.check_circle,
                                       color: Colors.green,
                                       size: 35,
                                     )
                                   : Icon(
-                                      FontAwesome.times_circle_o,
+                                      FontAwesome5.times_circle,
                                       color: Colors.red,
                                       size: 35,
                                     ),
