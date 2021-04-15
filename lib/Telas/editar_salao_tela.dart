@@ -9,7 +9,7 @@ import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -262,7 +262,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
       this.dados = widget.salao!;
       _nomeController.text = dados.nome!;
       _enderecoController.text = dados.endereco!;
-      _telefoneController.text = dados.telefone;
+      _telefoneController.text = dados.telefone == null ? "" : dados.telefone!;
       latlng = LatLng(this.dados.latitude!, this.dados.longitude!);
       _cidade = this.dados.cidade!;
     } else {

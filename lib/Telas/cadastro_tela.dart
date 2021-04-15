@@ -5,10 +5,11 @@ import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+
 import 'package:password_strength/password_strength.dart';
 
 class CadastroTela extends StatefulWidget {

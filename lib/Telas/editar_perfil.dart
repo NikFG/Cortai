@@ -6,7 +6,7 @@ import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'index_tela.dart';
@@ -30,7 +30,8 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
   void initState() {
     super.initState();
     _nomeControlador.text = widget.login.nome;
-    _telefoneControlador.text = widget.login.telefone;
+    _telefoneControlador.text =
+        widget.login.telefone == null ? "" : widget.login.telefone!;
   }
 
   @override

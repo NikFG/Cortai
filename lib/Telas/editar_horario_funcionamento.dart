@@ -7,7 +7,7 @@ import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
