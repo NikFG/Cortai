@@ -3,9 +3,9 @@ import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ConfirmarTile extends StatefulWidget {
@@ -67,12 +67,12 @@ class _ConfirmarTileState extends State<ConfirmarTile>
         Text("Pago:"),
         widget.horario.pago!
             ? Icon(
-                FontAwesome.check,
+                FontAwesome5.check,
                 color: Colors.green,
                 size: 32,
               )
             : Icon(
-                FontAwesome.times,
+                FontAwesome5.times,
                 color: Colors.red,
                 size: 32,
               ),
