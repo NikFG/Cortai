@@ -30,6 +30,13 @@ mixin _$CalendarioStore on _CalendarioStore, Store {
       (_$isMesEmptyComputed ??= Computed<bool>(() => super.isMesEmpty,
               name: '_CalendarioStore.isMesEmpty'))
           .value;
+  Computed<bool>? _$isAllEmptyComputed;
+
+  @override
+  bool get isAllEmpty =>
+      (_$isAllEmptyComputed ??= Computed<bool>(() => super.isAllEmpty,
+              name: '_CalendarioStore.isAllEmpty'))
+          .value;
 
   final _$horariosHojeAtom = Atom(name: '_CalendarioStore.horariosHoje');
 
@@ -107,7 +114,8 @@ horariosMes: ${horariosMes},
 isLoading: ${isLoading},
 isHojeEmpty: ${isHojeEmpty},
 isSeteEmpty: ${isSeteEmpty},
-isMesEmpty: ${isMesEmpty}
+isMesEmpty: ${isMesEmpty},
+isAllEmpty: ${isAllEmpty}
     ''';
   }
 }
