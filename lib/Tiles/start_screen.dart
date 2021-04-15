@@ -15,13 +15,13 @@ class _StartScreenState extends State<StartScreen> {
 
   final tituloStyle = TextStyle(
     color: Colors.white,
-    fontSize: 22.0.sp,
+    fontSize: 22.0,
     height: 1.5,
   );
 
   final subTituloStyle = TextStyle(
     color: Colors.white,
-    fontSize: 14.0.sp,
+    fontSize: 14.0,
     height: 1.2,
   );
 
@@ -38,7 +38,7 @@ class _StartScreenState extends State<StartScreen> {
       duration: Duration(milliseconds: 150),
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       height: 8.0,
-      width: isActive ? 24.0.w : 16.0.w,
+      width: isActive ? 24.0 : 16.0,
       decoration: BoxDecoration(
         color: isActive ? Colors.white : Theme.of(context).primaryColor,
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -79,13 +79,13 @@ class _StartScreenState extends State<StartScreen> {
                       'Pular',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18.0.sp,
+                        fontSize: 18.0,
                       ),
                     ),
                   ),
                 ),
                 Container(
-                  height: 70.0.h,
+                  height: 70.0,
                   child: PageView(
                     physics: ClampingScrollPhysics(),
                     controller: _pageController,
@@ -106,16 +106,16 @@ class _StartScreenState extends State<StartScreen> {
                                   'assets/images/BarberMan.png',
                                 ),
                                 fit: BoxFit.contain,
-                                height: 40.0.h,
-                                width: 100.0.w,
+                                height: 40.0,
+                                width: 100.0,
                               ),
                             ),
-                            SizedBox(height: 1.0.h),
+                            SizedBox(height: 1.0),
                             Text(
                               'Encontre o profissional que você precisa',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 1.0.h),
+                            SizedBox(height: 1.0),
                             Text(
                               "Os melhores profissionais estão a alguns toques de distância.",
                               textAlign: TextAlign.justify,
@@ -135,16 +135,16 @@ class _StartScreenState extends State<StartScreen> {
                                   'assets/images/BarberMan2.png',
                                 ),
                                 fit: BoxFit.contain,
-                                height: 40.0.h,
-                                width: 100.0.w,
+                                height: 40.0,
+                                width: 100.0,
                               ),
                             ),
-                            SizedBox(height: 2.0.h),
+                            SizedBox(height: 2.0),
                             Text(
                               'Quando você precisar\nEstaremos aqui!',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 1.0.h),
+                            SizedBox(height: 1.0),
                             Text(
                               'Os profissionais cadastrados recebem qualificações por seus serviços, não se esqueça de deixar a sua avaliação!',
                               textAlign: TextAlign.justify,
@@ -164,16 +164,16 @@ class _StartScreenState extends State<StartScreen> {
                                   'assets/images/Saude.png',
                                 ),
                                 fit: BoxFit.contain,
-                                height: 40.0.h,
-                                width: 100.0.w,
+                                height: 40.0,
+                                width: 100.0,
                               ),
                             ),
-                            SizedBox(height: 1.0.h),
+                            SizedBox(height: 1.0),
                             Text(
                               'Saúde e Segurança\nem primeiro lugar',
                               style: tituloStyle,
                             ),
-                            SizedBox(height: 1.0.h),
+                            SizedBox(height: 1.0),
                             Text(
                               'Recomendamos a todos os profissionais e clientes a seguirem sempre as normas de saúde divulgadas pela OMS',
                               textAlign: TextAlign.justify,
@@ -208,14 +208,14 @@ class _StartScreenState extends State<StartScreen> {
                                   'Próximo',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18.0.sp,
+                                    fontSize: 18.0,
                                   ),
                                 ),
                                 SizedBox(width: 10.0),
                                 Icon(
                                   Icons.arrow_forward,
                                   color: Colors.white,
-                                  size: 18.0.sp,
+                                  size: 18.0,
                                 ),
                               ],
                             ),

@@ -61,7 +61,7 @@ class _LoginTelaState extends State<LoginTela> {
                       children: <Widget>[
                         Container(
                           width: deviceInfo.size.width,
-                          height: 30.5.h,
+                          height: 30.5,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
@@ -84,8 +84,8 @@ class _LoginTelaState extends State<LoginTela> {
                                   image: AssetImage(
                                     'assets/icons/icon_white_transparent.png',
                                   ),
-                                  height: 30.0.h,
-                                  width: 30.0.w,
+                                  height: 30.0,
+                                  width: 30.0,
                                 ),
                               ),
                               Spacer(),
@@ -180,22 +180,19 @@ class _LoginTelaState extends State<LoginTela> {
                                 height: 45,
                                 width: deviceInfo.size.width / 1.2,
                                 child: ElevatedButton(
-                                  onPressed: _botaoHabilitado
-                                      ? () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            setState(() {
-                                              _botaoHabilitado = false;
-                                            });
-                                            model.logarEmail(
-                                                email: _emailControlador.text,
-                                                senha: _senhaControlador.text,
-                                                onSuccess: onSuccess,
-                                                onFail: onFail,
-                                                onVerifyEmail: onVerifyEmail);
-                                          }
-                                        }
-                                      : null,
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        _botaoHabilitado = false;
+                                      });
+                                      model.logarEmail(
+                                          email: _emailControlador.text,
+                                          senha: _senhaControlador.text,
+                                          onSuccess: onSuccess,
+                                          onFail: onFail,
+                                          onVerifyEmail: onVerifyEmail);
+                                    }
+                                  },
                                   child: _botaoHabilitado
                                       ? Text(
                                           'Login',

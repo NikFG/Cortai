@@ -178,31 +178,28 @@ class _CadastroTelaState extends State<CadastroTela> {
                             color: Color(0xFFf45d27),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50)),
-                            onPressed: _botaoHabilitado
-                                ? () {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() {
-                                        _botaoHabilitado = false;
-                                      });
-                                      LoginModelo login = LoginModelo();
-                                      var loginDados = Login(
-                                          email: _emailControlador.text,
-                                          nome: _nomeControlador.text,
-                                          telefone: _telefoneControlador.text,
-                                          isCabeleireiro: false,
-                                          salaoId: null,
-                                          imagem: null,
-                                          isDonoSalao: false,
-                                          senha:
-                                              _senhaConfirmaControlador.text);
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _botaoHabilitado = false;
+                                });
+                                LoginModelo login = LoginModelo();
+                                var loginDados = Login(
+                                    email: _emailControlador.text,
+                                    nome: _nomeControlador.text,
+                                    telefone: _telefoneControlador.text,
+                                    isCabeleireiro: false,
+                                    salaoId: null,
+                                    imagem: null,
+                                    isDonoSalao: false,
+                                    senha: _senhaControlador.text);
 
-                                      login.criarContaEmail(
-                                          login: loginDados,
-                                          onSuccess: onSuccess,
-                                          onFail: onFail);
-                                    }
-                                  }
-                                : null,
+                                login.criarContaEmail(
+                                    login: loginDados,
+                                    onSuccess: onSuccess,
+                                    onFail: onFail);
+                              }
+                            },
                             child: _botaoHabilitado
                                 ? Text(
                                     'Confirmar',

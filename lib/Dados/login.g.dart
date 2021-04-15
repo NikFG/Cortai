@@ -16,7 +16,7 @@ Login _$LoginFromJson(Map<String, dynamic> json) {
     isCabeleireiro: Conversao.trataBool(json['is_cabeleireiro'] as int?),
     isDonoSalao: Conversao.trataBool(json['is_dono_salao'] as int?),
     id: json['id'] as int?,
-    senha: json['password'] as String,
+    senha: json['password'] as String?,
     isGoogle: Conversao.trataBool(json['is_google'] as int?),
   );
 }
