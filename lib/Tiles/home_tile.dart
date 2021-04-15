@@ -37,25 +37,24 @@ class _HomeTileState extends State<HomeTile> {
           builder: (context) =>
               ServicoTela(salao: widget.dados, distancia: _distancia))),
       leading: GestureDetector(
-        onTap: () {
-          if (widget.dados.imagem != null) {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => HeroCustom(
-                      imagemMemory: widget.dados.imagem,
-                      descricao: widget.dados.nome,
-                    )));
-          }
-        },
-        // child: GFAvatar(
-        //   shape: GFAvatarShape.circle,
-        //   radius: 30,
-        //   backgroundColor: Colors.transparent,
-        //   backgroundImage: widget.dados.imagem != null
-        //       ? MemoryImage(base64Decode(widget.dados.imagem))
-        //       : AssetImage("assets/images/shop.png"),
-        // ),
-        child: Center(),
-      ),
+          onTap: () {
+            if (widget.dados.imagem != null) {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => HeroCustom(
+                        imagemMemory: widget.dados.imagem,
+                        descricao: widget.dados.nome,
+                      )));
+            }
+          },
+          // child: GFAvatar(
+          //   shape: GFAvatarShape.circle,
+          //   radius: 30,
+          //   backgroundColor: Colors.transparent,
+          //   backgroundImage: widget.dados.imagem != null
+          //       ? MemoryImage(base64Decode(widget.dados.imagem))
+          //       : AssetImage("assets/images/shop.png"),
+          // ),
+          child: Container(width: 0, height: 0)),
       onLongPress: () {
         _dialogDados(context);
       },
