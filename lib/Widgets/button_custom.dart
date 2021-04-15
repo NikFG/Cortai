@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:progress_indicators/progress_indicators.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ButtonCustom extends StatelessWidget {
   final String textoBotao;
@@ -23,10 +22,10 @@ class ButtonCustom extends StatelessWidget {
         child: botaoHabilitado
             ? Text(
                 this.textoBotao,
-                style: TextStyle(fontSize: 14.0.sp),
+                style: TextStyle(fontSize: 14.0),
               )
             : JumpingDotsProgressIndicator(
-                fontSize: 25.0.sp,
+                fontSize: 25.0,
               ),
         textColor: Colors.white,
         color: Theme.of(context).primaryColor,
