@@ -104,3 +104,5 @@ assets/images/News2.png
 assets/images/News3.png
 
 android/app/google-services-debug.json
+
+lib/Util/util.dart
