@@ -8,12 +8,12 @@ import 'package:cortai/Tiles/cadastro_funcionamento_tile.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/shimmer_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CadastroFuncionamentoTela extends StatefulWidget {
   CadastroFuncionamentoTela();
