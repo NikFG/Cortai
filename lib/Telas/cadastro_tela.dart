@@ -4,7 +4,7 @@ import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
