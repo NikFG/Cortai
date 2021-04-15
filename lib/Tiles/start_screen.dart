@@ -1,7 +1,7 @@
 import 'package:cortai/Telas/login_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class StartScreen extends StatefulWidget {
   @override
@@ -38,7 +38,7 @@ class _StartScreenState extends State<StartScreen> {
       duration: Duration(milliseconds: 150),
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       height: 8.0,
-      width: isActive ? 24.0 : 16.0,
+      width: isActive ? 24.0.w : 16.0.w,
       decoration: BoxDecoration(
         color: isActive ? Colors.white : Theme.of(context).primaryColor,
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -231,7 +231,7 @@ class _StartScreenState extends State<StartScreen> {
       bottomSheet: _currentPage == _numPages - 1
           ? Container(
               height: MediaQuery.of(context).size.height / 10,
-              width: double.infinity,
+              width: MediaQuery.of(context).size.width,
               color: Colors.white,
               child: GestureDetector(
                 onTap: () {
