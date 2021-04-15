@@ -13,15 +13,16 @@ import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'gerenciar_servico_tela.dart';
 import 'maps_tela.dart';
@@ -142,7 +143,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            FontAwesome.lightbulb_o,
+                            FontAwesome.lightbulb,
                             color: Colors.black54,
                           ),
                           SizedBox(width: 10),
@@ -205,7 +206,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            FontAwesome.info_circle,
+                            FontAwesome5.info_circle,
                             color: Colors.black54,
                           ),
                           SizedBox(width: 10),
@@ -231,7 +232,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            FontAwesome.power_off,
+                            FontAwesome5.power_off,
                             color: Colors.black54,
                           ),
                           SizedBox(width: 10),
@@ -273,7 +274,7 @@ class _PerfilTelaState extends State<PerfilTela> {
             child: Row(
               children: <Widget>[
                 Icon(
-                  FontAwesome.clock_o,
+                  FontAwesome.clock,
                   color: Colors.black54,
                 ),
                 SizedBox(width: 10),
@@ -304,7 +305,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   ? Row(
                       children: <Widget>[
                         Icon(
-                          FontAwesome.address_book_o,
+                          FontAwesome5.address_book,
                           color: Colors.black54,
                         ),
                         SizedBox(width: 10),
@@ -319,7 +320,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   : Row(
                       children: <Widget>[
                         Icon(
-                          FontAwesome.address_book_o,
+                          FontAwesome5.address_book,
                           color: Colors.black54,
                         ),
                         SizedBox(width: 10),
