@@ -19,11 +19,10 @@ dependencies:
   cupertino_icons: ^1.0.0
   dio: ^4.0.0
   email_validator: ^2.0.1
-  flushbar: 1.10.4
-  flutter_auth_buttons: 0.10.0
+  another_flushbar: ^1.10.17
   flutter_bcrypt: ^1.0.5
   flutter_google_places: ^0.3.0
-  flutter_icons: ^1.1.0
+  fluttericon: ^2.0.0
   flutter_launcher_icons: ^0.9.0
   flutter_masked_text: ^0.8.0
   flutter_mobx: ^2.0.0
@@ -46,6 +45,7 @@ dependencies:
   photo_view: ^0.11.1
   progress_indicators: ^1.0.0
   rxdart: ^0.26.0
+  responsive_sizer: ^1.1.0+1
   scoped_model: ^2.0.0-nullsafety.0
   shared_preferences: ^2.0.5
   shimmer: ^2.0.0
@@ -53,9 +53,10 @@ dependencies:
   social_share: ^2.1.1
   url_launcher: ^6.0.3
   webview_flutter: ^2.0.4
-  sizer: ^1.1.8
   flutter_geocoder: ^0.2.2-nullsafety
   encrypt: ^5.0.0
+  animated_splash_screen: ^1.1.0
+  page_transition: ^2.0.1-nullsafety.0
 
 
 flutter_icons:
