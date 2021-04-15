@@ -61,7 +61,7 @@ class _LoginTelaState extends State<LoginTela> {
                       children: <Widget>[
                         Container(
                           width: deviceInfo.size.width,
-                          height: 30.5,
+                          height: MediaQuery.of(context).size.height * 3 / 10,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
@@ -84,8 +84,12 @@ class _LoginTelaState extends State<LoginTela> {
                                   image: AssetImage(
                                     'assets/icons/icon_white_transparent.png',
                                   ),
-                                  height: 30.0,
-                                  width: 30.0,
+                                  height: MediaQuery.of(context).size.height *
+                                      3 /
+                                      10,
+                                  width: MediaQuery.of(context).size.width *
+                                      4 /
+                                      10,
                                 ),
                               ),
                               Spacer(),
@@ -206,11 +210,11 @@ class _LoginTelaState extends State<LoginTela> {
                                           child: CircularProgressIndicator(),
                                         ),
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xFFf45d27),
-                                    shape: const BeveledRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(50))),
-                                  ),
+                                      primary: Color(0xFFf45d27),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      )),
                                 ),
                               ),
                               SizedBox(
