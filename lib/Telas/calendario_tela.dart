@@ -24,7 +24,7 @@ class CalendarioTela extends StatelessWidget {
               child: Center(
                 child: Text(
                   "Agenda Salão",
-                  style: TextStyle(fontSize: 18.0.sp, color: Colors.black),
+                  style: TextStyle(fontSize: 18.0, color: Colors.black),
                 ),
               ),
             ),
@@ -52,7 +52,7 @@ class CalendarioTela extends StatelessWidget {
                     child: Text(
                       "Hoje",
                       style: TextStyle(
-                        fontSize: 16.0.sp,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -83,7 +83,7 @@ class CalendarioTela extends StatelessWidget {
                     child: Text(
                       "Próximos sete dias",
                       style: TextStyle(
-                        fontSize: 16.0.sp,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -114,7 +114,7 @@ class CalendarioTela extends StatelessWidget {
                     child: Text(
                       "Futuro",
                       style: TextStyle(
-                        fontSize: 16.0.sp,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

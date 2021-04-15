@@ -174,7 +174,7 @@ class _IndexTelaState extends State<IndexTela> {
                                 "Confirmar horários",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 16.0.sp,
+                                  fontSize: 16.0,
                                 ),
                               ),
                               centerTitle: true,
