@@ -2,7 +2,7 @@ import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Telas/dia_funcionamento_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 
 class CadastroFuncionamentoTile extends StatefulWidget {
