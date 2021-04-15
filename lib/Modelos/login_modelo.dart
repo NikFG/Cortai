@@ -48,11 +48,19 @@ class LoginModelo extends Model {
 
     try {
       FormData formData = new FormData.fromMap(login.toJson());
-      var response = await dio.post(_url + "user/create", data: formData);
-      if (response.statusCode == 200)
+      var response = await dio.post(_url + "user/create",
+          data: formData,
+          options: Options(
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! <= 500;
+              }));
+      if (response.statusCode == 201)
         onSuccess();
-      else
+      else {
+        print(response.data);
         onFail();
+      }
     } catch (e) {
       print(e);
       onFail();
