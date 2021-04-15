@@ -5,13 +5,14 @@ import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const API_KEY = "AIzaSyBN_mWl_3BjJLCPkKzCKaCqu2Wv8pe0UFw";
+const API_KEY = "AIzaSyAtWVw-2Emv3dq2VxuDiDILFPoYrcvh8K8";
 
 class MapsTela extends StatefulWidget {
   final ValueChanged<String> enderecoChanged;
@@ -96,14 +97,15 @@ class _MapsTelaState extends State<MapsTela> {
                   new Coordinates(latLng.latitude, latLng.longitude);
               var endereco = await Geocoder.local
                   .findAddressesFromCoordinates(coordinates);
-              procuraController.text = endereco.first.addressLine!;
-              widget.cidadeChanged(endereco.first.subAdminArea!);
+              procuraController.text = endereco.first.addressLine == null
+                  ? ""
+                  : endereco.first.addressLine!;
+              widget.cidadeChanged(endereco.first.subAdminArea == null
+                  ? ""
+                  : endereco.first.subAdminArea!);
             },
             initialCameraPosition: CameraPosition(target: latLng, zoom: 1),
             markers: _markers,
-//                );
-//              }
-//            },
           ),
           Positioned(
             top: 10,
@@ -170,6 +172,9 @@ class _MapsTelaState extends State<MapsTela> {
       apiKey: API_KEY,
       mode: Mode.overlay,
       onError: onError,
+      types: ["locality"],
+      components: [Component(Component.country, "br")],
+      strictbounds: false,
       language: "pt",
     );
     _mostraPrevisao(p);
