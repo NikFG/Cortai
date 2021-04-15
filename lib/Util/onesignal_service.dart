@@ -1,5 +1,3 @@
-import 'package:cortai/Util/util.dart';
-import 'package:dio/dio.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class OneSignalService {
