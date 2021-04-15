@@ -5,7 +5,8 @@ import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Util/pusher_service.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 
 class BottomCustom extends StatefulWidget {
@@ -33,7 +34,7 @@ class _BottomCustomState extends State<BottomCustom> {
       itensCabeleireiro(widget.usuario);
     }
     itens.add(BottomNavigationBarItem(
-      icon: Icon(FontAwesome.user_circle_o),
+      icon: Icon(FontAwesome5.user_circle),
       label: "Perfil",
     ));
 
@@ -71,7 +72,7 @@ class _BottomCustomState extends State<BottomCustom> {
         label: "Início",
       ),
       BottomNavigationBarItem(
-        icon: Icon(FontAwesome.calendar_o),
+        icon: Icon(FontAwesome5.calendar),
         label: "Agenda",
       ),
     ];
