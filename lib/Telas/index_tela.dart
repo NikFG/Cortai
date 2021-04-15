@@ -5,12 +5,12 @@ import 'package:cortai/Telas/perfil_tela.dart';
 import 'package:cortai/Util/onesignal_service.dart';
 import 'package:cortai/Widgets/bottom_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'home_tela.dart';
 
@@ -39,7 +39,6 @@ class _IndexTelaState extends State<IndexTela> {
     final _pageController = PageController(initialPage: index);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
-
         if (model.dados != null) {
           oss.gravaIdExterna(model.dados!.isCabeleireiro,
               model.dados!.isDonoSalao, model.dados!.id!);
@@ -102,7 +101,7 @@ class _IndexTelaState extends State<IndexTela> {
                         centerTitle: true,
                         actions: <Widget>[
                           PopupMenuButton(
-                            icon: Icon(FontAwesome.ellipsis_v),
+                            icon: Icon(FontAwesome.ellipsis),
                             itemBuilder: (context) => [
                               PopupMenuItem(
                                 value: 1,
