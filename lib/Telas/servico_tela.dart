@@ -11,10 +11,10 @@ import 'package:cortai/Widgets/appbar_custom.dart';
 import 'package:cortai/Widgets/appbar_extendida_custom.dart';
 import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'galeria_tela.dart';
 
