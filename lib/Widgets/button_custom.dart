@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:progress_indicators/progress_indicators.dart';
-import 'package:sizer/sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ButtonCustom extends StatelessWidget {
   final String textoBotao;
