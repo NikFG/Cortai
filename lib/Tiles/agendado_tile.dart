@@ -6,11 +6,12 @@ import 'package:cortai/Telas/detalhes_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 
 class AgendadoTile extends StatefulWidget {
   final Horario horario;
@@ -62,7 +63,7 @@ class _AgendadoTileState extends State<AgendadoTile>
               child: Column(
                 children: <Widget>[
                   Icon(
-                    FontAwesome.star_o,
+                    FontAwesome.star,
                     color: Colors.amberAccent,
                   ),
                   SizedBox(
@@ -181,12 +182,12 @@ class _AgendadoTileState extends State<AgendadoTile>
         Text("Confirmado:"),
         widget.horario.confirmado!
             ? Icon(
-                FontAwesome.check_circle_o,
+                FontAwesome5.check_circle,
                 color: Colors.green,
                 size: 35,
               )
             : Icon(
-                FontAwesome.times_circle_o,
+                FontAwesome5.times_circle,
                 color: Colors.red,
                 size: 35,
               ),
