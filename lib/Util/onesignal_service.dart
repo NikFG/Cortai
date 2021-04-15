@@ -6,33 +6,7 @@ class OneSignalService {
   static const APP_ID = "c57847eb-ff08-4b71-ba02-e2abc1e72422";
 
   OneSignalService.init() {
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    OneSignal.shared.init(APP_ID, iOSSettings: {
-      OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.inAppLaunchUrl: false
-    });
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
-    OneSignal.shared
-        .setNotificationReceivedHandler((OSNotification notification) {
-      print(notification.jsonRepresentation());
-      print(notification.payload);
-    });
-  }
-
-  void gravaToken(int id, String token) async {
-    var status = await OneSignal.shared.getPermissionSubscriptionState();
-
-    Dio dio = Dio();
-    FormData data =
-        FormData.fromMap({'onesignal_token': status.subscriptionStatus.userId});
-    var response = await dio.post(
-        Util.url + "auth/user/update/${id.toString()}/onesignal",
-        data: data,
-        options: Options(headers: Util.token(token)));
-    if (response.statusCode == 200) {
-      print("ok");
-    }
+    _inicializa();
   }
 
   void gravaIdExterna(bool isCabeleireiro, bool isDonoSalao, int id) async {
@@ -40,6 +14,19 @@ class OneSignalService {
     await OneSignal.shared.sendTags({
       "cabeleireiro": isCabeleireiro.toString(),
       "dono_salao": isDonoSalao.toString(),
+    });
+  }
+
+  void _inicializa() async {
+    await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    await OneSignal.shared.setAppId(APP_ID);
+
+    bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
+    print(requiresConsent);
+    await OneSignal.shared.disablePush(false);
+    OneSignal.shared.setNotificationOpenedHandler((event) {
+      print(event.notification.jsonRepresentation());
+      print(event.notification.rawPayload);
     });
   }
 }
