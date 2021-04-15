@@ -16,12 +16,12 @@ class OneSignalService {
   }
 
   void _inicializa() async {
-    await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
     await OneSignal.shared.setAppId(APP_ID);
 
     bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
     print(requiresConsent);
-    await OneSignal.shared.disablePush(false);
+    OneSignal.shared.disablePush(false);
     OneSignal.shared.setNotificationOpenedHandler((event) {
       print(event.notification.jsonRepresentation());
       print(event.notification.rawPayload);
