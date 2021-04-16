@@ -250,9 +250,9 @@ class _CadastroTelaState extends State<CadastroTela> {
         context, MaterialPageRoute(builder: (context) => LoginTela()));
   }
 
-  void onFail() async {
+  void onFail(String error) async {
     await FlushbarHelper.createError(
-            message: "Erro ao realizar o cadastro, teste novamente!")
+            message: error)
         .show(context);
     setState(() {
       _botaoHabilitado = true;
