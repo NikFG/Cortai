@@ -33,7 +33,7 @@ class _SplashCustomState extends State<SplashCustom> {
           splash: 'assets/icons/icon_white.png',
           splashIconSize: deviceInfo.size.width / 2,
           screenFunction: () async {
-            return _telaInicial(model);
+            return await _telaInicial(model);
           },
           splashTransition: SplashTransition.fadeTransition,
         );
@@ -41,13 +41,14 @@ class _SplashCustomState extends State<SplashCustom> {
     );
   }
 
-  Widget _telaInicial(LoginModelo model) {
+  Future<Widget> _telaInicial(LoginModelo model) async {
     if (widget.logado) {
-      model.carregarDados();
-      return IndexTela();
-    } else {
-      return StartScreen();
+      bool login = await model.carregarDados();
+      if (login) {
+        return IndexTela();
+      }
     }
+    return StartScreen();
   }
 
   Future<Null> requestPermission(Permission permission) async {

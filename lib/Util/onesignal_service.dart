@@ -16,7 +16,7 @@ class OneSignalService {
   }
 
   void _inicializa() async {
-    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    OneSignal.shared.setLogLevel(OSLogLevel.error, OSLogLevel.none);
     await OneSignal.shared.setAppId(APP_ID);
 
     bool requiresConsent = await OneSignal.shared.requiresUserPrivacyConsent();
