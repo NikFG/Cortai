@@ -65,7 +65,7 @@ class _HomeTileState extends State<HomeTile> {
         softWrap: false,
         style: TextStyle(
           fontSize: 20.0,
-          fontWeight: FontWeight.w100,
+            fontWeight: FontWeight.w100,
         ),
       ),
       subtitle: Column(

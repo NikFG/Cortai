@@ -41,7 +41,7 @@ class ServicoTela extends StatelessWidget {
                 salao.nome!,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 18.0.sp,
+                  fontSize: 18.0,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
@@ -85,14 +85,14 @@ class ServicoTela extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w100,
-                                    fontSize: 20.0.sp),
+                                    fontSize: 20.0),
                                 maxLines: 2,
                               ),
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width / 2.2,
                               alignment: Alignment.bottomRight,
-                              padding: EdgeInsets.only(right: 1.0.h),
+                              padding: EdgeInsets.only(right: 1.0),
                               child: TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
@@ -103,14 +103,14 @@ class ServicoTela extends StatelessWidget {
                                   child: Text("Galeria >",
                                       style: TextStyle(
                                         color: Theme.of(context).accentColor,
-                                        fontSize: 13.0.sp,
+                                        fontSize: 13.0,
                                       ))),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 2.0.h),
+                    SizedBox(height: 2.0),
                     Container(
                         child: GestureDetector(
                             onTap: () {
@@ -124,9 +124,9 @@ class ServicoTela extends StatelessWidget {
                                   Container(
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                          bottom: 2.0.h,
-                                          left: 1.0.h,
-                                          right: 1.0.h),
+                                          bottom: 2.0,
+                                          left: 1.0,
+                                          right: 1.0),
                                       child: Container(
                                         child: Row(
                                           children: <Widget>[
@@ -138,7 +138,7 @@ class ServicoTela extends StatelessWidget {
                                                 "$distancia",
                                                 style: TextStyle(
                                                   color: Colors.black87,
-                                                  fontSize: 14.0.sp,
+                                                  fontSize: 14.0,
                                                 ),
                                               ),
                                             )
@@ -149,31 +149,31 @@ class ServicoTela extends StatelessWidget {
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
-                                        bottom: 2.0.h,
-                                        left: 1.0.h,
-                                        right: 1.0.h),
+                                        bottom: 2.0,
+                                        left: 1.0,
+                                        right: 1.0),
                                     child: Text(
                                       "R\$${salao.menorValorServico!.toStringAsFixed(2)}"
                                       " - "
                                       "R\$${salao.maiorValorServico!.toStringAsFixed(2)}",
                                       style: TextStyle(
                                         color: Colors.black87,
-                                        fontSize: 14.0.sp,
+                                        fontSize: 14.0,
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(bottom: 2.0.h),
+                                    padding: EdgeInsets.only(bottom: 2.0),
                                     child: Row(
                                       children: <Widget>[
-                                        SizedBox(width: 1.0.w),
+                                        SizedBox(width: 1.0),
                                         Icon(Icons.star,
                                             color: Colors.amberAccent,
-                                            size: 14.0.sp),
+                                            size: 14.0),
                                         Text(
                                           media,
                                           style: TextStyle(
-                                            fontSize: 14.0.sp,
+                                            fontSize: 14.0,
                                             color: Colors.amber,
                                           ),
                                         ),

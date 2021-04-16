@@ -53,7 +53,7 @@ class _SolicitacaoCabeleireiroTelaState
                     },
                   ),
                   SizedBox(
-                    height: 50.0.h,
+                    height: 50.0,
                   ),
                   ButtonCustom(
                     textoBotao: 'Confirmar',

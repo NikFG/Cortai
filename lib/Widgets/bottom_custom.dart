@@ -85,7 +85,6 @@ class _BottomCustomState extends State<BottomCustom> {
         icon: StreamBuilder(
           // stream: pusher.eventStream,
           builder: (context, event) {
-            print("chegou aqui");
             if (!event.hasData) {
               return FutureBuilder<http.Response>(
                 future: http.get(HorarioControle.getQuantidade(id),

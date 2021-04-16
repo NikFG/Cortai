@@ -32,6 +32,7 @@ class ServicoControle {
       await api.store(_url, map, token);
       onSuccess();
     } catch (e) {
+      print(e);
       onFail();
     }
   }

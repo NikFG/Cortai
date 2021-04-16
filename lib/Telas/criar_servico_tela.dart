@@ -252,8 +252,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                         dados.salaoId = model.dados!.salaoId;
                         dados.observacao = _observacaoControlador.text;
                         dados.ativo = ativo;
-                        dados.cabeleireiros =
-                            selecionados.map((e) => e.id).toList();
+                        dados.cabeleireirosApi = selecionados;
 
                         if (widget.dados != null) {
                           dados.id = widget.dados!.id;
