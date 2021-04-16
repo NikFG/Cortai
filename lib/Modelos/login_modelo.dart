@@ -42,7 +42,7 @@ class LoginModelo extends Model {
   void criarContaEmail(
       {required Login login,
       required VoidCallback onSuccess,
-      required VoidCallback onFail}) async {
+      required void onFail(String error)}) async {
     notifyListeners();
     var dio = Dio();
 
@@ -55,15 +55,18 @@ class LoginModelo extends Model {
               validateStatus: (status) {
                 return status! <= 500;
               }));
-      if (response.statusCode == 201)
+      if (response.statusCode == 201) {
         onSuccess();
-      else {
+      } else if (response.statusCode == 409) {
+        onFail(
+            "Email já cadastrado, tente fazer o login ou clique em esqueceu sua senha!");
+      } else {
         print(response.data);
-        onFail();
+        onFail("Erro ao realizar o cadastro, tente novamente!");
       }
     } catch (e) {
       print(e);
-      onFail();
+      onFail("Ocorreu um erro inesperado, tente novamente!");
     }
   }
 
@@ -171,7 +174,7 @@ class LoginModelo extends Model {
     await _storage.deleteAll();
   }
 
-  Future<Null> carregarDados() async {
+  Future<bool> carregarDados() async {
     isCarregando = true;
     String? email = await _storage.read(key: 'login');
     String? senha = await _storage.read(key: 'senha');
@@ -188,12 +191,23 @@ class LoginModelo extends Model {
       FormData formData = FormData.fromMap(map);
       String google = isGoogle ? "/google" : "";
 
-      var response = await dio.post(_url + "login" + google, data: formData);
+      var response = await dio.post(_url + "login" + google,
+          data: formData,
+          options: Options(
+              followRedirects: false,
+              validateStatus: (status) {
+                return status! <= 500;
+              }));
+      if (response.statusCode == 401) {
+        await logout();
+        return false;
+      }
       _salvarDados(response.data['user'], response.data['access_token'],
           isGoogle ? token! : senha!,
           isGoogle: isGoogle);
     }
     isCarregando = false;
+    return true;
   }
 
   bool isLogado() {
