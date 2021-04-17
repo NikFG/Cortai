@@ -58,12 +58,11 @@ class DetalhesTela extends StatelessWidget {
                         children: <Widget>[
                           Text(salao.nome!,
                               style: TextStyle(
-                                  fontSize: 28.0.sp,
-                                  fontWeight: FontWeight.w700)),
+                                  fontSize: 28.0, fontWeight: FontWeight.w700)),
                           horario.pago!
                               ? Text("Realizado às 12:28 - 16/07/2020",
                                   style: TextStyle(
-                                    fontSize: 12.0.sp,
+                                    fontSize: 12.0,
                                   ))
                               : Container(
                                   height: 0,
@@ -71,7 +70,7 @@ class DetalhesTela extends StatelessWidget {
                                 ),
                           Text("Agendamento ${horario.id}",
                               style: TextStyle(
-                                fontSize: 12.0.sp,
+                                fontSize: 12.0,
                                 fontWeight: FontWeight.w700,
                               )),
                           ListTile(
@@ -92,18 +91,18 @@ class DetalhesTela extends StatelessWidget {
                                       ? "Confirmado"
                                       : "Não confirmado",
                                   style: TextStyle(
-                                    fontSize: 12.0.sp,
+                                    fontSize: 12.0,
                                   ))),
                           ListTile(
                             leading: Icon(FontAwesome.tag),
                             title: Text(servico!.descricao!,
                                 style: TextStyle(
-                                  fontSize: 12.0.sp,
+                                  fontSize: 12.0,
                                 )),
                             trailing: Text(
                                 "R\$${servico!.valor.toStringAsFixed(2).replaceAll('.', ',')}",
                                 style: TextStyle(
-                                  fontSize: 12.0.sp,
+                                  fontSize: 12.0,
                                 )),
                           ),
                           Column(
@@ -114,7 +113,7 @@ class DetalhesTela extends StatelessWidget {
                                 padding: EdgeInsets.only(left: 15),
                                 child: Text("Endereço",
                                     style: TextStyle(
-                                      fontSize: 16.0.sp,
+                                      fontSize: 16.0,
                                     )),
                               ),
                               TextButton(
@@ -124,7 +123,7 @@ class DetalhesTela extends StatelessWidget {
                                 },
                                 child: Text("${salao.endereco}",
                                     style: TextStyle(
-                                      fontSize: 16.0.sp,
+                                      fontSize: 16.0,
                                       color: Theme.of(context).primaryColor,
                                     )),
                               ),
@@ -140,7 +139,7 @@ class DetalhesTela extends StatelessWidget {
                                       child: Text(
                                         "Ligar para salão",
                                         style: TextStyle(
-                                          fontSize: 12.0.sp,
+                                          fontSize: 12.0,
                                         ),
                                       ),
                                     ),
@@ -156,7 +155,7 @@ class DetalhesTela extends StatelessWidget {
                                       child: Text(
                                         "Cancelar Agendamento",
                                         style: TextStyle(
-                                          fontSize: 12.0.sp,
+                                          fontSize: 12.0,
                                         ),
                                       ),
                                     ),
