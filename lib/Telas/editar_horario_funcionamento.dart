@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class EditarFuncionamentoTela extends StatefulWidget {
   EditarFuncionamentoTela();
@@ -129,7 +128,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                               children: <Widget>[
                                 Text(
                                   'DOM',
-                                  style: TextStyle(fontSize: 10.0.sp),
+                                  style: TextStyle(fontSize: 10.0),
                                 ),
                                 Checkbox(
                                   onChanged: (bool? value) {
@@ -143,8 +142,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                             ),
                             Column(
                               children: <Widget>[
-                                Text('SEG',
-                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Text('SEG', style: TextStyle(fontSize: 10.0)),
                                 Checkbox(
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -157,8 +155,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                             ),
                             Column(
                               children: <Widget>[
-                                Text('TER',
-                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Text('TER', style: TextStyle(fontSize: 10.0)),
                                 Checkbox(
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -171,8 +168,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                             ),
                             Column(
                               children: <Widget>[
-                                Text('QUA',
-                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Text('QUA', style: TextStyle(fontSize: 10.0)),
                                 Checkbox(
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -185,8 +181,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                             ),
                             Column(
                               children: <Widget>[
-                                Text('QUI',
-                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Text('QUI', style: TextStyle(fontSize: 10.0)),
                                 Checkbox(
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -199,8 +194,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                             ),
                             Column(
                               children: <Widget>[
-                                Text('SEX',
-                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Text('SEX', style: TextStyle(fontSize: 10.0)),
                                 Checkbox(
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -213,8 +207,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                             ),
                             Column(
                               children: <Widget>[
-                                Text('SAB',
-                                    style: TextStyle(fontSize: 10.0.sp)),
+                                Text('SAB', style: TextStyle(fontSize: 10.0)),
                                 Checkbox(
                                   onChanged: (bool? value) {
                                     setState(() {
