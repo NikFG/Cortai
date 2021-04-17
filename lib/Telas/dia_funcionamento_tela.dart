@@ -38,6 +38,7 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Editar Dia'),
@@ -57,7 +58,9 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                      padding: EdgeInsets.only(
+                          top: deviceInfo.size.height * 2 / 100,
+                          left: deviceInfo.size.height * 2 / 100),
                       child: Text(
                         "Horario de Abertura:",
                         style: TextStyle(fontSize: 15.0),
@@ -85,7 +88,9 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                       height: 20,
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                      padding: EdgeInsets.only(
+                          top: deviceInfo.size.height * 2 / 100,
+                          left: deviceInfo.size.height * 2 / 100),
                       child: Text(
                         "Horario de Fechamento:",
                         style: TextStyle(fontSize: 15.0),
@@ -116,7 +121,9 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                padding: EdgeInsets.only(
+                    top: deviceInfo.size.height * 2 / 100,
+                    left: deviceInfo.size.height * 2 / 100),
                 child: Text(
                   "Intervalo entre horários:",
                   style: TextStyle(fontSize: 15.0),
@@ -138,7 +145,7 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                 icon: Icon(Icons.settings_backup_restore),
               ),
               SizedBox(
-                height: 5.0.h,
+                height: deviceInfo.size.height * 5 / 100,
               ),
               SizedBox(height: 50),
               ButtonCustom(
