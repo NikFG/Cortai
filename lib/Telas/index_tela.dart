@@ -10,7 +10,6 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'home_tela.dart';
 
