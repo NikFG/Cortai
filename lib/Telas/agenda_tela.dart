@@ -21,7 +21,6 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'index_tela.dart';
 
 class AgendaTela extends StatefulWidget {
@@ -61,6 +60,7 @@ class _AgendaTelaState extends State<AgendaTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return Scaffold(
@@ -74,16 +74,17 @@ class _AgendaTelaState extends State<AgendaTela> {
             child: IgnorePointer(
               ignoring: !_botaoHabilitado,
               child: ListView(
-                padding: EdgeInsets.only(bottom: 2.0.h),
+                padding:
+                    EdgeInsets.only(bottom: deviceInfo.size.height * 2 / 100),
                 children: <Widget>[
                   ListTile(
                     title: Text(
                       widget.servico.descricao!,
-                      style: TextStyle(fontSize: 18.0.sp),
+                      style: TextStyle(fontSize: 18.0),
                     ),
                     subtitle: Text(
                         'R\$${widget.servico.valor.toStringAsFixed(2)}',
-                        style: TextStyle(fontSize: 14.0.sp)),
+                        style: TextStyle(fontSize: 14.0)),
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundImage: widget.servico.imagem != null
@@ -106,7 +107,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                               child: Text(
                                 "Selecione o Profissional :",
                                 style: TextStyle(
-                                  fontSize: 16.0.sp,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
@@ -143,7 +144,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             child: Text(
                               "Quando seria melhor para você ?",
                               style: TextStyle(
-                                fontSize: 16.0.sp,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -190,7 +191,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             child: Text(
                               'Qual horario?',
                               style: TextStyle(
-                                fontSize: 16.0.sp,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -249,7 +250,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             child: Text(
                               'Como você gostaria de pagar?',
                               style: TextStyle(
-                                fontSize: 16.0.sp,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -289,7 +290,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                 child: Text(
                                   'Você tem um código de desconto?',
                                   style: TextStyle(
-                                      fontSize: 16.0.sp,
+                                      fontSize: 16.0,
                                       fontWeight: FontWeight.w700),
                                 ),
                               ),
