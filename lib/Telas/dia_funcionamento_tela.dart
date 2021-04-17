@@ -7,7 +7,6 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DiaFuncionamentoTela extends StatefulWidget {
   final Funcionamento dados;
