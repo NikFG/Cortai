@@ -48,6 +48,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title:
@@ -62,7 +63,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
               child: IgnorePointer(
                 ignoring: !_botaoHabilitado,
                 child: ListView(
-                  padding: EdgeInsets.all(3.0.h),
+                  padding: EdgeInsets.all(deviceInfo.size.height * 3 / 100),
                   children: <Widget>[
                     TextFormField(
                       controller: _nomeController,
@@ -162,7 +163,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                     height: 0,
                                   ),
                     SizedBox(
-                      height: 30.0.h,
+                      height: deviceInfo.size.height * 3 / 10,
                     ),
                     ButtonCustom(
                       textoBotao: "Confirmar",
