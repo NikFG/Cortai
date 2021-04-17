@@ -59,7 +59,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 EdgeInsets.only(top: 20, right: 10, left: 10),
                             child: Text(salao.nome!,
                                 style: TextStyle(
-                                    fontSize: 28.0.sp,
+                                    fontSize: 28.0,
                                     fontWeight: FontWeight.w700)),
                           ),
                           Container(
@@ -67,7 +67,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 EdgeInsets.only(top: 20, right: 10, left: 10),
                             child: Text("Realizado às 12:28 - 16/07/2020",
                                 style: TextStyle(
-                                  fontSize: 16.0.sp,
+                                  fontSize: 16.0,
                                 )),
                           ),
                           Container(
@@ -75,7 +75,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 EdgeInsets.only(top: 20, right: 10, left: 10),
                             child: Text("Agendamento ${horario.id}",
                                 style: TextStyle(
-                                  fontSize: 16.0.sp,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
                                 )),
                           ),
@@ -89,7 +89,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 Container(
                                   child: Text("Nome do Cliente:",
                                       style: TextStyle(
-                                        fontSize: 14.0.sp,
+                                        fontSize: 14.0,
                                         fontWeight: FontWeight.w700,
                                       )),
                                 ),
@@ -97,7 +97,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                   child: Text(
                                     "Fulano",
                                     style: TextStyle(
-                                      fontSize: 14.0.sp,
+                                      fontSize: 14.0,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -116,7 +116,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 Container(
                                   child: Text("Realizado por:",
                                       style: TextStyle(
-                                        fontSize: 14.0.sp,
+                                        fontSize: 14.0,
                                         fontWeight: FontWeight.w700,
                                       )),
                                 ),
@@ -124,7 +124,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                   child: Text(
                                     "Nome do fulano",
                                     style: TextStyle(
-                                      fontSize: 14.0.sp,
+                                      fontSize: 14.0,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -137,12 +137,12 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                             leading: Icon(FontAwesome.tag),
                             title: Text(servico!.descricao!,
                                 style: TextStyle(
-                                  fontSize: 14.0.sp,
+                                  fontSize: 14.0,
                                 )),
                             trailing: Text(
                                 "R\$${servico!.valor.toStringAsFixed(2).replaceAll('.', ',')}",
                                 style: TextStyle(
-                                  fontSize: 14.0.sp,
+                                  fontSize: 14.0,
                                 )),
                           ),
                         ],
