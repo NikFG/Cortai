@@ -32,6 +32,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Editar/Adicionar Horários'),
@@ -120,8 +121,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       SizedBox(
-                        height: 15.0.h,
-                        // <-- you should put some value here
+                        height: deviceInfo.size.height * 15 / 100,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
@@ -231,7 +231,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
                     ],
                   ),
                 ),
-                SizedBox(height: 10.0.h),
+                SizedBox(height: deviceInfo.size.height * 1 / 10),
                 ButtonCustom(
                   textoBotao: "Confirmar",
                   botaoHabilitado: _botaoHabilitado,
