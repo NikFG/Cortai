@@ -172,10 +172,12 @@ class _MapsTelaState extends State<MapsTela> {
       apiKey: API_KEY,
       mode: Mode.overlay,
       onError: onError,
-      types: ["locality"],
+      types: [],
       components: [Component(Component.country, "br")],
       strictbounds: false,
       language: "pt",
+      radius: 100000,
+
     );
     _mostraPrevisao(p);
   }

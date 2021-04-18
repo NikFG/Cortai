@@ -82,7 +82,9 @@ class Util {
   static Widget leadingScaffold(BuildContext context,
       {Color color = Colors.white}) {
     return IconButton(
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: () {
+        Navigator.maybeOf(context)!.pop();
+      },
       icon: Platform.isAndroid
           ? Icon(Icons.arrow_back)
           : Icon(Icons.arrow_back_ios),
