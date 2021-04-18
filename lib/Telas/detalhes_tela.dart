@@ -60,7 +60,8 @@ class DetalhesTela extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 28.0, fontWeight: FontWeight.w700)),
                           horario.pago!
-                              ? Text("Realizado às 12:28 - 16/07/2020",
+                              ? Text(
+                                  "Realizado às ${horario.hora} - ${horario.data}",
                                   style: TextStyle(
                                     fontSize: 12.0,
                                   ))
