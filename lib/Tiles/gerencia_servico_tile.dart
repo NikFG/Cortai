@@ -44,15 +44,13 @@ class GerenciaServicoTile extends StatelessWidget {
                       ));
             }
           },
-          leading: dados.imagem != null
-              ? Center()
-              : CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: dados.imagem != null
-                      ? MemoryImage(base64Decode(dados.imagem!))
-                      : AssetImage("assets/images/shop.png") as ImageProvider,
-                ),
+          leading: CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.transparent,
+            backgroundImage: dados.imagem != null
+                ? MemoryImage(base64Decode(dados.imagem!), scale: 1)
+                : AssetImage("assets/images/shop.png") as ImageProvider,
+          ),
           title: Text(
             dados.descricao!,
             overflow: TextOverflow.ellipsis,
