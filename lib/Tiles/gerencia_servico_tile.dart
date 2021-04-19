@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cortai/Dados/servico.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/criar_servico_tela.dart';
@@ -43,17 +45,13 @@ class GerenciaServicoTile extends StatelessWidget {
             }
           },
           leading: dados.imagem != null
-              ?
-              // ? GFAvatar(
-              //     shape: GFAvatarShape.circle,
-              //     radius: 30,
-              //     backgroundColor: Colors.transparent,
-              //     backgroundImage: dados.imagem != null
-              //         ? MemoryImage(base64Decode(dados.imagem))
-              //         : AssetImage("assets/images/shop.png"),
-              Center()
+              ? Center()
               : CircleAvatar(
                   radius: 30,
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: dados.imagem != null
+                      ? MemoryImage(base64Decode(dados.imagem!))
+                      : AssetImage("assets/images/shop.png") as ImageProvider,
                 ),
           title: Text(
             dados.descricao!,

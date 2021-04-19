@@ -1,12 +1,12 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'index_tela.dart';
