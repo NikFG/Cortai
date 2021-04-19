@@ -25,7 +25,7 @@ class BottomCustom extends StatefulWidget {
 
 class _BottomCustomState extends State<BottomCustom> {
   List<BottomNavigationBarItem> itens = [];
-  // PusherService pusher = PusherService();
+  PusherService pusher = PusherService();
 
   @override
   void initState() {
@@ -38,10 +38,10 @@ class _BottomCustomState extends State<BottomCustom> {
       label: "Perfil",
     ));
 
-/*    pusher.firePusher(
+    pusher.firePusher(
         eventName: 'ContaConfirmar',
         channelName: 'private-conta.' + widget.usuario.toString(),
-        token: widget.token);*/
+        token: widget.token);
     super.initState();
   }
 
@@ -83,7 +83,7 @@ class _BottomCustomState extends State<BottomCustom> {
     var itens = [
       BottomNavigationBarItem(
         icon: StreamBuilder(
-          // stream: pusher.eventStream,
+          stream: pusher.eventStream,
           builder: (context, event) {
             if (!event.hasData) {
               return FutureBuilder<http.Response>(
@@ -139,7 +139,7 @@ class _BottomCustomState extends State<BottomCustom> {
 
   @override
   void dispose() {
-    // pusher.unbindEvent('ContaConfirmar');
+    pusher.unbindEvent('ContaConfirmar');
     super.dispose();
   }
 }

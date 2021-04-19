@@ -40,7 +40,7 @@ class _AgendaTelaState extends State<AgendaTela> {
   var pagamentoController = TextEditingController();
   AgendaStore store = AgendaStore();
   int? pagamento;
-  late int cabeleireiroSelecionado;
+  int? cabeleireiroSelecionado;
   DateTime? data;
   bool _botaoHabilitado = true;
   var _formKey = GlobalKey<FormState>();
@@ -200,11 +200,11 @@ class _AgendaTelaState extends State<AgendaTela> {
                         Padding(
                           padding: EdgeInsets.all(24),
                           child: Observer(builder: (context) {
-                            /* if (store.isEmpty &&
+                             if (store.isEmpty &&
                                 cabeleireiroSelecionado != null) {
                               store.firePusher(
-                                  cabeleireiroSelecionado, model.token);
-                            }*/
+                                  cabeleireiroSelecionado!, model.token);
+                            }
                             return GestureDetector(
                               onTap: () async {
                                 if (this.data != null) {
@@ -372,7 +372,7 @@ class _AgendaTelaState extends State<AgendaTela> {
       context, Funcionamento funcionamento, String token) async {
     if (store.isEmpty) {
       await store.getData(
-          HorarioControle.getData(dataController.text, cabeleireiroSelecionado),
+          HorarioControle.getData(dataController.text, cabeleireiroSelecionado!),
           token);
     }
     await showModalBottomSheet(
@@ -395,15 +395,15 @@ class _AgendaTelaState extends State<AgendaTela> {
                 fechamento: funcionamento.horarioFechamento,
                 intervalo: funcionamento.intervalo,
                 horarioAtual: horarioAtual);
-            // if (store.stream.data != null) {
-            //   print(store.stream.data);
-            //   var dados =
-            //       Map<String, dynamic>.from(json.decode(store.stream.data));
-            //   List<Horario> streamData = dados['horarios'].map<Horario>((h) {
-            //     return Horario.fromJson(h);
-            //   }).toList();
-            //   store.updateList(streamData);
-            // }
+            if (store.stream!.data != null) {
+              print(store.stream!.data);
+              var dados =
+                  Map<String, dynamic>.from(json.decode(store.stream!.data));
+              List<Horario> streamData = dados['horarios'].map<Horario>((h) {
+                return Horario.fromJson(h);
+              }).toList();
+              store.updateList(streamData);
+            }
             return Container(
               child: ListView.builder(
                 itemCount: store.horariosTela.length,
@@ -613,7 +613,7 @@ class _AgendaTelaState extends State<AgendaTela> {
 
   @override
   void dispose() {
-    // store.unbindEvent('AgendaCabeleireiro');
+    store.unbindEvent('AgendaCabeleireiro');
     super.dispose();
   }
 

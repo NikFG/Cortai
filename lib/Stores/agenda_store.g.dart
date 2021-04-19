@@ -83,6 +83,14 @@ mixin _$AgendaStore on _AgendaStore, Store {
     return _$getDataAsyncAction.run(() => super.getData(uri, token));
   }
 
+  final _$firePusherAsyncAction = AsyncAction('_AgendaStore.firePusher');
+
+  @override
+  Future<void> firePusher(int cabeleireiro, String token) {
+    return _$firePusherAsyncAction
+        .run(() => super.firePusher(cabeleireiro, token));
+  }
+
   final _$_AgendaStoreActionController = ActionController(name: '_AgendaStore');
 
   @override
@@ -91,6 +99,17 @@ mixin _$AgendaStore on _AgendaStore, Store {
         name: '_AgendaStore.horarioOcupado');
     try {
       return super.horarioOcupado(horario);
+    } finally {
+      _$_AgendaStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void unbindEvent(String eventName) {
+    final _$actionInfo = _$_AgendaStoreActionController.startAction(
+        name: '_AgendaStore.unbindEvent');
+    try {
+      return super.unbindEvent(eventName);
     } finally {
       _$_AgendaStoreActionController.endAction(_$actionInfo);
     }
