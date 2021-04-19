@@ -4,7 +4,6 @@ import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_geocoder/geocoder.dart';
-
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -14,8 +13,8 @@ class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
   static DateFormat timeFormat = DateFormat("HH:mm");
 
-  static const url = "http://192.168.0.108:8000/api/"; //Local
-  // static const url = "http://18.230.188.111/api/"; //AWS
+  // static const url = "http://192.168.0.108:8000/api/"; //Local
+  static const url = "http://54.207.181.227/api/"; //AWS
 
   static Map<String, String> token(String token) {
     return {"Authorization": "Bearer $token}"};
