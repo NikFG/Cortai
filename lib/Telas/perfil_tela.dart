@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Dados/login.dart';
@@ -13,7 +14,6 @@ import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
@@ -157,6 +157,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   Divider(
                     color: Colors.black87,
                   ),
+                  _widgetsCabeleireiro(model.dados!),
                   _widgetsDonoSalao(model.dados!, model),
                   TextButton(
                       onPressed: () {
@@ -261,6 +262,35 @@ class _PerfilTelaState extends State<PerfilTela> {
     });
   }
 
+  Widget _widgetsCabeleireiro(Login login) {
+    if (login.isCabeleireiro) {
+      return Column(
+        children: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => GerenciarServicoTela()));
+              },
+              child: Row(children: <Widget>[
+                Icon(
+                  FontAwesome.scissors,
+                  color: Colors.black54,
+                ),
+                SizedBox(width: 10),
+                Text("Editar Serviços", style: TextStyle(fontSize: 16.0))
+              ])),
+          Divider(
+            color: Colors.black45,
+          ),
+        ],
+      );
+    }
+    return Container(
+      height: 0,
+      width: 0,
+    );
+  }
+
   Widget _widgetsDonoSalao(Login login, LoginModelo model) {
     if (login.isDonoSalao) {
       return Column(
@@ -331,22 +361,6 @@ class _PerfilTelaState extends State<PerfilTela> {
                         ),
                       ],
                     )),
-          Divider(
-            color: Colors.black45,
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => GerenciarServicoTela()));
-              },
-              child: Row(children: <Widget>[
-                Icon(
-                  FontAwesome.scissors,
-                  color: Colors.black54,
-                ),
-                SizedBox(width: 10),
-                Text("Editar Serviços", style: TextStyle(fontSize: 16.0))
-              ])),
           Divider(
             color: Colors.black45,
           ),
