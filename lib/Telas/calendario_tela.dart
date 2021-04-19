@@ -11,6 +11,8 @@ import 'package:scoped_model/scoped_model.dart';
 class CalendarioTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
+
     CalendarioStore store = CalendarioStore();
     return ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
       store.filtraData(HorarioControle.getCalendario(), model.token);
@@ -47,7 +49,7 @@ class CalendarioTela extends StatelessWidget {
                 physics: ScrollPhysics(),
                 children: [
                   Container(
-                    padding: EdgeInsets.all(2.0),
+                    padding: EdgeInsets.all(deviceInfo.size.width * 2 / 100),
                     child: Text(
                       "Hoje",
                       style: TextStyle(
