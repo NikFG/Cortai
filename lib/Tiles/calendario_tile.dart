@@ -39,7 +39,7 @@ class _CalendarioTileState extends State<CalendarioTile>
   @override
   Widget build(BuildContext context) {
     Cliente cliente = widget.horario.cliente!;
-
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     super.build(context);
     return ListTileCustom(
       onTap: () {
@@ -68,7 +68,7 @@ class _CalendarioTileState extends State<CalendarioTile>
               style: TextStyle(fontSize: 13.0),
             ),
           ),
-          SizedBox(width: 2.0),
+          SizedBox(width: deviceInfo.size.height * 0.2 / 10),
           Container(
               child: Text(
             "Valor: R\$${widget.servico.valor.toStringAsFixed(2)}",
