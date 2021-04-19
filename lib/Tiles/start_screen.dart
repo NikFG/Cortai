@@ -33,13 +33,14 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   Widget _indicador(bool isActive) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return AnimatedContainer(
       duration: Duration(milliseconds: 150),
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       height: 8.0,
       width: isActive
-          ? MediaQuery.of(context).size.width * 24 / 100
-          : MediaQuery.of(context).size.width * 16 / 100,
+          ? deviceInfo.size.width * 24 / 100
+          : deviceInfo.size.width * 16 / 100,
       decoration: BoxDecoration(
         color: isActive ? Colors.white : Theme.of(context).primaryColor,
         borderRadius: BorderRadius.all(Radius.circular(12)),
