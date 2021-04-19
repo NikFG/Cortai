@@ -1,9 +1,9 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 

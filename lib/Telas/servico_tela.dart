@@ -193,8 +193,8 @@ class ServicoTela extends StatelessWidget {
                       if (!response.hasData) {
                         return ShimmerCustom(4);
                       } else {
-                        print(response.data!.body);
                         List<dynamic> dados = json.decode(response.data!.body);
+                        print(dados);
                         var widgets = dados
                             .map((doc) => ServicoTile(
                                 Servico.fromJsonApi(doc), this.salao.nome!))

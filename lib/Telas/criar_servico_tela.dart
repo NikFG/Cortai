@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/servico_controle.dart';
@@ -12,9 +13,8 @@ import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:cortai/Widgets/hero_custom.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:flutter/material.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';

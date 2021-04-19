@@ -1,13 +1,12 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/index_tela.dart';
-import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Tiles/start_screen.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 class SplashCustom extends StatefulWidget {
   final bool logado;

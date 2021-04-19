@@ -6,8 +6,8 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Tiles/galeria_tile.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
 
 class GaleriaTela extends StatefulWidget {
   final int salaoId;

@@ -140,7 +140,8 @@ class LoginModelo extends Model {
               return status! <= 500;
             }));
     if (response.statusCode != 200) {
-      throw Exception("Erro no login");
+
+      throw Exception(response.data);
     } else
       _salvarDados(
           response.data['user'], response.data['access_token'], googleToken,
@@ -269,6 +270,7 @@ class LoginModelo extends Model {
       await carregarDados();
       onSucess();
     } else {
+      print(response.data);
       onFail("erro encontrado");
     }
   }
