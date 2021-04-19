@@ -30,6 +30,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return Scaffold(
@@ -117,7 +118,7 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                     "Parece que você ainda não definiu nenhum horário de funcionamento :/"),
                               ),
                               SizedBox(
-                                height: 45.0,
+                                height: deviceInfo.size.height * 45 / 100,
                               ),
                               Padding(
                                 padding: EdgeInsets.only(bottom: 2.0),
