@@ -1,9 +1,9 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:scoped_model/scoped_model.dart';

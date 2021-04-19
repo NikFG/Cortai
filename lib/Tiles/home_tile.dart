@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Telas/servico_tela.dart';
 import 'package:cortai/Util/util.dart';
@@ -37,24 +39,23 @@ class _HomeTileState extends State<HomeTile> {
           builder: (context) =>
               ServicoTela(salao: widget.dados, distancia: _distancia))),
       leading: GestureDetector(
-          onTap: () {
-            if (widget.dados.imagem != null) {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => HeroCustom(
-                        imagemMemory: widget.dados.imagem,
-                        descricao: widget.dados.nome,
-                      )));
-            }
-          },
-          // child: GFAvatar(
-          //   shape: GFAvatarShape.circle,
-          //   radius: 30,
-          //   backgroundColor: Colors.transparent,
-          //   backgroundImage: widget.dados.imagem != null
-          //       ? MemoryImage(base64Decode(widget.dados.imagem))
-          //       : AssetImage("assets/images/shop.png"),
-          // ),
-          child: Container(width: 0, height: 0)),
+        onTap: () {
+          if (widget.dados.imagem != null) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => HeroCustom(
+                      imagemMemory: widget.dados.imagem,
+                      descricao: widget.dados.nome,
+                    )));
+          }
+        },
+        child: CircleAvatar(
+          radius: 30,
+          backgroundColor: Colors.transparent,
+          backgroundImage: widget.dados.imagem != null
+              ? MemoryImage(base64Decode(widget.dados.imagem!))
+              : AssetImage("assets/images/shop.png") as ImageProvider,
+        ),
+      ),
       onLongPress: () {
         _dialogDados(context);
       },
@@ -65,7 +66,7 @@ class _HomeTileState extends State<HomeTile> {
         softWrap: false,
         style: TextStyle(
           fontSize: 20.0,
-            fontWeight: FontWeight.w100,
+          fontWeight: FontWeight.w100,
         ),
       ),
       subtitle: Column(

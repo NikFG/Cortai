@@ -10,7 +10,6 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'agendado_tela.dart';
 import 'confirmar_tela.dart';
-
 import 'home_tela.dart';
 
 class IndexTela extends StatefulWidget {

@@ -1,5 +1,4 @@
 import "package:cortai/Dados/cabeleireiro.dart";
-import 'package:cortai/Util/conversao.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'servico.g.dart';

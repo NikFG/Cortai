@@ -24,7 +24,6 @@ class DetalhesCabelereiroTela extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData deviceInfo = MediaQuery.of(context);
     Cabeleireiro cabeleireiro = horario.cabeleireiro!;
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
@@ -123,7 +122,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 ),
                                 Container(
                                   child: Text(
-                                    "Nome do fulano",
+                                    "${horario.cabeleireiro!.nome}",
                                     style: TextStyle(
                                       fontSize: 14.0,
                                     ),
