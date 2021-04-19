@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+
 
 class DetalhesCabelereiroTela extends StatelessWidget {
   final Horario horario;

@@ -1,7 +1,6 @@
 import 'package:cortai/Telas/login_tela.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class StartScreen extends StatefulWidget {
   @override

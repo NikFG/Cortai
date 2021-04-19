@@ -7,7 +7,7 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+
 
 import 'cadastro_tela.dart';
 import 'index_tela.dart';

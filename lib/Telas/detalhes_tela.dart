@@ -16,7 +16,6 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DetalhesTela extends StatelessWidget {
   final Horario horario;
@@ -134,7 +133,7 @@ class DetalhesTela extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  width: 45.0.w,
+                                  width: 45.0,
                                   child: TextButton(
                                     child: Container(
                                       child: Text(
@@ -150,7 +149,7 @@ class DetalhesTela extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  width: 45.0.w,
+                                  width: 45.0,
                                   child: TextButton(
                                     child: Container(
                                       child: Text(

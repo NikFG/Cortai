@@ -5,7 +5,6 @@ import 'package:cortai/Telas/detalhes_cabelereiro_agendado_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CalendarioTile extends StatefulWidget {
   final Horario horario;
@@ -55,7 +54,7 @@ class _CalendarioTileState extends State<CalendarioTile>
           "Serviço ${widget.servico.descricao}",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 15.0.sp),
+          style: TextStyle(fontSize: 15.0),
         ),
       ),
       subtitle: Column(
@@ -66,7 +65,7 @@ class _CalendarioTileState extends State<CalendarioTile>
               "Dia ${widget.horario.data} às ${widget.horario.hora}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 13.0.sp),
+              style: TextStyle(fontSize: 13.0),
             ),
           ),
           SizedBox(width: 2.0),
@@ -75,14 +74,14 @@ class _CalendarioTileState extends State<CalendarioTile>
             "Valor: R\$${widget.servico.valor.toStringAsFixed(2)}",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 13.0.sp),
+            style: TextStyle(fontSize: 13.0),
           )),
           Container(
             child: Text(
               "Cliente: ${cliente.nome}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 13.0.sp),
+              style: TextStyle(fontSize: 13.0),
             ),
           ),
         ],

@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CalendarioTela extends StatelessWidget {
   @override
@@ -48,7 +47,7 @@ class CalendarioTela extends StatelessWidget {
                 physics: ScrollPhysics(),
                 children: [
                   Container(
-                    padding: EdgeInsets.all(2.0.h),
+                    padding: EdgeInsets.all(2.0),
                     child: Text(
                       "Hoje",
                       style: TextStyle(
@@ -79,7 +78,7 @@ class CalendarioTela extends StatelessWidget {
                             );
                           }),
                   Container(
-                    padding: EdgeInsets.all(2.0.h),
+                    padding: EdgeInsets.all(2.0),
                     child: Text(
                       "Próximos sete dias",
                       style: TextStyle(
@@ -110,7 +109,7 @@ class CalendarioTela extends StatelessWidget {
                             );
                           }),
                   Container(
-                    padding: EdgeInsets.all(2.0.h),
+                    padding: EdgeInsets.all(2.0),
                     child: Text(
                       "Futuro",
                       style: TextStyle(

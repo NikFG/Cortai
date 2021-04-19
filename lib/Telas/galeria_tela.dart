@@ -7,7 +7,6 @@ import 'package:cortai/Tiles/galeria_tile.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:http/http.dart' as http;
 
 class GaleriaTela extends StatefulWidget {

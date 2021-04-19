@@ -13,7 +13,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CadastroFuncionamentoTela extends StatefulWidget {
   CadastroFuncionamentoTela();
@@ -118,10 +117,10 @@ class _CadastroFuncionamentoTelaState extends State<CadastroFuncionamentoTela> {
                                     "Parece que você ainda não definiu nenhum horário de funcionamento :/"),
                               ),
                               SizedBox(
-                                height: 45.0.h,
+                                height: 45.0,
                               ),
                               Padding(
-                                padding: EdgeInsets.only(bottom: 2.0.h),
+                                padding: EdgeInsets.only(bottom: 2.0),
                                 child: Container(
                                   child: ButtonCustom(
                                     textoBotao: "Criar horários",
