@@ -15,7 +15,6 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 
-
 class DetalhesCabelereiroTela extends StatelessWidget {
   final Horario horario;
 
@@ -25,6 +24,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     Cabeleireiro cabeleireiro = horario.cabeleireiro!;
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
@@ -65,7 +65,8 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                           Container(
                             padding:
                                 EdgeInsets.only(top: 20, right: 10, left: 10),
-                            child: Text("Realizado às 12:28 - 16/07/2020",
+                            child: Text(
+                                "Realizado às ${horario.hora} - ${horario.data}",
                                 style: TextStyle(
                                   fontSize: 16.0,
                                 )),
