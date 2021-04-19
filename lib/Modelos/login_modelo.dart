@@ -140,7 +140,6 @@ class LoginModelo extends Model {
               return status! <= 500;
             }));
     if (response.statusCode != 200) {
-
       throw Exception(response.data);
     } else
       _salvarDados(
@@ -155,6 +154,7 @@ class LoginModelo extends Model {
     dados = null;
     token = "";
     await _apagarDados();
+    isCarregando = false;
     notifyListeners();
   }
 

@@ -252,6 +252,10 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                         dados.salaoId = model.dados!.salaoId;
                         dados.observacao = _observacaoControlador.text;
                         dados.ativo = ativo;
+                        if (!model.dados!.isDonoSalao) {
+                          selecionados.add(
+                              Cabeleireiro.fromJson(model.dados!.toJson()));
+                        }
                         dados.cabeleireirosApi = selecionados;
 
                         if (widget.dados != null) {
@@ -264,8 +268,7 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                               onFail: onFail);
                         } else {
                           //Caso seja apenas um cabeleireiro irá adicionar o serviço apenas para si
-                          if (!model.dados!.isDonoSalao)
-                            dados.cabeleireiros!.add(model.dados!.id!);
+
                           ServicoControle.store(
                               dados: dados,
                               token: model.token,

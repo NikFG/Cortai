@@ -11,7 +11,7 @@ class SalaoControle {
   static final _url = Util.url + "saloes/";
 
   static Uri get(String param) {
-    return Uri.parse(_url + "home"+param);
+    return Uri.parse(_url + "home" + param);
   }
 
   static Uri getCabeleireiros() {
@@ -22,12 +22,13 @@ class SalaoControle {
     return Uri.parse(_url + "show/${id.toString()}");
   }
 
-  static void store(Salao dados,
+  static Future<void> store(Salao dados,
       {required Login usuario,
       required File? imagem,
       required String token,
       required VoidCallback onSuccess,
-      required void Function(String error) onFail}) async {
+      required void Function(String error) onFail,
+      required Future<bool> Function() carregarDados}) async {
     Api api = Api();
     try {
       Map<String, dynamic> map = dados.toJson();
@@ -36,18 +37,20 @@ class SalaoControle {
             filename: imagem.path.split("/").last);
       }
       usuario.salaoId = await api.store(_url, map, token) as int;
+      await carregarDados();
       onSuccess();
     } catch (e) {
       onFail(e.toString());
     }
   }
 
-  static void update(Salao dados,
+  static Future<void> update(Salao dados,
       {required Login usuario,
       required File? imagem,
       required String token,
       required VoidCallback onSuccess,
-      required VoidCallback onFail}) async {
+      required VoidCallback onFail,
+      required Future<bool> Function() carregarDados}) async {
     try {
       Api api = Api();
       Map<String, dynamic> map = dados.toJson();
@@ -55,6 +58,7 @@ class SalaoControle {
         map["imagem"] = await MultipartFile.fromFile(imagem.path,
             filename: imagem.path.split('/').last);
       await api.update(_url, map, token, dados.id!);
+      await carregarDados();
       onSuccess();
     } catch (e) {
       onFail();

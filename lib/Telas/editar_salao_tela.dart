@@ -180,19 +180,24 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           dados.telefone = _telefoneController.text;
                           dados.cidade = _cidade;
                           if (widget.salao == null) {
-                            SalaoControle.store(dados,
-                                usuario: model.dados!,
-                                imagem: _imagem,
-                                token: model.token,
-                                onSuccess: onSuccess,
-                                onFail: onFail);
+                            await SalaoControle.store(
+                              dados,
+                              usuario: model.dados!,
+                              imagem: _imagem,
+                              token: model.token,
+                              onSuccess: onSuccess,
+                              onFail: onFail,
+                              carregarDados: model.carregarDados,
+                            );
                           } else {
-                            SalaoControle.update(dados,
+                            await SalaoControle.update(dados,
                                 token: model.token,
                                 imagem: _imagem!,
                                 usuario: model.dados!,
                                 onSuccess: onSuccessEditar,
-                                onFail: onFailEditar);
+                                onFail: onFailEditar,
+                              carregarDados: model.carregarDados,
+                            );
                           }
                         }
                       },
