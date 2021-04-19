@@ -293,7 +293,7 @@ class _EditarFuncionamentoTelaState extends State<EditarFuncionamentoTela> {
     await FlushbarHelper.createSuccess(
             message: "Horarios alterados com sucesso")
         .show(context);
-    Navigator.of(context)
+    Navigator.maybeOf(context)!
         .pushReplacement(MaterialPageRoute(builder: (context) => IndexTela()));
   }
 

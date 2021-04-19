@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cortai/Dados/horario.dart';
+import 'package:cortai/Util/pusher_service.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobx/mobx.dart';
@@ -12,11 +13,11 @@ class AgendaStore = _AgendaStore with _$AgendaStore;
 
 abstract class _AgendaStore with Store {
   _AgendaStore() {
-    // _pusher = PusherService();
-    // stream = ObservableStream(_pusher.eventStream);
+    _pusher = PusherService();
+    stream = ObservableStream(_pusher.eventStream);
   }
 
-  //PusherService _pusher;
+  late PusherService _pusher;
 
   @observable
   List<Horario> horarios = [];
@@ -52,7 +53,7 @@ abstract class _AgendaStore with Store {
     isLoading = false;
   }
 
-/*  @action
+  @action
   Future<void> firePusher(int cabeleireiro, String token) async {
     await _pusher.firePusher(
         channelName: 'private-agenda.${cabeleireiro.toString()}',
@@ -63,7 +64,7 @@ abstract class _AgendaStore with Store {
   @action
   void unbindEvent(String eventName) {
     _pusher.unbindEvent(eventName);
-  }*/
+  }
 
   @action
   void updateList(List<Horario> dados) {
