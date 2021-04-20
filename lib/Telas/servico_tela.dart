@@ -30,21 +30,20 @@ class ServicoTela extends StatelessWidget {
         : '0.0';
     return Scaffold(
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        // physics: BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).primaryColor,
               leading: Util.leadingScaffold(context),
-              title: AppbarCustom(
-                  child: Text(
+              title:Text(
                 salao.nome!,
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 18.0,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
-              )),
+              ),
               stretch: false,
               pinned: true,
               centerTitle: true,
@@ -123,9 +122,7 @@ class ServicoTela extends StatelessWidget {
                                   Container(
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                          bottom: 2.0,
-                                          left: 1.0,
-                                          right: 1.0),
+                                          bottom: 2.0, left: 1.0, right: 1.0),
                                       child: Container(
                                         child: Row(
                                           children: <Widget>[
@@ -148,9 +145,7 @@ class ServicoTela extends StatelessWidget {
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
-                                        bottom: 2.0,
-                                        left: 1.0,
-                                        right: 1.0),
+                                        bottom: 2.0, left: 1.0, right: 1.0),
                                     child: Text(
                                       "R\$${salao.menorValorServico!.toStringAsFixed(2)}"
                                       " - "
@@ -194,7 +189,6 @@ class ServicoTela extends StatelessWidget {
                         return ShimmerCustom(4);
                       } else {
                         List<dynamic> dados = json.decode(response.data!.body);
-                        print(dados);
                         var widgets = dados
                             .map((doc) => ServicoTile(
                                 Servico.fromJsonApi(doc), this.salao.nome!))
