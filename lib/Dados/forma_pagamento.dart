@@ -6,7 +6,7 @@ part 'forma_pagamento.g.dart';
 class FormaPagamento {
   late int id;
   @JsonKey(name: 'imagem', defaultValue: '')
-  late String icone;
+  String? icone;
   late String descricao;
 
   FormaPagamento();
