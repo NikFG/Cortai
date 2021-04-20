@@ -130,8 +130,8 @@ class _BottomCustomState extends State<BottomCustom> {
         label: "Confirmar",
       ),
       BottomNavigationBarItem(
-        icon: Icon(FontAwesome.scissors),
-        label: "Serviços",
+        icon: Icon(FontAwesome.calendar),
+        label: "Calendário",
       ),
     ];
     this.itens.addAll(itens);
