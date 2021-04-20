@@ -32,7 +32,7 @@ class HorarioControle {
   static Future<void> store(
       {required Horario horario,
       required String token,
-      required VoidCallback onSuccess,
+      required void Function() onSuccess,
       required void onFail(String error)}) async {
     try {
       Api api = Api();
