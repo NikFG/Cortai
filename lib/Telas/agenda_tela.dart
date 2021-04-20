@@ -201,7 +201,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                         Padding(
                           padding: EdgeInsets.all(24),
                           child: Observer(builder: (context) {
-                             if (store.isEmpty &&
+                            if (store.isEmpty &&
                                 cabeleireiroSelecionado != null) {
                               store.firePusher(
                                   cabeleireiroSelecionado!, model.token);
@@ -324,6 +324,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                             botaoHabilitado: _botaoHabilitado,
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
+                                store.unbindEvent('AgendaCabeleireiro');
                                 setState(() {
                                   _botaoHabilitado = false;
                                 });
@@ -347,8 +348,9 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   horario.formaPagamentoId = pagamento;
                                   horario.hora = horarioController.text;
                                   horario.pago = false;
-                                  horario.servicos = List<Servico>.empty();
-                                  horario.servicos!.add(widget.servico);
+                                  horario.servicos =
+                                      List<Servico>.of([widget.servico]);
+                                  print(horario);
                                   await HorarioControle.store(
                                       horario: horario,
                                       token: model.token,
@@ -373,7 +375,8 @@ class _AgendaTelaState extends State<AgendaTela> {
       context, Funcionamento funcionamento, String token) async {
     if (store.isEmpty) {
       await store.getData(
-          HorarioControle.getData(dataController.text, cabeleireiroSelecionado!),
+          HorarioControle.getData(
+              dataController.text, cabeleireiroSelecionado!),
           token);
     }
     await showModalBottomSheet(
@@ -384,7 +387,7 @@ class _AgendaTelaState extends State<AgendaTela> {
             return CircularProgressIndicator();
           } else {
             DateTime dataAgora = DateTime.now();
-            late DateTime horarioAtual;
+            DateTime? horarioAtual;
             if (data!.day == dataAgora.day &&
                 dataAgora.month == data!.month &&
                 data!.year == dataAgora.year) {
@@ -599,6 +602,9 @@ class _AgendaTelaState extends State<AgendaTela> {
             message: "Horário agendado com sucesso",
             duration: Duration(milliseconds: 1500))
         .show(context);
+    setState(() {
+      _botaoHabilitado = true;
+    });
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => IndexTela()));
   }
