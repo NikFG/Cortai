@@ -6,7 +6,8 @@ import 'package:pusher_client/pusher_client.dart';
 
 const APP_KEY = '2b6fd1658e6d346df238';
 const PUSHER_CLUSTER = 'us2';
-const URL = 'http://192.168.0.108:8000/broadcasting/auth';
+// const URL = 'http://192.168.0.108:8000/broadcasting/auth'; // LOCAL
+const URL = "http://54.207.181.227/broadcasting/auth"; //AWS
 
 class PusherService {
   StreamController<String> _eventData = StreamController<String>();
