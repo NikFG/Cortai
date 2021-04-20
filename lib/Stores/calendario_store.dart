@@ -39,7 +39,7 @@ abstract class _CalendarioStore with Store {
     isLoading = true;
     List<dynamic> dados = [];
     var response = await http.get(uri, headers: Util.token(token));
-    if(response.statusCode==200) {
+    if (response.statusCode == 200) {
       dados = json.decode(response.body);
       List<Horario> horarios =
           dados.map<Horario>((h) => Horario.fromJson(h)).toList();

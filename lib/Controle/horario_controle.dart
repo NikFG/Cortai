@@ -12,7 +12,7 @@ class HorarioControle {
   }
 
   static Uri getCalendario() {
-    return Uri.parse(_url + "cabeleireiro/false");
+    return Uri.parse(_url + "calendario");
   }
 
   static Uri getData(String data, int cabeleireiroId) {
