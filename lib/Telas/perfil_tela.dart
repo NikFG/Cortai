@@ -125,7 +125,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Mudar endereço",
-                            style: TextStyle(fontSize: 16.0),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
                           )
                         ],
                       )),
@@ -148,9 +149,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Sugerir novo salão",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ],
                       )),
@@ -212,9 +212,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Sobre",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ],
                       )),
@@ -238,9 +237,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Logout",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ],
                       ))
@@ -277,7 +275,8 @@ class _PerfilTelaState extends State<PerfilTela> {
                   color: Colors.black54,
                 ),
                 SizedBox(width: 10),
-                Text("Editar Serviços", style: TextStyle(fontSize: 16.0))
+                Text("Editar Serviços",
+                    style: TextStyle(fontSize: 16.0, color: Colors.black))
               ])),
           Divider(
             color: Colors.black45,
@@ -309,9 +308,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                 SizedBox(width: 10),
                 Text(
                   "Horário de funcionamento",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: Colors.black),
                 ),
               ],
             ),
@@ -340,9 +337,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                         SizedBox(width: 10),
                         Text(
                           "Editar salão",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
+                          style: TextStyle(fontSize: 16.0, color: Colors.black),
                         ),
                       ],
                     )
@@ -355,9 +350,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                         SizedBox(width: 10),
                         Text(
                           "Criar salão",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
+                          style: TextStyle(fontSize: 16.0, color: Colors.black),
                         ),
                       ],
                     )),
@@ -376,7 +369,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                 ),
                 SizedBox(width: 10),
                 Text("Cadastrar cabeleireiros",
-                    style: TextStyle(fontSize: 16.0))
+                    style: TextStyle(fontSize: 16.0, color: Colors.black))
               ])),
           Divider(
             color: Colors.black45,
