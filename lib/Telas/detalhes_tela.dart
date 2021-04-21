@@ -26,6 +26,7 @@ class DetalhesTela extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     Cabeleireiro cabeleireiro = horario.cabeleireiro!;
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
@@ -133,14 +134,12 @@ class DetalhesTela extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  width: 45.0,
+                                  width: deviceInfo.size.width * 45 / 100,
                                   child: TextButton(
                                     child: Container(
                                       child: Text(
                                         "Ligar para salão",
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                        ),
+                                        style: TextStyle(fontSize: 12.0),
                                       ),
                                     ),
                                     onPressed: () {
@@ -149,7 +148,7 @@ class DetalhesTela extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  width: 45.0,
+                                  width: deviceInfo.size.width * 45 / 100,
                                   child: TextButton(
                                     child: Container(
                                       child: Text(
