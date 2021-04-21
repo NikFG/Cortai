@@ -103,7 +103,7 @@ class AgendadoTela extends StatelessWidget {
                                     horario: horario,
                                     servico: horario.servicos!.first,
                                     token: model.token,
-                                    avaliado: true);
+                                    avaliado: horario.avaliacao != null);
                               }),
                     );
                   }
