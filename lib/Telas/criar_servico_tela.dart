@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:another_flushbar/flushbar_helper.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/servico_controle.dart';
 import 'package:cortai/Dados/cabeleireiro.dart';
@@ -121,8 +120,6 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                           var response = await http.get(
                               SalaoControle.getCabeleireiros(),
                               headers: Util.token(model.token));
-                          print(response.body);
-                          print(json.decode(response.body));
                           List<Cabeleireiro> dados = json
                               .decode(response.body)
                               .map<Cabeleireiro>(
@@ -218,17 +215,8 @@ class _CriarServicoTelaState extends State<CriarServicoTela> {
                                 width: 0,
                                 height: 0,
                               )
-                            : GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => HeroCustom(
-                                              imagemMemory:
-                                                  widget.dados!.imagem!)));
-                                },
-                                child: CachedNetworkImage(
-                                    imageUrl: widget.dados!.imagem!))
+                            : Image.memory(base64Decode(widget.dados!.imagem!),
+                                scale: 1.0)
                         : Container(
                             width: 0,
                             height: 0,
