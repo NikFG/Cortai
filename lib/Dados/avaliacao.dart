@@ -5,11 +5,12 @@ part 'avaliacao.g.dart';
 
 @JsonSerializable()
 class Avaliacao {
-  late int id;
+  int? id;
   @JsonKey(fromJson: Conversao.strToDouble)
   late double valor;
   @JsonKey(defaultValue: "")
-  late String observacao;
+  String? observacao;
+  @JsonKey(toJson: _dataToJson)
   late String data;
   @JsonKey(name: 'horario_id')
   late int horarioId;
@@ -20,4 +21,5 @@ class Avaliacao {
       _$AvaliacaoFromJson(json);
 
   Map<String, dynamic> toJson() => _$AvaliacaoToJson(this);
+  static String _dataToJson(String? data) => data!.replaceAll("/", "-");
 }
