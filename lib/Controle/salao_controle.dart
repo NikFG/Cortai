@@ -74,7 +74,7 @@ class SalaoControle {
     try {
       var response = await dio.patch(_url + "edit/cabeleireiro/$email",
           options: Options(headers: Util.token(token)));
-      print(response.data);
+
       if (response.statusCode == 200) {
         onSuccess();
       } else {

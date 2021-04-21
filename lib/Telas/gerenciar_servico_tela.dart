@@ -29,7 +29,6 @@ class GerenciarServicoTela extends StatelessWidget {
               if (!response.hasData) {
                 return ShimmerCustom(5);
               } else {
-                print(response.data!.body);
                 List<Widget> lista = [
                   ListTileCustom(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
