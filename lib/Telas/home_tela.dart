@@ -28,6 +28,8 @@ class HomeTela extends StatefulWidget {
 
 class _HomeTelaState extends State<HomeTela> {
   late HomeStore store;
+  var endereco = TextEditingController();
+
   String cidade = SharedPreferencesControle.getCidade();
 
   var param = '';
@@ -114,6 +116,7 @@ class _HomeTelaState extends State<HomeTela> {
                     },
                     child: AbsorbPointer(
                       child: FormFieldCustom(
+                        controller: endereco,
                         inputType: TextInputType.text,
                         hint: "Digite seu endereço",
                         icon: Icon(FontAwesome.map),
