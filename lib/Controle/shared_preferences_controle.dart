@@ -23,10 +23,10 @@ class SharedPreferencesControle {
   }
 
   static String getEndereco() {
-    String endereco;
+    String? endereco;
     try {
-      endereco = _prefs.getString("endereco")!;
-      return endereco;
+      endereco = _prefs.getString("endereco");
+      return endereco!;
     } catch (e) {
       print(e);
       return "";
