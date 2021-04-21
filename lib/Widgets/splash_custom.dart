@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/index_tela.dart';
@@ -6,8 +7,6 @@ import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:splashscreen/splashscreen.dart';
-import 'package:sizer/sizer.dart';
 
 class SplashCustom extends StatefulWidget {
   final bool logado;
@@ -19,38 +18,36 @@ class SplashCustom extends StatefulWidget {
 }
 
 class _SplashCustomState extends State<SplashCustom> {
-  var _permissionStatus = PermissionStatus.undetermined;
+  var _permissionStatus = PermissionStatus.denied;
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return ScopedModelDescendant<LoginModelo>(
-      builder: (BuildContext context, Widget child, LoginModelo model) {
+      builder: (BuildContext? context, Widget? child, LoginModelo model) {
         requestPermission(Permission.notification);
-        if (_permissionStatus.isUndetermined)
-          requestPermission(Permission.location);
+        if (_permissionStatus.isDenied) requestPermission(Permission.location);
 
-        return SplashScreen(
-          seconds: 3,
-          useLoader: false,
-          navigateAfterSeconds: _telaInicial(model),
-          //   title: Text("CortaÍ"),
-          image: Image.asset('assets/icons/icon_white_transparent.png'),
-          photoSize: 30.0.w,
-
-          loaderColor: Colors.white,
-          backgroundColor: Theme.of(context).primaryColor,
+        return AnimatedSplashScreen.withScreenFunction(
+          splash: 'assets/icons/icon_white.png',
+          splashIconSize: deviceInfo.size.width / 2,
+          screenFunction: () async {
+            return await _telaInicial(model);
+          },
+          splashTransition: SplashTransition.fadeTransition,
         );
       },
     );
   }
 
-  Widget _telaInicial(LoginModelo model) {
+  Future<Widget> _telaInicial(LoginModelo model) async {
     if (widget.logado) {
-      model.carregarDados();
-      return IndexTela();
-    } else {
-      return StartScreen();
+      bool login = await model.carregarDados();
+      if (login) {
+        return IndexTela();
+      }
     }
+    return StartScreen();
   }
 
   Future<Null> requestPermission(Permission permission) async {

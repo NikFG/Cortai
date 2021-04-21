@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
 
 class SaibaMaisTela extends StatelessWidget {
   final Salao salao;
@@ -65,18 +64,18 @@ class SaibaMaisTela extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(salao.nome,
+                            Text(salao.nome!,
                                 style: TextStyle(
-                                    fontSize: 24.0.sp,
+                                    fontSize: 24.0,
                                     fontWeight: FontWeight.w700)),
                             Text("Horário de Funcionamento:",
                                 style: TextStyle(
-                                  fontSize: 18.0.sp,
+                                  fontSize: 18.0,
                                   fontWeight: FontWeight.w700,
                                 )),
                             FutureBuilder<http.Response>(
                               future: http.get(
-                                  FuncionamentoControle.get(salao.id),
+                                  FuncionamentoControle.get(salao.id!),
                                   headers: Util.token(model.token)),
                               builder: (context, response) {
                                 if (!response.hasData) {
@@ -85,21 +84,21 @@ class SaibaMaisTela extends StatelessWidget {
                                   );
                                 } else {
                                   List<Funcionamento> listaFuncionamento =
-                                      jsonDecode(response.data.body)
+                                      jsonDecode(response.data!.body)
                                           .map<Funcionamento>(
                                               (f) => Funcionamento.fromJson(f))
                                           .toList();
 
-                                  listaFuncionamento.sort((a, b) => Util
-                                          .ordenarDiasSemana(a.diaSemana)
-                                      .compareTo(
-                                          Util.ordenarDiasSemana(b.diaSemana)));
+                                  listaFuncionamento.sort((a, b) =>
+                                      Util.ordenarDiasSemana(a.diaSemana)!
+                                          .compareTo(Util.ordenarDiasSemana(
+                                              b.diaSemana)!));
                                   var listaWidgets =
                                       listaFuncionamento.map((dados) {
                                     return Text(
                                         "${dados.diaSemana}: ${dados.horarioAbertura} as ${dados.horarioFechamento}",
                                         style: TextStyle(
-                                          fontSize: 16.0.sp,
+                                          fontSize: 16.0,
                                         ));
                                   }).toList();
                                   return Column(
@@ -111,17 +110,17 @@ class SaibaMaisTela extends StatelessWidget {
                             ),
                             Text("Endereço:",
                                 style: TextStyle(
-                                  fontSize: 18.0.sp,
+                                  fontSize: 18.0,
                                   fontWeight: FontWeight.w700,
                                 )),
-                            FlatButton(
+                            TextButton(
                               onPressed: () async {
                                 await MapsLauncher.launchCoordinates(
-                                    salao.latitude, salao.longitude);
+                                    salao.latitude!, salao.longitude!);
                               },
                               child: Text("${salao.endereco}",
                                   style: TextStyle(
-                                    fontSize: 16.0.sp,
+                                    fontSize: 16.0,
                                     color: Theme.of(context).primaryColor,
                                   )),
                             ),
@@ -131,7 +130,7 @@ class SaibaMaisTela extends StatelessWidget {
                     ],
                   ),
                   FutureBuilder<http.Response>(
-                    future: http.get(AvaliacaoControle.get(salao.id),
+                    future: http.get(AvaliacaoControle.get(salao.id!),
                         headers: Util.token(model.token)),
                     builder: (context, response) {
                       if (!response.hasData) {
@@ -139,10 +138,17 @@ class SaibaMaisTela extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       } else {
+                        if (response.data!.statusCode == 204) {
+                          return Center(
+                            child:
+                                Text("Não há avaliações para este salão ainda"),
+                          );
+                        }
                         List<Avaliacao> avaliacoes =
-                            jsonDecode(response.data.body)
+                            jsonDecode(response.data!.body)
                                 .map<Avaliacao>((a) => Avaliacao.fromJson(a))
                                 .toList();
+
                         return ListView.builder(
                           itemCount: avaliacoes.length,
                           itemBuilder: (context, index) {

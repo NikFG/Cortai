@@ -4,9 +4,8 @@ class AppbarCustom extends StatefulWidget {
   final Widget child;
 
   const AppbarCustom({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
+    required this.child,
+  });
 
   @override
   _AppbarCustomState createState() {
@@ -15,8 +14,8 @@ class AppbarCustom extends StatefulWidget {
 }
 
 class _AppbarCustomState extends State<AppbarCustom> {
-  ScrollPosition _position;
-  bool _visible;
+  late ScrollPosition _position;
+  late bool _visible;
 
   @override
   void dispose() {
@@ -32,20 +31,19 @@ class _AppbarCustomState extends State<AppbarCustom> {
   }
 
   void _addListener() {
-    _position = Scrollable
-        .of(context)
-        ?.position;
-    _position?.addListener(_positionListener);
+    _position = Scrollable.of(context)!.position;
+    _position.addListener(_positionListener);
     _positionListener();
   }
 
   void _removeListener() {
-    _position?.removeListener(_positionListener);
+    _position.removeListener(_positionListener);
   }
 
   void _positionListener() {
-    final FlexibleSpaceBarSettings settings =
-    context.dependOnInheritedWidgetOfExactType();
+    final settings =
+        context.dependOnInheritedWidgetOfExactType<FlexibleSpaceBarSettings>();
+
     bool visible =
         settings == null || settings.currentExtent <= settings.minExtent;
     if (_visible != visible) {

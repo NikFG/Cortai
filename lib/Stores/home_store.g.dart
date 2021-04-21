@@ -9,7 +9,7 @@ part of 'home_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$HomeStore on _HomeStore, Store {
-  Computed<bool> _$getPermissaoComputed;
+  Computed<bool>? _$getPermissaoComputed;
 
   @override
   bool get getPermissao =>
@@ -32,16 +32,46 @@ mixin _$HomeStore on _HomeStore, Store {
     });
   }
 
+  final _$latitudeAtom = Atom(name: '_HomeStore.latitude');
+
+  @override
+  String? get latitude {
+    _$latitudeAtom.reportRead();
+    return super.latitude;
+  }
+
+  @override
+  set latitude(String? value) {
+    _$latitudeAtom.reportWrite(value, super.latitude, () {
+      super.latitude = value;
+    });
+  }
+
+  final _$longitudeAtom = Atom(name: '_HomeStore.longitude');
+
+  @override
+  String? get longitude {
+    _$longitudeAtom.reportRead();
+    return super.longitude;
+  }
+
+  @override
+  set longitude(String? value) {
+    _$longitudeAtom.reportWrite(value, super.longitude, () {
+      super.longitude = value;
+    });
+  }
+
   final _$statusAtom = Atom(name: '_HomeStore.status');
 
   @override
-  PermissionStatus get status {
+  PermissionStatus? get status {
     _$statusAtom.reportRead();
     return super.status;
   }
 
   @override
-  set status(PermissionStatus value) {
+  set status(PermissionStatus? value) {
     _$statusAtom.reportWrite(value, super.status, () {
       super.status = value;
     });
@@ -58,6 +88,8 @@ mixin _$HomeStore on _HomeStore, Store {
   String toString() {
     return '''
 endereco: ${endereco},
+latitude: ${latitude},
+longitude: ${longitude},
 status: ${status},
 getPermissao: ${getPermissao}
     ''';

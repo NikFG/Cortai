@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:cortai/Util/util.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pusher_websocket_flutter/pusher.dart';
+import 'package:pusher_client/pusher_client.dart';
 
 const APP_KEY = '2b6fd1658e6d346df238';
 const PUSHER_CLUSTER = 'us2';
-const URL = 'http://192.168.0.108:8000/broadcasting/auth';
+// const URL = 'http://192.168.0.108:8000/broadcasting/auth'; // LOCAL
+const URL = "http://54.207.181.227/broadcasting/auth"; //AWS
 
 class PusherService {
   StreamController<String> _eventData = StreamController<String>();
@@ -15,9 +15,8 @@ class PusherService {
   Sink get _inEventData => _eventData.sink;
 
   Stream get eventStream => _eventData.stream;
-  Event lastEvent;
-  String lastConnectionState;
-  Channel channel;
+  late PusherClient pusher;
+  late Channel channel;
 
   Future<void> initPusher(String token) async {
     var auth = PusherAuth(URL, headers: Util.token(token));
@@ -27,27 +26,22 @@ class PusherService {
       auth: auth,
     );
     try {
-      await Pusher.init(APP_KEY, options, enableLogging: true);
+      pusher = PusherClient(APP_KEY, options, autoConnect: false);
     } on PlatformException catch (e) {
-      print("Erro de auth" + e.message);
+      print("Erro de auth" + e.message.toString());
     }
   }
 
   void connectPusher() {
-    Pusher.connect(
-        onConnectionStateChange: (ConnectionStateChange connectionState) async {
-      lastConnectionState = connectionState.currentState;
-    }, onError: (ConnectionError e) {
-      print("Error: ${e.message}");
-    });
+    pusher.connect();
   }
 
-  Future<void> subscribePusher(String channelName) async {
-    channel = await Pusher.subscribe(channelName);
+  void subscribePusher(String channelName) {
+    channel = pusher.subscribe(channelName);
   }
 
   void unSubscribePusher(String channelName) {
-    Pusher.unsubscribe(channelName);
+    pusher.unsubscribe(channelName);
   }
 
   void bindEvent(String eventName) {
@@ -63,14 +57,14 @@ class PusherService {
   }
 
   Future<void> firePusher({
-    @required String channelName,
-    @required String eventName,
-    @required token,
+    required String channelName,
+    required String eventName,
+    required token,
   }) async {
     print(channelName);
     await initPusher(token);
     connectPusher();
-    await subscribePusher(channelName);
+    subscribePusher(channelName);
     bindEvent(eventName);
   }
 }

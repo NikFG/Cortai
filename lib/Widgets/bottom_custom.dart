@@ -5,7 +5,8 @@ import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Util/pusher_service.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 
 class BottomCustom extends StatefulWidget {
@@ -33,7 +34,7 @@ class _BottomCustomState extends State<BottomCustom> {
       itensCabeleireiro(widget.usuario);
     }
     itens.add(BottomNavigationBarItem(
-      icon: Icon(FontAwesome.user_circle_o),
+      icon: Icon(FontAwesome5.user_circle),
       label: "Perfil",
     ));
 
@@ -71,7 +72,7 @@ class _BottomCustomState extends State<BottomCustom> {
         label: "Início",
       ),
       BottomNavigationBarItem(
-        icon: Icon(FontAwesome.calendar_o),
+        icon: Icon(FontAwesome5.calendar),
         label: "Agenda",
       ),
     ];
@@ -84,7 +85,6 @@ class _BottomCustomState extends State<BottomCustom> {
         icon: StreamBuilder(
           stream: pusher.eventStream,
           builder: (context, event) {
-            print("chegou aqui");
             if (!event.hasData) {
               return FutureBuilder<http.Response>(
                 future: http.get(HorarioControle.getQuantidade(id),
@@ -93,7 +93,7 @@ class _BottomCustomState extends State<BottomCustom> {
                   if (!response.hasData) {
                     return Icon(FontAwesome5.calendar_check);
                   } else {
-                    var dados = json.decode(response.data.body);
+                    var dados = json.decode(response.data!.body);
                     int numeroConfirmacoes = dados['quantidade'];
                     return Badge(
                       badgeColor: Theme.of(context).primaryColor,
@@ -110,7 +110,7 @@ class _BottomCustomState extends State<BottomCustom> {
                 },
               );
             } else {
-              var dados = json.decode(event.data);
+              var dados = json.decode(event.data.toString());
               int numeroConfirmacoes = dados['quantidade'];
 
               return Badge(
@@ -130,8 +130,8 @@ class _BottomCustomState extends State<BottomCustom> {
         label: "Confirmar",
       ),
       BottomNavigationBarItem(
-        icon: Icon(FontAwesome.scissors),
-        label: "Serviços",
+        icon: Icon(FontAwesome.calendar),
+        label: "Calendário",
       ),
     ];
     this.itens.addAll(itens);

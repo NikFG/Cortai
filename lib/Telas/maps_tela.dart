@@ -1,16 +1,17 @@
 import 'dart:async';
+
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const API_KEY = "AIzaSyBN_mWl_3BjJLCPkKzCKaCqu2Wv8pe0UFw";
+const API_KEY = "AIzaSyAtWVw-2Emv3dq2VxuDiDILFPoYrcvh8K8";
 
 class MapsTela extends StatefulWidget {
   final ValueChanged<String> enderecoChanged;
@@ -21,9 +22,9 @@ class MapsTela extends StatefulWidget {
   final double lng;
 
   MapsTela(
-      {@required this.enderecoChanged,
-      @required this.latLngChanged,
-      @required this.cidadeChanged,
+      {required this.enderecoChanged,
+      required this.latLngChanged,
+      required this.cidadeChanged,
       this.endereco = "",
       this.lat = 0,
       this.lng = 0});
@@ -34,7 +35,7 @@ class MapsTela extends StatefulWidget {
 
 class _MapsTelaState extends State<MapsTela> {
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: API_KEY);
-  GoogleMapController mapController;
+  late GoogleMapController mapController;
   final Set<Marker> _markers = {};
   var procuraController = TextEditingController();
   var latLng;
@@ -74,7 +75,7 @@ class _MapsTelaState extends State<MapsTela> {
           GoogleMap(
             onMapCreated: (controller) async {
               mapController = controller;
-              if (widget.lat != null) {
+              if (widget.lat != 0) {
                 mapController.animateCamera(CameraUpdate.newCameraPosition(
                     CameraPosition(target: latLng, zoom: 20.0)));
                 setState(() {
@@ -95,14 +96,15 @@ class _MapsTelaState extends State<MapsTela> {
                   new Coordinates(latLng.latitude, latLng.longitude);
               var endereco = await Geocoder.local
                   .findAddressesFromCoordinates(coordinates);
-              procuraController.text = endereco.first.addressLine;
-              widget.cidadeChanged(endereco.first.subAdminArea);
+              procuraController.text = endereco.first.addressLine == null
+                  ? ""
+                  : endereco.first.addressLine!;
+              widget.cidadeChanged(endereco.first.subAdminArea == null
+                  ? ""
+                  : endereco.first.subAdminArea!);
             },
             initialCameraPosition: CameraPosition(target: latLng, zoom: 1),
             markers: _markers,
-//                );
-//              }
-//            },
           ),
           Positioned(
             top: 10,
@@ -162,30 +164,35 @@ class _MapsTelaState extends State<MapsTela> {
   }
 
   Future<void> _barraPesquisaPlaces() async {
-    Prediction p = await PlacesAutocomplete.show(
+    Prediction? p = await PlacesAutocomplete.show(
       hint: 'Digite seu endereço',
       startText: procuraController.text,
       context: context,
       apiKey: API_KEY,
       mode: Mode.overlay,
       onError: onError,
+      types: [],
+      components: [Component(Component.country, "br")],
+      strictbounds: false,
       language: "pt",
+      radius: 100000,
+
     );
     _mostraPrevisao(p);
   }
 
-  Future<Null> _mostraPrevisao(Prediction p) async {
+  Future<Null> _mostraPrevisao(Prediction? p) async {
     if (p != null) {
       PlacesDetailsResponse detail =
-          await _places.getDetailsByPlaceId(p.placeId);
-      final lat = detail.result.geometry.location.lat;
-      final lng = detail.result.geometry.location.lng;
+          await _places.getDetailsByPlaceId(p.placeId!);
+      final lat = detail.result.geometry!.location.lat;
+      final lng = detail.result.geometry!.location.lng;
 
       latLng = LatLng(lat, lng);
       List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
-      widget.cidadeChanged(placemarks.first.subAdministrativeArea);
+      widget.cidadeChanged(placemarks.first.subAdministrativeArea!);
 
-      procuraController.text = p.description;
+      procuraController.text = p.description!;
       _marcarMapaPrevisao();
     }
   }

@@ -9,7 +9,7 @@ part of 'agenda_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AgendaStore on _AgendaStore, Store {
-  Computed<bool> _$isEmptyComputed;
+  Computed<bool>? _$isEmptyComputed;
 
   @override
   bool get isEmpty => (_$isEmptyComputed ??=
@@ -64,13 +64,13 @@ mixin _$AgendaStore on _AgendaStore, Store {
   final _$streamAtom = Atom(name: '_AgendaStore.stream');
 
   @override
-  ObservableStream<dynamic> get stream {
+  ObservableStream<dynamic>? get stream {
     _$streamAtom.reportRead();
     return super.stream;
   }
 
   @override
-  set stream(ObservableStream<dynamic> value) {
+  set stream(ObservableStream<dynamic>? value) {
     _$streamAtom.reportWrite(value, super.stream, () {
       super.stream = value;
     });
@@ -79,8 +79,8 @@ mixin _$AgendaStore on _AgendaStore, Store {
   final _$getDataAsyncAction = AsyncAction('_AgendaStore.getData');
 
   @override
-  Future<void> getData(String url, String token) {
-    return _$getDataAsyncAction.run(() => super.getData(url, token));
+  Future<void> getData(Uri uri, String token) {
+    return _$getDataAsyncAction.run(() => super.getData(uri, token));
   }
 
   final _$firePusherAsyncAction = AsyncAction('_AgendaStore.firePusher');
@@ -128,10 +128,10 @@ mixin _$AgendaStore on _AgendaStore, Store {
 
   @override
   void itensHorario(
-      {@required String abertura,
-      @required String fechamento,
-      @required int intervalo,
-      @required DateTime horarioAtual}) {
+      {required String abertura,
+      required String fechamento,
+      required int intervalo,
+      required DateTime? horarioAtual}) {
     final _$actionInfo = _$_AgendaStoreActionController.startAction(
         name: '_AgendaStore.itensHorario');
     try {

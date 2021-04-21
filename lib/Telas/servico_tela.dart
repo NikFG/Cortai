@@ -11,10 +11,9 @@ import 'package:cortai/Widgets/appbar_custom.dart';
 import 'package:cortai/Widgets/appbar_extendida_custom.dart';
 import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
 
 import 'galeria_tela.dart';
 
@@ -22,40 +21,39 @@ class ServicoTela extends StatelessWidget {
   final Salao salao;
   final String distancia;
 
-  ServicoTela({@required this.salao, @required this.distancia});
+  ServicoTela({required this.salao, required this.distancia});
 
   @override
   Widget build(BuildContext context) {
-    String media = salao.quantidadeAvaliacao > 0
-        ? salao.mediaAvaliacao.toStringAsFixed(1)
+    String media = salao.quantidadeAvaliacao! > 0
+        ? salao.mediaAvaliacao!.toStringAsFixed(1)
         : '0.0';
     return Scaffold(
       body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
+        // physics: BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).primaryColor,
               leading: Util.leadingScaffold(context),
-              title: AppbarCustom(
-                  child: Text(
-                salao.nome,
+              title:Text(
+                salao.nome!,
                 style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0.sp,
+                  color: Colors.white,
+                  fontSize: 18.0,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
-              )),
+              ),
               stretch: false,
               pinned: true,
               centerTitle: true,
               expandedHeight: 90.0,
               flexibleSpace: FlexibleSpaceBar(
                 background: AppbarExtendidaCustom(
-                    nomeSalao: salao.nome,
-                    enderecoSalao: salao.endereco,
-                    menorValor: salao.menorValorServico,
-                    maiorValor: salao.maiorValorServico,
+                    nomeSalao: salao.nome!,
+                    enderecoSalao: salao.endereco!,
+                    menorValor: salao.menorValorServico!,
+                    maiorValor: salao.maiorValorServico!,
                     distancia: distancia),
               )),
           SliverList(
@@ -81,36 +79,36 @@ class ServicoTela extends StatelessWidget {
                             Container(
                               width: MediaQuery.of(context).size.width / 2.1,
                               child: Text(
-                                salao.nome,
+                                salao.nome!,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w100,
-                                    fontSize: 20.0.sp),
+                                    fontSize: 20.0),
                                 maxLines: 2,
                               ),
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width / 2.2,
                               alignment: Alignment.bottomRight,
-                              padding: EdgeInsets.only(right: 1.0.h),
-                              child: FlatButton(
+                              padding: EdgeInsets.only(right: 1.0),
+                              child: TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                GaleriaTela(salao.id)));
+                                                GaleriaTela(salao.id!)));
                                   },
                                   child: Text("Galeria >",
                                       style: TextStyle(
                                         color: Theme.of(context).accentColor,
-                                        fontSize: 13.0.sp,
+                                        fontSize: 13.0,
                                       ))),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 2.0.h),
+                    SizedBox(height: 2.0),
                     Container(
                         child: GestureDetector(
                             onTap: () {
@@ -124,9 +122,7 @@ class ServicoTela extends StatelessWidget {
                                   Container(
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                          bottom: 2.0.h,
-                                          left: 1.0.h,
-                                          right: 1.0.h),
+                                          bottom: 2.0, left: 1.0, right: 1.0),
                                       child: Container(
                                         child: Row(
                                           children: <Widget>[
@@ -138,7 +134,7 @@ class ServicoTela extends StatelessWidget {
                                                 "$distancia",
                                                 style: TextStyle(
                                                   color: Colors.black87,
-                                                  fontSize: 14.0.sp,
+                                                  fontSize: 14.0,
                                                 ),
                                               ),
                                             )
@@ -149,31 +145,29 @@ class ServicoTela extends StatelessWidget {
                                   ),
                                   Container(
                                     padding: EdgeInsets.only(
-                                        bottom: 2.0.h,
-                                        left: 1.0.h,
-                                        right: 1.0.h),
+                                        bottom: 2.0, left: 1.0, right: 1.0),
                                     child: Text(
-                                      "R\$${salao.menorValorServico.toStringAsFixed(2)}"
+                                      "R\$${salao.menorValorServico!.toStringAsFixed(2)}"
                                       " - "
-                                      "R\$${salao.maiorValorServico.toStringAsFixed(2)}",
+                                      "R\$${salao.maiorValorServico!.toStringAsFixed(2)}",
                                       style: TextStyle(
                                         color: Colors.black87,
-                                        fontSize: 14.0.sp,
+                                        fontSize: 14.0,
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.only(bottom: 2.0.h),
+                                    padding: EdgeInsets.only(bottom: 2.0),
                                     child: Row(
                                       children: <Widget>[
-                                        SizedBox(width: 1.0.w),
+                                        SizedBox(width: 1.0),
                                         Icon(Icons.star,
                                             color: Colors.amberAccent,
-                                            size: 14.0.sp),
+                                            size: 14.0),
                                         Text(
                                           media,
                                           style: TextStyle(
-                                            fontSize: 14.0.sp,
+                                            fontSize: 14.0,
                                             color: Colors.amber,
                                           ),
                                         ),
@@ -188,17 +182,16 @@ class ServicoTela extends StatelessWidget {
               ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
                   return FutureBuilder<http.Response>(
-                    future: http.get(ServicoControle.getBySalao(this.salao.id),
+                    future: http.get(ServicoControle.getBySalao(this.salao.id!),
                         headers: Util.token(model.token)),
                     builder: (context, response) {
                       if (!response.hasData) {
                         return ShimmerCustom(4);
                       } else {
-                        print(response.data.body);
-                        List<dynamic> dados = json.decode(response.data.body);
+                        List<dynamic> dados = json.decode(response.data!.body);
                         var widgets = dados
                             .map((doc) => ServicoTile(
-                                Servico.fromJsonApi(doc), this.salao.nome))
+                                Servico.fromJsonApi(doc), this.salao.nome!))
                             .toList();
                         return Column(
                           children: widgets,

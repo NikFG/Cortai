@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 class Api {
-  Dio _dio;
+  late Dio _dio;
 
   Api() {
     _dio = Dio();
@@ -13,7 +13,7 @@ class Api {
 
   static Future<http.Response> get(String url, String token) {
     return http
-        .get(url, headers: Util.token(token))
+        .get(Uri.parse(url), headers: Util.token(token))
         .timeout(Duration(seconds: 10));
   }
 
@@ -25,7 +25,7 @@ class Api {
             headers: Util.token(token),
             followRedirects: false,
             validateStatus: (status) {
-              return status <= 500;
+              return status! <= 500;
             }));
     if (response.statusCode != 200) {
       throw _formataErro(response.data);
@@ -41,10 +41,11 @@ class Api {
             headers: Util.token(token),
             followRedirects: false,
             validateStatus: (status) {
-              return status <= 500;
+              return status! <= 500;
             }));
 
     if (response.statusCode != 200) {
+      print(response.data);
       throw _formataErro(response.data);
     }
   }
@@ -55,7 +56,7 @@ class Api {
             headers: Util.token(token),
             followRedirects: false,
             validateStatus: (status) {
-              return status <= 500;
+              return status! <= 500;
             }));
     if (response.statusCode == 422) {
       throw _formataErro(response.data);

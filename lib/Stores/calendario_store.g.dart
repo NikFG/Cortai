@@ -9,26 +9,33 @@ part of 'calendario_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CalendarioStore on _CalendarioStore, Store {
-  Computed<bool> _$isHojeEmptyComputed;
+  Computed<bool>? _$isHojeEmptyComputed;
 
   @override
   bool get isHojeEmpty =>
       (_$isHojeEmptyComputed ??= Computed<bool>(() => super.isHojeEmpty,
               name: '_CalendarioStore.isHojeEmpty'))
           .value;
-  Computed<bool> _$isSeteEmptyComputed;
+  Computed<bool>? _$isSeteEmptyComputed;
 
   @override
   bool get isSeteEmpty =>
       (_$isSeteEmptyComputed ??= Computed<bool>(() => super.isSeteEmpty,
               name: '_CalendarioStore.isSeteEmpty'))
           .value;
-  Computed<bool> _$isMesEmptyComputed;
+  Computed<bool>? _$isMesEmptyComputed;
 
   @override
   bool get isMesEmpty =>
       (_$isMesEmptyComputed ??= Computed<bool>(() => super.isMesEmpty,
               name: '_CalendarioStore.isMesEmpty'))
+          .value;
+  Computed<bool>? _$isAllEmptyComputed;
+
+  @override
+  bool get isAllEmpty =>
+      (_$isAllEmptyComputed ??= Computed<bool>(() => super.isAllEmpty,
+              name: '_CalendarioStore.isAllEmpty'))
           .value;
 
   final _$horariosHojeAtom = Atom(name: '_CalendarioStore.horariosHoje');
@@ -94,8 +101,8 @@ mixin _$CalendarioStore on _CalendarioStore, Store {
   final _$filtraDataAsyncAction = AsyncAction('_CalendarioStore.filtraData');
 
   @override
-  Future<Null> filtraData(String url, String token) {
-    return _$filtraDataAsyncAction.run(() => super.filtraData(url, token));
+  Future<Null> filtraData(Uri uri, String token) {
+    return _$filtraDataAsyncAction.run(() => super.filtraData(uri, token));
   }
 
   @override
@@ -107,7 +114,8 @@ horariosMes: ${horariosMes},
 isLoading: ${isLoading},
 isHojeEmpty: ${isHojeEmpty},
 isSeteEmpty: ${isSeteEmpty},
-isMesEmpty: ${isMesEmpty}
+isMesEmpty: ${isMesEmpty},
+isAllEmpty: ${isAllEmpty}
     ''';
   }
 }

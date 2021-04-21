@@ -7,7 +7,6 @@ import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:sizer/sizer.dart';
 
 class DetalhesGaleria extends StatelessWidget {
   final Galeria galeria;
@@ -16,9 +15,10 @@ class DetalhesGaleria extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(galeria.salao.nome),
+        title: Text(galeria.salao.nome!),
         leading: Util.leadingScaffold(context),
         actions: [
           IconButton(
@@ -38,12 +38,12 @@ class DetalhesGaleria extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height / 1.2,
+          height: deviceInfo.size.height / 1.2,
           child: Column(
             children: <Widget>[
               Expanded(
                 child: Container(
-                  height: 30.0.h,
+                  height: deviceInfo.size.height * 3 / 10,
                   width: MediaQuery.of(context).size.width,
                   child: PhotoView(
                     minScale: PhotoViewComputedScale.contained,
@@ -61,15 +61,19 @@ class DetalhesGaleria extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.fromLTRB(1.0.h, 1.0.h, 0, 0),
+                      padding: EdgeInsets.fromLTRB(
+                          deviceInfo.size.height * 1 / 100,
+                          deviceInfo.size.height * 1 / 100,
+                          0,
+                          0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            galeria.servico.descricao,
+                            galeria.servico.descricao!,
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
-                              fontSize: 20.0.sp,
+                              fontSize: 20.0,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -77,23 +81,23 @@ class DetalhesGaleria extends StatelessWidget {
                             'R\$${galeria.servico.valor.toStringAsFixed(2)}',
                             style: TextStyle(
                               color: Theme.of(context).accentColor,
-                              fontSize: 16.0.sp,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                           SizedBox(
-                            height: 2.0.h,
+                            height: deviceInfo.size.height * 2 / 100,
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width / 1.1,
                             child: Text(
                               galeria.descricao,
                               style: TextStyle(
-                                fontSize: 12.0.sp,
+                                fontSize: 12.0,
                               ),
                             ),
                           ),
-                          Container(height: 2.0.h),
+                          Container(height: deviceInfo.size.height * 2 / 100),
                         ],
                       ),
                     ),

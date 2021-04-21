@@ -1,3 +1,4 @@
+import 'package:cortai/Dados/avaliacao.dart';
 import "package:cortai/Dados/cabeleireiro.dart";
 import "package:cortai/Dados/servico.dart";
 import "package:cortai/Util/conversao.dart";
@@ -9,26 +10,28 @@ part "horario.g.dart";
 
 @JsonSerializable()
 class Horario {
-  int id;
-  String hora;
+  int? id;
+  String? hora;
   @JsonKey(toJson: _dataToJson)
-  String data;
+  String? data;
   @JsonKey(fromJson: Conversao.trataBool)
-  bool confirmado;
+  bool? confirmado;
   @JsonKey(fromJson: _cabeleireiroFromJson)
-  Cabeleireiro cabeleireiro;
+  Cabeleireiro? cabeleireiro;
   @JsonKey(name: "cabeleireiro_id")
-  int cabeleireiroId;
+  int? cabeleireiroId;
   @JsonKey(fromJson: _clienteFromJson)
-  Cliente cliente;
+  Cliente? cliente;
   @JsonKey(name: "cliente_id")
-  int clienteId;
+  int? clienteId;
   @JsonKey(fromJson: _servicoFromJSon, toJson: _servicoToJson)
-  List<Servico> servicos;
+  List<Servico>? servicos;
   @JsonKey(fromJson: Conversao.trataBool)
-  bool pago;
+  bool? pago;
   @JsonKey(name: "forma_pagamento_id")
-  int formaPagamentoId;
+  int? formaPagamentoId;
+  @JsonKey(fromJson: _avaliacaoFromJson)
+  Avaliacao? avaliacao;
 
   Horario();
 
@@ -43,14 +46,15 @@ class Horario {
   static Cliente _clienteFromJson(cliente) =>
       cliente != null ? Cliente.fromJson(cliente) : Cliente();
 
-  static List<Servico> _servicoFromJSon(servicos) => servicos != null
-      ? servicos.map<Servico>((s) => Servico.fromJsonApi(s)).toList()
-      : [];
+  static List<Servico> _servicoFromJSon(List<dynamic>? servicos) =>
+      servicos != null
+          ? servicos.map<Servico>((s) => Servico.fromJsonApi(s)).toList()
+          : [];
 
-  static _servicoToJson(List<Servico> servicos) =>
-      servicos.map((e) => e.toJson()).toList();
+  static _servicoToJson(List<Servico>? servicos) =>
+      servicos!.map((e) => e.toJson()).toList();
 
-  static String _dataToJson(String data) => data.replaceAll("/", "-");
+  static String _dataToJson(String? data) => data!.replaceAll("/", "-");
 
   Map<String, dynamic> toJson() => _$HorarioToJson(this);
 
@@ -61,6 +65,12 @@ class Horario {
         "$confirmado, cabeleireiro: $cabeleireiro, "
         "cliente: $cliente, pago:"
         " $pago, formaPagamento: $formaPagamentoId}";
+  }
+
+  static Avaliacao? _avaliacaoFromJson(Map<String, dynamic>? map) {
+    if (map != null) {
+      return Avaliacao.fromJson(map);
+    }
   }
 
   @override

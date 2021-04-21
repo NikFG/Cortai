@@ -11,21 +11,20 @@ import 'package:cortai/Telas/index_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
 
 class DetalhesCabelereiroTela extends StatelessWidget {
   final Horario horario;
 
-  final Servico servico;
+  final Servico? servico;
 
-  DetalhesCabelereiroTela({@required this.horario, this.servico});
+  DetalhesCabelereiroTela({required this.horario, this.servico});
 
   @override
   Widget build(BuildContext context) {
-    Cabeleireiro cabeleireiro = horario.cabeleireiro;
+    Cabeleireiro cabeleireiro = horario.cabeleireiro!;
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return Scaffold(
@@ -46,7 +45,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                 );
               } else {
                 Salao salao = Salao.fromJsonApiDados(jsonDecode(
-                    response.data.body)); //Salao.fromDocument(snapshot.data);
+                    response.data!.body)); //Salao.fromDocument(snapshot.data);
                 return ListView(
                   children: <Widget>[
                     Container(
@@ -57,17 +56,18 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                           Container(
                             padding:
                                 EdgeInsets.only(top: 20, right: 10, left: 10),
-                            child: Text(salao.nome,
+                            child: Text(salao.nome!,
                                 style: TextStyle(
-                                    fontSize: 28.0.sp,
+                                    fontSize: 28.0,
                                     fontWeight: FontWeight.w700)),
                           ),
                           Container(
                             padding:
                                 EdgeInsets.only(top: 20, right: 10, left: 10),
-                            child: Text("Realizado às 12:28 - 16/07/2020",
+                            child: Text(
+                                "Realizado às ${horario.hora} - ${horario.data}",
                                 style: TextStyle(
-                                  fontSize: 16.0.sp,
+                                  fontSize: 16.0,
                                 )),
                           ),
                           Container(
@@ -75,7 +75,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 EdgeInsets.only(top: 20, right: 10, left: 10),
                             child: Text("Agendamento ${horario.id}",
                                 style: TextStyle(
-                                  fontSize: 16.0.sp,
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w700,
                                 )),
                           ),
@@ -89,7 +89,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 Container(
                                   child: Text("Nome do Cliente:",
                                       style: TextStyle(
-                                        fontSize: 14.0.sp,
+                                        fontSize: 14.0,
                                         fontWeight: FontWeight.w700,
                                       )),
                                 ),
@@ -97,7 +97,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                   child: Text(
                                     "Fulano",
                                     style: TextStyle(
-                                      fontSize: 14.0.sp,
+                                      fontSize: 14.0,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -116,15 +116,15 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 Container(
                                   child: Text("Realizado por:",
                                       style: TextStyle(
-                                        fontSize: 14.0.sp,
+                                        fontSize: 14.0,
                                         fontWeight: FontWeight.w700,
                                       )),
                                 ),
                                 Container(
                                   child: Text(
-                                    "Nome do fulano",
+                                    "${horario.cabeleireiro!.nome}",
                                     style: TextStyle(
-                                      fontSize: 14.0.sp,
+                                      fontSize: 14.0,
                                     ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -135,14 +135,14 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                           ),
                           ListTile(
                             leading: Icon(FontAwesome.tag),
-                            title: Text(servico.descricao,
+                            title: Text(servico!.descricao!,
                                 style: TextStyle(
-                                  fontSize: 14.0.sp,
+                                  fontSize: 14.0,
                                 )),
                             trailing: Text(
-                                "R\$${servico.valor.toStringAsFixed(2).replaceAll('.', ',')}",
+                                "R\$${servico!.valor.toStringAsFixed(2).replaceAll('.', ',')}",
                                 style: TextStyle(
-                                  fontSize: 14.0.sp,
+                                  fontSize: 14.0,
                                 )),
                           ),
                         ],
@@ -166,16 +166,16 @@ class DetalhesCabelereiroTela extends StatelessWidget {
         content: Text(
             "Caso cancele o agendamento, poderão ser cobradas taxas extras"),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text("Voltar"),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text("Confirmar"),
             onPressed: () async {
-              await HorarioControle.cancelaAgendamento(horario.id, token,
+              await HorarioControle.cancelaAgendamento(horario.id!, token,
                   onSuccess: onSuccess, onFail: onFail, clienteCancelou: true);
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => IndexTela()));

@@ -10,11 +10,11 @@ class AppbarExtendidaCustom extends StatelessWidget {
   final String enderecoSalao;
 
   AppbarExtendidaCustom(
-      {@required this.nomeSalao,
-      @required this.enderecoSalao,
-      @required this.menorValor,
-      @required this.maiorValor,
-      @required this.distancia});
+      {required this.nomeSalao,
+      required this.enderecoSalao,
+      required this.menorValor,
+      required this.maiorValor,
+      required this.distancia});
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,14 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:password_strength/password_strength.dart';
 
 class CadastroTela extends StatefulWidget {
@@ -177,31 +177,28 @@ class _CadastroTelaState extends State<CadastroTela> {
                             color: Color(0xFFf45d27),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50)),
-                            onPressed: _botaoHabilitado
-                                ? () {
-                                    if (_formKey.currentState.validate()) {
-                                      setState(() {
-                                        _botaoHabilitado = false;
-                                      });
-                                      LoginModelo login = LoginModelo();
-                                      var loginDados = Login(
-                                          email: _emailControlador.text,
-                                          nome: _nomeControlador.text,
-                                          telefone: _telefoneControlador.text,
-                                          isCabeleireiro: false,
-                                          salaoId: null,
-                                          imagem: null,
-                                          isDonoSalao: false,
-                                          senha:
-                                              _senhaConfirmaControlador.text);
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  _botaoHabilitado = false;
+                                });
+                                LoginModelo login = LoginModelo();
+                                var loginDados = Login(
+                                    email: _emailControlador.text,
+                                    nome: _nomeControlador.text,
+                                    telefone: _telefoneControlador.text,
+                                    isCabeleireiro: false,
+                                    salaoId: null,
+                                    imagem: null,
+                                    isDonoSalao: false,
+                                    senha: _senhaControlador.text);
 
-                                      login.criarContaEmail(
-                                          login: loginDados,
-                                          onSuccess: onSuccess,
-                                          onFail: onFail);
-                                    }
-                                  }
-                                : null,
+                                login.criarContaEmail(
+                                    login: loginDados,
+                                    onSuccess: onSuccess,
+                                    onFail: onFail);
+                              }
+                            },
                             child: _botaoHabilitado
                                 ? Text(
                                     'Confirmar',
@@ -216,7 +213,7 @@ class _CadastroTelaState extends State<CadastroTela> {
                         ),
                         Container(
                           child: Center(
-                            child: FlatButton(
+                            child: TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => LoginTela()));
@@ -252,9 +249,9 @@ class _CadastroTelaState extends State<CadastroTela> {
         context, MaterialPageRoute(builder: (context) => LoginTela()));
   }
 
-  void onFail() async {
+  void onFail(String error) async {
     await FlushbarHelper.createError(
-            message: "Erro ao realizar o cadastro, teste novamente!")
+            message: error)
         .show(context);
     setState(() {
       _botaoHabilitado = true;

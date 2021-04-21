@@ -4,16 +4,16 @@ part 'funcionamento.g.dart';
 
 @JsonSerializable()
 class Funcionamento {
-  int id;
+  int? id;
   @JsonKey(name: 'dia_semana')
-  String diaSemana;
+  late String diaSemana;
   @JsonKey(name: 'horario_abertura')
-  String horarioAbertura;
+  late String horarioAbertura;
   @JsonKey(name: 'horario_fechamento')
-  String horarioFechamento;
-  int intervalo;
+  late String horarioFechamento;
+  late int intervalo;
   @JsonKey(name: 'salao_id')
-  int salaoId;
+  late int salaoId;
 
   Funcionamento();
 
@@ -21,5 +21,4 @@ class Funcionamento {
       _$FuncionamentoFromJson(json);
 
   Map<String, dynamic> toJson() => _$FuncionamentoToJson(this);
-
 }

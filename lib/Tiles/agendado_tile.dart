@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/avaliacao_controle.dart';
 import 'package:cortai/Dados/avaliacao.dart';
 import 'package:cortai/Dados/horario.dart';
@@ -6,11 +7,11 @@ import 'package:cortai/Telas/detalhes_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 
 class AgendadoTile extends StatefulWidget {
   final Horario horario;
@@ -20,9 +21,9 @@ class AgendadoTile extends StatefulWidget {
   final String token;
 
   AgendadoTile(
-      {@required this.horario,
-      @required this.servico,
-      @required this.token,
+      {required this.horario,
+      required this.servico,
+      required this.token,
       this.avaliado = false});
 
   @override
@@ -31,8 +32,8 @@ class AgendadoTile extends StatefulWidget {
 
 class _AgendadoTileState extends State<AgendadoTile>
     with AutomaticKeepAliveClientMixin<AgendadoTile> {
-  double _avaliacao;
-  bool avaliado;
+  late double _avaliacao;
+  late bool avaliado;
 
   @override
   void initState() {
@@ -55,14 +56,14 @@ class _AgendadoTileState extends State<AgendadoTile>
                 )));
       },
       title: Text(
-          "${widget.servico.descricao} com ${widget.horario.cabeleireiro.nome}"),
+          "${widget.servico.descricao} com ${widget.horario.cabeleireiro!.nome}"),
       subtitle: Text("Dia ${widget.horario.data} às ${widget.horario.hora}"),
-      trailing: widget.horario.pago
-          ? FlatButton(
+      trailing: widget.horario.pago!
+          ? TextButton(
               child: Column(
                 children: <Widget>[
                   Icon(
-                    FontAwesome.star_o,
+                    FontAwesome.star,
                     color: Colors.amberAccent,
                   ),
                   SizedBox(
@@ -134,13 +135,13 @@ class _AgendadoTileState extends State<AgendadoTile>
                     ],
                   ),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       child: Text("Cancelar"),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
                     ),
-                    FlatButton(
+                    TextButton(
                       child: Text("Confirmar"),
                       onPressed: () {
                         if (_avaliacao > 1) {
@@ -150,7 +151,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                           dados.observacao = _descricaoControlador.text;
                           dados.data = Util.dateFormat.format(dataHora);
                           // dados.hora = Util.timeFormat.format(dataHora);
-                          dados.horarioId = widget.horario.id;
+                          dados.horarioId = widget.horario.id!;
                           AvaliacaoControle.store(dados,
                               token: token, onSuccess: () {}, onFail: () {});
                           avaliado = true;
@@ -179,14 +180,14 @@ class _AgendadoTileState extends State<AgendadoTile>
     return Column(
       children: <Widget>[
         Text("Confirmado:"),
-        widget.horario.confirmado
+        widget.horario.confirmado!
             ? Icon(
-                FontAwesome.check_circle_o,
+                FontAwesome5.check_circle,
                 color: Colors.green,
                 size: 35,
               )
             : Icon(
-                FontAwesome.times_circle_o,
+                FontAwesome5.times_circle,
                 color: Colors.red,
                 size: 35,
               ),

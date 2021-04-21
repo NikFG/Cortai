@@ -6,9 +6,8 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Tiles/galeria_tile.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
 
 class GaleriaTela extends StatefulWidget {
   final int salaoId;
@@ -27,6 +26,7 @@ class _GaleriaTelaState extends State<GaleriaTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
         return Scaffold(
@@ -37,7 +37,9 @@ class _GaleriaTelaState extends State<GaleriaTela> {
 
             //  backgroundColor: Theme.of(context).primaryColor,
             body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 2.0.h),
+              padding: EdgeInsets.symmetric(
+                  horizontal: deviceInfo.size.width * 2 / 100,
+                  vertical: deviceInfo.size.height * 2 / 100),
               child: FutureBuilder<http.Response>(
                 future: http.get(GaleriaControle.get(widget.salaoId),
                     headers: Util.token(model.token)),
@@ -45,7 +47,7 @@ class _GaleriaTelaState extends State<GaleriaTela> {
                   if (!response.hasData) {
                     return CircularProgressIndicator();
                   } else {
-                    List<dynamic> dados = json.decode(response.data.body);
+                    List<dynamic> dados = json.decode(response.data!.body);
                     print(dados);
                     return GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -61,7 +63,6 @@ class _GaleriaTelaState extends State<GaleriaTela> {
                     );
                   }
                 },
-
               ),
             ));
       },

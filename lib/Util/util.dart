@@ -1,10 +1,9 @@
-
 import 'dart:io';
 
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -14,8 +13,8 @@ class Util {
   static DateFormat dateFormat = DateFormat('dd/MM/yyyy', 'pt_BR');
   static DateFormat timeFormat = DateFormat("HH:mm");
 
-  //static const url = "http://192.168.0.108:8000/api/"; //Local
-  static const url = "http://18.230.188.111/api/"; //AWS
+  // static const url = "http://192.168.0.108:8000/api/"; //Local
+  static const url = "http://54.207.181.227/api/"; //AWS
 
   static Map<String, String> token(String token) {
     return {"Authorization": "Bearer $token}"};
@@ -34,31 +33,31 @@ class Util {
     switch (data.weekday) {
       case 1:
         return 'SEG';
-        break;
+
       case 2:
         return 'TER';
-        break;
+
       case 3:
         return 'QUA';
-        break;
+
       case 4:
         return 'QUI';
-        break;
+
       case 5:
         return 'SEX';
-        break;
+
       case 6:
         return 'SAB';
-        break;
+
       case 7:
         return 'DOM';
-        break;
+
       default:
         return '';
     }
   }
 
-  static int ordenarDiasSemana(String dia) {
+  static int? ordenarDiasSemana(String dia) {
     switch (dia) {
       case 'DOM':
         return 0;
@@ -79,11 +78,12 @@ class Util {
     }
   }
 
-
   static Widget leadingScaffold(BuildContext context,
       {Color color = Colors.white}) {
     return IconButton(
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: () {
+        Navigator.maybeOf(context)!.pop();
+      },
       icon: Platform.isAndroid
           ? Icon(Icons.arrow_back)
           : Icon(Icons.arrow_back_ios),
@@ -99,14 +99,14 @@ class Util {
   static setLocalizacao() async {
     var position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
-    String cidade =
-        await placemarkFromCoordinates(position.latitude, position.longitude)
-            .then((List<Placemark> value) => value.first.subAdministrativeArea);
+    String cidade = await placemarkFromCoordinates(
+            position.latitude, position.longitude)
+        .then((List<Placemark> value) => value.first.subAdministrativeArea!);
 
     String endereco = await Geocoder.local
         .findAddressesFromCoordinates(
             Coordinates(position.latitude, position.longitude))
-        .then((List<Address> value) => value.first.addressLine);
+        .then((List<Address> value) => value.first.addressLine!);
     await SharedPreferencesControle.setCidade(cidade);
     await SharedPreferencesControle.setPosition(position);
     await SharedPreferencesControle.setEndereco(endereco);

@@ -7,11 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
 
 class CalendarioTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
+
     CalendarioStore store = CalendarioStore();
     return ScopedModelDescendant<LoginModelo>(builder: (context, child, model) {
       store.filtraData(HorarioControle.getCalendario(), model.token);
@@ -24,7 +25,7 @@ class CalendarioTela extends StatelessWidget {
               child: Center(
                 child: Text(
                   "Agenda Salão",
-                  style: TextStyle(fontSize: 18.0.sp, color: Colors.black),
+                  style: TextStyle(fontSize: 18.0, color: Colors.black),
                 ),
               ),
             ),
@@ -38,16 +39,21 @@ class CalendarioTela extends StatelessWidget {
             if (store.isLoading) {
               return ShimmerCustom(4);
             } else {
+              if (store.isAllEmpty) {
+                return Center(
+                  child: Text("Não há horários no calendário"),
+                );
+              }
               return ListView(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
                 children: [
                   Container(
-                    padding: EdgeInsets.all(2.0.h),
+                    padding: EdgeInsets.all(deviceInfo.size.width * 2 / 100),
                     child: Text(
                       "Hoje",
                       style: TextStyle(
-                        fontSize: 16.0.sp,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -69,16 +75,16 @@ class CalendarioTela extends StatelessWidget {
                             var horario = store.horariosHoje[index];
                             return CalendarioTile(
                               horario: horario,
-                              servico: horario.servicos.first,
+                              servico: horario.servicos!.first,
                               token: model.token,
                             );
                           }),
                   Container(
-                    padding: EdgeInsets.all(2.0.h),
+                    padding: EdgeInsets.all(2.0),
                     child: Text(
                       "Próximos sete dias",
                       style: TextStyle(
-                        fontSize: 16.0.sp,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -88,7 +94,6 @@ class CalendarioTela extends StatelessWidget {
                     thickness: 2,
                     color: Colors.black87,
                   ),
-
                   store.isSeteEmpty
                       ? Text("Não há horários para os próximos sete dias")
                       :
@@ -101,17 +106,16 @@ class CalendarioTela extends StatelessWidget {
                             var horario = store.horariosSete[index];
                             return CalendarioTile(
                               horario: horario,
-                              servico: horario.servicos.first,
+                              servico: horario.servicos!.first,
                               token: model.token,
                             );
                           }),
-
                   Container(
-                    padding: EdgeInsets.all(2.0.h),
+                    padding: EdgeInsets.all(2.0),
                     child: Text(
                       "Futuro",
                       style: TextStyle(
-                        fontSize: 16.0.sp,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -124,19 +128,19 @@ class CalendarioTela extends StatelessWidget {
                   store.isMesEmpty
                       ? Text("Não há horários futuros")
                       :
-                  //ListView que carrega as Tiles desse MÊS
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: ScrollPhysics(),
-                      itemCount: store.horariosMes.length,
-                      itemBuilder: (context, index) {
-                        var horario = store.horariosMes[index];
-                        return CalendarioTile(
-                          horario: horario,
-                          servico: horario.servicos.first,
-                          token: model.token,
-                        );
-                      }),
+                      //ListView que carrega as Tiles desse MÊS
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: ScrollPhysics(),
+                          itemCount: store.horariosMes.length,
+                          itemBuilder: (context, index) {
+                            var horario = store.horariosMes[index];
+                            return CalendarioTile(
+                              horario: horario,
+                              servico: horario.servicos!.first,
+                              token: model.token,
+                            );
+                          }),
                 ],
               );
             }
@@ -146,5 +150,3 @@ class CalendarioTela extends StatelessWidget {
     });
   }
 }
-
-

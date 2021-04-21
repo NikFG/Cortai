@@ -12,8 +12,8 @@ import 'package:cortai/Widgets/carousel_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -27,25 +27,25 @@ class HomeTela extends StatefulWidget {
 }
 
 class _HomeTelaState extends State<HomeTela> {
-  HomeStore store;
+  late HomeStore store;
   var endereco = TextEditingController();
 
   String cidade = SharedPreferencesControle.getCidade();
 
   var param = '';
-  String latitude;
-  String longitude;
 
   @override
   void initState() {
     store = HomeStore();
-    super.initState();
     store.status = SharedPreferencesControle.getPermissionStatus();
     store.setEndereco(SharedPreferencesControle.getEndereco());
     if (store.endereco.isNotEmpty) {
-      latitude = SharedPreferencesControle.getPosition().latitude.toString();
-      longitude = SharedPreferencesControle.getPosition().longitude.toString();
+      store.latitude =
+          SharedPreferencesControle.getPosition().latitude.toString();
+      store.longitude =
+          SharedPreferencesControle.getPosition().longitude.toString();
     }
+    super.initState();
   }
 
   @override
@@ -90,10 +90,17 @@ class _HomeTelaState extends State<HomeTela> {
                                 latLngChanged: (LatLng value) async {
                                   await SharedPreferencesControle.setPosition(
                                       Position(
-                                          latitude: value.latitude,
-                                          longitude: value.longitude));
-                                  latitude = value.latitude.toString();
-                                  longitude = value.longitude.toString();
+                                    latitude: value.latitude,
+                                    longitude: value.longitude,
+                                    speedAccuracy: 0,
+                                    accuracy: 100,
+                                    altitude: 0,
+                                    timestamp: null,
+                                    speed: 0,
+                                    heading: 0,
+                                  ));
+                                  store.latitude = value.latitude.toString();
+                                  store.longitude = value.longitude.toString();
                                 },
                                 cidadeChanged: (String value) async {
                                   await SharedPreferencesControle.setCidade(
@@ -102,7 +109,7 @@ class _HomeTelaState extends State<HomeTela> {
                                 },
                                 enderecoChanged: (String value) async {
                                   await SharedPreferencesControle.setEndereco(
-                                      endereco.text);
+                                      value);
                                   await store.setEndereco(value);
                                 },
                               )));
@@ -121,29 +128,30 @@ class _HomeTelaState extends State<HomeTela> {
                   ),
                 ],
               );
-            } else {
-              param = "?cidade=$cidade&latitude=$latitude&longitude=$longitude";
+            } else if (store.latitude != null && store.longitude != null) {
+              param =
+                  "?cidade=$cidade&latitude=${store.latitude!}&longitude=${store.longitude!}";
 
               return ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
                   return FutureBuilder<http.Response>(
-                    future: http.get(SalaoControle.get() + param,
+                    future: http.get(SalaoControle.get(param),
                         headers: Util.token(model.token)),
                     builder: (context, response) {
                       if (!response.hasData) {
                         return ShimmerCustom(3);
                       } else {
-                        if (response.data.statusCode == 404) {
+                        if (response.data!.statusCode == 204) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  response.data.body,
+                                  "Não há salões para a sua cidade atualmente",
                                   textAlign: TextAlign.justify,
                                 ),
-                                FlatButton(
+                                TextButton(
                                   onPressed: () {
                                     String urlForm =
                                         'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link';
@@ -163,8 +171,8 @@ class _HomeTelaState extends State<HomeTela> {
                             ),
                           );
                         }
-                        print(response.data.body);
-                        List<dynamic> dados = json.decode(response.data.body);
+
+                        List<dynamic> dados = json.decode(response.data!.body);
 
                         List<Widget> widgets = dados
                             .map((s) => HomeTile(Salao.fromJson(s)))
@@ -177,6 +185,8 @@ class _HomeTelaState extends State<HomeTela> {
                   );
                 },
               );
+            } else {
+              return Center();
             }
           },
         ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/salao_controle.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Dados/login.dart';
@@ -13,15 +14,14 @@ import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
 
 import 'gerenciar_servico_tela.dart';
 import 'maps_tela.dart';
@@ -32,7 +32,7 @@ class PerfilTela extends StatefulWidget {
 }
 
 class _PerfilTelaState extends State<PerfilTela> {
-  File _imagem;
+  File? _imagem;
 
   @override
   Widget build(BuildContext context) {
@@ -45,37 +45,38 @@ class _PerfilTelaState extends State<PerfilTela> {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                      model.dados.nome,
+                      model.dados!.nome,
                       style: TextStyle(
-                          fontSize: 20.0.sp, fontWeight: FontWeight.w600),
+                          fontSize: 20.0, fontWeight: FontWeight.w600),
                     ),
                     subtitle: InkWell(
                         child: Text(
                           'Editar Perfil',
                           style: TextStyle(
-                            fontSize: 14.0.sp,
+                            fontSize: 14.0,
                           ),
                         ),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  EditarPerfilTela(model.dados)));
+                                  EditarPerfilTela(model.dados!)));
                         }),
                     leading: GestureDetector(
                       onTap: () async {
                         await getImagem();
                         if (_imagem != null) {
                           model.atualizaImagem(
-                              file: _imagem,
+                              file: _imagem!,
                               onSucess: onSuccess,
                               onFail: onFail);
                         }
                       },
                       child: CircleAvatar(
                         radius: 32,
-                        backgroundImage: model.dados.imagem == null
+                        backgroundImage: model.dados!.imagem == null
                             ? AssetImage('assets/images/user.png')
-                            : MemoryImage(base64Decode(model.dados.imagem)),
+                            : MemoryImage(base64Decode(model.dados!.imagem!))
+                                as ImageProvider,
                         backgroundColor: Colors.transparent,
                       ),
                     ),
@@ -83,7 +84,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                   SizedBox(
                     height: 20,
                   ),
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => MapsTela(
@@ -94,8 +95,15 @@ class _PerfilTelaState extends State<PerfilTela> {
                                   latLngChanged: (LatLng value) {
                                     SharedPreferencesControle.setPosition(
                                         Position(
-                                            latitude: value.latitude,
-                                            longitude: value.longitude));
+                                      latitude: value.latitude,
+                                      longitude: value.longitude,
+                                      speedAccuracy: 0,
+                                      accuracy: 100,
+                                      altitude: 0,
+                                      timestamp: null,
+                                      speed: 0,
+                                      heading: 0,
+                                    ));
                                   },
                                   cidadeChanged: (String value) {
                                     SharedPreferencesControle.setCidade(value);
@@ -117,14 +125,15 @@ class _PerfilTelaState extends State<PerfilTela> {
                           SizedBox(width: 10),
                           Text(
                             "Mudar endereço",
-                            style: TextStyle(fontSize: 16.0.sp),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
                           )
                         ],
                       )),
                   Divider(
                     color: Colors.black87,
                   ),
-                  FlatButton(
+                  TextButton(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => WebViewTela(
@@ -134,30 +143,30 @@ class _PerfilTelaState extends State<PerfilTela> {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            FontAwesome.lightbulb_o,
+                            FontAwesome.lightbulb,
                             color: Colors.black54,
                           ),
                           SizedBox(width: 10),
                           Text(
                             "Sugerir novo salão",
-                            style: TextStyle(
-                              fontSize: 16.0.sp,
-                            ),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ],
                       )),
                   Divider(
                     color: Colors.black87,
                   ),
-                  _widgetsDonoSalao(model.dados, model),
-                  FlatButton(
+                  _widgetsCabeleireiro(model.dados!),
+                  _widgetsDonoSalao(model.dados!, model),
+                  TextButton(
                       onPressed: () {
                         showAboutDialog(
                             context: context,
                             applicationName: "Cortaí",
                             applicationVersion: "1.0",
                             children: <Widget>[
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => WebViewTela(
@@ -167,7 +176,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                                 child: Text(
                                     "Vetores criados por stories - br.freepik.com"),
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => WebViewTela(
@@ -177,7 +186,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                                 child:
                                     Text("Illustration by Stories by Freepik"),
                               ),
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => WebViewTela(
@@ -197,22 +206,21 @@ class _PerfilTelaState extends State<PerfilTela> {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            FontAwesome.info_circle,
+                            FontAwesome5.info_circle,
                             color: Colors.black54,
                           ),
                           SizedBox(width: 10),
                           Text(
                             "Sobre",
-                            style: TextStyle(
-                              fontSize: 16.0.sp,
-                            ),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ],
                       )),
                   Divider(
                     color: Colors.black45,
                   ),
-                  FlatButton(
+                  TextButton(
                       onPressed: () async {
                         await model.logout();
                         Navigator.pushReplacement(
@@ -223,15 +231,14 @@ class _PerfilTelaState extends State<PerfilTela> {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            FontAwesome.power_off,
+                            FontAwesome5.power_off,
                             color: Colors.black54,
                           ),
                           SizedBox(width: 10),
                           Text(
                             "Logout",
-                            style: TextStyle(
-                              fontSize: 16.0.sp,
-                            ),
+                            style:
+                                TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ],
                       ))
@@ -253,11 +260,41 @@ class _PerfilTelaState extends State<PerfilTela> {
     });
   }
 
+  Widget _widgetsCabeleireiro(Login login) {
+    if (login.isCabeleireiro) {
+      return Column(
+        children: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => GerenciarServicoTela()));
+              },
+              child: Row(children: <Widget>[
+                Icon(
+                  FontAwesome.scissors,
+                  color: Colors.black54,
+                ),
+                SizedBox(width: 10),
+                Text("Editar Serviços",
+                    style: TextStyle(fontSize: 16.0, color: Colors.black))
+              ])),
+          Divider(
+            color: Colors.black45,
+          ),
+        ],
+      );
+    }
+    return Container(
+      height: 0,
+      width: 0,
+    );
+  }
+
   Widget _widgetsDonoSalao(Login login, LoginModelo model) {
     if (login.isDonoSalao) {
       return Column(
         children: <Widget>[
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => CadastroFuncionamentoTela()));
@@ -265,15 +302,13 @@ class _PerfilTelaState extends State<PerfilTela> {
             child: Row(
               children: <Widget>[
                 Icon(
-                  FontAwesome.clock_o,
+                  FontAwesome.clock,
                   color: Colors.black54,
                 ),
                 SizedBox(width: 10),
                 Text(
                   "Horário de funcionamento",
-                  style: TextStyle(
-                    fontSize: 16.0.sp,
-                  ),
+                  style: TextStyle(fontSize: 16.0, color: Colors.black),
                 ),
               ],
             ),
@@ -281,9 +316,10 @@ class _PerfilTelaState extends State<PerfilTela> {
           Divider(
             color: Colors.black45,
           ),
-          FlatButton(
+          TextButton(
               onPressed: () async {
-                var response = await http.get(SalaoControle.show(login.salaoId),
+                var response = await http.get(
+                    SalaoControle.show(login.salaoId!),
                     headers: Util.token(model.token));
                 print(response.body);
                 Salao salao =
@@ -295,53 +331,33 @@ class _PerfilTelaState extends State<PerfilTela> {
                   ? Row(
                       children: <Widget>[
                         Icon(
-                          FontAwesome.address_book_o,
+                          FontAwesome5.address_book,
                           color: Colors.black54,
                         ),
                         SizedBox(width: 10),
                         Text(
                           "Editar salão",
-                          style: TextStyle(
-                            fontSize: 16.0.sp,
-                          ),
+                          style: TextStyle(fontSize: 16.0, color: Colors.black),
                         ),
                       ],
                     )
                   : Row(
                       children: <Widget>[
                         Icon(
-                          FontAwesome.address_book_o,
+                          FontAwesome5.address_book,
                           color: Colors.black54,
                         ),
                         SizedBox(width: 10),
                         Text(
                           "Criar salão",
-                          style: TextStyle(
-                            fontSize: 16.0.sp,
-                          ),
+                          style: TextStyle(fontSize: 16.0, color: Colors.black),
                         ),
                       ],
                     )),
           Divider(
             color: Colors.black45,
           ),
-          FlatButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => GerenciarServicoTela()));
-              },
-              child: Row(children: <Widget>[
-                Icon(
-                  FontAwesome.scissors,
-                  color: Colors.black54,
-                ),
-                SizedBox(width: 10),
-                Text("Editar Serviços", style: TextStyle(fontSize: 16.0.sp))
-              ])),
-          Divider(
-            color: Colors.black45,
-          ),
-          FlatButton(
+          TextButton(
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => SolicitacaoCabeleireiroTela()));
@@ -353,7 +369,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                 ),
                 SizedBox(width: 10),
                 Text("Cadastrar cabeleireiros",
-                    style: TextStyle(fontSize: 16.0.sp))
+                    style: TextStyle(fontSize: 16.0, color: Colors.black))
               ])),
           Divider(
             color: Colors.black45,

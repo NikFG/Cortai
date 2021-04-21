@@ -1,14 +1,12 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:sizer/sizer.dart';
 
 import 'cadastro_tela.dart';
 import 'index_tela.dart';
@@ -26,6 +24,7 @@ class _LoginTelaState extends State<LoginTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     Util.corPrimariaStatusBar(context);
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
@@ -60,8 +59,8 @@ class _LoginTelaState extends State<LoginTela> {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 30.0.h,
+                          width: deviceInfo.size.width,
+                          height: MediaQuery.of(context).size.height * 3 / 10,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.topCenter,
@@ -84,8 +83,12 @@ class _LoginTelaState extends State<LoginTela> {
                                   image: AssetImage(
                                     'assets/icons/icon_white_transparent.png',
                                   ),
-                                  height: 30.0.h,
-                                  width: 30.0.h,
+                                  height: MediaQuery.of(context).size.height *
+                                      3 /
+                                      10,
+                                  width: MediaQuery.of(context).size.width *
+                                      4 /
+                                      10,
                                 ),
                               ),
                               Spacer(),
@@ -93,7 +96,7 @@ class _LoginTelaState extends State<LoginTela> {
                           ),
                         ),
                         Container(
-                          width: MediaQuery.of(context).size.width,
+                          width: deviceInfo.size.width,
                           padding: EdgeInsets.only(top: 62),
                           child: Column(
                             children: <Widget>[
@@ -143,9 +146,7 @@ class _LoginTelaState extends State<LoginTela> {
                                     materialTapTargetSize:
                                         MaterialTapTargetSize.shrinkWrap,
                                     minWidth: 0,
-                                    height: 0,
-                                    child: FlatButton(
-                                      padding: EdgeInsets.zero,
+                                    child: TextButton(
                                       onPressed: () async {
                                         if (_emailControlador.text.isNotEmpty) {
                                           bool result =
@@ -180,24 +181,21 @@ class _LoginTelaState extends State<LoginTela> {
                               ),
                               Container(
                                 height: 45,
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                child: RaisedButton(
-                                  onPressed: _botaoHabilitado
-                                      ? () {
-                                          if (_formKey.currentState
-                                              .validate()) {
-                                            setState(() {
-                                              _botaoHabilitado = false;
-                                            });
-                                            model.logarEmail(
-                                                email: _emailControlador.text,
-                                                senha: _senhaControlador.text,
-                                                onSuccess: onSuccess,
-                                                onFail: onFail,
-                                                onVerifyEmail: onVerifyEmail);
-                                          }
-                                        }
-                                      : null,
+                                width: deviceInfo.size.width / 1.2,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      setState(() {
+                                        _botaoHabilitado = false;
+                                      });
+                                      model.logarEmail(
+                                          email: _emailControlador.text,
+                                          senha: _senhaControlador.text,
+                                          onSuccess: onSuccess,
+                                          onFail: onFail,
+                                          onVerifyEmail: onVerifyEmail);
+                                    }
+                                  },
                                   child: _botaoHabilitado
                                       ? Text(
                                           'Login',
@@ -210,9 +208,12 @@ class _LoginTelaState extends State<LoginTela> {
                                       : Center(
                                           child: CircularProgressIndicator(),
                                         ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50)),
-                                  color: Color(0xFFf45d27),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Color(0xFFf45d27),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      )),
                                 ),
                               ),
                               SizedBox(
@@ -234,22 +235,18 @@ class _LoginTelaState extends State<LoginTela> {
                               SizedBox(
                                 height: 5,
                               ),
-                              GoogleSignInButton(
-                                darkMode: false,
-                                text: "Entre com o Google",
-                                onPressed: _botaoHabilitado
-                                    ? () {
-                                        setState(() {
-                                          _botaoHabilitado = false;
-                                        });
-                                        model.logarGoogle(onSuccess, onFail);
-                                      }
-                                    : null,
-                                borderRadius: 50,
+                              TextButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    _botaoHabilitado = false;
+                                  });
+                                  await model.logarGoogle(onSuccess, onFail);
+                                },
+                                child: Text("Entre com o Google"),
                               ),
                               Container(
                                 child: Center(
-                                  child: FlatButton(
+                                  child: TextButton(
                                       onPressed: () {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(

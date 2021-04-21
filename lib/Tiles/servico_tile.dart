@@ -33,12 +33,12 @@ class ServicoTile extends StatelessWidget {
           backgroundColor: Colors.transparent,
           radius: 30,
           backgroundImage: dados.imagem != null
-              ? NetworkImage(dados.imagem, scale: 1.0)
-              : AssetImage("assets/images/barbearia.png"),
+              ? MemoryImage(base64Decode(dados.imagem!), scale: 1.0)
+              : AssetImage("assets/images/barbearia.png") as ImageProvider,
         ),
       ),
       title: Text(
-        dados.descricao,
+        dados.descricao!,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
           color: Colors.black,
@@ -46,7 +46,7 @@ class ServicoTile extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        dados.observacao,
+        dados.observacao!,
         style: TextStyle(),
         maxLines: 3,
       ),

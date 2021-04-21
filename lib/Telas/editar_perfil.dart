@@ -1,12 +1,12 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'index_tela.dart';
@@ -30,7 +30,8 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
   void initState() {
     super.initState();
     _nomeControlador.text = widget.login.nome;
-    _telefoneControlador.text = widget.login.telefone;
+    _telefoneControlador.text =
+        widget.login.telefone == null ? "" : widget.login.telefone!;
   }
 
   @override
@@ -94,9 +95,9 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                                 return null;
                               }),
                           SizedBox(height: 5),
-                          FlatButton(
+                          TextButton(
                             onPressed: () async {
-                              await model.recuperarSenha(model.dados.email);
+                              await model.recuperarSenha(model.dados!.email);
                               await FlushbarHelper.createInformation(
                                       message:
                                           "Verifique seu email para mais sobre a alteração")
@@ -120,7 +121,7 @@ class _EditarPerfilTelaState extends State<EditarPerfilTela> {
                             textoBotao: 'Confirmar',
                             botaoHabilitado: _botaoHabilitado,
                             onPressed: () async {
-                              if (_formKey.currentState.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 setState(() {
                                   _botaoHabilitado = false;
                                 });

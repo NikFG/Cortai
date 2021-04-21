@@ -1,13 +1,12 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Telas/cadastro_funcionamento_tela.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:sizer/sizer.dart';
 
 class DiaFuncionamentoTela extends StatefulWidget {
   final Funcionamento dados;
@@ -38,6 +37,7 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Editar Dia'),
@@ -57,7 +57,9 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                      padding: EdgeInsets.only(
+                          top: deviceInfo.size.height * 2 / 100,
+                          left: deviceInfo.size.height * 2 / 100),
                       child: Text(
                         "Horario de Abertura:",
                         style: TextStyle(fontSize: 15.0),
@@ -85,7 +87,9 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                       height: 20,
                     ),
                     Container(
-                      padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                      padding: EdgeInsets.only(
+                          top: deviceInfo.size.height * 2 / 100,
+                          left: deviceInfo.size.height * 2 / 100),
                       child: Text(
                         "Horario de Fechamento:",
                         style: TextStyle(fontSize: 15.0),
@@ -116,7 +120,9 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                 height: 20,
               ),
               Container(
-                padding: EdgeInsets.only(top: 2.0.h, left: 2.0.h),
+                padding: EdgeInsets.only(
+                    top: deviceInfo.size.height * 2 / 100,
+                    left: deviceInfo.size.height * 2 / 100),
                 child: Text(
                   "Intervalo entre horários:",
                   style: TextStyle(fontSize: 15.0),
@@ -138,14 +144,14 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
                 icon: Icon(Icons.settings_backup_restore),
               ),
               SizedBox(
-                height: 5.0.h,
+                height: deviceInfo.size.height * 5 / 100,
               ),
               SizedBox(height: 50),
               ButtonCustom(
                 textoBotao: "Confirmar",
                 botaoHabilitado: _botaoHabilitado,
                 onPressed: () {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     setState(() {
                       _botaoHabilitado = false;
                     });
@@ -167,7 +173,7 @@ class _DiaFuncionamentoTelaState extends State<DiaFuncionamentoTela> {
 
   Future<Null> _selectTime(BuildContext context,
       TextEditingController timeController, String helpText) async {
-    final TimeOfDay picked = await showTimePicker(
+    final TimeOfDay? picked = await showTimePicker(
         context: context, initialTime: TimeOfDay.now(), helpText: helpText);
     if (picked != null)
       setState(() {

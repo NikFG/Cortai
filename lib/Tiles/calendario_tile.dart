@@ -1,4 +1,3 @@
-
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/servico.dart';
@@ -6,7 +5,6 @@ import 'package:cortai/Telas/detalhes_cabelereiro_agendado_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
 class CalendarioTile extends StatefulWidget {
   final Horario horario;
@@ -16,19 +14,18 @@ class CalendarioTile extends StatefulWidget {
   final String token;
 
   CalendarioTile(
-      {@required this.horario,
-      @required this.servico,
-      @required this.token,
+      {required this.horario,
+      required this.servico,
+      required this.token,
       this.avaliado = false});
 
   @override
-  _CalendarioTileState createState() =>
-      _CalendarioTileState();
+  _CalendarioTileState createState() => _CalendarioTileState();
 }
 
 class _CalendarioTileState extends State<CalendarioTile>
     with AutomaticKeepAliveClientMixin<CalendarioTile> {
-  bool avaliado;
+  late bool avaliado;
 
   @override
   void initState() {
@@ -41,8 +38,8 @@ class _CalendarioTileState extends State<CalendarioTile>
 
   @override
   Widget build(BuildContext context) {
-    Cliente cliente = widget.horario.cliente;
-
+    Cliente cliente = widget.horario.cliente!;
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     super.build(context);
     return ListTileCustom(
       onTap: () {
@@ -57,7 +54,7 @@ class _CalendarioTileState extends State<CalendarioTile>
           "Serviço ${widget.servico.descricao}",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: 15.0.sp),
+          style: TextStyle(fontSize: 15.0),
         ),
       ),
       subtitle: Column(
@@ -68,23 +65,23 @@ class _CalendarioTileState extends State<CalendarioTile>
               "Dia ${widget.horario.data} às ${widget.horario.hora}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 13.0.sp),
+              style: TextStyle(fontSize: 13.0),
             ),
           ),
-          SizedBox(width: 2.0),
+          SizedBox(width: deviceInfo.size.height * 0.2 / 10),
           Container(
               child: Text(
             "Valor: R\$${widget.servico.valor.toStringAsFixed(2)}",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 13.0.sp),
+            style: TextStyle(fontSize: 13.0),
           )),
           Container(
             child: Text(
               "Cliente: ${cliente.nome}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 13.0.sp),
+              style: TextStyle(fontSize: 13.0),
             ),
           ),
         ],

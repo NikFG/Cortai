@@ -4,10 +4,10 @@ part 'forma_pagamento.g.dart';
 
 @JsonSerializable(createToJson: false)
 class FormaPagamento {
-  int id;
+  late int id;
   @JsonKey(name: 'imagem', defaultValue: '')
-  String icone;
-  String descricao;
+  String? icone;
+  late String descricao;
 
   FormaPagamento();
 

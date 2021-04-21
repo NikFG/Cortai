@@ -1,8 +1,8 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/funcionamento_controle.dart';
 import 'package:cortai/Dados/funcionamento.dart';
 import 'package:cortai/Telas/dia_funcionamento_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 
 class CadastroFuncionamentoTile extends StatefulWidget {
@@ -65,17 +65,17 @@ class _CadastroFuncionamentoTileState extends State<CadastroFuncionamentoTile> {
                                 content: Text(
                                     "Deseja realmente remover este horário do salão?"),
                                 actions: <Widget>[
-                                  FlatButton(
+                                  TextButton(
                                     onPressed: () async {
                                       await FuncionamentoControle.delete(
-                                          dados.id, token,
+                                          dados.id!, token,
                                           onSuccess: onSuccessDeletado,
                                           onFail: onFailDeletado);
                                       Navigator.of(context).pop();
                                     },
                                     child: Text("Sim"),
                                   ),
-                                  FlatButton(
+                                  TextButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },

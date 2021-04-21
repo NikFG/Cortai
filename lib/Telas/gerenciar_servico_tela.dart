@@ -29,7 +29,7 @@ class GerenciarServicoTela extends StatelessWidget {
               if (!response.hasData) {
                 return ShimmerCustom(5);
               } else {
-                print(response.data.body);
+                print(response.data!.body);
                 List<Widget> lista = [
                   ListTileCustom(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -43,11 +43,14 @@ class GerenciarServicoTela extends StatelessWidget {
                     title: Text("Adicionar novo serviço"),
                   ),
                 ];
-                lista.addAll(json.decode(response.data.body).map<Widget>((doc) {
-                  return GerenciaServicoTile(
-                    dados: Servico.fromJsonApi(doc),
-                  );
-                }).toList());
+                if (response.data!.statusCode == 200) {
+                  lista.addAll(
+                      json.decode(response.data!.body).map<Widget>((doc) {
+                    return GerenciaServicoTile(
+                      dados: Servico.fromJsonApi(doc),
+                    );
+                  }).toList());
+                }
                 return ListView(children: lista);
               }
             },

@@ -15,19 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "924748747791-u63f381lcukvpfrfmmq75t1p1fmif24d.apps.googleusercontent.com",
+          "client_id": "924748747791-2ofb70309ojuhrbkevo6696ooeid89h0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nfsoft.cortai",
-            "certificate_hash": "9da72e7d2200d27348ad6b0bf10a16306867c50a"
+            "certificate_hash": "fa328ac3d706933d26778701b756adcf046d25ef"
           }
         },
         {
-          "client_id": "924748747791-fte2j9f6gki5nsopa36ief0j2fdt0p6q.apps.googleusercontent.com",
+          "client_id": "924748747791-5l32it01gmhp150fjgo2d07famnhjnm2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nfsoft.cortai",
-            "certificate_hash": "bea40c68bb97a67a559f14364cf57d632a63ee6d"
+            "certificate_hash": "4eb3fb3b374b8b6037b8ecb92f7ce0742eebf395"
           }
         },
         {
@@ -39,11 +39,27 @@
           }
         },
         {
-          "client_id": "924748747791-5l32it01gmhp150fjgo2d07famnhjnm2.apps.googleusercontent.com",
+          "client_id": "924748747791-fte2j9f6gki5nsopa36ief0j2fdt0p6q.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nfsoft.cortai",
-            "certificate_hash": "4eb3fb3b374b8b6037b8ecb92f7ce0742eebf395"
+            "certificate_hash": "bea40c68bb97a67a559f14364cf57d632a63ee6d"
+          }
+        },
+        {
+          "client_id": "924748747791-r6onml2gdl8mplbe106v0d361835rmql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "75526454a7d0ab9c8a0d8e768c0ddc71200af068"
+          }
+        },
+        {
+          "client_id": "924748747791-u63f381lcukvpfrfmmq75t1p1fmif24d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "9da72e7d2200d27348ad6b0bf10a16306867c50a"
           }
         },
         {
