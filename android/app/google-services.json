@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "924748747791-1v0nqonq4n89utu0rog3mt8ibanbs6sl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "2d3a84c3a5063a25300067b0a9212b1da65a6d3d"
+          }
+        },
+        {
           "client_id": "924748747791-2ofb70309ojuhrbkevo6696ooeid89h0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
