@@ -18,7 +18,9 @@ Horario _$HorarioFromJson(Map<String, dynamic> json) {
     ..clienteId = json['cliente_id'] as int?
     ..servicos = Horario._servicoFromJSon(json['servicos'] as List?)
     ..pago = Conversao.trataBool(json['pago'] as int?)
-    ..formaPagamentoId = json['forma_pagamento_id'] as int?;
+    ..formaPagamentoId = json['forma_pagamento_id'] as int?
+    ..avaliacao =
+        Horario._avaliacaoFromJson(json['avaliacao'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$HorarioToJson(Horario instance) => <String, dynamic>{
@@ -33,4 +35,5 @@ Map<String, dynamic> _$HorarioToJson(Horario instance) => <String, dynamic>{
       'servicos': Horario._servicoToJson(instance.servicos),
       'pago': instance.pago,
       'forma_pagamento_id': instance.formaPagamentoId,
+      'avaliacao': instance.avaliacao,
     };

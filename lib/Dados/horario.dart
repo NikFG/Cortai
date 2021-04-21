@@ -1,3 +1,4 @@
+import 'package:cortai/Dados/avaliacao.dart';
 import "package:cortai/Dados/cabeleireiro.dart";
 import "package:cortai/Dados/servico.dart";
 import "package:cortai/Util/conversao.dart";
@@ -29,6 +30,8 @@ class Horario {
   bool? pago;
   @JsonKey(name: "forma_pagamento_id")
   int? formaPagamentoId;
+  @JsonKey(fromJson: _avaliacaoFromJson)
+  Avaliacao? avaliacao;
 
   Horario();
 
@@ -62,6 +65,12 @@ class Horario {
         "$confirmado, cabeleireiro: $cabeleireiro, "
         "cliente: $cliente, pago:"
         " $pago, formaPagamento: $formaPagamentoId}";
+  }
+
+  static Avaliacao? _avaliacaoFromJson(Map<String, dynamic>? map) {
+    if (map != null) {
+      return Avaliacao.fromJson(map);
+    }
   }
 
   @override
