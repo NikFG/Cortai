@@ -156,7 +156,9 @@ class SaibaMaisTela extends StatelessWidget {
                             return ListTileCustom(
                               onTap: () {},
                               leading: Text(avaliacao.valor.toStringAsFixed(2)),
-                              title: Text(avaliacao.observacao),
+                              title: Text(avaliacao.observacao == null
+                                  ? ""
+                                  : avaliacao.observacao!),
                             );
                           },
                         );
