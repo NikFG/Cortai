@@ -24,7 +24,7 @@ class CalendarioTela extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 20),
               child: Center(
                 child: Text(
-                  "Agenda Salão",
+                  "Calendário",
                   style: TextStyle(fontSize: 18.0, color: Colors.black),
                 ),
               ),
