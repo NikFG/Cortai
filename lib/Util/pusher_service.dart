@@ -16,7 +16,6 @@ class PusherService {
 
   Stream get eventStream => _eventData.stream;
   late PusherClient pusher;
-  late String lastConnectionState;
   late Channel channel;
 
   Future<void> initPusher(String token) async {

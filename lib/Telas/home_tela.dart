@@ -40,8 +40,10 @@ class _HomeTelaState extends State<HomeTela> {
     store.status = SharedPreferencesControle.getPermissionStatus();
     store.setEndereco(SharedPreferencesControle.getEndereco());
     if (store.endereco.isNotEmpty) {
-      latitude = SharedPreferencesControle.getPosition().latitude.toString();
-      longitude = SharedPreferencesControle.getPosition().longitude.toString();
+      store.latitude =
+          SharedPreferencesControle.getPosition().latitude.toString();
+      store.longitude =
+          SharedPreferencesControle.getPosition().longitude.toString();
     }
     super.initState();
   }
@@ -97,8 +99,8 @@ class _HomeTelaState extends State<HomeTela> {
                                     speed: 0,
                                     heading: 0,
                                   ));
-                                  latitude = value.latitude.toString();
-                                  longitude = value.longitude.toString();
+                                  store.latitude = value.latitude.toString();
+                                  store.longitude = value.longitude.toString();
                                 },
                                 cidadeChanged: (String value) async {
                                   await SharedPreferencesControle.setCidade(
@@ -106,8 +108,7 @@ class _HomeTelaState extends State<HomeTela> {
                                   cidade = value;
                                 },
                                 enderecoChanged: (String value) async {
-                                  await SharedPreferencesControle.setEndereco(
-                                      endereco.text);
+                                  await SharedPreferencesControle.setEndereco(value);
                                   await store.setEndereco(value);
                                 },
                               )));
@@ -126,8 +127,9 @@ class _HomeTelaState extends State<HomeTela> {
                   ),
                 ],
               );
-            } else {
-              param = "?cidade=$cidade&latitude=$latitude&longitude=$longitude";
+            } else if (store.latitude != null && store.longitude != null) {
+              param =
+                  "?cidade=$cidade&latitude=${store.latitude!}&longitude=${store.longitude!}";
 
               return ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
@@ -182,6 +184,8 @@ class _HomeTelaState extends State<HomeTela> {
                   );
                 },
               );
+            } else {
+              return Center();
             }
           },
         ),
