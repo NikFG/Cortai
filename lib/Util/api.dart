@@ -28,6 +28,7 @@ class Api {
               return status! <= 500;
             }));
     if (response.statusCode != 200) {
+      print(response.data);
       throw _formataErro(response.data);
     }
     return response.data;

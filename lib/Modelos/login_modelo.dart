@@ -199,10 +199,11 @@ class LoginModelo extends Model {
               validateStatus: (status) {
                 return status! <= 500;
               }));
-      if (response.statusCode == 401) {
+      if (response.statusCode != 200) {
         await logout();
         return false;
       }
+
       _salvarDados(response.data['user'], response.data['access_token'],
           isGoogle ? token! : senha!,
           isGoogle: isGoogle);
