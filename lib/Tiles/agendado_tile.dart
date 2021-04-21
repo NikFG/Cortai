@@ -117,7 +117,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                           ),
                           empty: Icon(
                             Icons.star,
-                            color: Colors.white,
+                            color: Colors.blueGrey,
                           ),
                           full: Icon(
                             Icons.star,
@@ -149,7 +149,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                     ),
                     TextButton(
                       child: Text("Confirmar"),
-                      onPressed: () {
+                      onPressed: () async {
                         if (_avaliacao > 1) {
                           var dataHora = DateTime.now();
                           Avaliacao dados = Avaliacao();
@@ -158,7 +158,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                           dados.data = Util.dateFormat.format(dataHora);
                           // dados.hora = Util.timeFormat.format(dataHora);
                           dados.horarioId = widget.horario.id!;
-                          AvaliacaoControle.store(dados,
+                          await AvaliacaoControle.store(dados,
                               token: token, onSuccess: () {}, onFail: () {});
                           avaliado = true;
                           confirmado = true;
@@ -168,7 +168,10 @@ class _AgendadoTileState extends State<AgendadoTile>
                     ),
                   ],
                 )).then((value) {
-          if (confirmado == true) onSuccess();
+          if (confirmado == true) {
+            onSuccess();
+            setState(() {});
+          }
         });
       } else {
         return showDialog(
