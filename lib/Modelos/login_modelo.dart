@@ -61,7 +61,7 @@ class LoginModelo extends Model {
         onFail(
             "Email já cadastrado, tente fazer o login ou clique em esqueceu sua senha!");
       } else {
-        print(response.data);
+
         onFail("Erro ao realizar o cadastro, tente novamente!");
       }
     } catch (e) {
@@ -224,7 +224,6 @@ class LoginModelo extends Model {
             validateStatus: (status) {
               return status! <= 500;
             }));
-    print(response.data);
     return response.statusCode == 200;
   }
 
@@ -270,7 +269,7 @@ class LoginModelo extends Model {
       await carregarDados();
       onSucess();
     } else {
-      print(response.data);
+
       onFail("erro encontrado");
     }
   }

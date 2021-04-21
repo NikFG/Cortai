@@ -99,8 +99,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                     },
                                     cidadeChanged: (value) {
                                       _cidade = value;
-                                      print(value);
-                                      print(_cidade);
+
                                     },
                                   )));
                         }

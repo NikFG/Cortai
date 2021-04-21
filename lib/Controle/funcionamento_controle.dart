@@ -55,7 +55,7 @@ class FuncionamentoControle {
       {required VoidCallback onSuccess, required VoidCallback onFail}) async {
     try {
       Dio dio = Dio();
-      print(_url + "deleteAll");
+
       var response = await dio.delete(_url + "deleteAll",
           options: Options(headers: Util.token(token)));
       if (response.statusCode == 200) {

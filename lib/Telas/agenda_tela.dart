@@ -159,7 +159,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   FuncionamentoControle.get(
                                       widget.servico.salaoId!),
                                   headers: Util.token(model.token));
-                              print(response.body);
+
                               List<Funcionamento> funcionamento =
                                   jsonDecode(response.body)
                                       .map<Funcionamento>(
@@ -350,7 +350,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                                   horario.pago = false;
                                   horario.servicos =
                                       List<Servico>.of([widget.servico]);
-                                  print(horario);
+
                                   await HorarioControle.store(
                                       horario: horario,
                                       token: model.token,
@@ -400,7 +400,7 @@ class _AgendaTelaState extends State<AgendaTela> {
                 intervalo: funcionamento.intervalo,
                 horarioAtual: horarioAtual);
             if (store.stream!.data != null) {
-              print(store.stream!.data);
+
               var dados =
                   Map<String, dynamic>.from(json.decode(store.stream!.data));
               List<Horario> streamData = dados['horarios'].map<Horario>((h) {

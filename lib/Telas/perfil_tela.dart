@@ -321,7 +321,7 @@ class _PerfilTelaState extends State<PerfilTela> {
                 var response = await http.get(
                     SalaoControle.show(login.salaoId!),
                     headers: Util.token(model.token));
-                print(response.body);
+
                 Salao salao =
                     Salao.fromJsonApiDados(json.decode(response.body));
                 Navigator.of(context).push(MaterialPageRoute(
