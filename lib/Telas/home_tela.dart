@@ -33,8 +33,6 @@ class _HomeTelaState extends State<HomeTela> {
   String cidade = SharedPreferencesControle.getCidade();
 
   var param = '';
-  late String latitude;
-  late String longitude;
 
   @override
   void initState() {
