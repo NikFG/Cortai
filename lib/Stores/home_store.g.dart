@@ -32,6 +32,36 @@ mixin _$HomeStore on _HomeStore, Store {
     });
   }
 
+  final _$latitudeAtom = Atom(name: '_HomeStore.latitude');
+
+  @override
+  String? get latitude {
+    _$latitudeAtom.reportRead();
+    return super.latitude;
+  }
+
+  @override
+  set latitude(String? value) {
+    _$latitudeAtom.reportWrite(value, super.latitude, () {
+      super.latitude = value;
+    });
+  }
+
+  final _$longitudeAtom = Atom(name: '_HomeStore.longitude');
+
+  @override
+  String? get longitude {
+    _$longitudeAtom.reportRead();
+    return super.longitude;
+  }
+
+  @override
+  set longitude(String? value) {
+    _$longitudeAtom.reportWrite(value, super.longitude, () {
+      super.longitude = value;
+    });
+  }
+
   final _$statusAtom = Atom(name: '_HomeStore.status');
 
   @override
@@ -58,6 +88,8 @@ mixin _$HomeStore on _HomeStore, Store {
   String toString() {
     return '''
 endereco: ${endereco},
+latitude: ${latitude},
+longitude: ${longitude},
 status: ${status},
 getPermissao: ${getPermissao}
     ''';

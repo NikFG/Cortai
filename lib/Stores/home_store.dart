@@ -10,6 +10,12 @@ abstract class _HomeStore with Store {
   String endereco = '';
 
   @observable
+  String? latitude;
+
+  @observable
+  String? longitude;
+
+  @observable
   PermissionStatus? status;
 
   @action
