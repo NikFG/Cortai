@@ -138,10 +138,17 @@ class SaibaMaisTela extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       } else {
+                        if (response.data!.statusCode == 204) {
+                          return Center(
+                            child:
+                                Text("Não há avaliações para este salão ainda"),
+                          );
+                        }
                         List<Avaliacao> avaliacoes =
                             jsonDecode(response.data!.body)
                                 .map<Avaliacao>((a) => Avaliacao.fromJson(a))
                                 .toList();
+
                         return ListView.builder(
                           itemCount: avaliacoes.length,
                           itemBuilder: (context, index) {
