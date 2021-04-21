@@ -28,8 +28,6 @@ class HomeTela extends StatefulWidget {
 
 class _HomeTelaState extends State<HomeTela> {
   late HomeStore store;
-  var endereco = TextEditingController();
-
   String cidade = SharedPreferencesControle.getCidade();
 
   var param = '';
@@ -108,14 +106,14 @@ class _HomeTelaState extends State<HomeTela> {
                                   cidade = value;
                                 },
                                 enderecoChanged: (String value) async {
-                                  await SharedPreferencesControle.setEndereco(value);
+                                  await SharedPreferencesControle.setEndereco(
+                                      value);
                                   await store.setEndereco(value);
                                 },
                               )));
                     },
                     child: AbsorbPointer(
                       child: FormFieldCustom(
-                        controller: endereco,
                         inputType: TextInputType.text,
                         hint: "Digite seu endereço",
                         icon: Icon(FontAwesome.map),
@@ -170,7 +168,7 @@ class _HomeTelaState extends State<HomeTela> {
                             ),
                           );
                         }
-                        
+
                         List<dynamic> dados = json.decode(response.data!.body);
 
                         List<Widget> widgets = dados
