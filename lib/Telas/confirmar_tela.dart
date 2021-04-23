@@ -26,8 +26,7 @@ class ConfirmarTela extends StatelessWidget {
                         displacement: MediaQuery.of(context).size.width / 2,
                         color: Theme.of(context).primaryColor,
                         onRefresh: () => store.getData(
-                            HorarioControle.getCabeleireiroAux(),
-                            model.token),
+                            HorarioControle.getCabeleireiroAux(), model.token),
                         // child: store.statusCode == 200?
                         child: Observer(
                           builder: (context) {

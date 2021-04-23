@@ -21,5 +21,6 @@ class Avaliacao {
       _$AvaliacaoFromJson(json);
 
   Map<String, dynamic> toJson() => _$AvaliacaoToJson(this);
+
   static String _dataToJson(String? data) => data!.replaceAll("/", "-");
 }

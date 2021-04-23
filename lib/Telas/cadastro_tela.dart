@@ -250,9 +250,7 @@ class _CadastroTelaState extends State<CadastroTela> {
   }
 
   void onFail(String error) async {
-    await FlushbarHelper.createError(
-            message: error)
-        .show(context);
+    await FlushbarHelper.createError(message: error).show(context);
     setState(() {
       _botaoHabilitado = true;
     });

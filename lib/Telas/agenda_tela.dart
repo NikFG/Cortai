@@ -400,7 +400,6 @@ class _AgendaTelaState extends State<AgendaTela> {
                 intervalo: funcionamento.intervalo,
                 horarioAtual: horarioAtual);
             if (store.stream!.data != null) {
-
               var dados =
                   Map<String, dynamic>.from(json.decode(store.stream!.data));
               List<Horario> streamData = dados['horarios'].map<Horario>((h) {
@@ -563,39 +562,6 @@ class _AgendaTelaState extends State<AgendaTela> {
       horarioController.text = '';
     }
   }
-
-  /*
-  * Cria o vetor de itens de horários disponíveis
-  * */
-/*  List<String> _itensHorario(
-      {required String abertura,
-      required String fechamento,
-      required int intervalo,
-      required List<Horario> horarios,
-      required DateTime horarioAtual}) {
-    DateTime inicial = Util.timeFormat.parse(abertura);
-    DateTime atual = Util.timeFormat.parse(abertura);
-    DateTime fecha = Util.timeFormat.parse(fechamento);
-    List<String> listaHorarios = [];
-    while (atual.isBefore(fecha)) {
-      //cria com todos horários possíveis
-      listaHorarios.add(Util.timeFormat.format(atual));
-      atual = atual.add(Duration(minutes: intervalo));
-    }
-    if (horarioAtual != null)
-      while (horarioAtual.isAfter(inicial)) {
-        //remove os horários que já existem no dia
-        listaHorarios.remove(Util.timeFormat.format(inicial));
-        inicial = inicial.add(Duration(minutes: intervalo));
-      }
-    if (horarios.length > 0) {
-      for (var dado in horarios) {
-        listaHorarios.remove(dado.hora);
-      }
-    }
-
-    return listaHorarios;
-  }*/
 
   void onSuccess() async {
     await FlushbarHelper.createSuccess(

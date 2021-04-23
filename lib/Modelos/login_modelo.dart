@@ -61,7 +61,6 @@ class LoginModelo extends Model {
         onFail(
             "Email já cadastrado, tente fazer o login ou clique em esqueceu sua senha!");
       } else {
-
         onFail("Erro ao realizar o cadastro, tente novamente!");
       }
     } catch (e) {
@@ -270,7 +269,6 @@ class LoginModelo extends Model {
       await carregarDados();
       onSucess();
     } else {
-
       onFail("erro encontrado");
     }
   }

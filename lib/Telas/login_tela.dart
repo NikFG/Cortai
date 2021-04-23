@@ -1,4 +1,5 @@
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:auth_buttons/auth_buttons.dart';
 import 'package:cortai/Controle/shared_preferences_controle.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
@@ -7,7 +8,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:auth_buttons/auth_buttons.dart';
 
 import 'cadastro_tela.dart';
 import 'index_tela.dart';
@@ -246,10 +246,11 @@ class _LoginTelaState extends State<LoginTela> {
                                 darkMode: false,
                                 text: "Login com Google",
                                 style: AuthButtonStyle(
+                                  borderRadius: 20,
                                   iconType: AuthIconType.secondary,
                                   iconSize: 35,
                                   height: 50,
-                                  textStyle: const TextStyle(
+                                  textStyle: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,

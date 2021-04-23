@@ -70,9 +70,7 @@ class HorarioControle {
   }
 
   static cancelaAgendamento(int id, String token,
-      {required VoidCallback onSuccess,
-      required VoidCallback onFail,
-      bool clienteCancelou = false}) async {
+      {required VoidCallback onSuccess, required VoidCallback onFail}) async {
     try {
       Dio dio = Dio(); //TODO Falta tratar caso cliente cancele
       var response = await dio.put(_url + "cancela/${id.toString()}",
