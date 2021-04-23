@@ -7,6 +7,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:auth_buttons/auth_buttons.dart';
 
 import 'cadastro_tela.dart';
 import 'index_tela.dart';
@@ -235,14 +236,26 @@ class _LoginTelaState extends State<LoginTela> {
                               SizedBox(
                                 height: 5,
                               ),
-                              TextButton(
+                              GoogleAuthButton(
                                 onPressed: () async {
                                   setState(() {
                                     _botaoHabilitado = false;
                                   });
                                   await model.logarGoogle(onSuccess, onFail);
                                 },
-                                child: Text("Entre com o Google"),
+                                darkMode: false,
+                                text: "Login com Google",
+                                style: AuthButtonStyle(
+                                  iconType: AuthIconType.secondary,
+                                  iconSize: 35,
+                                  height: 50,
+                                  textStyle: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.50,
+                                  ),
+                                ),
                               ),
                               Container(
                                 child: Center(
