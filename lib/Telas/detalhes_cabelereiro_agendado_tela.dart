@@ -95,7 +95,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 ),
                                 Container(
                                   child: Text(
-                                    "Fulano",
+                                    horario.cliente!.nome,
                                     style: TextStyle(
                                       fontSize: 14.0,
                                     ),
