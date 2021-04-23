@@ -25,7 +25,7 @@ class GaleriaTile extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: MemoryImage(base64Decode(galeria.imagem)),
+              image: MemoryImage(base64Decode(galeria.imagem!)),
               fit: BoxFit.cover,
             ),
           ),

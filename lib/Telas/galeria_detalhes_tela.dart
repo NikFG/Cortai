@@ -25,7 +25,7 @@ class DetalhesGaleria extends StatelessWidget {
             onPressed: () async {
               Directory tempDir = await getTemporaryDirectory();
               String tempPath = tempDir.path;
-              final decodedBytes = base64Decode(galeria.imagem);
+              final decodedBytes = base64Decode(galeria.imagem!);
               var file = File(tempPath + '/temp.png');
               file.writeAsBytesSync(decodedBytes);
               ShareRedesSociais().compartilharGeral(file,
@@ -49,7 +49,7 @@ class DetalhesGaleria extends StatelessWidget {
                     minScale: PhotoViewComputedScale.contained,
                     maxScale: PhotoViewComputedScale.contained * 1.8,
                     backgroundDecoration: BoxDecoration(color: Colors.black12),
-                    imageProvider: MemoryImage(base64Decode(galeria.imagem)),
+                    imageProvider: MemoryImage(base64Decode(galeria.imagem!)),
                     initialScale: PhotoViewComputedScale.contained,
                     basePosition: Alignment.center,
                   ),
