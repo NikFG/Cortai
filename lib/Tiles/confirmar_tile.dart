@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:cortai/Telas/adicionar_galeria_tela.dart';
 
 class ConfirmarTile extends StatefulWidget {
   final Horario horario;
@@ -173,7 +174,8 @@ class _ConfirmarTileState extends State<ConfirmarTile>
                     leading: Icon(Icons.photo_camera),
                     title: Text('Adicionar imagem a galeria ?'),
                     onTap: () {
-                      getImagem(true);
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => AdicionarGaleriaTela()));
                     }),
                 ListTile(
                   leading: Icon(Icons.cancel),
