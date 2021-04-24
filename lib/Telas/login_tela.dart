@@ -246,7 +246,6 @@ class _LoginTelaState extends State<LoginTela> {
                                 darkMode: false,
                                 text: "Login com Google",
                                 style: AuthButtonStyle(
-                                  borderRadius: 20,
                                   iconType: AuthIconType.secondary,
                                   iconSize: 35,
                                   height: 50,
