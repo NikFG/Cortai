@@ -250,7 +250,8 @@ class _LoginTelaState extends State<LoginTela> {
                                   iconType: AuthIconType.secondary,
                                   iconSize: 35,
                                   height: 50,
-                                  textStyle: TextStyle(
+                                  borderRadius: 20,
+                                  textStyle: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
