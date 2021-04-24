@@ -61,27 +61,33 @@ class _CalendarioTileState extends State<CalendarioTile>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            child: Text(
-              "Dia ${widget.horario.data} às ${widget.horario.hora}",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 13.0),
+            child: Container(
+              child: Text(
+                "Dia ${widget.horario.data} às ${widget.horario.hora}",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 13.0),
+              ),
             ),
           ),
           SizedBox(width: deviceInfo.size.height * 0.2 / 10),
           Container(
-              child: Text(
-            "Valor: R\$${widget.servico.valor.toStringAsFixed(2)}",
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 13.0),
-          )),
-          Container(
-            child: Text(
-              "Cliente: ${cliente.nome}",
+            child: Container(
+                child: Text(
+              "Valor: R\$${widget.servico.valor.toStringAsFixed(2)}",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 13.0),
+            )),
+          ),
+          Container(
+            child: Container(
+              child: Text(
+                "Cliente: ${cliente.nome}",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 13.0),
+              ),
             ),
           ),
         ],
