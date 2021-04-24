@@ -17,19 +17,19 @@ class ButtonCustom extends StatelessWidget {
     return SizedBox(
       height: 46, // 46 ;)
       width: MediaQuery.of(context).size.width / 1.1,
-      child: RaisedButton(
-        onPressed: onPressed,
-        child: botaoHabilitado
-            ? Text(
-                this.textoBotao,
-                style: TextStyle(fontSize: 14.0),
-              )
-            : JumpingDotsProgressIndicator(
-                fontSize: 25.0,
-              ),
-        textColor: Colors.white,
-        color: Theme.of(context).primaryColor,
-      ),
+      child: ElevatedButton(
+          onPressed: onPressed,
+          child: botaoHabilitado
+              ? Text(
+                  this.textoBotao,
+                  style: TextStyle(fontSize: 14.0, color: Colors.white),
+                )
+              : JumpingDotsProgressIndicator(
+                  fontSize: 25.0,
+                ),
+          style: ElevatedButton.styleFrom(
+            primary: Theme.of(context).primaryColor,
+          )),
     );
   }
 }
