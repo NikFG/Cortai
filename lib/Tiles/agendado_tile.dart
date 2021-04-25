@@ -150,17 +150,16 @@ class _AgendadoTileState extends State<AgendadoTile>
                     TextButton(
                       child: Text("Confirmar"),
                       onPressed: () async {
-                        if (_avaliacao > 1) {
+                        if (_avaliacao >= 1.0) {
                           var dataHora = DateTime.now();
                           Avaliacao dados = Avaliacao();
                           dados.valor = _avaliacao;
                           dados.observacao = _descricaoControlador.text;
                           dados.data = Util.dateFormat.format(dataHora);
-                          // dados.hora = Util.timeFormat.format(dataHora);
                           dados.horarioId = widget.horario.id!;
                           await AvaliacaoControle.store(dados,
                               token: token, onSuccess: () {}, onFail: () {});
-                          avaliado = true;
+
                           confirmado = true;
                           Navigator.of(context).pop();
                         }
@@ -170,7 +169,9 @@ class _AgendadoTileState extends State<AgendadoTile>
                 )).then((value) {
           if (confirmado == true) {
             onSuccess();
-            setState(() {});
+            setState(() {
+              avaliado = true;
+            });
           }
         });
       } else {
