@@ -11,7 +11,7 @@ class AvaliacaoControle {
     return Uri.parse(_url + "${salaoId.toString()}");
   }
 
-  static void store(Avaliacao dados,
+  static Future<void> store(Avaliacao dados,
       {required String token,
       required VoidCallback onSuccess,
       required VoidCallback onFail}) async {
@@ -19,10 +19,11 @@ class AvaliacaoControle {
       Api api = Api();
       await api.store(_url, dados.toJson(), token);
     } catch (e) {
+      print(e);
       onFail();
     }
   }
 
-  static void update(Avaliacao dados,
+  static Future<void> update(Avaliacao dados,
       {required VoidCallback onSuccess, required VoidCallback onFail}) async {}
 }

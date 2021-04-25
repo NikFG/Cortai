@@ -27,7 +27,8 @@ class Api {
             validateStatus: (status) {
               return status! <= 500;
             }));
-    if (response.statusCode != 200) {
+    if (response.statusCode != 201) {
+      print(response.data);
       throw _formataErro(response.data);
     }
     return response.data;

@@ -26,6 +26,7 @@ class DetalhesTela extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     Cabeleireiro cabeleireiro = horario.cabeleireiro!;
     return ScopedModelDescendant<LoginModelo>(
       builder: (context, child, model) {
@@ -39,7 +40,6 @@ class DetalhesTela extends StatelessWidget {
           body: FutureBuilder<http.Response>(
             future: http.get(SalaoControle.show(cabeleireiro.salaoId),
                 headers: Util.token(model.token)),
-            //mudar para salao do horário
             builder: (context, response) {
               if (!response.hasData) {
                 return Center(
@@ -58,41 +58,33 @@ class DetalhesTela extends StatelessWidget {
                           Text(salao.nome!,
                               style: TextStyle(
                                   fontSize: 28.0, fontWeight: FontWeight.w700)),
-                          horario.pago!
-                              ? Text(
-                                  "Realizado às ${horario.hora} - ${horario.data}",
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                  ))
-                              : Container(
-                                  height: 0,
-                                  width: 0,
-                                ),
-                          Text("Agendamento ${horario.id}",
+                          // horario.pago!
+                          //     ? Text(
+                          //         "Realizado às ${horario.hora} - ${horario.data}",
+                          //         style: TextStyle(
+                          //           fontSize: 12.0,
+                          //         ))
+                          //     : Container(
+                          //         height: 0,
+                          //         width: 0,
+                          //       ),
+                          Text("Código do agendamento: ${horario.id}",
                               style: TextStyle(
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.w700,
                               )),
                           ListTile(
-                              leading: horario.confirmado!
-                                  ? Icon(
-                                      FontAwesome5.check_circle,
-                                      color: Colors.green,
-                                      size: 35,
-                                    )
-                                  : Icon(
-                                      FontAwesome5.times_circle,
-                                      color: Colors.red,
-                                      size: 35,
-                                    ),
-                              title: Text(cabeleireiro.nome),
-                              trailing: Text(
-                                  horario.confirmado!
-                                      ? "Confirmado"
-                                      : "Não confirmado",
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                  ))),
+                            leading: Text("Cabeleireiro: "),
+                            title: Text(cabeleireiro.nome),
+                          ),
+                          ListTile(
+                            leading: Text("Confirmado: "),
+                            title: status(horario.confirmado!),
+                          ),
+                          ListTile(
+                            leading: Text("Pago: "),
+                            title: status(horario.pago!),
+                          ),
                           ListTile(
                             leading: Icon(FontAwesome.tag),
                             title: Text(servico!.descricao!,
@@ -133,14 +125,12 @@ class DetalhesTela extends StatelessWidget {
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  width: 45.0,
+                                  width: deviceInfo.size.width * 45 / 100,
                                   child: TextButton(
                                     child: Container(
                                       child: Text(
                                         "Ligar para salão",
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                        ),
+                                        style: TextStyle(fontSize: 12.0),
                                       ),
                                     ),
                                     onPressed: () {
@@ -148,22 +138,27 @@ class DetalhesTela extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                                Container(
-                                  width: 45.0,
-                                  child: TextButton(
-                                    child: Container(
-                                      child: Text(
-                                        "Cancelar Agendamento",
-                                        style: TextStyle(
-                                          fontSize: 12.0,
-                                        ),
+                                !horario.pago!
+                                    ? Container(
+                                        width: deviceInfo.size.width * 45 / 100,
+                                        child: TextButton(
+                                          child: Container(
+                                            child: Text(
+                                              "Cancelar Agendamento",
+                                              style: TextStyle(
+                                                fontSize: 12.0,
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            _cancelarDialog(
+                                                context, model.token);
+                                          },
+                                        ))
+                                    : Container(
+                                        width: 0,
+                                        height: 0,
                                       ),
-                                    ),
-                                    onPressed: () {
-                                      _cancelarDialog(context, model.token);
-                                    },
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -198,13 +193,28 @@ class DetalhesTela extends StatelessWidget {
             child: Text("Confirmar"),
             onPressed: () async {
               await HorarioControle.cancelaAgendamento(horario.id!, token,
-                  onSuccess: onSuccess, onFail: onFail, clienteCancelou: true);
+                  onSuccess: onSuccess, onFail: onFail);
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => IndexTela()));
             },
           ),
         ],
       ),
+    );
+  }
+
+  Widget status(bool status) {
+    if (status) {
+      return Icon(
+        Icons.check,
+        color: Colors.green,
+        size: 35,
+      );
+    }
+    return Icon(
+      FontAwesome5.times,
+      color: Colors.red,
+      size: 35,
     );
   }
 

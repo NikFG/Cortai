@@ -95,7 +95,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
                                 ),
                                 Container(
                                   child: Text(
-                                    "Fulano",
+                                    horario.cliente!.nome,
                                     style: TextStyle(
                                       fontSize: 14.0,
                                     ),
@@ -176,7 +176,7 @@ class DetalhesCabelereiroTela extends StatelessWidget {
             child: Text("Confirmar"),
             onPressed: () async {
               await HorarioControle.cancelaAgendamento(horario.id!, token,
-                  onSuccess: onSuccess, onFail: onFail, clienteCancelou: true);
+                  onSuccess: onSuccess, onFail: onFail);
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => IndexTela()));
             },

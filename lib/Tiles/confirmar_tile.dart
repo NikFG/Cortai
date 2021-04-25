@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Telas/adicionar_galeria_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ConfirmarTile extends StatefulWidget {
@@ -22,6 +26,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
     with AutomaticKeepAliveClientMixin<ConfirmarTile> {
   late bool? confirmado;
   late String valor;
+  File? _imagem;
 
   @override
   void initState() {
@@ -39,7 +44,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
             ? _bottomSheetOpcoes(context, model.token)
             : !widget.horario.pago!
                 ? _dialogPago(context, model.token)
-                : null,
+                : _bottomSheetOpcoesPago(context, model.token),
         leading: null,
         title: Text(
           cliente.nome,
@@ -149,12 +154,57 @@ class _ConfirmarTileState extends State<ConfirmarTile>
             ),
           );
         }).then((value) {
+      if (confirmado != null) if (confirmado!) {
+        onSuccess();
+      } else
+        onSuccessCancelar();
+    });
+    setState(() {});
+  }
+
+  _bottomSheetOpcoesPago(context, String token) async {
+    await showModalBottomSheet(
+        isDismissible: true,
+        context: context,
+        builder: (bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: Icon(Icons.photo_camera),
+                    title: Text('Adicionar imagem a galeria ?'),
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => AdicionarGaleriaTela()));
+                    }),
+                ListTile(
+                  leading: Icon(Icons.cancel),
+                  title: Text('Voltar'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        }).then((value) {
       if (confirmado != null) if (confirmado!)
         onSuccess();
       else
         onSuccessCancelar();
     });
     setState(() {});
+  }
+
+  Future<Null> getImagem(bool camera) async {
+    var picker = ImagePicker();
+    var imagem = await picker.getImage(
+        source: camera ? ImageSource.camera : ImageSource.gallery);
+    setState(() {
+      if (imagem != null) {
+        _imagem = File(imagem.path);
+      }
+    });
   }
 
   _dialogPago(context, String token) async {
@@ -200,6 +250,9 @@ class _ConfirmarTileState extends State<ConfirmarTile>
   }
 
   void onSuccessPago() async {
+    setState(() {
+      widget.horario.pago = true;
+    });
     await FlushbarHelper.createSuccess(
             message: "Pagamento confirmado com sucesso",
             duration: Duration(seconds: 2))

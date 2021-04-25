@@ -99,8 +99,6 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                                     },
                                     cidadeChanged: (value) {
                                       _cidade = value;
-                                      print(value);
-                                      print(_cidade);
                                     },
                                   )));
                         }
@@ -168,6 +166,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                       textoBotao: "Confirmar",
                       botaoHabilitado: _botaoHabilitado,
                       onPressed: () async {
+
                         if (_formKey.currentState!.validate()) {
                           setState(() {
                             _botaoHabilitado = false;
@@ -179,6 +178,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                           dados.endereco = _enderecoController.text;
                           dados.telefone = _telefoneController.text;
                           dados.cidade = _cidade;
+
                           if (widget.salao == null) {
                             await SalaoControle.store(
                               dados,
@@ -190,66 +190,19 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                               carregarDados: model.carregarDados,
                             );
                           } else {
-                            await SalaoControle.update(dados,
-                                token: model.token,
-                                imagem: _imagem!,
-                                usuario: model.dados!,
-                                onSuccess: onSuccessEditar,
-                                onFail: onFailEditar,
+                            await SalaoControle.update(
+                              dados,
+                              token: model.token,
+                              imagem: _imagem!,
+                              usuario: model.dados!,
+                              onSuccess: onSuccessEditar,
+                              onFail: onFailEditar,
                               carregarDados: model.carregarDados,
                             );
                           }
                         }
                       },
                     ),
-                    /*
-                    SizedBox(
-                      height: 10.0.h,
-                      child: RaisedButton(
-                        padding: EdgeInsets.all(8),
-                        onPressed: _botaoHabilitado
-                            ? () async {
-                                if (_formKey.currentState.validate()) {
-                                  setState(() {
-                                    _botaoHabilitado = false;
-                                  });
-
-                                  dados.latitude = latlng.latitude;
-                                  dados.longitude = latlng.longitude;
-                                  dados.nome = _nomeController.text;
-                                  dados.endereco = _enderecoController.text;
-                                  dados.telefone = _telefoneController.text;
-                                  dados.cidade = _cidade;
-                                  if (widget.salao == null) {
-                                    SalaoControle.store(dados,
-                                        usuario: model.dados,
-                                        imagem: _imagem,
-                                        token: model.token,
-                                        onSuccess: onSuccess,
-                                        onFail: onFail);
-                                  } else {
-                                    SalaoControle.update(dados,
-                                        token: model.token,
-                                        imagem: _imagem,
-                                        usuario: model.dados,
-                                        onSuccess: onSuccessEditar,
-                                        onFail: onFailEditar);
-                                  }
-                                }
-                              }
-                            : null,
-                        child: _botaoHabilitado
-                            ? Center(
-                                child: Text(
-                                  "Confirmar",
-                                  style: TextStyle(fontSize: 16.0.sp),
-                                ),
-                              )
-                            : CircularProgressIndicator(),
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                      ),
-                    ),*/
                   ],
                 ),
               ),

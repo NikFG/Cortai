@@ -46,6 +46,7 @@ class _AgendadoTileState extends State<AgendadoTile>
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData deviceInfo = MediaQuery.of(context);
     super.build(context);
     return ListTileCustom(
       onTap: () {
@@ -62,14 +63,19 @@ class _AgendadoTileState extends State<AgendadoTile>
           ? TextButton(
               child: Column(
                 children: <Widget>[
-                  Icon(
-                    FontAwesome.star,
-                    color: Colors.amberAccent,
+                  FittedBox(
+                    child: Icon(
+                      FontAwesome.star,
+                      color: Colors.amberAccent,
+                      size: 20,
+                    ),
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 2,
                   ),
-                  Text("Avaliar"),
+                  FittedBox(
+                    child: Text("Avaliar", style: TextStyle(fontSize: 11)),
+                  ),
                 ],
               ),
               onPressed: () {
@@ -111,7 +117,7 @@ class _AgendadoTileState extends State<AgendadoTile>
                           ),
                           empty: Icon(
                             Icons.star,
-                            color: Colors.white,
+                            color: Colors.blueGrey,
                           ),
                           full: Icon(
                             Icons.star,
@@ -143,18 +149,17 @@ class _AgendadoTileState extends State<AgendadoTile>
                     ),
                     TextButton(
                       child: Text("Confirmar"),
-                      onPressed: () {
-                        if (_avaliacao > 1) {
+                      onPressed: () async {
+                        if (_avaliacao >= 1.0) {
                           var dataHora = DateTime.now();
                           Avaliacao dados = Avaliacao();
                           dados.valor = _avaliacao;
                           dados.observacao = _descricaoControlador.text;
                           dados.data = Util.dateFormat.format(dataHora);
-                          // dados.hora = Util.timeFormat.format(dataHora);
                           dados.horarioId = widget.horario.id!;
-                          AvaliacaoControle.store(dados,
+                          await AvaliacaoControle.store(dados,
                               token: token, onSuccess: () {}, onFail: () {});
-                          avaliado = true;
+
                           confirmado = true;
                           Navigator.of(context).pop();
                         }
@@ -162,7 +167,12 @@ class _AgendadoTileState extends State<AgendadoTile>
                     ),
                   ],
                 )).then((value) {
-          if (confirmado == true) onSuccess();
+          if (confirmado == true) {
+            onSuccess();
+            setState(() {
+              avaliado = true;
+            });
+          }
         });
       } else {
         return showDialog(

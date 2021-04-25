@@ -61,7 +61,6 @@ class LoginModelo extends Model {
         onFail(
             "Email já cadastrado, tente fazer o login ou clique em esqueceu sua senha!");
       } else {
-        print(response.data);
         onFail("Erro ao realizar o cadastro, tente novamente!");
       }
     } catch (e) {
@@ -199,10 +198,11 @@ class LoginModelo extends Model {
               validateStatus: (status) {
                 return status! <= 500;
               }));
-      if (response.statusCode == 401) {
+      if (response.statusCode != 200) {
         await logout();
         return false;
       }
+
       _salvarDados(response.data['user'], response.data['access_token'],
           isGoogle ? token! : senha!,
           isGoogle: isGoogle);
@@ -224,7 +224,6 @@ class LoginModelo extends Model {
             validateStatus: (status) {
               return status! <= 500;
             }));
-    print(response.data);
     return response.statusCode == 200;
   }
 
@@ -270,7 +269,6 @@ class LoginModelo extends Model {
       await carregarDados();
       onSucess();
     } else {
-      print(response.data);
       onFail("erro encontrado");
     }
   }

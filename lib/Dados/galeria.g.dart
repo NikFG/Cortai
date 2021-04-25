@@ -8,13 +8,9 @@ part of 'galeria.dart';
 
 Galeria _$GaleriaFromJson(Map<String, dynamic> json) {
   return Galeria()
-    ..id = json['id'] as int
+    ..id = json['id'] as int?
     ..descricao = json['descricao'] as String
-    ..imagem = json['imagem'] as String
-    ..cabeleireiroId = json['cabeleireiro_id'] as int
-    ..salaoId = json['salao_id'] as int
-    ..servicoId = json['servico_id'] as int
-    ..clienteId = json['cliente_id'] as int
+    ..imagem = json['imagem'] as String?
     ..servico =
         Galeria._servicoFromJSon(json['servico'] as Map<String, dynamic>)
     ..salao = Galeria._salaoFromJson(json['salao'] as Map<String, dynamic>)
@@ -26,10 +22,6 @@ Map<String, dynamic> _$GaleriaToJson(Galeria instance) => <String, dynamic>{
       'id': instance.id,
       'descricao': instance.descricao,
       'imagem': instance.imagem,
-      'cabeleireiro_id': instance.cabeleireiroId,
-      'salao_id': instance.salaoId,
-      'servico_id': instance.servicoId,
-      'cliente_id': instance.clienteId,
       'servico': Galeria._servicoToJson(instance.servico),
       'salao': Galeria._salaoToJson(instance.salao),
       'cabeleireiro': instance.cabeleireiro,

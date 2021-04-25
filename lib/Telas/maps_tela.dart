@@ -176,7 +176,6 @@ class _MapsTelaState extends State<MapsTela> {
       strictbounds: false,
       language: "pt",
       radius: 100000,
-
     );
     _mostraPrevisao(p);
   }

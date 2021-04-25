@@ -41,8 +41,6 @@ abstract class _ConfirmarStore with Store {
         }
       });
     }
-    // horarios =
-    //     data.map<Horario>((h) => Horario.fromJson(h)).toList().asObservable();
     isLoading = false;
   }
 

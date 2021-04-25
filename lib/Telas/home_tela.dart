@@ -56,28 +56,31 @@ class _HomeTelaState extends State<HomeTela> {
         Row(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
-              child: Text(
-                "Novidades",
-                style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Poppins"),
-              ),
-            ),
+                padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
+                child: Container(
+                  child: Text(
+                    "Novidades",
+                    style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Poppins"),
+                  ),
+                )),
           ],
         ),
         CarouselCustom(),
         Padding(
-            padding: EdgeInsets.only(left: 20, top: 10),
-            child: Text(
-              "Salões",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: "Poppins"),
-            )),
+          padding: EdgeInsets.only(left: 20, top: 10),
+          child: Container(
+              child: Text(
+            "Salões",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Poppins"),
+          )),
+        ),
         Observer(
           builder: (context) {
             if (store.getPermissao) {

@@ -7,7 +7,6 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/saiba_mais.dart';
 import 'package:cortai/Tiles/servico_tile.dart';
 import 'package:cortai/Util/util.dart';
-import 'package:cortai/Widgets/appbar_custom.dart';
 import 'package:cortai/Widgets/appbar_extendida_custom.dart';
 import 'package:cortai/Widgets/shimmer_custom.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,7 @@ class ServicoTela extends StatelessWidget {
           SliverAppBar(
               backgroundColor: Theme.of(context).primaryColor,
               leading: Util.leadingScaffold(context),
-              title:Text(
+              title: Text(
                 salao.nome!,
                 style: TextStyle(
                   color: Colors.white,

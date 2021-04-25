@@ -8,7 +8,7 @@ part of 'avaliacao.dart';
 
 Avaliacao _$AvaliacaoFromJson(Map<String, dynamic> json) {
   return Avaliacao()
-    ..id = json['id'] as int
+    ..id = json['id'] as int?
     ..valor = Conversao.strToDouble(json['valor'])
     ..observacao = json['observacao'] as String? ?? ''
     ..data = json['data'] as String
@@ -19,6 +19,6 @@ Map<String, dynamic> _$AvaliacaoToJson(Avaliacao instance) => <String, dynamic>{
       'id': instance.id,
       'valor': instance.valor,
       'observacao': instance.observacao,
-      'data': instance.data,
+      'data': Avaliacao._dataToJson(instance.data),
       'horario_id': instance.horarioId,
     };
