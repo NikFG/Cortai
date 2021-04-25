@@ -9,6 +9,7 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -154,12 +155,34 @@ class SaibaMaisTela extends StatelessWidget {
                           itemBuilder: (context, index) {
                             Avaliacao avaliacao = avaliacoes[index];
                             return ListTileCustom(
-                              onTap: () {},
-                              leading: Text(avaliacao.valor.toStringAsFixed(2)),
-                              title: Text(avaliacao.observacao == null
-                                  ? ""
-                                  : avaliacao.observacao!),
-                            );
+                                onTap: () {},
+                                leading: null,
+                                title: Text(
+                                  avaliacao.observacao == null
+                                      ? ""
+                                      : avaliacao.observacao!,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                trailing: TextButton(
+                                  onPressed: () {},
+                                  child: Column(
+                                    children: <Widget>[
+                                      FittedBox(
+                                        child: Icon(
+                                          FontAwesome.star,
+                                          color: Colors.amberAccent,
+                                          size: 20,
+                                        ),
+                                      ),
+                                      FittedBox(
+                                        child: Text(
+                                          avaliacao.valor.toStringAsFixed(1),
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ));
                           },
                         );
                       }
