@@ -29,38 +29,47 @@ class AgendadoTela extends StatelessWidget {
                     return ShimmerCustom(4);
                   } else {
                     return RefreshIndicator(
-                      displacement: MediaQuery.of(context).size.width / 2,
-                      color: Theme.of(context).primaryColor,
-                      onRefresh: () => jsonFalse.getData(
-                          HorarioControle.getNew("cliente", 0),
-                          token: model.token),
+                      displacement: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 2,
+                      color: Theme
+                          .of(context)
+                          .primaryColor,
+                      onRefresh: () =>
+                          jsonFalse.getData(
+                              HorarioControle.getNew("cliente", 0),
+                              token: model.token),
                       child: jsonFalse.statusCode == 404
                           ? ListView(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.height /
-                                          4),
-                                  child: Text(
-                                    jsonFalse.data[0],
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
-                              ],
-                            )
+                        physics: AlwaysScrollableScrollPhysics(),
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height /
+                                    4),
+                            child: Text(
+                              jsonFalse.data[0],
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
+                      )
                           : ListView.builder(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemCount: jsonFalse.data.length,
-                              itemBuilder: (context, index) {
-                                var dado = jsonFalse.data[index];
-                                var horario = Horario.fromJson(dado);
-                                return AgendadoTile(
-                                  horario: horario,
-                                  servico: horario.servicos!.first,
-                                  token: model.token,
-                                );
-                              }),
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: jsonFalse.data.length,
+                          itemBuilder: (context, index) {
+                            var dado = jsonFalse.data[index];
+                            var horario = Horario.fromJson(dado);
+                            return AgendadoTile(
+                              horario: horario,
+                              servico: horario.servicos!.first,
+                              token: model.token,
+                            );
+                          }),
                     );
                   }
                 },
@@ -73,38 +82,47 @@ class AgendadoTela extends StatelessWidget {
                     return ShimmerCustom(4);
                   } else {
                     return RefreshIndicator(
-                      displacement: MediaQuery.of(context).size.width / 2,
-                      color: Theme.of(context).primaryColor,
-                      onRefresh: () => jsonTrue.getData(
-                          HorarioControle.getNew("cliente", 1),
-                          token: model.token),
+                      displacement: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 2,
+                      color: Theme
+                          .of(context)
+                          .primaryColor,
+                      onRefresh: () =>
+                          jsonTrue.getData(
+                              HorarioControle.getNew("cliente", 1),
+                              token: model.token),
                       child: jsonTrue.statusCode == 404
                           ? ListView(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.height /
-                                          4),
-                                  child: Text(
-                                    jsonTrue.data[0],
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
-                              ],
-                            )
+                        physics: AlwaysScrollableScrollPhysics(),
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height /
+                                    4),
+                            child: Text(
+                              jsonTrue.data[0],
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
+                      )
                           : ListView.builder(
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemCount: jsonTrue.count,
-                              itemBuilder: (context, index) {
-                                var dado = jsonTrue.data[index];
-                                var horario = Horario.fromJson(dado);
-                                return AgendadoTile(
-                                    horario: horario,
-                                    servico: horario.servicos!.first,
-                                    token: model.token,
-                                    avaliado: horario.avaliacao != null);
-                              }),
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemCount: jsonTrue.count,
+                          itemBuilder: (context, index) {
+                            var dado = jsonTrue.data[index];
+                            var horario = Horario.fromJson(dado);
+                            return AgendadoTile(
+                                horario: horario,
+                                servico: horario.servicos!.first,
+                                token: model.token,
+                                avaliado: horario.avaliacao != null);
+                          }),
                     );
                   }
                 },
@@ -117,15 +135,4 @@ class AgendadoTela extends StatelessWidget {
       }
     });
   }
-
-/*ListView lista(AsyncSnapshot<QuerySnapshot> snapshot, BuildContext context) {
-    var dividedTiles = ListTile.divideTiles(
-            tiles: snapshot.data.documents.map((doc) {
-              return MarcadoTile(HorarioDados.fromDocument(doc));
-            }).toList(),
-            color: Colors.grey[500],
-            context: context)
-        .toList();
-    return ListView(children: dividedTiles);
-  }*/
 }
