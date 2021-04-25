@@ -5,12 +5,12 @@ import 'package:cortai/Controle/horario_controle.dart';
 import 'package:cortai/Dados/cliente.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Telas/adicionar_galeria_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:cortai/Telas/adicionar_galeria_tela.dart';
 
 class ConfirmarTile extends StatefulWidget {
   final Horario horario;
@@ -154,9 +154,9 @@ class _ConfirmarTileState extends State<ConfirmarTile>
             ),
           );
         }).then((value) {
-      if (confirmado != null) if (confirmado!)
+      if (confirmado != null) if (confirmado!) {
         onSuccess();
-      else
+      } else
         onSuccessCancelar();
     });
     setState(() {});
@@ -250,6 +250,9 @@ class _ConfirmarTileState extends State<ConfirmarTile>
   }
 
   void onSuccessPago() async {
+    setState(() {
+      widget.horario.pago = true;
+    });
     await FlushbarHelper.createSuccess(
             message: "Pagamento confirmado com sucesso",
             duration: Duration(seconds: 2))
