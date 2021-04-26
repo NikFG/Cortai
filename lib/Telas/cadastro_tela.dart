@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/login_tela.dart';
+import 'package:cortai/Telas/pdf_view_tela.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
@@ -169,6 +170,29 @@ class _CadastroTelaState extends State<CadastroTela> {
                             isSenha: true),
                         SizedBox(
                           height: 15,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PdfViewTela(
+                                    "${Util.url}termos",
+                                    "Termos de uso")));
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                                style: TextStyle(color: Colors.black),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text:
+                                          "Ao clicar em confirmar você está de acordo com os "),
+                                  TextSpan(
+                                      text: "termos de uso ",
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  TextSpan(text: "do aplicativo.")
+                                ]),
+                          ),
                         ),
                         Container(
                           height: 45,
