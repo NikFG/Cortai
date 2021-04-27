@@ -193,7 +193,7 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                             await SalaoControle.update(
                               dados,
                               token: model.token,
-                              imagem: _imagem!,
+                              imagem: _imagem,
                               usuario: model.dados!,
                               onSuccess: onSuccessEditar,
                               onFail: onFailEditar,

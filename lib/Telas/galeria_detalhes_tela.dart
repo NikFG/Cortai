@@ -30,7 +30,7 @@ class DetalhesGaleria extends StatelessWidget {
               file.writeAsBytesSync(decodedBytes);
               ShareRedesSociais().compartilharGeral(file,
                   comentario:
-                      "Corte feito no Cortaí por ${galeria.cabeleireiro.nome}");
+                      "Corte feito no Cortaí por ${galeria.cabeleireiro.nome} no salão ${galeria.salao.nome}");
             },
             icon: Icon(Icons.share_outlined),
           )
