@@ -8,6 +8,7 @@ import 'package:cortai/Dados/galeria.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
+import 'package:cortai/Util/share_redes_sociais.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +21,6 @@ import 'index_tela.dart';
 
 class AdicionarGaleriaTela extends StatefulWidget {
   final Horario horario;
-
   AdicionarGaleriaTela(this.horario);
 
   @override
@@ -29,7 +29,10 @@ class AdicionarGaleriaTela extends StatefulWidget {
 
 class _AdicionarGaleriaTelaState extends State<AdicionarGaleriaTela> {
   File? _imagem;
+  late String nomeSalao;
   final _formKey = GlobalKey<FormState>();
+  var _descricaoController = TextEditingController();
+  bool compartilhar = false;
   bool _botaoHabilitado = true;
 
   @override
@@ -54,21 +57,32 @@ class _AdicionarGaleriaTelaState extends State<AdicionarGaleriaTela> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("${widget.horario.servicos!.first.descricao}",
-                          style: TextStyle(
-                              fontSize: 28.0, fontWeight: FontWeight.w700)),
-                      Text("Código do agendamento: ",
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w700,
-                          )),
-                      ListTile(
-                        leading: Text(
-                            "Cabeleireiro: ${widget.horario.cabeleireiro!.nome}"),
+                      Container(
+                        child: Text(
+                            "${widget.horario.servicos!.first.descricao}",
+                            style: TextStyle(
+                                fontSize: 28.0, fontWeight: FontWeight.w700)),
                       ),
                       ListTile(
-                        leading:
-                            Text("Cliente: ${widget.horario.cliente!.nome} "),
+                        leading: Text(
+                          "Cabeleireiro: ",
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                        title: Text("${widget.horario.cabeleireiro!.nome}"),
+                      ),
+                      ListTile(
+                        leading: Text("Cliente:",
+                            style: TextStyle(fontWeight: FontWeight.w700)),
+                        title: Text("${widget.horario.cliente!.nome}"),
+                      ),
+                      TextFormField(
+                        controller: _descricaoController,
+                        textCapitalization: TextCapitalization.words,
+                        minLines: 1,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                            hintText: 'Descrição',
+                            hintStyle: TextStyle(fontSize: 12)),
                       ),
                       Center(
                         child: Container(
@@ -95,39 +109,63 @@ class _AdicionarGaleriaTelaState extends State<AdicionarGaleriaTela> {
                               height: 0,
                             )
                           : Image.file(_imagem!),
-                      SizedBox(
-                        height: deviceInfo.size.height * 3 / 10,
+                      Container(
+                        width: deviceInfo.size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                "Compartilhar em outras Redes sociais ?",
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            ),
+                            Switch(
+                              value: compartilhar,
+                              onChanged: (value) {
+                                setState(() {
+                                  compartilhar = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: ButtonCustom(
+                          textoBotao: "Confirmar",
+                          botaoHabilitado: _botaoHabilitado,
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate() &&
+                                _imagem != null) {
+                              setState(() {
+                                _botaoHabilitado = false;
+                              });
+
+                              Galeria galeria = Galeria();
+                              galeria.cabeleireiro =
+                                  widget.horario.cabeleireiro!;
+                              var response = await http.get(
+                                  SalaoControle.show(model.dados!.salaoId!),
+                                  headers: Util.token(model.token));
+                              galeria.salao = Salao.fromJsonApiDados(
+                                  jsonDecode(response.body));
+                              galeria.descricao = _descricaoController.text;
+                              galeria.servico = widget.horario.servicos!.first;
+                              galeria.cliente = widget.horario.cliente;
+                              nomeSalao = galeria.salao.nome!;
+                              GaleriaControle.store(
+                                  dados: galeria,
+                                  imagem: _imagem!,
+                                  token: model.token,
+                                  onSuccess: onSuccess,
+                                  onFail: onFail);
+                            }
+                          },
+                        ),
                       ),
                     ],
                   ),
-                ),
-                ButtonCustom(
-                  textoBotao: "Confirmar",
-                  botaoHabilitado: _botaoHabilitado,
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate() && _imagem != null) {
-                      setState(() {
-                        _botaoHabilitado = false;
-                      });
-
-                      Galeria galeria = Galeria();
-                      galeria.cabeleireiro = widget.horario.cabeleireiro!;
-                      var response = await http.get(
-                          SalaoControle.show(model.dados!.salaoId!),
-                          headers: Util.token(model.token));
-                      galeria.salao =
-                          Salao.fromJsonApiDados(jsonDecode(response.body));
-                      galeria.descricao = "descrição";
-                      galeria.servico = widget.horario.servicos!.first;
-                      galeria.cliente = widget.horario.cliente;
-                      GaleriaControle.store(
-                          dados: galeria,
-                          imagem: _imagem!,
-                          token: model.token,
-                          onSuccess: onSuccess,
-                          onFail: onFail);
-                    }
-                  },
                 ),
               ],
             ),
@@ -149,6 +187,11 @@ class _AdicionarGaleriaTelaState extends State<AdicionarGaleriaTela> {
   }
 
   void onSuccess() async {
+    if (compartilhar) {
+      ShareRedesSociais().compartilharGeral(_imagem!,
+          comentario:
+              "Corte feito no Cortaí por ${widget.horario.cabeleireiro!.nome} no salão $nomeSalao");
+    }
     await FlushbarHelper.createSuccess(
             message: "Adicionado a galeria com sucesso")
         .show(context);
