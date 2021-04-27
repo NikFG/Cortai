@@ -1,14 +1,24 @@
 import 'dart:io';
 
+import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class AdicionarGaleriaTela extends StatelessWidget {
+class AdicionarGaleriaTela extends StatefulWidget {
+  final Horario horario;
+  final ValueChanged<int>? confirmadoChanged;
+
+  AdicionarGaleriaTela(this.horario, {this.confirmadoChanged});
+
+  @override
+  _AdicionarGaleriaTelaState createState() => _AdicionarGaleriaTelaState();
+}
+
+class _AdicionarGaleriaTelaState extends State<AdicionarGaleriaTela> {
   @override
   File? _imagem;
   Widget build(BuildContext context) {
@@ -30,7 +40,7 @@ class AdicionarGaleriaTela extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Serviço",
+                    Text("${widget.horario.servicos!.first.descricao}",
                         style: TextStyle(
                             fontSize: 28.0, fontWeight: FontWeight.w700)),
                     Text("Código do agendamento: ",
@@ -39,10 +49,12 @@ class AdicionarGaleriaTela extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         )),
                     ListTile(
-                      leading: Text("Cabeleireiro: "),
+                      leading: Text(
+                          "Cabeleireiro: ${widget.horario.cabeleireiro!.nome}"),
                     ),
                     ListTile(
-                      leading: Text("Cliente: "),
+                      leading:
+                          Text("Cliente: ${widget.horario.cliente!.nome} "),
                     ),
                     Center(
                       child: Container(
@@ -94,6 +106,4 @@ class AdicionarGaleriaTela extends StatelessWidget {
   void onSuccess() async {}
 
   void onFail() async {}
-
-  void setState(Null Function() param0) {}
 }
