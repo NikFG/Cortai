@@ -57,13 +57,12 @@ class Servico {
 
   Map<String, dynamic> toJson() => _$ServicoToJson(this);
 
-  Map<String, dynamic> toJson2() {
+  Map<String, dynamic> toJsonGaleria() {
     return {
       "id": id,
       "nome": descricao,
       "valor": _valor,
       "salao_id": salaoId,
-      "cabeleireiros": cabeleireirosApi,
       "observacao": observacao,
       "ativo": ativo,
     };

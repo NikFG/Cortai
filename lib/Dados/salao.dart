@@ -50,6 +50,7 @@ class Salao {
 
   Map<String, dynamic> toJson() {
     return {
+      "id": id,
       "nome": nome,
       "endereco": endereco,
       "telefone": telefone,
