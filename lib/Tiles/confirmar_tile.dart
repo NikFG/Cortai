@@ -175,7 +175,8 @@ class _ConfirmarTileState extends State<ConfirmarTile>
                     title: Text('Adicionar imagem a galeria ?'),
                     onTap: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => AdicionarGaleriaTela(widget.horario)));
+                          builder: (context) =>
+                              AdicionarGaleriaTela(widget.horario)));
                     }),
                 ListTile(
                   leading: Icon(Icons.cancel),

@@ -8,7 +8,6 @@ import 'package:cortai/Dados/galeria.dart';
 import 'package:cortai/Dados/horario.dart';
 import 'package:cortai/Dados/salao.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
-import 'package:cortai/Util/share_redes_sociais.dart';
 import 'package:cortai/Util/util.dart';
 import 'package:cortai/Widgets/button_custom.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,7 +54,7 @@ class _AdicionarGaleriaTelaState extends State<AdicionarGaleriaTela> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Serviço",
+                      Text("${widget.horario.servicos!.first.descricao}",
                           style: TextStyle(
                               fontSize: 28.0, fontWeight: FontWeight.w700)),
                       Text("Código do agendamento: ",
@@ -64,10 +63,12 @@ class _AdicionarGaleriaTelaState extends State<AdicionarGaleriaTela> {
                             fontWeight: FontWeight.w700,
                           )),
                       ListTile(
-                        leading: Text("Cabeleireiro: "),
+                        leading: Text(
+                            "Cabeleireiro: ${widget.horario.cabeleireiro!.nome}"),
                       ),
                       ListTile(
-                        leading: Text("Cliente: "),
+                        leading:
+                            Text("Cliente: ${widget.horario.cliente!.nome} "),
                       ),
                       Center(
                         child: Container(
@@ -148,7 +149,6 @@ class _AdicionarGaleriaTelaState extends State<AdicionarGaleriaTela> {
   }
 
   void onSuccess() async {
-    
     await FlushbarHelper.createSuccess(
             message: "Adicionado a galeria com sucesso")
         .show(context);
