@@ -20,8 +20,8 @@ class DetalhesGaleria extends StatelessWidget {
       appBar: AppBar(
         title: Text(galeria.salao.nome!),
         leading: Util.leadingScaffold(context),
-        actions: [
-          IconButton(
+        /*  actions: [
+         IconButton(
             onPressed: () async {
               Directory tempDir = await getTemporaryDirectory();
               String tempPath = tempDir.path;
@@ -30,11 +30,11 @@ class DetalhesGaleria extends StatelessWidget {
               file.writeAsBytesSync(decodedBytes);
               ShareRedesSociais().compartilharGeral(file,
                   comentario:
-                      "Corte feito no Cortaí por ${galeria.cabeleireiro.nome}");
+                      "Corte feito no Cortaí por ${galeria.cabeleireiro.nome} no salão ${galeria.salao.nome}");
             },
             icon: Icon(Icons.share_outlined),
           )
-        ],
+        ], */
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -47,7 +47,7 @@ class DetalhesGaleria extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   child: PhotoView(
                     minScale: PhotoViewComputedScale.contained,
-                    maxScale: PhotoViewComputedScale.contained * 1.8,
+                    maxScale: PhotoViewComputedScale.contained,
                     backgroundDecoration: BoxDecoration(color: Colors.black12),
                     imageProvider: MemoryImage(base64Decode(galeria.imagem!)),
                     initialScale: PhotoViewComputedScale.contained,

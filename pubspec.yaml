@@ -1,7 +1,7 @@
 name: cortai
 description: Agendamento para cabeleireiros
 
-version: 1.0.4+104
+version: 1.0.7+107
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -56,6 +56,7 @@ dependencies:
   page_transition: ^2.0.1-nullsafety.0
   pusher_client: ^1.1.3
   auth_buttons: ^1.0.1
+  flutter_pdfview: ^1.1.0
 
 
 flutter_icons:

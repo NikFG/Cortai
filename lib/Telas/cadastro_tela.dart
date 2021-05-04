@@ -2,7 +2,9 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Dados/login.dart';
 import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/login_tela.dart';
+import 'package:cortai/Telas/pdf_view_tela.dart';
 import 'package:cortai/Util/util.dart';
+import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
@@ -170,13 +172,34 @@ class _CadastroTelaState extends State<CadastroTela> {
                         SizedBox(
                           height: 15,
                         ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PdfViewTela(
+                                    "${Util.url}termos", "Termos de uso")));
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                                style: TextStyle(color: Colors.black),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text:
+                                          "Ao clicar em confirmar você está de acordo com os "),
+                                  TextSpan(
+                                      text: "termos de uso ",
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  TextSpan(text: "do aplicativo.")
+                                ]),
+                          ),
+                        ),
                         Container(
                           height: 45,
                           width: MediaQuery.of(context).size.width / 1.2,
-                          child: RaisedButton(
-                            color: Color(0xFFf45d27),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)),
+                          child: ButtonCustom(
+                            textoBotao: 'Confirmar',
+                            botaoHabilitado: _botaoHabilitado,
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 setState(() {
@@ -199,16 +222,6 @@ class _CadastroTelaState extends State<CadastroTela> {
                                     onFail: onFail);
                               }
                             },
-                            child: _botaoHabilitado
-                                ? Text(
-                                    'Confirmar',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                : CircularProgressIndicator(),
                           ),
                         ),
                         Container(

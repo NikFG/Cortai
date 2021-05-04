@@ -37,7 +37,6 @@ class DetalhesCabelereiroTela extends StatelessWidget {
           body: FutureBuilder<http.Response>(
             future: http.get(SalaoControle.show(cabeleireiro.salaoId),
                 headers: Util.token(model.token)),
-            //mudar para salao do horário
             builder: (context, response) {
               if (!response.hasData) {
                 return Center(

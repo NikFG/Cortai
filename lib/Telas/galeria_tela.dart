@@ -31,7 +31,7 @@ class _GaleriaTelaState extends State<GaleriaTela> {
       builder: (context, child, model) {
         return Scaffold(
             appBar: AppBar(
-              title: Text('Galeria de Barber Shop'),
+              title: Text('Galeria'),
               leading: Util.leadingScaffold(context),
             ),
 

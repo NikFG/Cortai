@@ -26,7 +26,7 @@ class _ConfirmarTileState extends State<ConfirmarTile>
     with AutomaticKeepAliveClientMixin<ConfirmarTile> {
   late bool? confirmado;
   late String valor;
-  File? _imagem;
+
 
   @override
   void initState() {
@@ -175,7 +175,8 @@ class _ConfirmarTileState extends State<ConfirmarTile>
                     title: Text('Adicionar imagem a galeria ?'),
                     onTap: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => AdicionarGaleriaTela()));
+                          builder: (context) =>
+                              AdicionarGaleriaTela(widget.horario)));
                     }),
                 ListTile(
                   leading: Icon(Icons.cancel),
@@ -196,16 +197,6 @@ class _ConfirmarTileState extends State<ConfirmarTile>
     setState(() {});
   }
 
-  Future<Null> getImagem(bool camera) async {
-    var picker = ImagePicker();
-    var imagem = await picker.getImage(
-        source: camera ? ImageSource.camera : ImageSource.gallery);
-    setState(() {
-      if (imagem != null) {
-        _imagem = File(imagem.path);
-      }
-    });
-  }
 
   _dialogPago(context, String token) async {
     showDialog(

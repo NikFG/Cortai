@@ -19,7 +19,7 @@
             android:value="AIzaSyAtWVw-2Emv3dq2VxuDiDILFPoYrcvh8K8" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_teste" />
+            android:resource="@drawable/ic_noti_icon" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
