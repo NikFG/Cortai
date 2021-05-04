@@ -18,6 +18,7 @@ import 'package:cortai/Widgets/button_custom.dart';
 import 'package:cortai/Widgets/form_field_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
@@ -49,9 +50,10 @@ class _AgendaTelaState extends State<AgendaTela> {
 
   late int indexPagamento;
   final List<Icon> listaIcons = [
+    Icon(FontAwesome.money),
     Icon(FontAwesome.credit_card),
     Icon(FontAwesome.credit_card_alt),
-    Icon(FontAwesome.money),
+    Icon(FontAwesome5.dollar_sign)
   ];
 
   @override
@@ -467,7 +469,7 @@ class _AgendaTelaState extends State<AgendaTela> {
         context: context,
         builder: (bc) {
           return FutureBuilder<http.Response>(
-            future: Api.get(FormaPagamentoControle.get(salaoId), token),
+            future: Api.get(FormaPagamentoControle.getBySalao(salaoId), token),
             builder: (context, response) {
               if (!response.hasData) {
                 return Center(
