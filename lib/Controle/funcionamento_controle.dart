@@ -15,7 +15,7 @@ class FuncionamentoControle {
     return Uri.parse(_url + "$diaSemana/${salao.toString()}");
   }
 
-  static void update(Funcionamento dados, String token,
+  static Future<void> update(Funcionamento dados, String token,
       {required VoidCallback onSuccess,
       required void onFail(String error)}) async {
     try {
