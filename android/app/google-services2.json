@@ -55,14 +55,6 @@
           }
         },
         {
-          "client_id": "924748747791-croerm2iahrk6bbc5b7imjvom3auh3bt.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nfsoft.cortai",
-            "certificate_hash": "de2dc7a2fee84f0392336cfc58e05614cf7d1ec3"
-          }
-        },
-        {
           "client_id": "924748747791-fte2j9f6gki5nsopa36ief0j2fdt0p6q.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
