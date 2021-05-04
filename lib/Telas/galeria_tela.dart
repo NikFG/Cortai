@@ -45,7 +45,7 @@ class _GaleriaTelaState extends State<GaleriaTela> {
                     headers: Util.token(model.token)),
                 builder: (context, response) {
                   if (!response.hasData) {
-                    return CircularProgressIndicator();
+                    return Center(child: CircularProgressIndicator());
                   } else {
                     List<dynamic> dados = json.decode(response.data!.body);
 
