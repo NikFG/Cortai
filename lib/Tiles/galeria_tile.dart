@@ -22,19 +22,14 @@ class GaleriaTile extends StatelessWidget {
       },
       child: Hero(
         tag: 'logo${galeria.id.toString()}',
-        child: Container(
-          height: 100,
+        child: Image.memory(
+          base64Decode(galeria.imagem!),
           width: 100,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: MemoryImage(
-                base64Decode(galeria.imagem!),
-                scale: 0.75,
-              ),
-              fit: BoxFit.cover,
-
-            ),
-          ),
+          height: 100,
+          cacheHeight: 75,
+          cacheWidth: 75,
+          scale: 0.75,
+          fit: BoxFit.cover,
         ),
       ),
     );
