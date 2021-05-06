@@ -10,6 +10,7 @@ import 'package:cortai/Modelos/login_modelo.dart';
 import 'package:cortai/Telas/cadastro_funcionamento_tela.dart';
 import 'package:cortai/Telas/editar_perfil.dart';
 import 'package:cortai/Telas/editar_salao_tela.dart';
+import 'package:cortai/Telas/forma_pagamento_tela.dart';
 import 'package:cortai/Telas/login_tela.dart';
 import 'package:cortai/Telas/solicitacao_cabeleireiro_tela.dart';
 import 'package:cortai/Telas/web_view_tela.dart';
@@ -354,6 +355,23 @@ class _PerfilTelaState extends State<PerfilTela> {
                         ),
                       ],
                     )),
+          Divider(
+            color: Colors.black45,
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => FormaPagamentoTela()));
+              },
+              child: Row(children: <Widget>[
+                Icon(
+                  FontAwesome.dollar,
+                  color: Colors.black54,
+                ),
+                SizedBox(width: 10),
+                Text("Formas de pagamento",
+                    style: TextStyle(fontSize: 16.0, color: Colors.black))
+              ])),
           Divider(
             color: Colors.black45,
           ),
