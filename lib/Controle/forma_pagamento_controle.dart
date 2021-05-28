@@ -18,7 +18,7 @@ class FormaPagamentoControle {
       {required Function onSuccess, required Function onFail}) async {
     try {
       Api api = Api();
-      await api.store(_url, {"pagamentos":  jsonEncode(pagamentos)}, token);
+      await api.store(_url, {"pagamentos": jsonEncode(pagamentos)}, token);
       onSuccess();
     } catch (e) {
       print(e);

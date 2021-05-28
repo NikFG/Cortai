@@ -166,7 +166,6 @@ class _EditarSalaoTelaState extends State<EditarSalaoTela> {
                       textoBotao: "Confirmar",
                       botaoHabilitado: _botaoHabilitado,
                       onPressed: () async {
-
                         if (_formKey.currentState!.validate()) {
                           setState(() {
                             _botaoHabilitado = false;

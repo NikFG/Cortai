@@ -32,260 +32,280 @@ class _LoginTelaState extends State<LoginTela> {
         if (model.isCarregando) {
           return Scaffold(
               body: Align(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Carregando...",
-                  style: TextStyle(fontSize: 20.0),
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Carregando...",
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    CircularProgressIndicator(),
+                  ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                CircularProgressIndicator(),
-              ],
-            ),
-          ));
+              ));
         } else {
           return Scaffold(
               body: Form(
-            key: _formKey,
-            child: IgnorePointer(
-              ignoring: !_botaoHabilitado,
-              child: ListView(
-                children: <Widget>[
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          width: deviceInfo.size.width,
-                          height: MediaQuery.of(context).size.height * 3 / 10,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Theme.of(context).primaryColor,
-                                  Theme.of(context).accentColor
-                                ],
-                              ),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.elliptical(250, 100),
-                                  bottomRight: Radius.elliptical(250, 100))),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Spacer(),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Image(
-                                  image: AssetImage(
-                                    'assets/icons/icon_white_transparent.png',
+                key: _formKey,
+                child: IgnorePointer(
+                  ignoring: !_botaoHabilitado,
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              width: deviceInfo.size.width,
+                              height: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height * 3 / 10,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Theme
+                                          .of(context)
+                                          .primaryColor,
+                                      Theme
+                                          .of(context)
+                                          .accentColor
+                                    ],
                                   ),
-                                  height: MediaQuery.of(context).size.height *
-                                      3 /
-                                      10,
-                                  width: MediaQuery.of(context).size.width *
-                                      4 /
-                                      10,
-                                ),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: deviceInfo.size.width,
-                          padding: EdgeInsets.only(top: 62),
-                          child: Column(
-                            children: <Widget>[
-                              FormFieldCustom(
-                                  hint: "Email",
-                                  icon: Icon(
-                                    Icons.email,
-                                    color: Colors.grey,
-                                  ),
-                                  inputType: TextInputType.emailAddress,
-                                  controller: _emailControlador,
-                                  validator: (text) {
-                                    if (text.isEmpty) {
-                                      return "O email não pode estar em branco";
-                                    }
-                                    if (!EmailValidator.validate(text)) {
-                                      return "O email digitado está incorreto";
-                                    }
-                                    return null;
-                                  }),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              FormFieldCustom(
-                                controller: _senhaControlador,
-                                inputType: TextInputType.visiblePassword,
-                                icon: Icon(
-                                  Icons.vpn_key,
-                                  color: Colors.grey,
-                                ),
-                                hint: "Senha",
-                                isSenha: true,
-                                validator: (text) {
-                                  if (text.isEmpty || text.length < 1) {
-                                    return "Senha inválida";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 16, right: 32),
-                                  child: ButtonTheme(
-                                    padding: EdgeInsets.zero,
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    minWidth: 0,
-                                    child: TextButton(
-                                      onPressed: () async {
-                                        if (_emailControlador.text.isNotEmpty) {
-                                          bool result =
-                                              await model.recuperarSenha(
-                                                  _emailControlador.text);
-                                          if (result) {
-                                            await FlushbarHelper.createInformation(
-                                                    message:
-                                                        "Verifique seu email para recuperar a senha!")
-                                                .show(context);
-                                          } else {
-                                            await FlushbarHelper.createError(
-                                                    message:
-                                                        "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
-                                                .show(context);
-                                          }
-                                        } else {
-                                          await FlushbarHelper.createInformation(
-                                                  message:
-                                                      "Digite seu email para recuperar a senha!")
-                                              .show(context);
-                                        }
-                                      },
-                                      child: Text('Esqueceu a senha ?',
-                                          style: TextStyle(color: Colors.grey)),
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.elliptical(250, 100),
+                                      bottomRight: Radius.elliptical(
+                                          250, 100))),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Spacer(),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: Image(
+                                      image: AssetImage(
+                                        'assets/icons/icon_white_transparent.png',
+                                      ),
+                                      height: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height *
+                                          3 /
+                                          10,
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width *
+                                          4 /
+                                          10,
                                     ),
                                   ),
-                                ),
+                                  Spacer(),
+                                ],
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Container(
-                                height: 45,
-                                width: deviceInfo.size.width / 1.2,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
+                            ),
+                            Container(
+                              width: deviceInfo.size.width,
+                              padding: EdgeInsets.only(top: 62),
+                              child: Column(
+                                children: <Widget>[
+                                  FormFieldCustom(
+                                      hint: "Email",
+                                      icon: Icon(
+                                        Icons.email,
+                                        color: Colors.grey,
+                                      ),
+                                      inputType: TextInputType.emailAddress,
+                                      controller: _emailControlador,
+                                      validator: (text) {
+                                        if (text.isEmpty) {
+                                          return "O email não pode estar em branco";
+                                        }
+                                        if (!EmailValidator.validate(text)) {
+                                          return "O email digitado está incorreto";
+                                        }
+                                        return null;
+                                      }),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  FormFieldCustom(
+                                    controller: _senhaControlador,
+                                    inputType: TextInputType.visiblePassword,
+                                    icon: Icon(
+                                      Icons.vpn_key,
+                                      color: Colors.grey,
+                                    ),
+                                    hint: "Senha",
+                                    isSenha: true,
+                                    validator: (text) {
+                                      if (text.isEmpty || text.length < 1) {
+                                        return "Senha inválida";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.only(top: 16, right: 32),
+                                      child: ButtonTheme(
+                                        padding: EdgeInsets.zero,
+                                        materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                        minWidth: 0,
+                                        child: TextButton(
+                                          onPressed: () async {
+                                            if (_emailControlador.text
+                                                .isNotEmpty) {
+                                              bool result =
+                                              await model.recuperarSenha(
+                                                  _emailControlador.text);
+                                              if (result) {
+                                                await FlushbarHelper
+                                                    .createInformation(
+                                                    message:
+                                                    "Verifique seu email para recuperar a senha!")
+                                                    .show(context);
+                                              } else {
+                                                await FlushbarHelper
+                                                    .createError(
+                                                    message:
+                                                    "Houve algum erro ao recuperar sua senha, digite seu email novamente!")
+                                                    .show(context);
+                                              }
+                                            } else {
+                                              await FlushbarHelper
+                                                  .createInformation(
+                                                  message:
+                                                  "Digite seu email para recuperar a senha!")
+                                                  .show(context);
+                                            }
+                                          },
+                                          child: Text('Esqueceu a senha ?',
+                                              style: TextStyle(
+                                                  color: Colors.grey)),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Container(
+                                    height: 45,
+                                    width: deviceInfo.size.width / 1.2,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          setState(() {
+                                            _botaoHabilitado = false;
+                                          });
+                                          model.logarEmail(
+                                              email: _emailControlador.text,
+                                              senha: _senhaControlador.text,
+                                              onSuccess: onSuccess,
+                                              onFail: onFail,
+                                              onVerifyEmail: onVerifyEmail);
+                                        }
+                                      },
+                                      child: _botaoHabilitado
+                                          ? Text(
+                                        'Login',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                          : Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Color(0xFFf45d27),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                            BorderRadius.circular(18.0),
+                                          )),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: Colors.grey),
+                                    child: Center(
+                                      child: Text(
+                                        'OU',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  GoogleAuthButton(
+                                    onPressed: () async {
                                       setState(() {
                                         _botaoHabilitado = false;
                                       });
-                                      model.logarEmail(
-                                          email: _emailControlador.text,
-                                          senha: _senhaControlador.text,
-                                          onSuccess: onSuccess,
-                                          onFail: onFail,
-                                          onVerifyEmail: onVerifyEmail);
-                                    }
-                                  },
-                                  child: _botaoHabilitado
-                                      ? Text(
-                                          'Login',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      : Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Color(0xFFf45d27),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      )),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: Colors.grey),
-                                child: Center(
-                                  child: Text(
-                                    'OU',
-                                    style: TextStyle(color: Colors.white),
+                                      await model.logarGoogle(
+                                          onSuccess, onFail);
+                                    },
+                                    darkMode: false,
+                                    text: "Login com Google",
+                                    style: AuthButtonStyle(
+                                      iconType: AuthIconType.secondary,
+                                      iconSize: 35,
+                                      height: 50,
+                                      borderRadius: 20,
+                                      textStyle: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.50,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Container(
+                                    child: Center(
+                                      child: TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CadastroTela()));
+                                          },
+                                          child: Text(
+                                            'Não tem cadastro ? Cadastre-se',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey,
+                                                fontFamily: 'Roboto'),
+                                          )),
+                                    ),
+                                  )
+                                ],
                               ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              GoogleAuthButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    _botaoHabilitado = false;
-                                  });
-                                  await model.logarGoogle(onSuccess, onFail);
-                                },
-                                darkMode: false,
-                                text: "Login com Google",
-                                style: AuthButtonStyle(
-                                  iconType: AuthIconType.secondary,
-                                  iconSize: 35,
-                                  height: 50,
-                                  borderRadius: 20,
-                                  textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.50,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                child: Center(
-                                  child: TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CadastroTela()));
-                                      },
-                                      child: Text(
-                                        'Não tem cadastro ? Cadastre-se',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                            fontFamily: 'Roboto'),
-                                      )),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ));
+                ),
+              ));
         }
       },
     );
@@ -302,8 +322,8 @@ class _LoginTelaState extends State<LoginTela> {
 
   void onFail() async {
     await FlushbarHelper.createError(
-            message: "Erro ao realizar o login, tente novamente!",
-            title: "Verifique os dados digitados")
+        message: "Erro ao realizar o login, tente novamente!",
+        title: "Verifique os dados digitados")
         .show(context);
     setState(() {
       _botaoHabilitado = true;
@@ -312,8 +332,8 @@ class _LoginTelaState extends State<LoginTela> {
 
   void onVerifyEmail() {
     FlushbarHelper.createInformation(
-            title: "Verifique seu email antes de fazer login!",
-            message: "Olhe sua caixa de entrada e seu spam!")
+        title: "Verifique seu email antes de fazer login!",
+        message: "Olhe sua caixa de entrada e seu spam!")
         .show(context);
     setState(() {
       _botaoHabilitado = true;

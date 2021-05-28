@@ -1,7 +1,7 @@
 name: cortai
 description: Agendamento para cabeleireiros
 
-version: 1.0.10+1010
+version: 1.0.11+1011
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -30,7 +30,7 @@ dependencies:
   geocoding: ^2.0.0
   geolocator: ^7.0.3
   google_maps_flutter: ^2.0.3
-  google_sign_in: ^5.0.2
+  google_sign_in: ^5.0.4
   http: ^0.13.1
   image_picker: ^0.7.4
   intl: ^0.17.0

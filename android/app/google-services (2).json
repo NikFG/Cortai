@@ -30,14 +30,6 @@
           }
         },
         {
-          "client_id": "855508688300-ueqojenk5l7utdgrtq6s1bbgqidsmr04.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nfsoft.cortai",
-            "certificate_hash": "de2dc7a2fee84f0392336cfc58e05614cf7d1ec3"
-          }
-        },
-        {
           "client_id": "855508688300-8srn78p7g7kpjr6qkigg8gdahvopm7ke.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -21,6 +21,7 @@ import 'index_tela.dart';
 
 class AdicionarGaleriaTela extends StatefulWidget {
   final Horario horario;
+
   AdicionarGaleriaTela(this.horario);
 
   @override
