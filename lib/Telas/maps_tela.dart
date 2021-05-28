@@ -11,7 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const API_KEY = "AIzaSyAtWVw-2Emv3dq2VxuDiDILFPoYrcvh8K8";
+const API_KEY = "AIzaSyBextUUHSUtcBvM8yxI5MjOkKlJKn3bnXw";
 
 class MapsTela extends StatefulWidget {
   final ValueChanged<String> enderecoChanged;

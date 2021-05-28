@@ -1,0 +1,205 @@
+{
+  "project_info": {
+    "project_number": "924748747791",
+    "firebase_url": "https://cortai-349b0.firebaseio.com",
+    "project_id": "cortai-349b0",
+    "storage_bucket": "cortai-349b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924748747791:android:ab454b3650475b34c53f7a",
+        "android_client_info": {
+          "package_name": "com.nfsoft.cortai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924748747791-1v0nqonq4n89utu0rog3mt8ibanbs6sl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "2d3a84c3a5063a25300067b0a9212b1da65a6d3d"
+          }
+        },
+        {
+          "client_id": "924748747791-2ofb70309ojuhrbkevo6696ooeid89h0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "fa328ac3d706933d26778701b756adcf046d25ef"
+          }
+        },
+        {
+          "client_id": "924748747791-5l32it01gmhp150fjgo2d07famnhjnm2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "4eb3fb3b374b8b6037b8ecb92f7ce0742eebf395"
+          }
+        },
+        {
+          "client_id": "924748747791-8hqqv4qen9a7ajojlc8shv3ghmtu86mu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "ea830e2c5a8b66fca81ce4969762f95ca1a4233f"
+          }
+        },
+        {
+          "client_id": "924748747791-bk6p2u01somioe266adsnl9mjai4j2qc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "63fdea0b69778c2fe9242e64ef2b2cd9a175ee09"
+          }
+        },
+        {
+          "client_id": "924748747791-croerm2iahrk6bbc5b7imjvom3auh3bt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "de2dc7a2fee84f0392336cfc58e05614cf7d1ec3"
+          }
+        },
+        {
+          "client_id": "924748747791-fte2j9f6gki5nsopa36ief0j2fdt0p6q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "bea40c68bb97a67a559f14364cf57d632a63ee6d"
+          }
+        },
+        {
+          "client_id": "924748747791-r6onml2gdl8mplbe106v0d361835rmql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "75526454a7d0ab9c8a0d8e768c0ddc71200af068"
+          }
+        },
+        {
+          "client_id": "924748747791-u63f381lcukvpfrfmmq75t1p1fmif24d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai",
+            "certificate_hash": "9da72e7d2200d27348ad6b0bf10a16306867c50a"
+          }
+        },
+        {
+          "client_id": "924748747791-85nrae5jifihu00579mbs20ooi6311ol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDStsXZJtXHSyxsjcg6cDlEjhCidE9wiFI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924748747791-85nrae5jifihu00579mbs20ooi6311ol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924748747791:android:f9e476f9bdb93507c53f7a",
+        "android_client_info": {
+          "package_name": "com.nfsoft.cortai2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924748747791-1is1p0t5uourb4karjosp9m1tgc0edcs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai2",
+            "certificate_hash": "8bc398865d29690c46f36f0dc3b7ea8492b67f14"
+          }
+        },
+        {
+          "client_id": "924748747791-527oubm6bl3gvtjd69gcjitcu01fln3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai2",
+            "certificate_hash": "63fdea0b69778c2fe9242e64ef2b2cd9a175ee09"
+          }
+        },
+        {
+          "client_id": "924748747791-b4jpeiunai9g9v4hucld95fjet919ep8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai2",
+            "certificate_hash": "fa328ac3d706933d26778701b756adcf046d25ef"
+          }
+        },
+        {
+          "client_id": "924748747791-i12fhsg84du4j9op910mmtocut5f0ce3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai2",
+            "certificate_hash": "75526454a7d0ab9c8a0d8e768c0ddc71200af068"
+          }
+        },
+        {
+          "client_id": "924748747791-i27eraa43v4nvia68fjos0g8bfkmqm4p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai2",
+            "certificate_hash": "9da72e7d2200d27348ad6b0bf10a16306867c50a"
+          }
+        },
+        {
+          "client_id": "924748747791-o6a2fget36jgh0hajhumlcm0fpi74m1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai2",
+            "certificate_hash": "bea40c68bb97a67a559f14364cf57d632a63ee6d"
+          }
+        },
+        {
+          "client_id": "924748747791-qa49pe19unv2uln80sm3ldri6dso0odi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai2",
+            "certificate_hash": "ea830e2c5a8b66fca81ce4969762f95ca1a4233f"
+          }
+        },
+        {
+          "client_id": "924748747791-sok2lrpagdh7qhul66tke5bs5qf0mpcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nfsoft.cortai2",
+            "certificate_hash": "4eb3fb3b374b8b6037b8ecb92f7ce0742eebf395"
+          }
+        },
+        {
+          "client_id": "924748747791-85nrae5jifihu00579mbs20ooi6311ol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDStsXZJtXHSyxsjcg6cDlEjhCidE9wiFI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924748747791-85nrae5jifihu00579mbs20ooi6311ol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

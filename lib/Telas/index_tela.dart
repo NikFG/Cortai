@@ -59,7 +59,10 @@ class _IndexTelaState extends State<IndexTela> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 20),
+                        top: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 20),
                     child: HomeTela(),
                   ),
                   DefaultTabController(
@@ -75,7 +78,9 @@ class _IndexTelaState extends State<IndexTela> {
                         backgroundColor: Colors.white,
                         elevation: 0,
                         bottom: TabBar(
-                          indicatorColor: Theme.of(context).primaryColor,
+                          indicatorColor: Theme
+                              .of(context)
+                              .primaryColor,
                           tabs: <Widget>[
                             Tab(
                               child: Text(
@@ -85,9 +90,9 @@ class _IndexTelaState extends State<IndexTela> {
                             ),
                             Tab(
                                 child: Text(
-                              "Finalizados",
-                              style: TextStyle(color: Colors.black),
-                            ))
+                                  "Finalizados",
+                                  style: TextStyle(color: Colors.black),
+                                ))
                           ],
                         ),
                         title: Text(
@@ -100,7 +105,8 @@ class _IndexTelaState extends State<IndexTela> {
                         actions: <Widget>[
                           PopupMenuButton(
                             icon: Icon(FontAwesome.ellipsis),
-                            itemBuilder: (context) => [
+                            itemBuilder: (context) =>
+                            [
                               PopupMenuItem(
                                 value: 1,
                                 child: TextButton(
@@ -137,87 +143,93 @@ class _IndexTelaState extends State<IndexTela> {
                   ),
                   model.dados!.isCabeleireiro
                       ? DefaultTabController(
-                          length: 2,
-                          child: Scaffold(
-                            body: ConfirmarTela(),
-                            extendBodyBehindAppBar: true,
-                            appBar: AppBar(
-                              leading: Container(
-                                width: 0,
-                                height: 0,
-                              ),
-                              backgroundColor: Colors.white,
-                              elevation: 0,
-                              bottom: TabBar(
-                                indicatorColor: Theme.of(context).primaryColor,
-                                tabs: <Widget>[
-                                  Tab(
-                                    child: Text(
-                                      "A confirmar",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  Tab(
-                                      child: Text(
-                                    "Confirmados",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ))
-                                ],
-                              ),
-                              title: Text(
-                                "Confirmar horários",
+                    length: 2,
+                    child: Scaffold(
+                      body: ConfirmarTela(),
+                      extendBodyBehindAppBar: true,
+                      appBar: AppBar(
+                        leading: Container(
+                          width: 0,
+                          height: 0,
+                        ),
+                        backgroundColor: Colors.white,
+                        elevation: 0,
+                        bottom: TabBar(
+                          indicatorColor: Theme
+                              .of(context)
+                              .primaryColor,
+                          tabs: <Widget>[
+                            Tab(
+                              child: Text(
+                                "A confirmar",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 16.0,
                                 ),
                               ),
-                              centerTitle: true,
-                              actions: <Widget>[
-                                PopupMenuButton(
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                      value: 1,
-                                      child: TextButton(
-                                        onPressed: () async {
-                                          //TODO: Confirmar todos de uma vez
-                                          // var snapshots =
-                                          //     await ServicoControle.get().getDocuments();
-                                          //
-                                          // for (int i = 0;
-                                          //     i < snapshots.documents.length;
-                                          //     i++) {
-                                          //   ServicoControle.get()
-                                          //       .document(
-                                          //           snapshots.documents[i].documentID)
-                                          //       .updateData({
-                                          //     "confirmado": true,
-                                          //   });
-                                          // }
-                                        },
-                                        child: Text("Confirmar todos"),
-                                      ),
-                                    ),
-                                    PopupMenuItem(
-                                      value: 2,
-                                      child: TextButton(
-                                        onPressed: () {},
-                                        child: Text("Cancelar todos"),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
                             ),
+                            Tab(
+                                child: Text(
+                                  "Confirmados",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ))
+                          ],
+                        ),
+                        title: Text(
+                          "Confirmar horários",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
                           ),
-                        )
+                        ),
+                        centerTitle: true,
+                        actions: <Widget>[
+                          PopupMenuButton(
+                            itemBuilder: (context) =>
+                            [
+                              PopupMenuItem(
+                                value: 1,
+                                child: TextButton(
+                                  onPressed: () async {
+                                    //TODO: Confirmar todos de uma vez
+                                    // var snapshots =
+                                    //     await ServicoControle.get().getDocuments();
+                                    //
+                                    // for (int i = 0;
+                                    //     i < snapshots.documents.length;
+                                    //     i++) {
+                                    //   ServicoControle.get()
+                                    //       .document(
+                                    //           snapshots.documents[i].documentID)
+                                    //       .updateData({
+                                    //     "confirmado": true,
+                                    //   });
+                                    // }
+                                  },
+                                  child: Text("Confirmar todos"),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 2,
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text("Cancelar todos"),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )
                       : PerfilTela(),
                   Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height / 20),
+                        top: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 20),
                     child: CalendarioTela(),
                   ),
                   PerfilTela(),

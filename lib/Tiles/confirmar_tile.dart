@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:cortai/Controle/horario_controle.dart';
@@ -9,7 +8,6 @@ import 'package:cortai/Telas/adicionar_galeria_tela.dart';
 import 'package:cortai/Widgets/list_tile_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ConfirmarTile extends StatefulWidget {
@@ -26,7 +24,6 @@ class _ConfirmarTileState extends State<ConfirmarTile>
     with AutomaticKeepAliveClientMixin<ConfirmarTile> {
   late bool? confirmado;
   late String valor;
-
 
   @override
   void initState() {
@@ -196,7 +193,6 @@ class _ConfirmarTileState extends State<ConfirmarTile>
     });
     setState(() {});
   }
-
 
   _dialogPago(context, String token) async {
     showDialog(

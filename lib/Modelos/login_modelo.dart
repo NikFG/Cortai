@@ -14,10 +14,7 @@ import 'package:scoped_model/scoped_model.dart';
 * Gravar as sessões e os dados de login para serem usados em qualquer parte do código.
 * */
 class LoginModelo extends Model {
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: [
-    'email',
-    'https://www.googleapis.com/auth/user.phonenumbers.read'
-  ]);
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final String _url = Util.url + "auth/";
   final _storage = fss.FlutterSecureStorage();
 
@@ -108,7 +105,10 @@ class LoginModelo extends Model {
   Future<Null> logarGoogle(VoidCallback onSucess, VoidCallback onFail) async {
     isCarregando = true;
     try {
-      var googleUser = await _googleSignIn.signIn();
+      var googleUser = await _googleSignIn.signIn().catchError((e){
+        print(e.toString());
+        throw Exception("Erro ao logar");
+      });
       GoogleSignInAuthentication auth =
           await googleUser!.authentication.catchError((e) {
         isCarregando = false;

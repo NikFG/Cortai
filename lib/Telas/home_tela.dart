@@ -41,9 +41,15 @@ class _HomeTelaState extends State<HomeTela> {
     store.setEndereco(SharedPreferencesControle.getEndereco());
     if (store.endereco.isNotEmpty) {
       store.latitude =
-          SharedPreferencesControle.getPosition().latitude.toString();
+          SharedPreferencesControle
+              .getPosition()
+              .latitude
+              .toString();
       store.longitude =
-          SharedPreferencesControle.getPosition().longitude.toString();
+          SharedPreferencesControle
+              .getPosition()
+              .longitude
+              .toString();
     }
     super.initState();
   }
@@ -73,13 +79,13 @@ class _HomeTelaState extends State<HomeTela> {
           padding: EdgeInsets.only(left: 20, top: 10),
           child: Container(
               child: Text(
-            "Salões",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                fontFamily: "Poppins"),
-          )),
+                "Salões",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: "Poppins"),
+              )),
         ),
         Observer(
           builder: (context) {
@@ -89,19 +95,20 @@ class _HomeTelaState extends State<HomeTela> {
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MapsTela(
+                          builder: (context) =>
+                              MapsTela(
                                 latLngChanged: (LatLng value) async {
                                   await SharedPreferencesControle.setPosition(
                                       Position(
-                                    latitude: value.latitude,
-                                    longitude: value.longitude,
-                                    speedAccuracy: 0,
-                                    accuracy: 100,
-                                    altitude: 0,
-                                    timestamp: null,
-                                    speed: 0,
-                                    heading: 0,
-                                  ));
+                                        latitude: value.latitude,
+                                        longitude: value.longitude,
+                                        speedAccuracy: 0,
+                                        accuracy: 100,
+                                        altitude: 0,
+                                        timestamp: null,
+                                        speed: 0,
+                                        heading: 0,
+                                      ));
                                   store.latitude = value.latitude.toString();
                                   store.longitude = value.longitude.toString();
                                 },
@@ -133,7 +140,8 @@ class _HomeTelaState extends State<HomeTela> {
               );
             } else if (store.latitude != null && store.longitude != null) {
               param =
-                  "?cidade=$cidade&latitude=${store.latitude!}&longitude=${store.longitude!}";
+              "?cidade=$cidade&latitude=${store.latitude!}&longitude=${store
+                  .longitude!}";
 
               return ScopedModelDescendant<LoginModelo>(
                 builder: (context, child, model) {
@@ -160,14 +168,17 @@ class _HomeTelaState extends State<HomeTela> {
                                         'https://docs.google.com/forms/d/e/1FAIpQLSdbwi9TmLX0YPW6B7TFJCHnFwuUe80lgPPbBu0mhzrvMgJSbw/viewform?usp=sf_link';
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (context) => WebViewTela(
-                                                urlForm,
-                                                "Sugerir novo salão")));
+                                            builder: (context) =>
+                                                WebViewTela(
+                                                    urlForm,
+                                                    "Sugerir novo salão")));
                                   },
                                   child: Text(
                                     "Sugerir novo salão",
                                     style: TextStyle(
-                                        color: Theme.of(context).primaryColor),
+                                        color: Theme
+                                            .of(context)
+                                            .primaryColor),
                                   ),
                                 )
                               ],

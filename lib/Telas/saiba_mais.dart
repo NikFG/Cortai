@@ -48,11 +48,11 @@ class SaibaMaisTela extends StatelessWidget {
                     ),
                     Tab(
                         child: Text(
-                      "Avaliações",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ))
+                          "Avaliações",
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ))
                   ],
                 ),
               ),
@@ -85,26 +85,28 @@ class SaibaMaisTela extends StatelessWidget {
                                   );
                                 } else {
                                   List<Funcionamento> listaFuncionamento =
-                                      jsonDecode(response.data!.body)
-                                          .map<Funcionamento>(
-                                              (f) => Funcionamento.fromJson(f))
-                                          .toList();
+                                  jsonDecode(response.data!.body)
+                                      .map<Funcionamento>(
+                                          (f) => Funcionamento.fromJson(f))
+                                      .toList();
 
                                   listaFuncionamento.sort((a, b) =>
                                       Util.ordenarDiasSemana(a.diaSemana)!
                                           .compareTo(Util.ordenarDiasSemana(
-                                              b.diaSemana)!));
+                                          b.diaSemana)!));
                                   var listaWidgets =
-                                      listaFuncionamento.map((dados) {
+                                  listaFuncionamento.map((dados) {
                                     return Text(
-                                        "${dados.diaSemana}: ${dados.horarioAbertura} as ${dados.horarioFechamento}",
+                                        "${dados.diaSemana}: ${dados
+                                            .horarioAbertura} as ${dados
+                                            .horarioFechamento}",
                                         style: TextStyle(
                                           fontSize: 16.0,
                                         ));
                                   }).toList();
                                   return Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: listaWidgets);
                                 }
                               },
@@ -122,7 +124,9 @@ class SaibaMaisTela extends StatelessWidget {
                               child: Text("${salao.endereco}",
                                   style: TextStyle(
                                     fontSize: 16.0,
-                                    color: Theme.of(context).primaryColor,
+                                    color: Theme
+                                        .of(context)
+                                        .primaryColor,
                                   )),
                             ),
                           ],
@@ -142,13 +146,13 @@ class SaibaMaisTela extends StatelessWidget {
                         if (response.data!.statusCode == 204) {
                           return Center(
                             child:
-                                Text("Não há avaliações para este salão ainda"),
+                            Text("Não há avaliações para este salão ainda"),
                           );
                         }
                         List<Avaliacao> avaliacoes =
-                            jsonDecode(response.data!.body)
-                                .map<Avaliacao>((a) => Avaliacao.fromJson(a))
-                                .toList();
+                        jsonDecode(response.data!.body)
+                            .map<Avaliacao>((a) => Avaliacao.fromJson(a))
+                            .toList();
 
                         return ListView.builder(
                           itemCount: avaliacoes.length,
